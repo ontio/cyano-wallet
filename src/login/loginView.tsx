@@ -6,7 +6,7 @@ import { Logo } from '../logo';
 import { Filler, Spacer, View } from '../View';
 
 export interface Props {
-  handleSubmit: () => void
+  handleSubmit: () => void;
 }
 
 export const LoginView: React.SFC<Props> = (props) => (

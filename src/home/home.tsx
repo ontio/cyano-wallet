@@ -10,9 +10,9 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
       const result = await hasStoredWallet();
 
       if (result) {
-        props.history.push('/send');
+        props.history.push('/dashboard');
       } else {
-        props.history.push('/send');
+        props.history.push('/dashboard');
       }
     }
   }, () => (

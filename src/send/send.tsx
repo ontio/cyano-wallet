@@ -6,6 +6,9 @@ import { Props, SendView } from './sendView';
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withProps({
+    handleCancel: () => {
+      props.history.goBack();
+    },
     handleConfirm: async (values: object) => {
       // tslint:disable-next-line:no-console
       console.log('confirm');

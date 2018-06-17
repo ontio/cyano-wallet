@@ -9,6 +9,8 @@ export interface Props {
   ontAmount: number;
   ongAmount: number;
   handleConfirm: (values: object) => Promise<void>;
+
+  handleCancel: () => void;
 }
 
 const assetOptions = [
@@ -38,8 +40,6 @@ export const SendView: React.SFC<Props> = (props) => (
             <Field name="recipient" render={(t) => (
               <SemanticForm.Input
                 fluid={true}
-                
-                placeholder="AZGAfUMhy2osyFzkqD5ya6Bv7rtCgnHuph"
               />
             )} />
           </View>
@@ -69,8 +69,8 @@ export const SendView: React.SFC<Props> = (props) => (
           </View>
           <Filler />
           <View className="buttons">
-            <Button icon="send" content="Send"/>
-            <Button>Cancel</Button>
+            <Button icon="check" content="Confirm"/>
+            <Button onClick={props.handleCancel}>Cancel</Button>
           </View>
         </SemanticForm>
       )} />

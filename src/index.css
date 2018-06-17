@@ -38,6 +38,16 @@ body {
   text-transform: uppercase;
 }
 
+.ui.message .header, .ui.message .content {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
+}
+
+.ui.message .header {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+}
+
 .ui.dropdown {
   color: #32a4be;
   font-family: 'Source Sans Pro', sans-serif;

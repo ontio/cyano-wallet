@@ -29,8 +29,8 @@ export const DashboardView: React.SFC<Props> = (props) => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Filler />
       <View className="buttons">
-        <Button onClick={props.handleSend}>Send</Button>
-        <Button onClick={props.handleReceive}>Receive</Button>
+        <Button icon="send" content="Send" onClick={props.handleSend} />
+        <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
       </View>
     </View>
   </View>

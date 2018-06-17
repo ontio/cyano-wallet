@@ -43,6 +43,12 @@
   version "10.3.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.2.tgz#3840ec6c12556fdda6e0e6d036df853101d732a4"
 
+"@types/qrcode.react@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@types/qrcode.react/-/qrcode.react-0.6.3.tgz#c0950902987b12bce342802adcf6d5ce7ad07294"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-copy-to-clipboard@^4.2.5":
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@types/react-copy-to-clipboard/-/react-copy-to-clipboard-4.2.5.tgz#bda288b4256288676019b75ca86f1714bbd206d4"
@@ -1223,7 +1229,7 @@ browser-resolve@^1.11.2:
   dependencies:
     resolve "1.1.7"
 
-browserify-aes@^1.0.0, browserify-aes@^1.0.4, browserify-aes@^1.2.0:
+browserify-aes@^1.0.0, browserify-aes@^1.0.4:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/browserify-aes/-/browserify-aes-1.2.0.tgz#326734642f403dabc3003209853bb70ad428ef48"
   dependencies:
@@ -5044,7 +5050,6 @@ onetime@^2.0.0:
     bigi "^1.4.2"
     bignumber.js "^6.0.0"
     bip39 "^2.5.0"
-    browserify-aes "^1.2.0"
     bs58 "^4.0.1"
     bs58check "^2.1.1"
     crypto-js "^3.1.9-1"
@@ -5741,6 +5746,17 @@ punycode@^2.1.0:
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+
+qrcode.react@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-0.8.0.tgz#413b31cc3b62910e39513f7bead945e01c4c34fb"
+  dependencies:
+    prop-types "^15.6.0"
+    qr.js "0.0.0"
 
 qs@6.5.1:
   version "6.5.1"

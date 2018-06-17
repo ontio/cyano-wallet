@@ -1,20 +1,23 @@
 
+import { utils } from 'ont-sdk-ts';
+import { Crypto } from 'ont-sdk-ts';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { withProps } from '../compose';
 import { NewView, Props } from './newView';
 
+import PrivateKey = Crypto.PrivateKey;
+
+const mnemonics = utils.generateMnemonic(16);
+const privateKey = PrivateKey.generateFromMnemonic(mnemonics);
+
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withProps({
-    handleReceive: () => {
-      // tslint:disable-next-line:no-console
-      console.log('submitting');
+    encryptedPrivateKey: privateKey.key,
+    handleContinue: () => {
+      props.history.push('/dashboard');
     },
-    handleSend: () => {
-      props.history.push('/send');
-    },
-    ongAmount: 1000.54,
-    ontAmount: 2000
+    mnemonics
   }, (injectedProps) => (
     <Component {...injectedProps} />
   ))

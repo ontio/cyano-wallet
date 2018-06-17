@@ -95,6 +95,19 @@ h1.header {
   align-self: stretch;
 } 
 
+.mnemonics, .privateKey {
+  height: 200px;
+  align-items: flex-start;
+}
+
+.qrCode {
+  align-self: center;
+}
+
 .buttons.margin {
   margin-top: 20px;
+}
+
+.breakWords {
+  word-break:break-all;
 }

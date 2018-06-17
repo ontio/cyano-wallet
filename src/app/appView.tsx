@@ -19,10 +19,12 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
+import { Create } from '../create/create';
 import { Dashboard } from '../dashboard/dashboard';
 import { Home } from '../home/home';
 import { Login } from '../login/login';
 import { New } from '../new/new';
+import { Receive } from '../receive/receive';
 import { Send } from '../send/send';
 import { Signup } from '../signup/signup';
 import { reduxStore } from './reduxStore';
@@ -33,10 +35,12 @@ export const AppView: React.SFC<{}> = () => (
       <>
         <Route path="/" exact={true} component={Home} />
         <Route path="/new" exact={true} component={New} />
+        <Route path="/create" exact={true} component={Create} />
         <Route path="/dashboard" exact={true} component={Dashboard} />
         <Route path="/login" exact={true} component={Login} />
         <Route path="/sign-up" exact={true} component={Signup} />
         <Route path="/send" exact={true} component={Send} />
+        <Route path="/receive" exact={true} component={Receive} />
       </>
     </Router>
   </Provider>
