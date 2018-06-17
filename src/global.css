@@ -1,0 +1,100 @@
+#root {
+  display: flex;
+  flex-grow: 1;
+  align-self: stretch;
+  background-color: #f4f4f4;
+}
+
+div.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+div.flex.column {
+  flex-direction: column;
+}
+
+div.flex.full {
+  flex-grow: 1;
+  align-self: stretch;
+}
+
+div.flex.part {
+  height: 120px;
+}
+
+div.flex.spread {
+  justify-content: space-between;
+}
+
+div.flex.spread-around {
+  justify-content: space-around;
+}
+
+div.flex.filler {
+  flex-grow: 1;
+}
+
+div.flex.spacer {
+  height: 10px;
+}
+
+div.flex.center {
+  align-self: center;
+}
+
+.gradient {
+  background-image: linear-gradient(to top, #2C92A5 0%, #37B6D3 100%);
+  color: white;
+}
+
+h1, h2 {
+  font-weight: 200 !important;
+  font-family: 'Source Sans Pro', sans-serif;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+div.flex.content {
+  margin: 10px;
+}
+
+.logo {
+  align-self: center;
+  margin-top: 20px;
+}
+
+.logoHeader {
+  align-items: flex-start;
+  margin: 10px;
+}
+
+.logoHeader h1 {
+  margin-left: 10px;
+  line-height: 1;
+}
+
+h1.header {
+  margin-top: 10px;
+  align-self: center;
+}
+
+.buttons {
+  justify-content: center;
+}
+
+.hint {
+  margin-top: 30px;
+  align-items: center;
+}
+
+.sendForm, .loginForm, .signupForm {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-self: stretch;
+} 
+
+.buttons.margin {
+  margin-top: 20px;
+}

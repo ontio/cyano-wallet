@@ -1,0 +1,49 @@
+{
+  "name": "ontology-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "watch": "node scripts/watch.js",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "file-saver": "^1.3.8",
+    "final-form": "^4.8.1",
+    "lodash": "^4.17.10",
+    "ont-sdk-ts": "file:../ontology-ts-sdk",
+    "react": "^16.4.0",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^16.4.0",
+    "react-file-reader-input": "^2.0.0",
+    "react-final-form": "^3.6.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "2.16.0",
+    "recompose": "^0.27.1",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.81.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^1.3.0",
+    "@types/jest": "^23.0.2",
+    "@types/lodash": "^4.14.109",
+    "@types/node": "^10.3.2",
+    "@types/react": "^16.3.17",
+    "@types/react-copy-to-clipboard": "^4.2.5",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-file-reader-input": "^1.1.2",
+    "@types/react-redux": "^6.0.2",
+    "@types/react-router-dom": "^4.2.7",
+    "@types/recompose": "^0.26.1",
+    "typescript": "^2.9.1",
+    "web-ext-types": "^2.1.0"
+  }
+}
