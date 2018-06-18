@@ -27,10 +27,10 @@ class Component<P, A> extends React.Component<Props<P, A>, {}> {
 type StateToPropsMethod<S, P> = (globalState: S) => P;
 type DispatchToPropsMethod<T> = (dispatch: Dispatch) => T;
 
-export function reduxConnect<S, P, A>(mapStateToProps: StateToPropsMethod<S, P>, mapDispatchToProps: DispatchToPropsMethod<A>, render: RenderMethod<P, A>) {
+export function reduxConnect<S, P, A>(mapStateToProps: StateToPropsMethod<S, P> | undefined, mapDispatchToProps: DispatchToPropsMethod<A> | undefined, render: RenderMethod<P, A>) {
     
     const ComposedComponent = compose<Props<P, A>, OuterProps<P, A>>(
-        connect(mapStateToProps, mapDispatchToProps)
+        mapDispatchToProps === undefined ? connect(mapStateToProps) : connect(mapStateToProps, mapDispatchToProps)
     ) (Component);
 
     return (<ComposedComponent render={render} />)

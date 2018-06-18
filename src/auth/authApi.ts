@@ -122,3 +122,15 @@ export async function hasStoredWallet() {
 
     return walletEncoded != null;
 }
+
+export function getWallet(walletEncoded: any) {
+    if (walletEncoded == null) {
+        throw new Error('Missing wallet data.');
+    }
+    return Wallet.parseJsonObj(walletEncoded);
+}
+
+export function getAddress(walletEncoded: any) {
+    const wallet = getWallet(walletEncoded);
+    return wallet.defaultAccountAddress;
+}
