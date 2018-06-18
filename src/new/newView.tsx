@@ -6,7 +6,7 @@ import { Filler, View } from '../View';
 
 export interface Props {
   mnemonics: string;
-  encryptedPrivateKey: string;
+  wif: string;
   handleContinue: () => void;
 }
 
@@ -21,8 +21,8 @@ export const NewView: React.SFC<Props> = (props) => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <label>Mnemonics phrase</label>
       <Message>{props.mnemonics}</Message>
-      <label>Encrypted private key</label>
-      <Message className="breakWords">{props.encryptedPrivateKey}</Message>
+      <label>Private key (WIF format)</label>
+      <Message className="breakWords">{props.wif}</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleContinue}>Continue</Button>

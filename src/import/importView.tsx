@@ -11,12 +11,12 @@ export interface Props {
   handleCancel: () => void;
 }
 
-export const CreateView: React.SFC<Props> = (props) => (
+export const ImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New identity" />
+      <LogoHeader title="Import private key" />
       <View content={true} className="spread-around">
-        <View>Enter your passphrase for wallet and identity encryption.</View>
+        <View>Enter your private key and passphrase for wallet and identity encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
@@ -25,6 +25,21 @@ export const CreateView: React.SFC<Props> = (props) => (
         validate={samePassword}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
+            <View orientation="column">
+              <label>Private key (WIF format)</label>
+              <Field
+                name="privateKey"
+                validate={required}
+                render={(t) => (
+                  <SemanticForm.TextArea
+                    rows={2}
+                    onChange={t.input.onChange}
+                    input={{ ...t.input, value: t.input.value }}
+                    error={t.meta.touched && t.meta.invalid}
+                  />
+                )} />
+            </View>
+            <Spacer />
             <View orientation="column">
               <label>Password</label>
               <Field
@@ -57,7 +72,7 @@ export const CreateView: React.SFC<Props> = (props) => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button>Sign up</Button>
+              <Button>Restore</Button>
               <Button onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>

@@ -9,7 +9,6 @@ export interface Props {
   ontAmount: number;
   ongAmount: number;
   handleConfirm: (values: object) => Promise<void>;
-
   handleCancel: () => void;
 }
 

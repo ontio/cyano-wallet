@@ -6,6 +6,8 @@ import { Spacer, View } from '../View';
 
 export interface Props {
   handleCreate: () => void;
+  handleRestore: () => void;
+  handleImport: () => void;
 }
 
 export const SignupView: React.SFC<Props> = (props) => (
@@ -20,9 +22,9 @@ export const SignupView: React.SFC<Props> = (props) => (
         <Spacer />
         <Button onClick={props.handleCreate}>New identity</Button>
         <Spacer />
-        <Button>Restore identity</Button>
+        <Button onClick={props.handleRestore}>Restore identity</Button>
         <Spacer />
-        <Button>Import private key</Button>
+        <Button onClick={props.handleImport}>Import private key</Button>
       </View>
     </View>
   </View>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { hasStoredWallet } from '../auth/authActions';
+import { hasStoredWallet } from '../auth/authApi';
 import { lifecycle } from "../compose";
 
 
@@ -10,9 +10,9 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
       const result = await hasStoredWallet();
 
       if (result) {
-        props.history.push('/dashboard');
+        props.history.push('/sign-up');
       } else {
-        props.history.push('/dashboard');
+        props.history.push('/sign-up');
       }
     }
   }, () => (

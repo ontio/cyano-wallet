@@ -6,9 +6,9 @@ import { compose } from 'recompose';
 import { bindActionCreators, Dispatch } from 'redux';
 import { GlobalState } from '../app/globalReducer';
 import { setWallet } from '../auth/authActions';
-import { signUp } from '../auth/authApi';
+import { importMnemonics } from '../auth/authApi';
 import { withProps } from '../compose';
-import { CreateView, Props } from './createView';
+import { Props, RestoreView } from './restoreView';
 
 interface Actions {
   setWallet: (wallet: string) => void;
@@ -27,17 +27,18 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: Actions & Ro
     },
     handleSubmit: async (values: object) => {
       const password = get(values, 'password', '');
+      const mnemonics = get(values, 'mnemonics', '');
 
-      const { encryptedWif, mnemonics, wif, wallet } = await signUp(password);
+      const { encryptedWif, wif, wallet } = await importMnemonics(mnemonics, password, true);
       props.setWallet(wallet);
 
       props.history.push('/new', { encryptedWif, mnemonics, wif });
-    }
+    },    
   }, (injectedProps) => (
     <Component {...injectedProps} />
   ))
 )
 
-export const Create = compose(
+export const Restore = compose(
   connect(mapStateToProps, mapDispatchToProps)
-)(enhancer(CreateView));
+)(enhancer(RestoreView));
