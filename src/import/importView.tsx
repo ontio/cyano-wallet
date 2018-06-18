@@ -9,6 +9,7 @@ import { Filler, Spacer, View } from '../View';
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
   handleCancel: () => void;
+  loading: boolean;
 }
 
 export const ImportView: React.SFC<Props> = (props) => (
@@ -36,6 +37,7 @@ export const ImportView: React.SFC<Props> = (props) => (
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
                 )} />
             </View>
@@ -52,6 +54,7 @@ export const ImportView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
                 )} />
             </View>
@@ -67,13 +70,14 @@ export const ImportView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
                 )} />
             </View>
             <Filler />
             <View className="buttons">
-              <Button>Restore</Button>
-              <Button onClick={props.handleCancel}>Cancel</Button>
+              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
+              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
         )} />

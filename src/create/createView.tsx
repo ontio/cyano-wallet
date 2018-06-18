@@ -38,6 +38,7 @@ export const CreateView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
                 )} />
             </View>
@@ -53,13 +54,14 @@ export const CreateView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
                 )} />
             </View>
             <Filler />
             <View className="buttons">
-              <Button loading={props.loading}>Sign up</Button>
-              <Button onClick={props.handleCancel}>Cancel</Button>
+              <Button disabled={props.loading} loading={props.loading}>Sign up</Button>
+              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
         )} />
