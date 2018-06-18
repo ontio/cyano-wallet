@@ -43,6 +43,12 @@ div.flex.center {
   align-self: center;
 }
 
+div.flex.error {
+  color: #912d2b;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 .gradient {
   background-image: linear-gradient(to top, #2C92A5 0%, #37B6D3 100%);
   color: white;

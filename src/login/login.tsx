@@ -1,20 +1,47 @@
 
+import { get } from 'lodash';
 import * as React from 'react';
-import { withProps } from '../compose';
+import { RouterProps } from 'react-router';
+import { bindActionCreators, Dispatch } from 'redux';
+import { GlobalState } from '../app/globalReducer';
+import { setWallet } from '../auth/authActions';
+import { signIn } from '../auth/authApi';
+import { reduxConnect, withProps } from '../compose';
+import { finishLoading, startLoading } from '../loader/loaderActions';
 import { LoginView, Props } from './loginView';
 
-interface PropsOuter {
-  val?: string;
-}
+const mapStateToProps = (state: GlobalState) => ({
+  loading: state.loader.loading
+});
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: PropsOuter) => (
-  withProps({
-    handleSubmit: () => {
-      // tslint:disable-next-line:no-console
-      console.log('submitting');
-    }
-  }, (injectedProps) => (
-    <Component {...injectedProps} />
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
+
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (state, actions) => (
+    withProps({
+      handleSubmit: async (values: object) => {
+        const password = get(values, 'password', '');
+  
+        actions.startLoading();
+
+        try {
+          const wallet = await signIn(password);
+          actions.setWallet(wallet);
+    
+          props.history.push('/dashboard');
+          return {};
+
+        } catch (e) {
+          return {
+            password: 'Failed to login.'
+          };
+        } finally {
+          actions.finishLoading();
+        }
+      }
+    }, (injectedProps) => (
+      <Component {...injectedProps} loading={state.loading} />
+    ))
   ))
 )
 

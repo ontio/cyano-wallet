@@ -36,6 +36,25 @@ export async function signIn(password: string) {
         throw new Error('Wallet data not found.');
     }
 
+    try {
+        const wallet = Wallet.parseJson(walletEncoded);
+        const account = wallet.accounts[0];
+        const saltHex = Buffer.from(account.salt, 'base64').toString('hex');
+        const encryptedKey = account.encryptedKey;
+        const scrypt = wallet.scrypt;
+
+        encryptedKey.decrypt(password, account.address, saltHex, {
+            blockSize: scrypt.r,
+            cost: scrypt.n,
+            parallel: scrypt.p,
+            size: scrypt.dkLen
+        });
+    } catch (e) {
+        // tslint:disable-next-line:no-console
+        console.log(e);
+        throw new Error('Error during wallet decryption.');
+    }
+
     return walletEncoded;
 }
 
@@ -57,10 +76,20 @@ export async function importMnemonics(mnemonics: string, password: string, regis
 }
 
 export async function importPrivateKey(wif: string, password: string, register: boolean) {
+    const wallet = Wallet.create(uuid());
+    const scrypt = wallet.scrypt;
+    const scryptParams = {
+        blockSize: scrypt.r,
+        cost: scrypt.n,
+        parallel: scrypt.p,
+        size: scrypt.dkLen
+    };
+
     const privateKey = PrivateKey.deserializeWIF(wif);
     const publicKey = privateKey.getPublicKey();
+    
 
-    const identity = Identity.create(privateKey, password, uuid());
+    const identity = Identity.create(privateKey, password, uuid(), scryptParams);
     const ontId = identity.ontid;
 
     // register the ONT ID on blockchain
@@ -72,9 +101,8 @@ export async function importPrivateKey(wif: string, password: string, register: 
         await client.sendRawTransaction(tx.serialize(), false, true);
     }
 
-    const account = createAccount(wif, password);
+    const account = Account.create(privateKey, password, uuid(), scryptParams);
 
-    const wallet = Wallet.create(uuid());
     wallet.addIdentity(identity);
     wallet.addAccount(account);
     wallet.setDefaultIdentity(identity.ontid);
@@ -87,12 +115,6 @@ export async function importPrivateKey(wif: string, password: string, register: 
         wallet: wallet.toJson(),
         wif
     };
-}
-
-export function createAccount(wif: string, password: string) {
-    const privateKey = PrivateKey.deserializeWIF(wif);
-
-    return Account.create(privateKey, password, uuid());
 }
 
 export async function hasStoredWallet() {
