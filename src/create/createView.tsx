@@ -9,6 +9,7 @@ import { Filler, Spacer, View } from '../View';
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
   handleCancel: () => void;
+  loading: boolean;
 }
 
 export const CreateView: React.SFC<Props> = (props) => (
@@ -57,7 +58,7 @@ export const CreateView: React.SFC<Props> = (props) => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button>Sign up</Button>
+              <Button loading={props.loading}>Sign up</Button>
               <Button onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
