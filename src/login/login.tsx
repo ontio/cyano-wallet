@@ -17,7 +17,7 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (state, actions) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
       handleSubmit: async (values: object) => {
         const password = get(values, 'password', '');
@@ -40,7 +40,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         }
       }
     }, (injectedProps) => (
-      <Component {...injectedProps} loading={state.loading} />
+      <Component {...injectedProps} loading={reduxProps.loading} />
     ))
   ))
 )

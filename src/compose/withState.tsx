@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-type RenderMethod<S> = (state: S, setState: (state: S) => void) => JSX.Element;
+type RenderMethod<S> = (state: S, setState: (state: S) => void, getState: () => S) => JSX.Element;
 
 interface Props<S> {
     defaultState: S;
@@ -14,7 +14,11 @@ class Component<S> extends React.Component<Props<S>, S> {
     }
 
     public render() {
-        return this.props.render(this.state, this.setState.bind(this));
+        return this.props.render(this.state, this.setState.bind(this), this.getState.bind(this));
+    }
+
+    public getState() {
+        return this.state;
     }
 }
 

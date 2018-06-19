@@ -29,22 +29,25 @@ import { Receive } from '../receive/receive';
 import { Restore } from '../restore/restore';
 import { Send } from '../send/send';
 import { Signup } from '../signup/signup';
+import { WalletChecker } from '../walletChecker';
 import { reduxStore } from './reduxStore';
 
 export const AppView: React.SFC<{}> = () => (
   <Provider store={reduxStore}>
     <Router>
       <>
+        <WalletChecker />
+        <Route path="/dashboard" exact={true} component={Dashboard} />
+        <Route path="/send" exact={true} component={Send} />
+        <Route path="/receive" exact={true} component={Receive} />
+
         <Route path="/" exact={true} component={Home} />
         <Route path="/new" exact={true} component={New} />
         <Route path="/restore" exact={true} component={Restore} />
         <Route path="/import" exact={true} component={Import} />
         <Route path="/create" exact={true} component={Create} />
-        <Route path="/dashboard" exact={true} component={Dashboard} />
         <Route path="/login" exact={true} component={Login} />
         <Route path="/sign-up" exact={true} component={Signup} />
-        <Route path="/send" exact={true} component={Send} />
-        <Route path="/receive" exact={true} component={Receive} />
       </>
     </Router>
   </Provider>

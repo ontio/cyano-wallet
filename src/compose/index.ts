@@ -1,4 +1,4 @@
 export { withProps } from './withProps';
 export { withState } from './withState';
 export { lifecycle } from './lifecycle';
-export { reduxConnect } from './reduxConnect';
+export { dummy, reduxConnect } from './reduxConnect';

@@ -16,7 +16,7 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (state, actions) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
       handleCancel: () => {
         props.history.goBack();
@@ -35,7 +35,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         props.history.push('/dashboard');
       },    
     }, (injectedProps) => (
-      <Component {...injectedProps} loading={state.loading} />
+      <Component {...injectedProps} loading={reduxProps.loading} />
     ))
   ))
 )
