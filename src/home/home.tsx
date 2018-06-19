@@ -12,7 +12,7 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
       if (result) {
         props.history.push('/login');
       } else {
-        props.history.push('/login');
+        props.history.push('/sign-up');
       }
     }
   }, () => (

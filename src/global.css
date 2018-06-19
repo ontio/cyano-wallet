@@ -75,6 +75,22 @@ div.flex.content {
   margin: 10px;
 }
 
+.logoHeader .buttons {
+  align-items: flex-end;
+}
+
+.logoHeader .buttons .close {
+  margin: 0;
+}
+
+.logoHeader .buttons .close .icon {
+  color: white;
+}
+
+.logoHeader .buttons .close:hover, .logoHeader .buttons .close:focus, .logoHeader .buttons .close:active {
+  background-color: transparent !important;
+}
+
 .logoHeader h1 {
   margin-left: 10px;
   line-height: 1;
@@ -116,4 +132,13 @@ h1.header {
 
 .breakWords {
   word-break:break-all;
+}
+
+.clearAccount {
+  margin-top: 10px;
+}
+
+.clickable {
+  text-decoration: underline;
+  cursor: pointer;
 }

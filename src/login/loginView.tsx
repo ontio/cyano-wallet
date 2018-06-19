@@ -1,14 +1,16 @@
+import { FormApi } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Error } from '../error';
+import { Clickable } from '../clickableText';
 import '../global.css';
 import { Logo } from '../logo';
 import { required } from '../validate';
 import { Filler, Spacer, View } from '../View';
 
 export interface Props {
-  handleSubmit: (values: object) => Promise<object>;
+  handleSubmit: (values: object, formApi: FormApi) => Promise<object>;
+  handleClear: () => void;
   loading: boolean;
 }
 
@@ -36,12 +38,18 @@ export const LoginView: React.SFC<Props> = (props) => (
                   input={{ ...t.input, value: t.input.value }}
                   icon="key"
                   type="password"
-                  placeholder="Password"
+                  placeholder={formProps.submitFailed ? 'Failed to login' : 'Password'}
                   error={t.meta.touched && t.meta.invalid}
                   disabled={props.loading}
                 />
               )} />
-            <Error show={formProps.submitFailed} message="Failed to login." />
+          </View>
+          <View orientation="column" className="center clearAccount">
+            <View>
+              <View>or&nbsp;</View>
+              <Clickable onClick={props.handleClear}>clear</Clickable>
+              <View>&nbsp;stored identity.</View>
+            </View>
           </View>
           <Filler />
           <View className="buttons">

@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
 import '../global.css';
-import { LogoHeader } from '../logoHeader';
+import { LogoHeader } from '../logoHeader/logoHeader';
 import { Filler, View } from '../View';
 
 export interface Props {
   ontAmount: number;
   ongAmount: number;
-  handleSend: () => void,
-  handleReceive: () => void
+  handleSend: () => void;
+  handleReceive: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="Balances" />
+      <LogoHeader showLogout={true} title="Balances" />
       <View content={true} className="spread-around">
         <View orientation="column">
           <label>ONT</label>

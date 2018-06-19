@@ -1,17 +1,19 @@
 import { Reducer } from 'redux';
-import { SET_WALLET } from './authActions';
+import { CLEAR_WALLET, SET_WALLET } from './authActions';
 
 export interface AuthState {
-    wallet: object | null;
+  wallet: object | null;
 };
 
 const defaultState: AuthState = { wallet: null };
 
 export const authReducer: Reducer<AuthState> = (state = defaultState, action) => {
-    switch (action.type) {
+  switch (action.type) {
+    case CLEAR_WALLET:
+      return { ...state, wallet: null };
     case SET_WALLET:
-        return {...state, wallet: action.wallet };
+      return { ...state, wallet: action.wallet };
     default:
-        return state;
-    }
+      return state;
+  }
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
 import '../global.css';
-import { LogoHeader } from '../logoHeader';
+import { LogoHeader } from '../logoHeader/logoHeader';
 import { Filler, View } from '../View';
 
 export interface Props {
@@ -13,7 +13,7 @@ export interface Props {
 export const NewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New identity" />
+      <LogoHeader showLogout={false} title="New identity" />
       <View content={true} className="spread-around">
         <View>Here you have your mnemonics phrase and private key. You can use either to restore your identity.</View>
       </View>

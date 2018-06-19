@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import '../global.css';
-import { LogoHeader } from '../logoHeader';
+import { LogoHeader } from '../logoHeader/logoHeader';
 import { Filler, Spacer, View } from '../View';
 
 export interface Props {
@@ -26,7 +26,7 @@ const assetOptions = [
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="Send" />
+      <LogoHeader showLogout={true} title="Send" />
       <View content={true} className="spread-around">
         <View>Double check the address of the recipient.</View>
       </View>
@@ -38,19 +38,23 @@ export const SendView: React.SFC<Props> = (props) => (
             <label>Recipient</label>
             <Field name="recipient" render={(t) => (
               <SemanticForm.Input
-                fluid={true}
+                onChange={t.input.onChange}
+                value={t.input.value}
+                error={t.meta.touched && t.meta.invalid}
               />
             )} />
           </View>
           <Spacer />
           <View orientation="column">
             <label>Asset</label>
-            <Field name="recipient" render={(t) => (
+            <Field name="asset" render={(t) => (
               <SemanticForm.Dropdown
                 fluid={true}
                 selection={true}
-                options={assetOptions} 
-                value="ONT"
+                options={assetOptions}
+                onChange={(e, data) => t.input.onChange(data.value)}
+                value={t.input.value}
+                error={t.meta.touched && t.meta.invalid}
               />
             )} />
           </View>
@@ -59,16 +63,18 @@ export const SendView: React.SFC<Props> = (props) => (
             <label>Amount</label>
             <Field name="amount" render={(t) => (
               <SemanticForm.Input
-                fluid={true}
                 type="number"
                 placeholder="0.00"
                 min="0"
+                onChange={t.input.onChange}
+                input={{ ...t.input, value: t.input.value }}
+                error={t.meta.touched && t.meta.invalid}
               />
             )} />
           </View>
           <Filler />
           <View className="buttons">
-            <Button icon="check" content="Confirm"/>
+            <Button icon="check" content="Confirm" />
             <Button onClick={props.handleCancel}>Cancel</Button>
           </View>
         </SemanticForm>

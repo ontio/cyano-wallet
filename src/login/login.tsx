@@ -1,4 +1,5 @@
 
+import { FormApi } from 'final-form';
 import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
@@ -19,7 +20,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWalle
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
-      handleSubmit: async (values: object) => {
+      handleClear: () => {
+        props.history.push('/clear');
+      },
+      handleSubmit: async (values: object, formApi: FormApi) => {
         const password = get(values, 'password', '');
   
         actions.startLoading();
@@ -32,6 +36,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           return {};
 
         } catch (e) {
+          formApi.change('password', '');
           return {
             password: 'Failed to login.'
           };

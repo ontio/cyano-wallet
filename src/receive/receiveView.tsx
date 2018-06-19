@@ -2,7 +2,7 @@ import * as QRCode from 'qrcode.react';
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
 import '../global.css';
-import { LogoHeader } from '../logoHeader';
+import { LogoHeader } from '../logoHeader/logoHeader';
 import { Filler, Spacer, View } from '../View';
 
 export interface Props {
@@ -14,7 +14,7 @@ export interface Props {
 export const ReceiveView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="Receive funds" />
+      <LogoHeader showLogout={true} title="Receive funds" />
       <View content={true} className="spread-around">
         <View>Use your public address to fund your wallet.</View>
       </View>

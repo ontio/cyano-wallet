@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import '../global.css';
-import { LogoHeader } from '../logoHeader';
+import { LogoHeader } from '../logoHeader/logoHeader';
 import { required, samePassword, validMnemonics } from '../validate';
 import { Filler, Spacer, View } from '../View';
 
@@ -15,7 +15,7 @@ export interface Props {
 export const RestoreView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="Restore identity" />
+      <LogoHeader showLogout={false} title="Restore identity" />
       <View content={true} className="spread-around">
         <View>Enter your mnemonics phrase and passphrase for wallet and identity encryption.</View>
       </View>
