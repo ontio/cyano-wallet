@@ -26,6 +26,10 @@ export async function transfer(walletEncoded: any, password: string, recipient: 
   
   const to = new Address(recipient);
 
+  if (asset === 'ONG') {
+    amount = String(Number(amount) * 1000000000);
+  }
+
   const tx = OntAssetTxBuilder.makeTransferTx(
     asset,
     from,

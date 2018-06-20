@@ -9,4 +9,6 @@ export { Receive } from './receive/receive';
 export { Restore } from './restore/restore';
 export { Send } from './send/send';
 export { SendConfirm } from './sendConfirm/sendConfirm';
+export { SendComplete } from './sendComplete/sendComplete';
+export { SendFailed } from './sendFailed/sendFailed';
 export { Signup } from './signup/signup';

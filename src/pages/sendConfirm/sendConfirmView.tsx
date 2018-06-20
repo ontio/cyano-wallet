@@ -1,3 +1,4 @@
+import { FormApi } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
@@ -5,7 +6,7 @@ import { Filler, LogoHeader, View } from '../../components';
 import { required } from '../../utils/validate';
 
 export interface Props {
-  handleSubmit: (values: object) => Promise<void>;
+  handleSubmit: (values: object, formApi: FormApi) => Promise<object>;
   handleCancel: () => void;
   loading: boolean;
 }
@@ -34,6 +35,7 @@ export const SendConfirmView: React.SFC<Props> = (props) => (
                     input={{ ...t.input, value: t.input.value }}
                     icon="key"
                     type="password"
+                    placeholder={formProps.submitFailed ? 'Wrong password' : 'Password'}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />

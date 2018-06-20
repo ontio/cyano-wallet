@@ -25,9 +25,9 @@ const enhancer = (Component: React.ComponentType<{}>) => () => (
             const walletEncoded = getReduxProps().wallet;
             if (walletEncoded !== null) {
               const balance = await getBalance(walletEncoded);
-              actions.setBalance(balance.ong, balance.ont);
+              actions.setBalance(balance.ong / 1000000000, balance.ont);
             }
-          }, 1000);
+          }, 5000);
 
           setState({ ...state, timer });
         },

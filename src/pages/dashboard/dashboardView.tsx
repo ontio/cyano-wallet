@@ -20,7 +20,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
         </View>
         <View orientation="column">
           <label>ONG</label>
-          <h1>{props.ongAmount/1000000000}</h1>
+          <h1>{props.ongAmount}</h1>
         </View>
       </View>
     </View>

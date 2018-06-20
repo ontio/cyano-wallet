@@ -35,7 +35,7 @@ export const LoginView: React.SFC<Props> = (props) => (
                   input={{ ...t.input, value: t.input.value }}
                   icon="key"
                   type="password"
-                  placeholder={formProps.submitFailed ? 'Failed to login' : 'Password'}
+                  placeholder={formProps.submitFailed ? 'Wrong password' : 'Password'}
                   error={t.meta.touched && t.meta.invalid}
                   disabled={props.loading}
                 />

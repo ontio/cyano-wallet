@@ -7,7 +7,7 @@ import './global.css';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { WalletChecker } from './components';
-import { Clear, Create, Dashboard, Home, Import, Login, New, Receive, Restore, Send, SendConfirm, Signup } from './pages';
+import { Clear, Create, Dashboard, Home, Import, Login, New, Receive, Restore, Send, SendComplete, SendConfirm, SendFailed, Signup } from './pages';
 import { reduxStore } from './redux';
 
 export const AppView: React.SFC<{}> = () => (
@@ -18,6 +18,8 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/dashboard" exact={true} component={Dashboard} />
         <Route path="/send" exact={true} component={Send} />
         <Route path="/sendConfirm" exact={true} component={SendConfirm} />
+        <Route path="/sendComplete" exact={true} component={SendComplete} />
+        <Route path="/sendFailed" exact={true} component={SendFailed} />
         <Route path="/receive" exact={true} component={Receive} />
 
         <Route path="/" exact={true} component={Home} />

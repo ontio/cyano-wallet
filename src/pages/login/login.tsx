@@ -38,7 +38,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         } catch (e) {
           formApi.change('password', '');
           return {
-            password: 'Failed to login.'
+            password: ''
           };
         } finally {
           actions.finishLoading();

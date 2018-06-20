@@ -1,6 +1,7 @@
 
 import { get } from 'lodash';
 import * as React from 'react';
+import { FormRenderProps } from 'react-final-form';
 import { RouterProps } from 'react-router';
 import { dummy, reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
@@ -18,13 +19,21 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         props.history.goBack();
       },
       handleConfirm: async (values: object) => {
-        // tslint:disable-next-line:no-console
-        console.log('values', values);
         const recipient = get(values, 'recipient', '');
         const asset = get(values, 'asset', '');
         const amount = get(values, 'amount', '');
         
         props.history.push('/sendConfirm', { recipient, asset, amount });
+      },
+      handleMax: (formProps: FormRenderProps) => {
+        const asset: string | undefined = get(formProps.values, 'asset');
+
+        if (asset === 'ONT') {
+          formProps.form.change('amount', reduxProps.ontAmount);
+        } else if (asset === 'ONG') {
+          formProps.form.change('amount', reduxProps.ongAmount);
+        }
+        return true;
       }
     }, (injectedProps) => (
       <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />

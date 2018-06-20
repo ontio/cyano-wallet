@@ -1,4 +1,6 @@
+import { FormApi } from 'final-form';
 import { get } from 'lodash';
+import { timeout, TimeoutError } from 'promise-timeout';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -21,7 +23,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       handleCancel: () => {
         props.history.goBack();
       },
-      handleSubmit: async (values: object) => {
+      handleSubmit: async (values: object, formApi: FormApi) => {
         const recipient: string = get(props.location, 'state.recipient', '');
         const asset: 'ONT' | 'ONG' = get(props.location, 'state.asset', '');
         const amount: string = get(props.location, 'state.amount', '');
@@ -30,11 +32,25 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
         actions.startLoading();
 
-        await transfer(reduxProps.wallet, password, recipient, asset, amount);
+        try {
+          await timeout(transfer(reduxProps.wallet, password, recipient, asset, amount), 15000);
 
-        actions.finishLoading();
+          props.history.push('/sendComplete', { recipient, asset, amount });
+        } catch (e) {
+          if (e instanceof TimeoutError) {
+            props.history.push('/sendFailed', { recipient, asset, amount });
+          } else {
+            formApi.change('password', '');
+            
+            return {
+              password: ''
+            };
+          }
+        } finally {
+          actions.finishLoading();
+        }
 
-        props.history.push('/dashboard', { recipient, asset, amount });
+        return {};
       }
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
