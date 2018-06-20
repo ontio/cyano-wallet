@@ -1,11 +1,16 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../components';
+import { Transfer } from '../../api/explorerApi';
+import { Clickable, Filler, LogoHeader, Spacer, View } from '../../components';
+import { TransferList } from '../../components/transferList';
 
 export interface Props {
   ontAmount: number;
   ongAmount: number;
+  ownAddress: string;
+  transfers: Transfer[] | null;
   handleSend: () => void;
+  handleTransfers: () => void;
   handleReceive: () => void;
 }
 
@@ -25,6 +30,13 @@ export const DashboardView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
+      <h1>Last transfers</h1>
+      <Spacer />
+      <TransferList ownAddress={props.ownAddress} transfers={props.transfers} />
+      <Spacer />
+      <View className="center">
+        <Clickable onClick={props.handleTransfers}>more</Clickable>
+      </View>
       <Filler />
       <View className="buttons">
         <Button icon="send" content="Send" onClick={props.handleSend} />

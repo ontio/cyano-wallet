@@ -12,3 +12,4 @@ export { SendConfirm } from './sendConfirm/sendConfirm';
 export { SendComplete } from './sendComplete/sendComplete';
 export { SendFailed } from './sendFailed/sendFailed';
 export { Signup } from './signup/signup';
+export { Transfers } from './transfers/transfers';

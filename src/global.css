@@ -55,6 +55,12 @@ body {
   text-transform: uppercase;
 }
 
+.ui.list .list>.item .header, .ui.list>.item .header {
+  color: #32a4be;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: normal;
+}
+
 
 .ui.button.basic, .ui.button.basic:hover, .ui.button.basic:focus {
   box-shadow: 0 0 0 0 white inset;
@@ -83,6 +89,12 @@ div.flex.full {
 
 div.flex.part {
   height: 120px;
+  flex-shrink: 0;
+}
+
+div.flex.partSmall {
+  height: 60px;
+  flex-shrink: 0;
 }
 
 div.flex.spread {
@@ -165,6 +177,7 @@ h1.header {
 
 .buttons {
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .hint {
@@ -203,4 +216,12 @@ h1.header {
 .clickable {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.transfersView {
+  overflow-y: auto;
+}
+
+.transferList {
+  width: 100%;
 }
