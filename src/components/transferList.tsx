@@ -32,8 +32,8 @@ export const TransferList: React.SFC<Props> = (props) => (
       <Loader active={true} inline={true} />
     ) : (
         <List className="transferList" divided={true}>
-          {props.transfers.map(transfer => (
-            <List.Item>
+          {props.transfers.map((transfer, i) => (
+            <List.Item key={i}>
               <List.Icon name={transfer.from === props.ownAddress ? 'arrow alternate circle down outline' : 'arrow alternate circle up outline'} size="large" verticalAlign="middle" />
               <List.Content>
                 <List.Header>{transfer.from === props.ownAddress ? '-' : ''}{transfer.amount} {transfer.asset}</List.Header>

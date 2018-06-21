@@ -93,6 +93,7 @@ body {
 div.flex {
   display: flex;
   flex-direction: row;
+  min-height: 0;
 }
 
 div.flex.column {

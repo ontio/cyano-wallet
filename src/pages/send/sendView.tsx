@@ -20,7 +20,7 @@ import * as React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { Filler, LogoHeader, Spacer, View } from '../../components';
-import { required } from '../../utils/validate';
+import { range, required } from '../../utils/validate';
 
 export interface Props {
   ontAmount: number;
@@ -90,13 +90,11 @@ export const SendView: React.SFC<Props> = (props) => (
             <label>Amount</label>
             <Field
               name="amount"
-              validate={required}
+              validate={range(0, get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount)}
               render={(t) => (
                 <SemanticForm.Input
                   type="number"
                   placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                  min="0"
-                  max={get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount}
                   step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
                   onChange={t.input.onChange}
                   input={{ ...t.input, value: t.input.value }}

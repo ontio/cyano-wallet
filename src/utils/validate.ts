@@ -42,3 +42,14 @@ export function samePassword(values: object) {
 export function required(value: string){ 
   return (value === undefined || value.trim().length === 0);
 }
+
+export function range(from: number, to: number){ 
+  return function rangeCheck(value: string){ 
+    if (value === undefined) {
+      return true;
+    } 
+
+    const val = Number(value);
+    return (val <= from || val > to);
+  }
+}
