@@ -1,3 +1,4 @@
+import { storageGet, storageSet } from "./storageApi";
 
 /*
  * Copyright (C) 2018 Matus Zamborsky
@@ -16,30 +17,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { withProps, withRouter } from '../../compose';
-import { LogoHeaderView, Props } from './logoHeaderView';
 
-interface OuterProps {
-  showLogout: boolean;
-  showSettings?: boolean;
-  title: string;
+export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
+
+export interface Settings {
+  net: NetValue;
+  address: string;
+};
+
+const defaultSettings: Settings = {
+  address: '',
+  net: 'TEST'
+};
+
+export async function saveSettings(settings: Settings) {
+  storageSet('settings', JSON.stringify(settings))
 }
 
+export async function loadSettings(): Promise<Settings> {
+  const settings = await storageGet('settings');
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
-  withRouter(routerProps => (
-    withProps({
-      handleLogout: () => {
-        routerProps.history.push('/');
-      },
-      handleSettings: () => {
-        routerProps.history.push('/settings');
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showSettings={props.showSettings !== undefined ? props.showSettings : true} />
-    ))
-  ))
-);
+  if (settings === null) {
+    return defaultSettings;
+  }
 
-export const LogoHeader = enhancer(LogoHeaderView);
+  try {
+    return JSON.parse(settings) as Settings;
+  } catch (e) {
+    return defaultSettings;
+  }
+}

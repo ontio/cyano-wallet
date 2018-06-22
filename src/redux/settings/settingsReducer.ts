@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -16,30 +15,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { withProps, withRouter } from '../../compose';
-import { LogoHeaderView, Props } from './logoHeaderView';
+import { CONST } from 'ont-sdk-ts';
+import { Reducer } from 'redux';
+import { SET_NODE_ADDRESS } from './settingsActions';
 
-interface OuterProps {
-  showLogout: boolean;
-  showSettings?: boolean;
-  title: string;
-}
+export interface SettingsState {
+  nodeAddress: string;
+};
 
+const defaultState: SettingsState = { nodeAddress: CONST.TEST_NODE };
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
-  withRouter(routerProps => (
-    withProps({
-      handleLogout: () => {
-        routerProps.history.push('/');
-      },
-      handleSettings: () => {
-        routerProps.history.push('/settings');
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showSettings={props.showSettings !== undefined ? props.showSettings : true} />
-    ))
-  ))
-);
-
-export const LogoHeader = enhancer(LogoHeaderView);
+export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case SET_NODE_ADDRESS:
+      return { ...state, nodeAddress: action.nodeAddress };
+    default:
+      return state;
+  }
+};

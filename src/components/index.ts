@@ -16,7 +16,9 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 export { Clickable } from './clickableText';
-export { Logo } from './logo';
+export { Logo } from './logo/logo';
+export { Nothing } from './nothing';
 export { LogoHeader } from './logoHeader/logoHeader';
 export { Filler, Spacer, View } from './view';
-export { WalletChecker } from './walletChecker';
+export { BalanceProvider } from './balanceProvider';
+export { SettingsProvider } from './settingsProvider';

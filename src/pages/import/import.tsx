@@ -27,7 +27,8 @@ import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
 import { ImportView, Props } from './importView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
+  nodeAddress: state.settings.nodeAddress
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
@@ -44,7 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         actions.startLoading();
 
-        const { wallet } = await importPrivateKey(wif, password, true);
+        const { wallet } = await importPrivateKey(reduxProps.nodeAddress, wif, password, true);
         actions.setWallet(wallet);
 
         actions.finishLoading();

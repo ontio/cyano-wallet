@@ -18,28 +18,19 @@
  */
 import * as React from 'react';
 import { withProps, withRouter } from '../../compose';
-import { LogoHeaderView, Props } from './logoHeaderView';
-
-interface OuterProps {
-  showLogout: boolean;
-  showSettings?: boolean;
-  title: string;
-}
+import { LogoView, Props } from './logoView';
 
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
+const enhancer = (Component: React.ComponentType<Props>) => () => (
   withRouter(routerProps => (
     withProps({
-      handleLogout: () => {
-        routerProps.history.push('/');
-      },
       handleSettings: () => {
         routerProps.history.push('/settings');
       }
     }, (injectedProps) => (
-      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showSettings={props.showSettings !== undefined ? props.showSettings : true} />
+      <Component {...injectedProps} />
     ))
   ))
 );
 
-export const LogoHeader = enhancer(LogoHeaderView);
+export const Logo = enhancer(LogoView);

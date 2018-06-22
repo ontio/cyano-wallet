@@ -20,17 +20,20 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { authReducer, AuthState } from './auth/authReducer';
 import { loaderReducer, LoaderState } from './loader/loaderReducer';
+import { settingsReducer, SettingsState } from './settings/settingsReducer';
 import { walletReducer, WalletState } from './wallet/walletReducer';
 
 export const globalReducer = combineReducers({
     auth: authReducer,
     loader: loaderReducer,
+    settings: settingsReducer,
     wallet: walletReducer
 });
 
 export interface GlobalState {
     auth: AuthState;
     loader: LoaderState;
+    settings: SettingsState;
     wallet: WalletState;
 };
 

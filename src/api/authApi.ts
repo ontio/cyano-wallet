@@ -15,50 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Account, Crypto, Identity, OntidContract, TransactionBuilder, utils, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import { Account, CONST, Crypto, Identity, OntidContract, TransactionBuilder, utils, Wallet, WebsocketClient } from 'ont-sdk-ts';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
-
-const client = new WebsocketClient();
-
-let storageGet: (key: string) => Promise<string | null>;
-let storageSet: (key: string, value: string) => Promise<void>;
-let storageClear: () => Promise<void>;
-
-if (typeof browser === 'undefined') {
-  storageGet = (key) => {
-    const value = localStorage.getItem(key);
-    return Promise.resolve(value);
-  };
-
-  storageSet = (key, value) => {
-    localStorage.setItem(key, value);
-    return Promise.resolve();
-  };
-
-  storageClear = () => {
-    localStorage.clear();
-    return Promise.resolve();
-  };
-} else {
-  storageGet = async (key) => {
-    const result = await browser.storage.local.get([key]);
-    return result[key] as string | null;
-  };
-
-  storageSet = async (key, value) => {
-    await browser.storage.local.set({ [key]: value });
-    return Promise.resolve();
-  };
-
-  storageClear = async () => {
-    await browser.storage.local.clear();
-    return Promise.resolve();
-  };
-}
+import { storageClear, storageGet, storageSet } from './storageApi';
 
 export async function clear() {
-  await storageClear();
+  await storageClear('wallet');
 }
 
 export function decryptWallet(wallet: Wallet, password: string) {
@@ -94,16 +57,16 @@ export async function signIn(password: string) {
   return walletEncoded;
 }
 
-export async function signUp(password: string) {
+export async function signUp(nodeAddress: string, password: string) {
   const mnemonics = utils.generateMnemonic();
-  return await importMnemonics(mnemonics, password, true);
+  return await importMnemonics(nodeAddress, mnemonics, password, true);
 }
 
-export async function importMnemonics(mnemonics: string, password: string, register: boolean) {
+export async function importMnemonics(nodeAddress: string, mnemonics: string, password: string, register: boolean) {
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics);
   const wif = privateKey.serializeWIF();
 
-  const result = await importPrivateKey(wif, password, register);
+  const result = await importPrivateKey(nodeAddress, wif, password, register);
 
   return {
     mnemonics,
@@ -111,7 +74,7 @@ export async function importMnemonics(mnemonics: string, password: string, regis
   };
 }
 
-export async function importPrivateKey(wif: string, password: string, register: boolean) {
+export async function importPrivateKey(nodeAddress: string, wif: string, password: string, register: boolean) {
   const wallet = Wallet.create(uuid());
   const scrypt = wallet.scrypt;
   const scryptParams = {
@@ -134,6 +97,7 @@ export async function importPrivateKey(wif: string, password: string, register: 
     tx.payer = identity.controls[0].address;
     TransactionBuilder.signTransaction(tx, privateKey);
 
+    const client = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
     await client.sendRawTransaction(tx.serialize(), false, true);
   }
 

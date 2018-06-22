@@ -28,5 +28,6 @@ export { Send } from './send/send';
 export { SendConfirm } from './sendConfirm/sendConfirm';
 export { SendComplete } from './sendComplete/sendComplete';
 export { SendFailed } from './sendFailed/sendFailed';
+export { SettingsPage } from './settings/settings';
 export { Signup } from './signup/signup';
 export { Transfers } from './transfers/transfers';

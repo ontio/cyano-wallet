@@ -23,18 +23,20 @@ import { getBalance } from '../api/walletApi';
 import { lifecycle, reduxConnect, withState } from '../compose';
 import { GlobalState } from '../redux';
 import { setBalance, setTransfers } from '../redux/wallet/walletActions';
+import { Nothing } from './nothing';
 
 interface State {
   timer: number;
 }
 
 const mapStateToProps = (state: GlobalState) => ({
+  nodeAddress: state.settings.nodeAddress,
   wallet: state.auth.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setBalance, setTransfers }, dispatch);
 
-const enhancer = (Component: React.ComponentType<{}>) => () => (
+export const BalanceProvider: React.SFC<{}> = () => (
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) => (
     withState<State>({ timer: -1 }, (state, setState, getState) => (
       lifecycle({
@@ -43,7 +45,7 @@ const enhancer = (Component: React.ComponentType<{}>) => () => (
             
             const walletEncoded = getReduxProps().wallet;
             if (walletEncoded !== null) {
-              const balance = await getBalance(walletEncoded);
+              const balance = await getBalance(getReduxProps().nodeAddress, walletEncoded);
               actions.setBalance(balance.ong / 1000000000, balance.ont);
 
               const address = getAddress(walletEncoded);
@@ -58,11 +60,8 @@ const enhancer = (Component: React.ComponentType<{}>) => () => (
         componentWillUnmount: () => {
           window.clearInterval(getState().timer);
         }
-      }, () => (
-        <Component />
-      ))
+      }, () => (<Nothing />)
+      )
     ))
   ))
 );
-
-export const WalletChecker = enhancer(() => null);

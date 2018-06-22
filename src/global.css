@@ -157,7 +157,7 @@ div.flex.content {
   margin: 10px;
 }
 
-.logo {
+.logo img {
   align-self: center;
   margin-top: 20px;
 }
@@ -168,18 +168,35 @@ div.flex.content {
 }
 
 .logoHeader .buttons {
-  align-items: flex-end;
+  justify-content: flex-end;
 }
 
-.logoHeader .buttons .close {
+.logo .button {
+  align-self: flex-start;
+  margin: 10px !important;
+}
+
+.logo .button.hidden {
+  visibility: hidden;
+}
+
+.logo .button,
+.logoHeader .buttons .button {
   margin: 0;
+  padding: 5px !important;
 }
 
-.logoHeader .buttons .close .icon {
+.logo .button .icon,
+.logoHeader .buttons .button .icon {
   color: white;
 }
 
-.logoHeader .buttons .close:hover, .logoHeader .buttons .close:focus, .logoHeader .buttons .close:active {
+.logo .ui.button:hover, 
+.logo .ui.button:focus, 
+.logo .ui.button:active, 
+.logoHeader .buttons .button:hover, 
+.logoHeader .buttons .button:focus, 
+.logoHeader .buttons .button:active {
   background-color: transparent !important;
 }
 

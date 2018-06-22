@@ -20,12 +20,10 @@ import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, Webso
 import { decryptWallet, getWallet } from './authApi';
 import Address = Crypto.Address;
 
-const socketClient = new WebsocketClient();
-const restClient = new RestClient();
-
-export async function getBalance(walletEncoded: any) {
+export async function getBalance(nodeAddress: string, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
 
+  const restClient = new RestClient(`http://${nodeAddress}:${CONST.HTTP_REST_PORT}`);
   const response = await restClient.getBalance(wallet.accounts[0].address);
   const ont: number = get(response, 'Result.ont');
   const ong: number = get(response, 'Result.ong');
@@ -36,7 +34,7 @@ export async function getBalance(walletEncoded: any) {
   };
 }
 
-export async function transfer(walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
+export async function transfer(nodeAddress: string, walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
   const privateKey = decryptWallet(wallet, password);
@@ -56,5 +54,7 @@ export async function transfer(walletEncoded: any, password: string, recipient: 
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
   TransactionBuilder.signTransaction(tx, privateKey);
+
+  const socketClient = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
 }

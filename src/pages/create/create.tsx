@@ -27,7 +27,8 @@ import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
 import { CreateView, Props } from './createView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
+  nodeAddress: state.settings.nodeAddress
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
@@ -43,7 +44,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   
         actions.startLoading();
   
-        const { encryptedWif, mnemonics, wif, wallet } = await signUp(password);
+        const { encryptedWif, mnemonics, wif, wallet } = await signUp(reduxProps.nodeAddress, password);
         actions.setWallet(wallet);
   
         actions.finishLoading();

@@ -15,12 +15,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { View } from './view';
+export const SET_NODE_ADDRESS = 'SET_NODE_ADDRESS';
 
-export const Logo: React.SFC<{}> = () => (
-  <View orientation="column"> 
-    <img className="logo" src={require('../assets/ontsymbol.png')} />
-    <h1 className="header">Ontology ID & Wallet</h1>
-  </View>
-);
+export const setNodeAddress = (nodeAddress: string) => ({ type: SET_NODE_ADDRESS, nodeAddress });

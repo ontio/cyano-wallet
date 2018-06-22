@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -17,29 +16,19 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { withProps, withRouter } from '../../compose';
-import { LogoHeaderView, Props } from './logoHeaderView';
+import { Button } from 'semantic-ui-react';
+import { View } from '../view';
 
-interface OuterProps {
-  showLogout: boolean;
-  showSettings?: boolean;
-  title: string;
+export interface Props {
+  handleSettings: () => void;
 }
-
-
-const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
-  withRouter(routerProps => (
-    withProps({
-      handleLogout: () => {
-        routerProps.history.push('/');
-      },
-      handleSettings: () => {
-        routerProps.history.push('/settings');
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showSettings={props.showSettings !== undefined ? props.showSettings : true} />
-    ))
-  ))
+export const LogoView: React.SFC<Props> = (props) => (
+  <View orientation="column" className="logo"> 
+    <View className="spread">
+      <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
+      <img src={require('../../assets/ontsymbol.png')} />
+      <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
+    </View>
+    <h1 className="header">Ontology ID & Wallet</h1>
+  </View>
 );
-
-export const LogoHeader = enhancer(LogoHeaderView);
