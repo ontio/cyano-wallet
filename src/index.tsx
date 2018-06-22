@@ -40,7 +40,10 @@ import {
   SendFailed, 
   SettingsPage, 
   Signup, 
-  Transfers 
+  Transfers, 
+  WithdrawComplete,
+  WithdrawConfirm,
+  WithdrawFailed
 } from './pages';
 import { reduxStore } from './redux';
 
@@ -58,6 +61,9 @@ export const AppView: React.SFC<{}> = () => (
           <Route path="/settings" exact={true} component={SettingsPage} />
           <Route path="/receive" exact={true} component={Receive} />
           <Route path="/transfers" exact={true} component={Transfers} />
+          <Route path="/withdrawConfirm" exact={true} component={WithdrawConfirm} />
+          <Route path="/withdrawComplete" exact={true} component={WithdrawComplete} />
+          <Route path="/withdrawFailed" exact={true} component={WithdrawFailed} />
 
           <Route path="/" exact={true} component={Home} />
           <Route path="/new" exact={true} component={New} />

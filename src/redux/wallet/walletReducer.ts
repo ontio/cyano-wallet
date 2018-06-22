@@ -22,15 +22,17 @@ import { SET_BALANCE, SET_TRANSFERS } from './walletActions';
 export interface WalletState {
   ongAmount: number;
   ontAmount: number;
+
+  unboundAmount: number;
   transfers: Transfer[] | null;
 };
 
-const defaultState: WalletState = { ongAmount: 0, ontAmount: 0, transfers: null };
+const defaultState: WalletState = { ongAmount: 0, ontAmount: 0, unboundAmount: 0, transfers: null };
 
 export const walletReducer: Reducer<WalletState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_BALANCE:
-      return { ...state, ongAmount: action.ongAmount, ontAmount: action.ontAmount };
+      return { ...state, ongAmount: action.ongAmount, ontAmount: action.ontAmount, unboundAmount: action.unboundAmount };
     case SET_TRANSFERS:
       return { ...state, transfers: action.transfers };
     default:

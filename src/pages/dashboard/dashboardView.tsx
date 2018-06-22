@@ -24,11 +24,14 @@ import { TransferList } from '../../components/transferList';
 export interface Props {
   ontAmount: number;
   ongAmount: number;
+
+  unboundAmount: number;
   ownAddress: string;
   transfers: Transfer[] | null;
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
+  handleWithdraw: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = (props) => (
@@ -36,13 +39,14 @@ export const DashboardView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} title="Balances" />
       <View content={true} className="spread-around">
-        <View orientation="column">
+        <View orientation="column" className="balance">
           <label>ONT</label>
           <h1>{props.ontAmount}</h1>
         </View>
-        <View orientation="column">
+        <View orientation="column" className="balance">
           <label>ONG</label>
-          <h1>{props.ongAmount}</h1>
+          <h3>{props.ongAmount}</h3>
+          <h4 onClick={props.handleWithdraw} className="unbound">+ {props.unboundAmount}</h4>
         </View>
       </View>
     </View>

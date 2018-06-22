@@ -37,7 +37,7 @@ export const TransferList: React.SFC<Props> = (props) => (
               <List.Icon name={transfer.from === props.ownAddress ? 'arrow alternate circle down outline' : 'arrow alternate circle up outline'} size="large" verticalAlign="middle" />
               <List.Content>
                 <List.Header>{transfer.from === props.ownAddress ? '-' : ''}{transfer.amount} {transfer.asset}</List.Header>
-                <List.Description>{transfer.to}</List.Description>
+                <List.Description>{transfer.from === props.ownAddress ? transfer.to : transfer.from}</List.Description>
                 <List.Description>{format(transfer.time * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
               </List.Content>
             </List.Item>

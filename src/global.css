@@ -146,7 +146,7 @@ div.flex.error {
   color: white;
 }
 
-h1, h2 {
+h1, h2, h3, h4 {
   font-weight: 200 !important;
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 0;
@@ -269,4 +269,21 @@ h1.header {
 
 .transferList {
   width: 100%;
+}
+
+.flex.balance {
+  align-items: flex-end;
+}
+
+.flex.balance label {
+  align-self: center;
+}
+
+h4.unbound {
+  color: #e0e1e2;
+  cursor: pointer;
+}
+
+h4.unbound:hover {
+  color: white;
 }

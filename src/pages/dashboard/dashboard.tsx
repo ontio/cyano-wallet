@@ -27,6 +27,7 @@ const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.wallet.ongAmount,
   ontAmount: state.wallet.ontAmount,
   transfers: state.wallet.transfers,
+  unboundAmount: state.wallet.unboundAmount,
   wallet: state.auth.wallet
 });
 
@@ -42,10 +43,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       handleTransfers: () => {
         props.history.push('/transfers');
       },
+      handleWithdraw: () => {
+        if (reduxProps.unboundAmount > 0) {
+          props.history.push('/withdrawConfirm');
+        }
+      },
       ownAddress: getAddress(reduxProps.wallet),
       transfers: reduxProps.transfers !== null ? reduxProps.transfers.slice(0, 2) : null
     }, (injectedProps) => (
-      <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
+      <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} unboundAmount={reduxProps.unboundAmount} />
     ))
   ))
 );

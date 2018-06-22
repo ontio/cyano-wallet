@@ -15,11 +15,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Transfer } from "../../api/explorerApi";
+import { get } from 'lodash';
+import * as React from 'react';
+import { RouteComponentProps } from 'react-router';
+import { withProps } from '../../compose';
+import { Props, WithdrawCompleteView } from './withdrawCompleteView';
 
-export const SET_BALANCE = 'SET_BALANCE';
-export const SET_TRANSFERS = 'SET_TRANSFERS';
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
+    withProps({
+      amount: get(props.location, 'state.amount', ''),
+      handleCancel: () => {
+        props.history.goBack();
+      },
+      handleOk: () => {
+        props.history.push('/dashboard');
+      }
+    }, (injectedProps) => (
+      <Component {...injectedProps} />
+    ))
+);
 
-export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount });
-
-export const setTransfers = (transfers: Transfer[]) => ({ type: SET_TRANSFERS, transfers });
+export const WithdrawComplete = enhancer(WithdrawCompleteView);

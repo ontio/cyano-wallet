@@ -31,3 +31,6 @@ export { SendFailed } from './sendFailed/sendFailed';
 export { SettingsPage } from './settings/settings';
 export { Signup } from './signup/signup';
 export { Transfers } from './transfers/transfers';
+export { WithdrawConfirm } from './withdrawConfirm/withdrawConfirm';
+export { WithdrawComplete } from './withdrawComplete/withdrawComplete';
+export { WithdrawFailed } from './withdrawFailed/withdrawFailed';

@@ -19,7 +19,7 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getAddress } from '../api/authApi';
 import { getTransferList } from '../api/explorerApi';
-import { getBalance } from '../api/walletApi';
+import { getBalance, getUnboundOng } from '../api/walletApi';
 import { lifecycle, reduxConnect, withState } from '../compose';
 import { GlobalState } from '../redux';
 import { setBalance, setTransfers } from '../redux/wallet/walletActions';
@@ -46,7 +46,9 @@ export const BalanceProvider: React.SFC<{}> = () => (
             const walletEncoded = getReduxProps().wallet;
             if (walletEncoded !== null) {
               const balance = await getBalance(getReduxProps().nodeAddress, walletEncoded);
-              actions.setBalance(balance.ong / 1000000000, balance.ont);
+              const unboundOng = await getUnboundOng(getReduxProps().nodeAddress, walletEncoded);
+
+              actions.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000);
 
               const address = getAddress(walletEncoded);
               const transfers = await getTransferList(address);
