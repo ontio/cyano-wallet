@@ -200,6 +200,16 @@ div.flex.content {
   background-color: transparent !important;
 }
 
+.logo .ui.button:hover .icon, 
+.logo .ui.button:focus .icon, 
+.logo .ui.button:active .icon, 
+.logoHeader .buttons .button:hover .icon, 
+.logoHeader .buttons .button:focus .icon, 
+.logoHeader .buttons .button:active .icon {
+  color: #e0e1e2 !important;
+}
+
+
 .logoHeader h1 {
   margin-left: 10px;
   line-height: 1;
