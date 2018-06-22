@@ -4,6 +4,7 @@
 
 <p>
   <img width="300px" src="/wallet.png">
+  <img width="300px" src="/wallet2.png">
 </p>
 
 ## Overview
@@ -67,7 +68,6 @@ yarn start
 * [Node.js](https://nodejs.org) - JavaScript runtime for building and ingest
 * [React](https://reactjs.org/) - The web framework used
 * [Semantic UI](https://react.semantic-ui.com/introduction) - The web framework used
-* [Elasticsearch](https://www.elastic.co/) - Backend data storage and indexer
 * [Ontology TypeScript SDK](https://github.com/ontio/ontology-ts-sdk) - The framework used
 
 ## Authors
