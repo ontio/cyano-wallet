@@ -2,8 +2,8 @@
 
 
 
-<p align="center">
-  <img src="/wallet.png">
+<p>
+  <img width="300px" src="/wallet.png">
 </p>
 
 ## Overview
