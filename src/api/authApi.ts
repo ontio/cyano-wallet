@@ -95,7 +95,7 @@ export async function importPrivateKey(nodeAddress: string, wif: string, passwor
   if (register) {
     const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
     tx.payer = identity.controls[0].address;
-    TransactionBuilder.signTransaction(tx, privateKey);
+    await TransactionBuilder.signTransaction(tx, privateKey);
 
     const client = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
     await client.sendRawTransaction(tx.serialize(), false, true);
@@ -117,10 +117,10 @@ export async function importPrivateKey(nodeAddress: string, wif: string, passwor
   };
 }
 
-export async function hasStoredWallet() {
+export async function getStoredWallet() {
   const walletEncoded = await storageGet('wallet');
 
-  return walletEncoded != null;
+  return walletEncoded;
 }
 
 export function getWallet(walletEncoded: any) {

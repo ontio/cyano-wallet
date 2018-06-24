@@ -30,7 +30,6 @@ import {
   Dashboard, 
   Home, 
   Import, 
-  Login, 
   New, 
   Receive, 
   Restore, 
@@ -71,7 +70,6 @@ export const AppView: React.SFC<{}> = () => (
           <Route path="/restore" exact={true} component={Restore} />
           <Route path="/import" exact={true} component={Import} />
           <Route path="/create" exact={true} component={Create} />
-          <Route path="/login" exact={true} component={Login} />
           <Route path="/sign-up" exact={true} component={Signup} />
         </SettingsProvider>
       </>

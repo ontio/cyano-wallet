@@ -17,23 +17,30 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { hasStoredWallet } from '../../api/authApi';
-import { lifecycle } from "../../compose";
+import { bindActionCreators, Dispatch } from 'redux';
+import { getStoredWallet } from '../../api/authApi';
+import { dummy, lifecycle, reduxConnect } from "../../compose";
+import { setWallet } from '../../redux/auth/authActions';
 
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet }, dispatch);
 
 const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) => (
-  lifecycle({
-    componentDidMount: async () => {
-      const result = await hasStoredWallet();
+  reduxConnect(dummy, mapDispatchToProps, (reduxProps, actions) => (
+    lifecycle({
+      componentDidMount: async () => {
 
-      if (result) {
-        props.history.push('/login');
-      } else {
-        props.history.push('/sign-up');
+        const wallet = await getStoredWallet();
+
+        if (wallet != null) {
+          actions.setWallet(wallet);
+          props.history.push('/dashboard');
+        } else {
+          props.history.push('/sign-up');
+        }
       }
-    }
-  }, () => (
-    <Component />
+    }, () => (
+      <Component />
+    ))
   ))
 );
 

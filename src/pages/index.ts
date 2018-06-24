@@ -20,7 +20,6 @@ export { Create } from './create/create';
 export { Dashboard } from './dashboard/dashboard';
 export { Home } from './home/home';
 export { Import } from './import/import';
-export { Login } from './login/login';
 export { New } from './new/new';
 export { Receive } from './receive/receive';
 export { Restore } from './restore/restore';

@@ -74,7 +74,7 @@ export async function transfer(nodeAddress: string, walletEncoded: any, password
     '0',
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  TransactionBuilder.signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransaction(tx, privateKey);
 
   const socketClient = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
@@ -98,7 +98,7 @@ export async function withdrawOng(nodeAddress: string, walletEncoded: any, passw
     '0', 
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  TransactionBuilder.signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransaction(tx, privateKey);
 
   const socketClient = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
