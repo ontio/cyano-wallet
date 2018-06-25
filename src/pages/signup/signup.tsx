@@ -18,22 +18,56 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { withProps } from '../../compose';
-import { Props, SignupView } from './signupView';
+import { isLedgerSupported } from '../../api/walletApi';
+import { lifecycle, withProps, withState } from '../../compose';
+import { LoginOption, Props, SignupView } from './signupView';
+
+interface State {
+  loginOptions: LoginOption[];
+}
+
+const defaultState = {
+  loginOptions: [{
+    text: 'Normal',
+    value: 'NORMAL'
+  }]
+};
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  withProps({
-    handleCreate: () => {
-      props.history.push('/create');
-    },
-    handleImport: () => {
-      props.history.push('/import');
-    },
-    handleRestore: () => {
-      props.history.push('/restore');
-    }
-  }, (injectedProps) => (
-    <Component {...injectedProps} />
+  withState<State>(defaultState, (state, setState) => (
+    lifecycle({
+      componentDidMount: async () => {
+        const ledgerSupported = await isLedgerSupported();
+        // tslint:disable-next-line:no-console
+        console.log('ledger:', ledgerSupported);
+
+        if (ledgerSupported) {
+          const newState = {
+            ...state, 
+            loginOptions: [ 
+              ...defaultState.loginOptions, 
+              { text: 'Ledger', value: 'LEDGER' }
+            ]
+          };
+
+          setState(newState);
+        }
+      }
+    }, () =>  (
+      withProps({
+        handleCreate: () => {
+          props.history.push('/create');
+        },
+        handleImport: () => {
+          props.history.push('/import');
+        },
+        handleRestore: () => {
+          props.history.push('/restore');
+        }
+      }, (injectedProps) => (
+        <Component {...injectedProps} loginOptions={state.loginOptions} />
+      ))
+    ))
   ))
 );
 

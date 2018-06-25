@@ -16,13 +16,20 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Dropdown } from 'semantic-ui-react';
 import { Logo, Spacer, View } from '../../components';
+
+export interface LoginOption {
+  text: string;
+  value: string;
+};
 
 export interface Props {
   handleCreate: () => void;
   handleRestore: () => void;
   handleImport: () => void;
+
+  loginOptions: LoginOption[];
 }
 
 export const SignupView: React.SFC<Props> = (props) => (
@@ -35,11 +42,14 @@ export const SignupView: React.SFC<Props> = (props) => (
     <View orientation="column" fluid={true} content={true}>
       <View orientation="column" fluid={true} className="center">
         <Spacer />
-        <Button onClick={props.handleCreate}>New identity</Button>
+        <Button.Group size="small">
+          <Button onClick={props.handleCreate}>New identity</Button>
+          <Dropdown options={props.loginOptions} value={0} text=' ' button={true} className='icon' />
+        </Button.Group>
         <Spacer />
-        <Button onClick={props.handleRestore}>Restore identity</Button>
+        <Button size="small" onClick={props.handleRestore}>Restore identity</Button>
         <Spacer />
-        <Button onClick={props.handleImport}>Import private key</Button>
+        <Button size="small" onClick={props.handleImport}>Import private key</Button>
       </View>
     </View>
   </View>

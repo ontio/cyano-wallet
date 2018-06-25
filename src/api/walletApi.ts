@@ -17,9 +17,13 @@
  */
 import axios from 'axios';
 import { get } from 'lodash';
-import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
+import { CONST, Crypto, Ledger, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
 import { decryptWallet, getWallet } from './authApi';
 import Address = Crypto.Address;
+
+export async function isLedgerSupported() {
+  return await Ledger.isLedgerSupported();
+}
 
 export async function getBalance(nodeAddress: string, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
