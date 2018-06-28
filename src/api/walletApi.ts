@@ -15,20 +15,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import Address = Crypto.Address;
 import axios from 'axios';
 import { get } from 'lodash';
-import { CONST, Crypto, Ledger, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
+import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
 import { decryptWallet, getWallet } from './authApi';
-import Address = Crypto.Address;
 
-export async function isLedgerSupported() {
-  return await Ledger.isLedgerSupported();
-}
-
-export async function getBalance(nodeAddress: string, walletEncoded: any) {
+export async function getBalance(nodeAddress: string, ssl: boolean, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
 
-  const restClient = new RestClient(`http://${nodeAddress}:${CONST.HTTP_REST_PORT}`);
+  const protocol = ssl ? 'https' : 'http';
+  const restClient = new RestClient(`${protocol}://${nodeAddress}:${CONST.HTTP_REST_PORT}`);
   const response = await restClient.getBalance(wallet.accounts[0].address);
   const ont: number = Number(get(response, 'Result.ont'));
   const ong: number = Number(get(response, 'Result.ong'));
@@ -39,14 +36,12 @@ export async function getBalance(nodeAddress: string, walletEncoded: any) {
   };
 }
 
-/**
- * todo: change to unboundong url when 0.9 is pushed to testnet
- */
-export async function getUnboundOng(nodeAddress: string, walletEncoded: any) {
+export async function getUnboundOng(nodeAddress: string, ssl: boolean, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
 
-  const baseUrl = `http://${nodeAddress}:${CONST.HTTP_REST_PORT}`;
-  const unboundOngUrl = '/api/v1/unclaimong/';
+  const protocol = ssl ? 'https' : 'http';
+  const baseUrl = `${protocol}://${nodeAddress}:${CONST.HTTP_REST_PORT}`;
+  const unboundOngUrl = '/api/v1/unboundong/';
   const address = wallet.accounts[0].address;
 
   const url = baseUrl + unboundOngUrl + address.toBase58();
@@ -59,11 +54,12 @@ export async function getUnboundOng(nodeAddress: string, walletEncoded: any) {
 }
 
 
-export async function transfer(nodeAddress: string, walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
+export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
   const privateKey = decryptWallet(wallet, password);
-  
+  // tslint:disable-next-line:no-console
+  console.log('private key', privateKey);
   const to = new Address(recipient);
 
   if (asset === 'ONG') {
@@ -80,14 +76,17 @@ export async function transfer(nodeAddress: string, walletEncoded: any, password
   );
   await TransactionBuilder.signTransaction(tx, privateKey);
 
-  const socketClient = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+  // tslint:disable-next-line:no-console
+  console.log('tx', tx);
+  const protocol = ssl ? 'wss' : 'ws';
+  const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
 }
 
 /**
  * todo: change to withdrawOng method when 0.9 is pushed to testnet
  */
-export async function withdrawOng(nodeAddress: string, walletEncoded: any, password: string, amount: string) {
+export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
   const privateKey = decryptWallet(wallet, password);
@@ -104,6 +103,7 @@ export async function withdrawOng(nodeAddress: string, walletEncoded: any, passw
   );
   await TransactionBuilder.signTransaction(tx, privateKey);
 
-  const socketClient = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+  const protocol = ssl ? 'wss' : 'ws';
+  const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
 }

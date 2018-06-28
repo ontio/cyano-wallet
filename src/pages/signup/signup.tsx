@@ -18,7 +18,7 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { isLedgerSupported } from '../../api/walletApi';
+import { isLedgerSupported } from '../../api/ledgerApi';
 import { lifecycle, withProps, withState } from '../../compose';
 import { LoginOption, Props, SignupView } from './signupView';
 
@@ -58,8 +58,22 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleCreate: () => {
           props.history.push('/create');
         },
+        handleCreateAdvanced: (value: string) => {
+          if (value === 'LEDGER') {
+            props.history.push('/ledger/create');
+          } else {
+            props.history.push('/create');
+          }
+        },
         handleImport: () => {
           props.history.push('/import');
+        },
+        handleImportAdvanced: (value: string) => {
+          if (value === 'LEDGER') {
+            props.history.push('/ledger/import');
+          } else {
+            props.history.push('/import');
+          }
         },
         handleRestore: () => {
           props.history.push('/restore');

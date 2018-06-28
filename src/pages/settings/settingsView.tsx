@@ -95,6 +95,19 @@ export const SettingsView: React.SFC<Props> = (props) => (
                       />
                     )} />
                 </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Use SSL</label>
+                  <Field
+                    name="ssl"
+                    render={(t) => (
+                      <SemanticForm.Checkbox
+                        onChange={(e, d) => t.input.onChange(d.checked)}
+                        checked={t.input.value}
+                        error={t.meta.touched && t.meta.invalid}
+                      />
+                    )} />
+                </View>
               </>) : (null)}
             <Filler />
             <View className="buttons">

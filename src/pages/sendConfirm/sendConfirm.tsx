@@ -30,6 +30,7 @@ import { Props, SendConfirmView } from './sendConfirmView';
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
+  ssl: state.settings.ssl,
   wallet: state.auth.wallet
 });
 
@@ -51,7 +52,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         actions.startLoading();
 
         try {
-          await timeout(transfer(reduxProps.nodeAddress, reduxProps.wallet, password, recipient, asset, amount), 15000);
+          await timeout(transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, recipient, asset, amount), 15000);
 
           props.history.push('/sendComplete', { recipient, asset, amount });
         } catch (e) {

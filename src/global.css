@@ -287,3 +287,11 @@ h4.unbound {
 h4.unbound:hover {
   color: white;
 }
+
+.signButtons .ui.button {
+  text-align: left;
+}
+
+.signButtons .ui.button.dropdown.icon {
+  flex-grow: 0;
+}

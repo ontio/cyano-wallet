@@ -23,11 +23,13 @@ export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 export interface Settings {
   net: NetValue;
   address: string;
+  ssl: boolean;
 };
 
 const defaultSettings: Settings = {
   address: '',
-  net: 'TEST'
+  net: 'TEST',
+  ssl: false
 };
 
 export async function saveSettings(settings: Settings) {

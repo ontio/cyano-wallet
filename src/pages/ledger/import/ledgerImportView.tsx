@@ -18,8 +18,8 @@
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
-import { required, samePassword } from '../../utils/validate';
+import { Filler, LogoHeader, View } from '../../../components';
+import { required, samePassword } from '../../../utils/validate';
 
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
@@ -27,12 +27,12 @@ export interface Props {
   loading: boolean;
 }
 
-export const CreateView: React.SFC<Props> = (props) => (
+export const LedgerImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New account" />
+      <LogoHeader showLogout={false} title="Import ledger account" />
       <View content={true} className="spread-around">
-        <View>Enter your passphrase for account encryption.</View>
+        <View>Enter used index. Every index will generate unique account.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
@@ -42,32 +42,18 @@ export const CreateView: React.SFC<Props> = (props) => (
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Password</label>
+              <label>Index</label>
               <Field
-                name="password"
+                name="index"
                 validate={required}
                 render={(t) => (
                   <SemanticForm.Input
+                    type="number"
+                    min="0"
+                    max="255"
+                    step="1"
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
-                    icon="key"
-                    type="password"
-                    error={t.meta.touched && t.meta.invalid}
-                    disabled={props.loading}
-                  />
-                )} />
-            </View>
-            <Spacer />
-            <View orientation="column">
-              <label>Password again</label>
-              <Field
-                name="passwordAgain"
-                render={(t) => (
-                  <SemanticForm.Input
-                    onChange={t.input.onChange}
-                    input={{ ...t.input, value: t.input.value }}
-                    icon="key"
-                    type="password"
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
@@ -75,7 +61,7 @@ export const CreateView: React.SFC<Props> = (props) => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Sign up</Button>
+              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
               <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>

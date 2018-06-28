@@ -17,4 +17,4 @@
  */
 export const SET_NODE_ADDRESS = 'SET_NODE_ADDRESS';
 
-export const setNodeAddress = (nodeAddress: string) => ({ type: SET_NODE_ADDRESS, nodeAddress });
+export const setNodeAddress = (nodeAddress: string, ssl: boolean) => ({ type: SET_NODE_ADDRESS, nodeAddress, ssl });

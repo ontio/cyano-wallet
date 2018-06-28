@@ -19,13 +19,12 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { importMnemonics } from '../../api/authApi';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { setWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { Props, RestoreView } from './restoreView';
-
+import { importLedgerKey } from '../../../api/ledgerApi';
+import { reduxConnect, withProps } from '../../../compose';
+import { GlobalState } from '../../../redux';
+import { setWallet } from '../../../redux/auth/authActions';
+import { finishLoading, startLoading } from '../../../redux/loader/loaderActions';
+import { LedgerImportView, Props } from './ledgerImportView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -42,17 +41,16 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         props.history.goBack();
       },
       handleSubmit: async (values: object) => {
-        const password = get(values, 'password', '');
-        const mnemonics = get(values, 'mnemonics', '');
-
+        const index = get(values, 'index', '');
+  
         actions.startLoading();
-
-        const { encryptedWif, wif, wallet } = await importMnemonics(reduxProps.nodeAddress, reduxProps.ssl, mnemonics, password, true);
+  
+        const { wallet } = await importLedgerKey(reduxProps.nodeAddress, reduxProps.ssl, index, false);
         actions.setWallet(wallet);
-
+  
         actions.finishLoading();
-
-        props.history.push('/new', { encryptedWif, mnemonics, wif });
+  
+        props.history.push('/dashboard');
       },    
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
@@ -60,4 +58,4 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   ))
 )
 
-export const Restore = enhancer(RestoreView);
+export const LedgerImport = enhancer(LedgerImportView);

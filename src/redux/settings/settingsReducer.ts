@@ -21,14 +21,15 @@ import { SET_NODE_ADDRESS } from './settingsActions';
 
 export interface SettingsState {
   nodeAddress: string;
+  ssl: boolean;
 };
 
-const defaultState: SettingsState = { nodeAddress: CONST.TEST_NODE };
+const defaultState: SettingsState = { nodeAddress: CONST.TEST_NODE, ssl: false };
 
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_NODE_ADDRESS:
-      return { ...state, nodeAddress: action.nodeAddress };
+      return { ...state, nodeAddress: action.nodeAddress, ssl: action.ssl };
     default:
       return state;
   }

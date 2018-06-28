@@ -37,15 +37,17 @@ export const SettingsProvider: React.SFC<{}> = (props) => (
           const settings = await loadSettings();
 
           let nodeAddress = '';
+          let ssl = false;
           if (settings.net === 'MAIN') {
             nodeAddress = CONST.MAIN_NODE;
           } else if (settings.net === 'TEST') {
             nodeAddress = CONST.TEST_NODE;
           } else if (settings.net === 'PRIVATE') {
             nodeAddress = settings.address;
+            ssl = settings.ssl;
           }
 
-          actions.setNodeAddress(nodeAddress);
+          actions.setNodeAddress(nodeAddress, ssl);
           setState({ ...state, loaded: true });
         }
       }, () => state.loaded ? (<>{props.children}</>) : (<Nothing />)

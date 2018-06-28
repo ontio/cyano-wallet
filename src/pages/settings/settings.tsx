@@ -51,10 +51,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           handleSave: async (values: object) => {
             const net: NetValue = get(values, 'net', 'TEST');
             const address: string = get(values, 'address', '');
-
+            const ssl: boolean = get(values, 'ssl', false);
+// tslint:disable-next-line:no-console
+console.log('ssl', ssl);
             await saveSettings({
               address,
-              net
+              net,
+              ssl
             });
             
             props.history.goBack();

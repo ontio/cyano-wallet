@@ -15,64 +15,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormApi } from 'final-form';
 import { get } from 'lodash';
 import { timeout, TimeoutError } from 'promise-timeout';
 import * as React from 'react';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { withdrawOng } from '../../api/walletApi';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { clearWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { Props, WithdrawConfirmView } from './withdrawConfirmView';
+import { transfer } from '../../../api/walletApi';
+import { reduxConnect, withProps } from '../../../compose';
+import { GlobalState } from '../../../redux';
+import { finishLoading, startLoading } from '../../../redux/loader/loaderActions';
+import { LedgerSendConfirmView, Props } from './ledgerSendConfirmView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  unboundAmount: state.wallet.unboundAmount,
   wallet: state.auth.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ clearWallet, startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
       handleCancel: () => {
         props.history.goBack();
       },
-      handleSubmit: async (values: object, formApi: FormApi) => {
-        const password: string = get(values, 'password', '');
+      handleSubmit: async () => {
+        const recipient: string = get(props.location, 'state.recipient', '');
+        const asset: 'ONT' | 'ONG' = get(props.location, 'state.asset', '');
+        const amount: string = get(props.location, 'state.amount', '');
 
         actions.startLoading();
 
         try {
-          await timeout(withdrawOng(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, String(reduxProps.unboundAmount)), 15000);
+          await timeout(transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, '', recipient, asset, amount), 15000);
 
-          props.history.push('/withdrawComplete', { amount: reduxProps.unboundAmount });
+          props.history.push('/sendComplete', { recipient, asset, amount });
         } catch (e) {
           if (e instanceof TimeoutError) {
-            props.history.push('/withdrawFailed', { amount: reduxProps.unboundAmount });
+            props.history.push('/sendFailed', { recipient, asset, amount });
           } else {
-            formApi.change('password', '');
-            
-            return {
-              password: ''
-            };
+            // tslint:disable-next-line:no-console
+            console.log('Error', e);
           }
         } finally {
           actions.finishLoading();
         }
-
-        return {};
       }
     }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} unboundOng={reduxProps.unboundAmount} />
+      <Component {...injectedProps} loading={reduxProps.loading} />
     ))
   ))
-);
+)
 
-export const WithdrawConfirm = enhancer(WithdrawConfirmView);
+export const LedgerSendConfirm = enhancer(LedgerSendConfirmView);

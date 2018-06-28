@@ -16,8 +16,8 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../components';
+import { Button } from 'semantic-ui-react';
+import { Filler, LogoHeader, View } from '../../../components';
 
 export interface Props {
   mnemonics: string;
@@ -25,19 +25,15 @@ export interface Props {
   handleContinue: () => void;
 }
 
-export const NewView: React.SFC<Props> = (props) => (
+export const LedgerNewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New account" />
+      <LogoHeader showLogout={false} title="New Ledger account" />
       <View content={true} className="spread-around">
-        <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
+        <View>You have successfully registered new account.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <label>Mnemonics phrase</label>
-      <Message>{props.mnemonics}</Message>
-      <label>Private key (WIF format)</label>
-      <Message className="breakWords">{props.wif}</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleContinue}>Continue</Button>

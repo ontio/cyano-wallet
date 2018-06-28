@@ -26,8 +26,10 @@ export interface LoginOption {
 
 export interface Props {
   handleCreate: () => void;
-  handleRestore: () => void;
+  handleCreateAdvanced: (value: string) => void;
   handleImport: () => void;
+  handleImportAdvanced: (value: string) => void;
+  handleRestore: () => void;
 
   loginOptions: LoginOption[];
 }
@@ -37,19 +39,42 @@ export const SignupView: React.SFC<Props> = (props) => (
     <Logo />
     <View orientation="column" className="hint">
       <View>To start using Ontology</View>
-      <View>create new identity or import existing.</View>
+      <View>create new account or import existing.</View>
     </View>
     <View orientation="column" fluid={true} content={true}>
-      <View orientation="column" fluid={true} className="center">
+      <View orientation="column" fluid={true} className="center signButtons">
         <Spacer />
         <Button.Group size="small">
-          <Button onClick={props.handleCreate}>New identity</Button>
-          <Dropdown options={props.loginOptions} value={0} text=' ' button={true} className='icon' />
+          <Button onClick={props.handleCreate}>New account</Button>
+          {props.loginOptions.length > 1 ? (
+            <Dropdown
+            onChange={(e, data) => props.handleCreateAdvanced(data.value as string)}
+              options={props.loginOptions}
+              value={0}
+              text=' '
+              button={true}
+              className='icon'
+            />
+          ) : null}
         </Button.Group>
         <Spacer />
-        <Button size="small" onClick={props.handleRestore}>Restore identity</Button>
+        <Button.Group size="small">
+          <Button size="small" onClick={props.handleImport}>Import private key</Button>
+          {props.loginOptions.length > 1 ? (
+            <Dropdown
+            onChange={(e, data) => props.handleImportAdvanced(data.value as string)}
+              options={props.loginOptions}
+              value={0}
+              text=' '
+              button={true}
+              className='icon'
+            />
+          ) : null}
+        </Button.Group>
         <Spacer />
-        <Button size="small" onClick={props.handleImport}>Import private key</Button>
+        <Button.Group size="small">
+          <Button size="small" onClick={props.handleRestore}>Restore account</Button>
+        </Button.Group>
       </View>
     </View>
   </View>

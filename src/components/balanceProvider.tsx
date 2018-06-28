@@ -31,22 +31,24 @@ interface State {
 
 const mapStateToProps = (state: GlobalState) => ({
   nodeAddress: state.settings.nodeAddress,
+  ssl: state.settings.ssl,
   wallet: state.auth.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setBalance, setTransfers }, dispatch);
 
 export const BalanceProvider: React.SFC<{}> = () => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (_, actions, getReduxProps) => (
     withState<State>({ timer: -1 }, (state, setState, getState) => (
       lifecycle({
         componentDidMount: () => {
           const timer = window.setInterval(async () => {
             
-            const walletEncoded = getReduxProps().wallet;
+            const reduxProps = getReduxProps();
+            const walletEncoded = reduxProps.wallet;
             if (walletEncoded !== null) {
-              const balance = await getBalance(getReduxProps().nodeAddress, walletEncoded);
-              const unboundOng = await getUnboundOng(getReduxProps().nodeAddress, walletEncoded);
+              const balance = await getBalance(reduxProps.nodeAddress, reduxProps.ssl, walletEncoded);
+              const unboundOng = await getUnboundOng(reduxProps.nodeAddress, reduxProps.ssl, walletEncoded);
 
               actions.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000);
 

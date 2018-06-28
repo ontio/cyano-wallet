@@ -57,16 +57,16 @@ export async function signIn(password: string) {
   return walletEncoded;
 }
 
-export async function signUp(nodeAddress: string, password: string) {
+export async function signUp(nodeAddress: string, ssl: boolean, password: string) {
   const mnemonics = utils.generateMnemonic();
-  return await importMnemonics(nodeAddress, mnemonics, password, true);
+  return await importMnemonics(nodeAddress, ssl, mnemonics, password, true);
 }
 
-export async function importMnemonics(nodeAddress: string, mnemonics: string, password: string, register: boolean) {
+export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean) {
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics);
   const wif = privateKey.serializeWIF();
 
-  const result = await importPrivateKey(nodeAddress, wif, password, register);
+  const result = await importPrivateKey(nodeAddress, ssl, wif, password, register);
 
   return {
     mnemonics,
@@ -74,7 +74,7 @@ export async function importMnemonics(nodeAddress: string, mnemonics: string, pa
   };
 }
 
-export async function importPrivateKey(nodeAddress: string, wif: string, password: string, register: boolean) {
+export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: string, password: string, register: boolean) {
   const wallet = Wallet.create(uuid());
   const scrypt = wallet.scrypt;
   const scryptParams = {
@@ -97,7 +97,8 @@ export async function importPrivateKey(nodeAddress: string, wif: string, passwor
     tx.payer = identity.controls[0].address;
     await TransactionBuilder.signTransaction(tx, privateKey);
 
-    const client = new WebsocketClient(`ws://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+    const protocol = ssl ? 'wss' : 'ws';
+    const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
     await client.sendRawTransaction(tx.serialize(), false, true);
   }
 

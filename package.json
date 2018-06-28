@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts-ts start",
+    "start": "HTTPS=true react-scripts-ts start",
     "watch": "node scripts/watch.js",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
@@ -52,6 +52,7 @@
     "@types/react-redux": "^6.0.2",
     "@types/react-router-dom": "^4.2.7",
     "@types/recompose": "^0.26.1",
+    "react-app-rewired": "^1.5.2",
     "typescript": "^2.9.1",
     "web-ext-types": "^2.1.0"
   }

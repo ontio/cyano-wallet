@@ -30,16 +30,20 @@ import {
   Dashboard, 
   Home, 
   Import, 
+  LedgerCreate, 
+  LedgerImport, 
+  LedgerNew, 
+  LedgerSendConfirm, 
   New, 
   Receive, 
   Restore, 
   Send, 
   SendComplete, 
   SendConfirm, 
-  SendFailed, 
-  SettingsPage, 
-  Signup, 
-  Transfers, 
+  SendFailed,
+  SettingsPage,
+  Signup,
+  Transfers,
   WithdrawComplete,
   WithdrawConfirm,
   WithdrawFailed
@@ -71,6 +75,11 @@ export const AppView: React.SFC<{}> = () => (
           <Route path="/import" exact={true} component={Import} />
           <Route path="/create" exact={true} component={Create} />
           <Route path="/sign-up" exact={true} component={Signup} />
+
+          <Route path="/ledger/create" exact={true} component={LedgerCreate} />
+          <Route path="/ledger/import" exact={true} component={LedgerImport} />
+          <Route path="/ledger/new" exact={true} component={LedgerNew} />
+          <Route path="/ledger/sendConfirm" exact={true} component={LedgerSendConfirm} />
         </SettingsProvider>
       </>
     </Router>

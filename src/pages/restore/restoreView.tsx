@@ -30,9 +30,9 @@ export interface Props {
 export const RestoreView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="Restore identity" />
+      <LogoHeader showLogout={false} title="Restore account" />
       <View content={true} className="spread-around">
-        <View>Enter your mnemonics phrase and passphrase for wallet and identity encryption.</View>
+        <View>Enter your mnemonics phrase and passphrase for account encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
