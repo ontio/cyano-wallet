@@ -23,7 +23,7 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
-import { BalanceProvider, SettingsProvider } from './components';
+import { BalanceProvider, LedgerIFrameProvider, SettingsProvider } from './components';
 import { 
   Clear, 
   Create, 
@@ -55,6 +55,7 @@ export const AppView: React.SFC<{}> = () => (
     <Router>
       <>
         <SettingsProvider>
+          <LedgerIFrameProvider />
           <BalanceProvider />
           <Route path="/dashboard" exact={true} component={Dashboard} />
           <Route path="/send" exact={true} component={Send} />

@@ -33,19 +33,21 @@ const defaultState = {
   }]
 };
 
+
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withState<State>(defaultState, (state, setState) => (
     lifecycle({
       componentDidMount: async () => {
+        
         const ledgerSupported = await isLedgerSupported();
         // tslint:disable-next-line:no-console
         console.log('ledger:', ledgerSupported);
 
         if (ledgerSupported) {
           const newState = {
-            ...state, 
-            loginOptions: [ 
-              ...defaultState.loginOptions, 
+            ...state,
+            loginOptions: [
+              ...defaultState.loginOptions,
               { text: 'Ledger', value: 'LEDGER' }
             ]
           };
@@ -53,7 +55,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           setState(newState);
         }
       }
-    }, () =>  (
+    }, () => (
       withProps({
         handleCreate: () => {
           props.history.push('/create');

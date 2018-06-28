@@ -15,11 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from './clickableText';
-export { Logo } from './logo/logo';
-export { Nothing } from './nothing';
-export { LogoHeader } from './logoHeader/logoHeader';
-export { Filler, Spacer, View } from './view';
-export { BalanceProvider } from './balanceProvider';
-export { SettingsProvider } from './settingsProvider';
-export { LedgerIFrameProvider } from './ledgerIframeProvider';
+import * as React from 'react';
+import { createChannel } from '../api/iframeApi';
+import { lifecycle } from '../compose';
+import { Nothing } from './nothing';
+
+export const LedgerIFrameProvider: React.SFC<{}> = () => (
+      lifecycle({
+        componentDidMount: async () => {
+          await createChannel();
+        },
+      }, () => (<Nothing />)
+      )
+);
