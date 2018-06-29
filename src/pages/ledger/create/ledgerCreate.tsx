@@ -45,7 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   
         actions.startLoading();
   
-        const { wallet } = await importLedgerKey(reduxProps.nodeAddress, reduxProps.ssl, index, true);
+        const { wallet } = await importLedgerKey(reduxProps.nodeAddress, reduxProps.ssl, Number(index), true);
         actions.setWallet(wallet);
   
         actions.finishLoading();
