@@ -226,7 +226,7 @@ h1.header {
 }
 
 .hint {
-  margin-top: 30px;
+  margin-top: 15px;
   align-items: center;
 }
 
@@ -288,10 +288,6 @@ h4.unbound:hover {
   color: white;
 }
 
-.signButtons .ui.button {
-  text-align: left;
-}
-
-.signButtons .ui.button.dropdown.icon {
-  flex-grow: 0;
+.ledgerText {
+  margin-bottom: 5px;
 }

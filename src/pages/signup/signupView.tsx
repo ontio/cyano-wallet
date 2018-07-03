@@ -16,22 +16,15 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button, Dropdown } from 'semantic-ui-react';
-import { Logo, Spacer, View } from '../../components';
+import { Button } from 'semantic-ui-react';
+import { Clickable, Logo, Spacer, View } from '../../components';
 
-export interface LoginOption {
-  text: string;
-  value: string;
-};
 
 export interface Props {
   handleCreate: () => void;
-  handleCreateAdvanced: (value: string) => void;
   handleImport: () => void;
-  handleImportAdvanced: (value: string) => void;
   handleRestore: () => void;
-
-  loginOptions: LoginOption[];
+  handleLedger: () => void;
 }
 
 export const SignupView: React.SFC<Props> = (props) => (
@@ -44,38 +37,16 @@ export const SignupView: React.SFC<Props> = (props) => (
     <View orientation="column" fluid={true} content={true}>
       <View orientation="column" fluid={true} className="center signButtons">
         <Spacer />
-        <Button.Group size="small">
-          <Button onClick={props.handleCreate}>New account</Button>
-          {props.loginOptions.length > 1 ? (
-            <Dropdown
-            onChange={(e, data) => props.handleCreateAdvanced(data.value as string)}
-              options={props.loginOptions}
-              value={0}
-              text=' '
-              button={true}
-              className='icon'
-            />
-          ) : null}
-        </Button.Group>
+        <Button size="small" onClick={props.handleCreate}>New account</Button>
         <Spacer />
-        <Button.Group size="small">
-          <Button size="small" onClick={props.handleImport}>Import private key</Button>
-          {props.loginOptions.length > 1 ? (
-            <Dropdown
-            onChange={(e, data) => props.handleImportAdvanced(data.value as string)}
-              options={props.loginOptions}
-              value={0}
-              text=' '
-              button={true}
-              className='icon'
-            />
-          ) : null}
-        </Button.Group>
+        <Button size="small" onClick={props.handleImport}>Import private key</Button>
         <Spacer />
-        <Button.Group size="small">
-          <Button size="small" onClick={props.handleRestore}>Restore account</Button>
-        </Button.Group>
+        <Button size="small" onClick={props.handleRestore}>Restore account</Button>
       </View>
+     <View className="center ledgerText">
+          <View>or use&nbsp;</View>
+          <Clickable onClick={() => props.handleLedger()}>Ledger</Clickable>
+     </View> 
     </View>
   </View>
 );

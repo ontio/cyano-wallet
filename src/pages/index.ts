@@ -24,6 +24,7 @@ export { LedgerCreate } from './ledger/create/ledgerCreate';
 export { LedgerImport } from './ledger/import/ledgerImport';
 export { LedgerNew } from './ledger/new/ledgerNew';
 export { LedgerSendConfirm } from './ledger/sendConfirm/ledgerSendConfirm';
+export { LedgerSignup } from './ledger/signup/ledgerSignup';
 export { New } from './new/new';
 export { Receive } from './receive/receive';
 export { Restore } from './restore/restore';
