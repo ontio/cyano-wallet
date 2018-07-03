@@ -16,10 +16,11 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 * Create a wallet using mnemonics phrase
 * Encrypt a Private Key
 * Login with Mnemonics phrase, Private Key or a stored account.
+* Ledger support
 * View balance
 * Send ONG and ONT
 * Withdraw (claim) ONG
-* Switch networks (Test/Main/Private)
+* Switch networks (Test/Main/Private) with TLS support
 
 ## Installation
 
@@ -61,6 +62,15 @@ This will build the extension for installation into browsers.
 ````
 yarn start
 ````
+
+#### Ledger support
+Ledger support is provided by the Ontology TS SDK directly (PR not yet merged). Because Chrome allows communication with the Ledger only from HTTPS loaded page (which extension is not), there is used a HTTPS iframe embedded. The iframe is hosted on https://drxwrxomfjdx5.cloudfront.net/forwarder.html and the source codes are at https://github.com/backslash47/ledger-forwarder . To change the Iframe address navigate to index.tsx and change the call to 
+
+````
+Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
+````
+
+To use your Ledger, you also needs Ontology Ledger App located at https://github.com/xavizhao/blue-app-ont . It is not yet installable from Ledger Manager, so manual installation is necessary. 
 
 ## Built With
 
