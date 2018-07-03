@@ -1,18 +1,10 @@
-import { get } from 'lodash';
-import { Account, CONST, Identity, Ledger, OntidContract, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import { Account, CONST, Identity, Ledger, OntidContract, TransactionBuilder, Wallet, WebsocketClient } from 'ont-sdk-ts';
 import LedgerKey = Ledger.LedgerKey;
 import { v4 as uuid } from 'uuid';
-import { sendToChannel } from './iframeApi';
 import { storageSet } from './storageApi';
-import { signTransaction } from './walletApi';
 
 export async function isLedgerSupported() {
-  try {
-    const response = await sendToChannel({ id: uuid(), method: 'isLedgerSupported' });
-    return get(response, 'result') as boolean;
-  } catch (e) {
-    return false;
-  }
+  return await Ledger.isLedgerSupported();
 }
 
 export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: number, register: boolean) {
@@ -25,20 +17,18 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
       size: scrypt.dkLen
     };
   
-    const response = await sendToChannel({ id: uuid(), method: 'ledgerKeyCreate', index });
-    const privateKey = new LedgerKey(index, get(response, 'result') as string);
+    const privateKey = await LedgerKey.create(index);
     const publicKey = privateKey.getPublicKey();
-  
   
     const identity = Identity.create(privateKey, '', uuid(), scryptParams);
     const ontId = identity.ontid;
   
     // register the ONT ID on blockchain
     if (register) {
-      let tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
+      const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
       tx.payer = identity.controls[0].address;
       
-      tx = await signTransaction(tx, privateKey);
+      await TransactionBuilder.signTransaction(tx, privateKey);
   
       const protocol = ssl ? 'wss' : 'ws';
       const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);

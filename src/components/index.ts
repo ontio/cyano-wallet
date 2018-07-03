@@ -22,4 +22,3 @@ export { LogoHeader } from './logoHeader/logoHeader';
 export { Filler, Spacer, View } from './view';
 export { BalanceProvider } from './balanceProvider';
 export { SettingsProvider } from './settingsProvider';
-export { LedgerIFrameProvider } from './ledgerIframeProvider';

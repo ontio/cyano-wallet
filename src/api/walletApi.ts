@@ -17,14 +17,9 @@
  */
 import axios from 'axios';
 import { get } from 'lodash';
-import { CONST, Crypto, Ledger, OntAssetTxBuilder, RestClient, Transaction, TransactionBuilder, TxSignature, utils, WebsocketClient } from 'ont-sdk-ts';
-import { v4 as uuid } from 'uuid';
+import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
 import { decryptWallet, getWallet } from './authApi';
-import { sendToChannel } from './iframeApi';
-
-import PrivateKey = Crypto.PrivateKey;
 import Address = Crypto.Address;
-import LedgerKey = Ledger.LedgerKey;
 
 export async function getBalance(nodeAddress: string, ssl: boolean, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
@@ -58,18 +53,6 @@ export async function getUnboundOng(nodeAddress: string, ssl: boolean, walletEnc
   return unboundOng;
 }
 
-export async function signTransaction(tx: Transaction, key: PrivateKey) {
-  if (key instanceof LedgerKey) {
-    const response = await sendToChannel({ id: uuid(), method: 'signTransaction', index: key.index, hash: tx.getHash() }, 30000);
-    const signature = TxSignature.deserialize(new utils.StringReader(get(response, 'result') as string));
-    tx.sigs = [signature];
-  } else {
-    await TransactionBuilder.signTransaction(tx, key);
-  }
-
-  return tx;
-}
-
 export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
@@ -82,7 +65,7 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
     amount = String(Number(amount) * 1000000000);
   }
 
-  let tx = OntAssetTxBuilder.makeTransferTx(
+  const tx = OntAssetTxBuilder.makeTransferTx(
     asset,
     from,
     to,
@@ -90,7 +73,7 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
     '0',
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  tx = await signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransaction(tx, privateKey);
 
   // tslint:disable-next-line:no-console
   console.log('tx', tx);
@@ -99,9 +82,6 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
   await socketClient.sendRawTransaction(tx.serialize(), false, true);
 }
 
-/**
- * todo: change to withdrawOng method when 0.9 is pushed to testnet
- */
 export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
@@ -109,7 +89,7 @@ export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncod
 
   amount = String(Number(amount) * 1000000000);
 
-  let tx = OntAssetTxBuilder.makeClaimOngTx(
+  const tx = OntAssetTxBuilder.makeWithdrawOngTx(
     from, 
     from, 
     String(amount), 
@@ -117,7 +97,7 @@ export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncod
     '0', 
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  tx = await signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransaction(tx, privateKey);
 
   const protocol = ssl ? 'wss' : 'ws';
   const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);

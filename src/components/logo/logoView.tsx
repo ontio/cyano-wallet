@@ -29,6 +29,6 @@ export const LogoView: React.SFC<Props> = (props) => (
       <img src={require('../../assets/ontsymbol.png')} />
       <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
     </View>
-    <h1 className="header">Ontology ID & Wallet</h1>
+    <h1 className="header">Ontology Web Wallet</h1>
   </View>
 );

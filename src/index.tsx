@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import 'babel-polyfill';
+import { Ledger } from 'ont-sdk-ts';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -23,7 +24,7 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
-import { BalanceProvider, LedgerIFrameProvider, SettingsProvider } from './components';
+import { BalanceProvider, SettingsProvider } from './components';
 import { 
   Clear, 
   Create, 
@@ -50,12 +51,13 @@ import {
 } from './pages';
 import { reduxStore } from './redux';
 
+Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
+
 export const AppView: React.SFC<{}> = () => (
   <Provider store={reduxStore}>
     <Router>
       <>
         <SettingsProvider>
-          <LedgerIFrameProvider />
           <BalanceProvider />
           <Route path="/dashboard" exact={true} component={Dashboard} />
           <Route path="/send" exact={true} component={Send} />

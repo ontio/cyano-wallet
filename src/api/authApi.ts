@@ -15,11 +15,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Account, CONST, Crypto, Identity, OntidContract, utils, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import { Account, CONST, Crypto, Identity, OntidContract, TransactionBuilder, utils, Wallet, WebsocketClient } from 'ont-sdk-ts';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
 import { storageClear, storageGet, storageSet } from './storageApi';
-import { signTransaction } from './walletApi';
 
 export async function clear() {
   await storageClear('wallet');
@@ -94,12 +93,12 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
 
   // register the ONT ID on blockchain
   if (register) {
-    let tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
+    const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
     tx.payer = identity.controls[0].address;
-    tx = await signTransaction(tx, privateKey);
+    await TransactionBuilder.signTransaction(tx, privateKey);
 
     const protocol = ssl ? 'wss' : 'ws';
-    const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+    const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
     await client.sendRawTransaction(tx.serialize(), false, true);
   }
 
