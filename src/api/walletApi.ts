@@ -73,7 +73,7 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
     '0',
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  await TransactionBuilder.signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   // tslint:disable-next-line:no-console
   console.log('tx', tx);
@@ -97,7 +97,7 @@ export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncod
     '0', 
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  await TransactionBuilder.signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   const protocol = ssl ? 'wss' : 'ws';
   const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);

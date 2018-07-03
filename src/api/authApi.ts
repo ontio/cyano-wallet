@@ -95,7 +95,7 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   if (register) {
     const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
     tx.payer = identity.controls[0].address;
-    await TransactionBuilder.signTransaction(tx, privateKey);
+    await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
     const protocol = ssl ? 'wss' : 'ws';
     const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);

@@ -15,7 +15,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Account, CONST, Identity, Ledger, OntidContract, TransactionBuilder, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import { Account, CONST, Identity, OntidContract, TransactionBuilder, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import * as Ledger from 'ont-sdk-ts-ledger';
 import LedgerKey = Ledger.LedgerKey;
 import { v4 as uuid } from 'uuid';
 import { storageSet } from './storageApi';
@@ -45,7 +46,7 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
       const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
       tx.payer = identity.controls[0].address;
       
-      await TransactionBuilder.signTransaction(tx, privateKey);
+      await TransactionBuilder.signTransactionAsync(tx, privateKey);
   
       const protocol = ssl ? 'wss' : 'ws';
       const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);

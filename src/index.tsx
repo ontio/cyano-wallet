@@ -16,7 +16,8 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import 'babel-polyfill';
-import { Ledger } from 'ont-sdk-ts';
+import { Crypto }from 'ont-sdk-ts';
+import * as Ledger from 'ont-sdk-ts-ledger';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -51,6 +52,7 @@ import {
 } from './pages';
 import { reduxStore } from './redux';
 
+Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
 
 export const AppView: React.SFC<{}> = () => (

@@ -19,6 +19,7 @@
     "final-form": "^4.8.1",
     "lodash": "^4.17.10",
     "ont-sdk-ts": "file:../ontology-ts-sdk",
+    "ont-sdk-ts-ledger": "file:../ont-sdk-ts-ledger",
     "promise-timeout": "^1.3.0",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
