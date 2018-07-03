@@ -1,5 +1,3 @@
-import { storageGet, storageSet } from "./storageApi";
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -17,6 +15,7 @@ import { storageGet, storageSet } from "./storageApi";
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { storageGet, storageSet } from "./storageApi";
 
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 

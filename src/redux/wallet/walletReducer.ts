@@ -1,7 +1,3 @@
-import { Reducer } from 'redux';
-import { Transfer } from '../../api/explorerApi';
-import { SET_BALANCE, SET_TRANSFERS } from './walletActions';
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -19,7 +15,11 @@ import { SET_BALANCE, SET_TRANSFERS } from './walletActions';
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export interface WalletState {
+import { Reducer } from 'redux';
+import { Transfer } from '../../api/explorerApi';
+import { SET_BALANCE, SET_TRANSFERS } from './walletActions';
+
+ export interface WalletState {
   ongAmount: number;
   ontAmount: number;
 
