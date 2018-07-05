@@ -46,7 +46,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
         <View orientation="column" className="balance">
           <label>ONG</label>
           <h3>{props.ongAmount}</h3>
-          <h4 onClick={props.handleWithdraw} className="unbound">+ {props.unboundAmount}</h4>
+          <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
         </View>
       </View>
     </View>
