@@ -24,7 +24,7 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 
 ## Installation
 
-Plugins are not yet distributed to browser stores, to build manually see the steps below.
+Plugins are not yet distributed to browser stores, to build manually see the steps below. Or you can download pre-build plugin for Chrome from Release page.
 
 ### Required Tools and Dependencies
 
