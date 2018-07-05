@@ -36,18 +36,22 @@ export const SettingsProvider: React.SFC<{}> = (props) => (
         componentDidMount: async () => {
           const settings = await loadSettings();
 
+          let explorerAddress: string | null = null;
           let nodeAddress = '';
           let ssl = false;
           if (settings.net === 'MAIN') {
             nodeAddress = CONST.MAIN_NODE;
+            explorerAddress = 'explorer.ont.io';
           } else if (settings.net === 'TEST') {
             nodeAddress = CONST.TEST_NODE;
+            explorerAddress = 'polarisexplorer.ont.io';
           } else if (settings.net === 'PRIVATE') {
             nodeAddress = settings.address;
+            explorerAddress = null;
             ssl = settings.ssl;
           }
 
-          actions.setNodeAddress(nodeAddress, ssl);
+          actions.setNodeAddress(nodeAddress, ssl, explorerAddress);
           setState({ ...state, loaded: true });
         }
       }, () => state.loaded ? (<>{props.children}</>) : (<Nothing />)

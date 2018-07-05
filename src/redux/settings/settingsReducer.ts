@@ -20,16 +20,17 @@ import { Reducer } from 'redux';
 import { SET_NODE_ADDRESS } from './settingsActions';
 
 export interface SettingsState {
+  explorerAddress: string | null;
   nodeAddress: string;
   ssl: boolean;
 };
 
-const defaultState: SettingsState = { nodeAddress: CONST.TEST_NODE, ssl: false };
+const defaultState: SettingsState = { explorerAddress: null, nodeAddress: CONST.TEST_NODE, ssl: false };
 
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_NODE_ADDRESS:
-      return { ...state, nodeAddress: action.nodeAddress, ssl: action.ssl };
+      return { ...state, nodeAddress: action.nodeAddress, ssl: action.ssl, explorerAddress: action.explorerAddress };
     default:
       return state;
   }

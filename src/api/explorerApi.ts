@@ -28,8 +28,8 @@ export interface Transfer {
   time: number;
 }
 
-export async function getTransferList(address: string) {
-  const url = `https://explorer.ont.io/api/v1/explorer/address/${address}/100/1`;
+export async function getTransferList(address: string, explorerAddress: string) {
+  const url = `https://${explorerAddress}/api/v1/explorer/address/${address}/100/1`;
 
   const response = await axios.get(url);
 
