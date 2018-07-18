@@ -16,8 +16,9 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import 'babel-polyfill';
-import { Crypto }from 'ont-sdk-ts';
-import * as Ledger from 'ont-sdk-ts-ledger';
+
+import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';

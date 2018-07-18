@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Account, CONST, Crypto, Identity, OntidContract, TransactionBuilder, utils, Wallet, WebsocketClient } from 'ont-sdk-ts';
+import { Account, Crypto, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
 import { storageClear, storageGet, storageSet } from './storageApi';
@@ -58,12 +58,13 @@ export async function signIn(password: string) {
 }
 
 export async function signUp(nodeAddress: string, ssl: boolean, password: string) {
-  const mnemonics = utils.generateMnemonic();
+  const mnemonics = utils.generateMnemonic(32);
   return await importMnemonics(nodeAddress, ssl, mnemonics, password, true);
 }
 
 export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean) {
-  const privateKey = PrivateKey.generateFromMnemonic(mnemonics);
+  // generate NEO address for now
+  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
 
   const result = await importPrivateKey(nodeAddress, ssl, wif, password, register);
@@ -85,28 +86,28 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   };
 
   const privateKey = PrivateKey.deserializeWIF(wif);
-  const publicKey = privateKey.getPublicKey();
+  // const publicKey = privateKey.getPublicKey();
 
 
-  const identity = Identity.create(privateKey, password, uuid(), scryptParams);
-  const ontId = identity.ontid;
+  // const identity = Identity.create(privateKey, password, uuid(), scryptParams);
+  // const ontId = identity.ontid;
 
   // register the ONT ID on blockchain
-  if (register) {
-    const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
-    tx.payer = identity.controls[0].address;
-    await TransactionBuilder.signTransactionAsync(tx, privateKey);
+  // if (register) {
+  //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
+  //   tx.payer = identity.controls[0].address;
+  //   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
-    const protocol = ssl ? 'wss' : 'ws';
-    const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
-    await client.sendRawTransaction(tx.serialize(), false, true);
-  }
+  //   const protocol = ssl ? 'wss' : 'ws';
+  //   const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
+  //   await client.sendRawTransaction(tx.serialize(), false, true);
+  // }
 
   const account = Account.create(privateKey, password, uuid(), scryptParams);
 
-  wallet.addIdentity(identity);
+  // wallet.addIdentity(identity);
   wallet.addAccount(account);
-  wallet.setDefaultIdentity(identity.ontid);
+  // wallet.setDefaultIdentity(identity.ontid);
   wallet.setDefaultAccount(account.address.toBase58());
 
   await storageSet('wallet', wallet.toJson());

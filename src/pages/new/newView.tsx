@@ -35,7 +35,7 @@ export const NewView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <label>Mnemonics phrase</label>
-      <Message>{props.mnemonics}</Message>
+      <Message className="scroll">{props.mnemonics}</Message>
       <label>Private key (WIF format)</label>
       <Message className="breakWords">{props.wif}</Message>
       <Filler />

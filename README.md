@@ -64,7 +64,7 @@ yarn start
 ````
 
 #### Ledger support
-Ledger support is provided by the Ontology TS SDK extension https://github.com/OntologyCommunityDevelopers/ont-sdk-ts-ledger. Because Chrome allows communication with the Ledger only from HTTPS loaded page (which extension is not), there is used a HTTPS iframe embedded. The iframe is hosted on https://drxwrxomfjdx5.cloudfront.net/forwarder.html and the source codes are at https://github.com/OntologyCommunityDevelopers/ledger-forwarder . To change the Iframe address navigate to index.tsx and change the call to 
+Ledger support is provided by the Ontology TS SDK extension https://github.com/OntologyCommunityDevelopers/ontology-ts-sdk-ledger. Because Chrome allows communication with the Ledger only from HTTPS loaded page (which extension is not), there is used a HTTPS iframe embedded. The iframe is hosted on https://drxwrxomfjdx5.cloudfront.net/forwarder.html and the source codes are at https://github.com/OntologyCommunityDevelopers/ledger-forwarder . To change the Iframe address navigate to index.tsx and change the call to 
 
 ````
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));

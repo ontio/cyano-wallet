@@ -17,7 +17,7 @@
  */
 import axios from 'axios';
 import { get } from 'lodash';
-import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ont-sdk-ts';
+import { CONST, Crypto, OntAssetTxBuilder, RestClient, TransactionBuilder, WebsocketClient } from 'ontology-ts-sdk';
 import { decryptWallet, getWallet } from './authApi';
 import Address = Crypto.Address;
 

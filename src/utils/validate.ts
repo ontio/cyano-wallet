@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
-import { utils } from 'ont-sdk-ts';
+import { utils } from 'ontology-ts-sdk';
 export function validMnemonics(value: string) {
   try {
     utils.parseMnemonic(value);

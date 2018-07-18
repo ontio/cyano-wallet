@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Account, CONST, Identity, OntidContract, TransactionBuilder, Wallet, WebsocketClient } from 'ont-sdk-ts';
-import * as Ledger from 'ont-sdk-ts-ledger';
+import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import { Account, Wallet } from 'ontology-ts-sdk';
 import LedgerKey = Ledger.LedgerKey;
 import { v4 as uuid } from 'uuid';
 import { storageSet } from './storageApi';
@@ -36,28 +36,28 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
     };
   
     const privateKey = await LedgerKey.create(index);
-    const publicKey = privateKey.getPublicKey();
+    // const publicKey = privateKey.getPublicKey();
   
-    const identity = Identity.create(privateKey, '', uuid(), scryptParams);
-    const ontId = identity.ontid;
+    // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
+    // const ontId = identity.ontid;
   
     // register the ONT ID on blockchain
-    if (register) {
-      const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
-      tx.payer = identity.controls[0].address;
+    // if (register) {
+    //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
+    //   tx.payer = identity.controls[0].address;
       
-      await TransactionBuilder.signTransactionAsync(tx, privateKey);
+    //   await TransactionBuilder.signTransactionAsync(tx, privateKey);
   
-      const protocol = ssl ? 'wss' : 'ws';
-      const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
-      await client.sendRawTransaction(tx.serialize(), false, true);
-    }
+    //   const protocol = ssl ? 'wss' : 'ws';
+    //   const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
+    //   await client.sendRawTransaction(tx.serialize(), false, true);
+    // }
   
     const account = Account.create(privateKey, '', uuid(), scryptParams);
   
-    wallet.addIdentity(identity);
+    // wallet.addIdentity(identity);
     wallet.addAccount(account);
-    wallet.setDefaultIdentity(identity.ontid);
+    // wallet.setDefaultIdentity(identity.ontid);
     wallet.setDefaultAccount(account.address.toBase58());
   
     await storageSet('wallet', wallet.toJson());

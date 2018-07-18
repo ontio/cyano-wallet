@@ -43,6 +43,26 @@
   dependencies:
     events "^2.0.0"
 
+"@ont-community/hdkey-secp256r1@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ont-community/hdkey-secp256r1/-/hdkey-secp256r1-1.0.0.tgz#2a4d8bdcb11fc99a254272dd1e0d1241306661a1"
+  dependencies:
+    coinstring "^2.0.0"
+    elliptic "^6.4.0"
+    safe-buffer "^5.1.1"
+
+"@ont-community/ontology-ts-sdk-ledger@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ont-community/ontology-ts-sdk-ledger/-/ontology-ts-sdk-ledger-1.0.0.tgz#1256779de98748b06bc89349e8f2ad2189aa61a1"
+  dependencies:
+    "@ledgerhq/hw-transport-node-hid" "^4.15.0"
+    "@ledgerhq/hw-transport-u2f" "^4.15.0"
+    babel-polyfill "^6.26.0"
+    elliptic "^6.4.0"
+    ontology-ts-sdk "^0.9.1"
+    promise-timeout "^1.3.0"
+    uuid "^3.2.1"
+
 "@types/file-saver@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@types/file-saver/-/file-saver-1.3.0.tgz#0ef213077e704fc3f4e7a86cfd31c9de4f4f47a7"
@@ -1341,6 +1361,10 @@ browserslist@^2.1.2, browserslist@^2.5.1:
     caniuse-lite "^1.0.30000792"
     electron-to-chromium "^1.3.30"
 
+bs58@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-2.0.1.tgz#55908d58f1982aba2008fa1bed8f91998a29bf8d"
+
 bs58@^4.0.0, bs58@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/bs58/-/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
@@ -1670,6 +1694,13 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+coinstring@^2.0.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/coinstring/-/coinstring-2.3.0.tgz#cdb63363a961502404a25afb82c2e26d5ff627a4"
+  dependencies:
+    bs58 "^2.0.1"
+    create-hash "^1.1.1"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -1897,7 +1928,7 @@ create-error-class@^3.0.0:
   dependencies:
     capture-stack-trace "^1.0.0"
 
-create-hash@^1.1.0, create-hash@^1.1.2:
+create-hash@^1.1.0, create-hash@^1.1.1, create-hash@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
   dependencies:
@@ -5139,20 +5170,11 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-"ont-sdk-ts-ledger@file:../ont-sdk-ts-ledger":
-  version "1.0.0"
+ontology-ts-sdk@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.1.tgz#632393f2fbd360a762260ad2baf4125a8f661fcf"
   dependencies:
-    "@ledgerhq/hw-transport-node-hid" "^4.15.0"
-    "@ledgerhq/hw-transport-u2f" "^4.15.0"
-    babel-polyfill "^6.26.0"
-    elliptic "^6.4.0"
-    ont-sdk-ts "file:../../Library/Caches/Yarn/v1/ontology-ts-sdk"
-    promise-timeout "^1.3.0"
-    uuid "^3.2.1"
-
-"ont-sdk-ts@file:../ontology-ts-sdk":
-  version "1.0.0"
-  dependencies:
+    "@ont-community/hdkey-secp256r1" "^1.0.0"
     axios "^0.17.1"
     babel-polyfill "^6.26.0"
     base-x "^3.0.3"

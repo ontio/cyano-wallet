@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { CONST } from 'ont-sdk-ts';
+import { CONST } from 'ontology-ts-sdk';
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { loadSettings } from '../api/settingsApi';

@@ -291,3 +291,7 @@ h4.unbound:hover {
 .ledgerText {
   margin-bottom: 5px;
 }
+
+.ui.message.scroll {
+  overflow-y: scroll;
+}
