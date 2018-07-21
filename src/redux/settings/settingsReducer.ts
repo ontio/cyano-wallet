@@ -25,7 +25,7 @@ export interface SettingsState {
   ssl: boolean;
 };
 
-const defaultState: SettingsState = { explorerAddress: null, nodeAddress: CONST.TEST_NODE, ssl: false };
+const defaultState: SettingsState = { explorerAddress: null, nodeAddress: CONST.MAIN_NODE, ssl: false };
 
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
