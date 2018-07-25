@@ -15,24 +15,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { wrapStore } from 'react-chrome-redux';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'remote-redux-devtools';
-import { authReducer } from './auth/authReducer';
-import { loaderReducer } from './loader/loaderReducer';
-import { settingsReducer } from './settings/settingsReducer';
-import { walletReducer } from './wallet/walletReducer';
+import { AuthState } from './auth/authReducer';
+import { LoaderState } from './loader/loaderReducer';
+import { SettingsState } from './settings/settingsReducer';
+import { WalletState } from './wallet/walletReducer';
 
-export { GlobalState } from './state';
-
-export const globalReducer = combineReducers({
-    auth: authReducer,
-    loader: loaderReducer,
-    settings: settingsReducer,
-    wallet: walletReducer
-});
-
-const reduxStore = createStore(globalReducer, composeWithDevTools(applyMiddleware(thunk)));
-
-wrapStore(reduxStore, { portName: 'ONT_EXTENSION' });
+export interface GlobalState {
+    auth: AuthState;
+    loader: LoaderState;
+    settings: SettingsState;
+    wallet: WalletState;
+};

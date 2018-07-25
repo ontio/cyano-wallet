@@ -52,7 +52,7 @@ import {
   WithdrawConfirm,
   WithdrawFailed
 } from './pages';
-import { reduxStore } from './redux';
+import { reduxStore } from './redux/popupRedux';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
@@ -94,7 +94,10 @@ export const AppView: React.SFC<{}> = () => (
   </Provider>
 );
 
-ReactDOM.render(
-  <AppView />,
-  document.getElementById('root') as HTMLElement
-);
+const unsubscribe = reduxStore.subscribe(() => {
+  unsubscribe(); // make sure to only fire once
+  ReactDOM.render(
+    <AppView />,
+    document.getElementById('root') as HTMLElement
+  );
+});
