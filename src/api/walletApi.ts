@@ -70,7 +70,7 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
     from,
     to,
     amount,
-    '0',
+    '500',
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
@@ -94,7 +94,7 @@ export async function withdrawOng(nodeAddress: string, ssl: boolean, walletEncod
     from, 
     String(amount), 
     from, 
-    '0', 
+    '500', 
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
