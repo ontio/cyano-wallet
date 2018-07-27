@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormApi } from 'final-form';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';

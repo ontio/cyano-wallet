@@ -43,9 +43,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       handleSubmit: async (values: object) => {
         const password = get(values, 'password', '');
   
-        const result = await actions.startLoading();
-        console.log('result', result);
-  
+        await actions.startLoading();
+        
         const { encryptedWif, mnemonics, wif, wallet } = await signUp(password);
         await actions.setWallet(wallet);
   
