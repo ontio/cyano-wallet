@@ -15,8 +15,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { Reducer } from 'redux';
+import { FINISH_LOADING, LoaderState, START_LOADING } from '../../redux/loader';
+
+const defaultState: LoaderState = { loading: false };
+
+export const loaderReducer: Reducer<LoaderState> = (state = defaultState, action) => {
+    switch (action.type) {
+    case START_LOADING:
+        return {...state, loading: true };
+    case FINISH_LOADING:
+        return {...state, loading: false };
+    default:
+        return state;
+    }
+};

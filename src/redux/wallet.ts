@@ -15,8 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+
+export interface WalletState {
+  wallet: string | null;
+};
+
+export const SET_WALLET = 'SET_WALLET';
+export const CLEAR_WALLET = 'CLEAR_WALLET';
+
+export const setWallet = (walletEncoded: string) => ({ type: SET_WALLET, wallet: walletEncoded });
+export const clearWallet = () => ({ type: CLEAR_WALLET });

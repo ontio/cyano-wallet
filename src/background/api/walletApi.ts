@@ -15,8 +15,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { storageClear, storageGet, storageSet } from './storageApi';
+
+export async function loadWallet() {
+  const walletEncoded = await storageGet('wallet');
+
+  return walletEncoded;
+}
+
+export async function saveWallet(walletEncoded: string) {
+  await storageSet('wallet', walletEncoded);
+}
+
+export async function clearWallet() {
+  await storageClear('wallet');
+}

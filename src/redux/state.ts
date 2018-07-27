@@ -15,14 +15,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { AuthState } from './auth/authReducer';
-import { LoaderState } from './loader/loaderReducer';
-import { SettingsState } from './settings/settingsReducer';
-import { WalletState } from './wallet/walletReducer';
+
+import { LoaderState } from './loader';
+import { RuntimeState } from './runtime';
+import { SettingsState } from './settings';
+import { TransactionState } from './transaction';
+import { WalletState } from './wallet';
 
 export interface GlobalState {
-    auth: AuthState;
-    loader: LoaderState;
-    settings: SettingsState;
-    wallet: WalletState;
+  loader: LoaderState;
+  runtime: RuntimeState;
+  settings: SettingsState;
+  transaction: TransactionState;
+  wallet: WalletState;
 };

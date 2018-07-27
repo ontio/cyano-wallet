@@ -49,18 +49,18 @@ npm install --global yarn
 git clone 'https://github.com/backslash47/ontology-plugin-wallet.git'
 ```
 
-#### Start development server
-This will run the wallet as an web application accessible on http://localhost:3000 using web local storage for wallet storage.
+#### Start the extension in watch mode
+This will watch for file changes and build the distribution every time something changes. If the extension is loaded as Unpacked Extension in Chrome, one could reload the extension to get the newest build.
 
 ````
-yarn start
+yarn watch
 ````
 
 #### Build extension
 This will build the extension for installation into browsers. 
 
 ````
-yarn start
+yarn build
 ````
 
 #### Ledger support

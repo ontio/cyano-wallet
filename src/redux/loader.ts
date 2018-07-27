@@ -15,8 +15,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+
+export interface LoaderState {
+    loading: boolean;
+};
+
+export const START_LOADING = 'START_LOADING';
+
+export const FINISH_LOADING = 'FINISH_LOADING';
+
+export const startLoading = () => ({ type: START_LOADING });
+export const finishLoading = () => ({ type: FINISH_LOADING });

@@ -15,8 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+
+import { Store } from 'react-chrome-redux';
+import { GlobalState } from '../redux/state';
+
+export { GlobalState } from '../redux/state';
+export { default as Actions } from '../redux/actions';
+
+export const store = new Store<GlobalState>({
+    portName: 'ONT_EXTENSION' // communication port name
+});

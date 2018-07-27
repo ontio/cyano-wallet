@@ -15,8 +15,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
+
+export interface SettingsState {
+  net: NetValue;
+  address: string;
+  ssl: boolean;
+};
+
+export const SET_SETTINGS = 'SET_SETTINGS';
+
+export const setSettings = (address: string, ssl: boolean, net: string | null) => ({ type: SET_SETTINGS, address, ssl, net });
+
+export function compareSettings(a: SettingsState | null, b: SettingsState | null): boolean {
+  if (a === b) {
+    return true;
+  } else if (a == null || b == null) {
+    return false;
+  } else {
+    return a.net === b.net && a.ssl === b.ssl && a.address === b.address;
+  }
+}
+

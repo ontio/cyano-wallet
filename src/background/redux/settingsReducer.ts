@@ -15,8 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { CONST } from 'ontology-ts-sdk';
+import { Reducer } from 'redux';
+import { SET_SETTINGS, SettingsState } from '../../redux/settings';
+
+const defaultState: SettingsState = { address: CONST.MAIN_NODE, ssl: false, net: 'MAIN' };
+export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case SET_SETTINGS:
+      return { ...state, address: action.address, ssl: action.ssl, net: action.net };
+    default:
+      return state;
+  }
+};

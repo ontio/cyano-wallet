@@ -16,16 +16,15 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import { get } from 'lodash';
 import { Account, Wallet } from 'ontology-ts-sdk';
-import LedgerKey = Ledger.LedgerKey;
 import { v4 as uuid } from 'uuid';
-import { storageSet } from './storageApi';
 
 export async function isLedgerSupported() {
   return await Ledger.isLedgerSupported();
 }
 
-export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: number, register: boolean) {
+export async function importLedgerKey(index: number) {
     const wallet = Wallet.create(uuid());
     const scrypt = wallet.scrypt;
     const scryptParams = {
@@ -35,7 +34,7 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
       size: scrypt.dkLen
     };
   
-    const privateKey = await LedgerKey.create(index);
+    const privateKey = await Ledger.create(index);
     // const publicKey = privateKey.getPublicKey();
   
     // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
@@ -60,14 +59,12 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
     // wallet.setDefaultIdentity(identity.ontid);
     wallet.setDefaultAccount(account.address.toBase58());
   
-    await storageSet('wallet', wallet.toJson());
-  
     return {
       wallet: wallet.toJson()
     };
   }
   
   export function isLedgerKey(wallet: Wallet) {
-    return wallet.accounts[0].encryptedKey instanceof LedgerKey;
+    return get(wallet.accounts[0].encryptedKey, 'type') === 'LEDGER';
   }
   

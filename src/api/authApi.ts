@@ -18,11 +18,6 @@
 import { Account, Crypto, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
-import { storageClear, storageGet, storageSet } from './storageApi';
-
-export async function clear() {
-  await storageClear('wallet');
-}
 
 export function decryptWallet(wallet: Wallet, password: string) {
   const account = wallet.accounts[0];
@@ -38,36 +33,17 @@ export function decryptWallet(wallet: Wallet, password: string) {
   });
 }
 
-export async function signIn(password: string) {
-  const walletEncoded = await storageGet('wallet');
-
-  if (walletEncoded === null) {
-    throw new Error('Wallet data not found.');
-  }
-
-  try {
-    const wallet = Wallet.parseJson(walletEncoded);
-    decryptWallet(wallet, password);
-  } catch (e) {
-    // tslint:disable-next-line:no-console
-    console.log(e);
-    throw new Error('Error during wallet decryption.');
-  }
-
-  return walletEncoded;
-}
-
-export async function signUp(nodeAddress: string, ssl: boolean, password: string) {
+export async function signUp(password: string) {
   const mnemonics = utils.generateMnemonic(32);
-  return await importMnemonics(nodeAddress, ssl, mnemonics, password, true);
+  return await importMnemonics(mnemonics, password);
 }
 
-export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean) {
+export async function importMnemonics(mnemonics: string, password: string) {
   // generate NEO address for now
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
 
-  const result = await importPrivateKey(nodeAddress, ssl, wif, password, register);
+  const result = await importPrivateKey(wif, password);
 
   return {
     mnemonics,
@@ -75,7 +51,7 @@ export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemoni
   };
 }
 
-export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: string, password: string, register: boolean) {
+export async function importPrivateKey(wif: string, password: string) {
   const wallet = Wallet.create(uuid());
   const scrypt = wallet.scrypt;
   const scryptParams = {
@@ -110,8 +86,6 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   // wallet.setDefaultIdentity(identity.ontid);
   wallet.setDefaultAccount(account.address.toBase58());
 
-  await storageSet('wallet', wallet.toJson());
-
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
     wallet: wallet.toJson(),
@@ -119,20 +93,14 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   };
 }
 
-export async function getStoredWallet() {
-  const walletEncoded = await storageGet('wallet');
-
-  return walletEncoded;
-}
-
-export function getWallet(walletEncoded: any) {
+export function getWallet(walletEncoded: string) {
   if (walletEncoded == null) {
     throw new Error('Missing wallet data.');
   }
-  return Wallet.parseJsonObj(walletEncoded);
+  return Wallet.parseJson(walletEncoded);
 }
 
-export function getAddress(walletEncoded: any) {
+export function getAddress(walletEncoded: string) {
   const wallet = getWallet(walletEncoded);
   return wallet.defaultAccountAddress;
 }

@@ -15,8 +15,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { setSettings, SettingsState } from '../../redux/settings';
+import { loadSettings, saveSettings } from '../api/settingsApi';
+import { store } from '../redux';
+
+let oldSettings: SettingsState;
+
+/**
+ * Syncs settings to storage
+ */
+store.subscribe(async () => {
+  const state = store.getState();
+  const settings = state.settings;
+
+  if (oldSettings !== settings) {
+    oldSettings = settings;
+    await saveSettings(settings);
+  }
+});
+
+/**
+ * Loads settings from storage on startup
+ */
+loadSettings().then(settings => {
+  if (settings !== null) {
+    store.dispatch(
+      setSettings(settings.address, settings.ssl, settings.net)
+    );
+  }
+});

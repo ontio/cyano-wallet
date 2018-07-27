@@ -15,8 +15,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+
+import { finishLoading, startLoading } from './loader';
+import { setBalance, setTransfers, transfer, withdrawOng } from './runtime';
+import { setSettings } from './settings';
+import { setTransactionResult } from './transaction';
+import { clearWallet, setWallet } from './wallet';
+
+export default {
+    loader: {
+        finishLoading,
+        startLoading
+    },
+    runtime: {
+        setBalance,
+        setTransfers,
+        transfer,
+        withdrawOng
+    },
+    settings: {
+        setSettings
+    },
+    transaction: {
+        setTransactionResult
+    },
+    wallet: {
+        clearWallet,
+        setWallet
+    }
+};

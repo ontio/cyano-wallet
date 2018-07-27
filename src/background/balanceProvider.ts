@@ -15,8 +15,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { getAddress } from '../api/authApi';
+import { setBalance, setTransfers } from '../redux/runtime';
+import { getTransferList } from './api/explorerApi';
+import { getBalance, getUnboundOng } from './api/runtimeApi';
+import { store } from './redux';
+
+window.setInterval(async () => {
+  const state = store.getState();  
+  const walletEncoded = state.wallet.wallet;
+  
+  if (walletEncoded !== null) {
+    const balance = await getBalance();
+    const unboundOng = await getUnboundOng();
+
+    store.dispatch(
+      setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
+    );
+
+    const address = getAddress(walletEncoded);
+
+    const transfers = await getTransferList(address);
+    
+    store.dispatch(
+      setTransfers(transfers)
+    );
+  }
+}, 5000);

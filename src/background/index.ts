@@ -15,8 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import 'babel-polyfill';
+
+import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import { Crypto } from 'ontology-ts-sdk';
+import './dapp';
+import './redux';
+
+import './balanceProvider';
+import './persist/settingsProvider';
+import './persist/walletProvider';
+
+Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
+Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));

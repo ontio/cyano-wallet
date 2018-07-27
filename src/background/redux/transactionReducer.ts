@@ -15,8 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { Reducer } from 'redux';
+import { SET_TRANSACTION_RESULT, TransactionState } from '../../redux/transaction';
+
+const defaultState: TransactionState = { result: true, error: null };
+
+export const transactionReducer: Reducer<TransactionState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case SET_TRANSACTION_RESULT:
+      return { ...state, result: action.result, error: action.error };
+    default:
+      return state;
+  }
+};

@@ -15,8 +15,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import * as React from 'react';
+import { RouterProps } from 'react-router';
+import { dummy, lifecycle, reduxConnect } from "../../compose";
+import { GlobalState } from '../../redux';
+
+const mapStateToProps = (state: GlobalState) => ({
+  wallet: state.wallet.wallet
+});
+
+const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) => (
+  reduxConnect(mapStateToProps, dummy, (reduxProps, actions) => (
+    lifecycle({
+      componentDidMount: async () => {
+
+        if (reduxProps.wallet != null) {
+          props.history.push('/dashboard');
+        } else {
+          props.history.push('/sign-up');
+        }
+      }
+    }, () => (
+      <Component />
+    ))
+  ))
+);
+
+export const Home = enhancer(() => null);

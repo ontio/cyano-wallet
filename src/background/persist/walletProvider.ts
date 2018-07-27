@@ -15,8 +15,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare module 'uuid';
-declare module 'websocket-as-promised';
-declare module '@ledgerhq/hw-transport-node-hid';
-declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
+import { setWallet } from '../../redux/wallet';
+import { clearWallet, loadWallet, saveWallet } from '../api/walletApi';
+import { store } from '../redux';
+
+let oldWallet: string | null;
+
+/**
+ * Syncs wallet to storage
+ */
+store.subscribe(async () => {
+  const state = store.getState();
+  const wallet = state.wallet.wallet;
+
+  if (oldWallet !== wallet) {
+    oldWallet = wallet;
+
+    if (wallet == null) {
+      await clearWallet();
+    } else {
+      await saveWallet(wallet);
+    }
+  }
+});
+
+/**
+ * Loads wallet from storage on startup
+ */
+loadWallet().then(wallet => {
+  if (wallet != null) {
+    store.dispatch(
+      setWallet(wallet)
+    );
+  }
+});
