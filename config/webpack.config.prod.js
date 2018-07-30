@@ -309,6 +309,7 @@ module.exports = {
           comparisons: false,
         },
         mangle: {
+          reserved: ['Array', 'BigInteger', 'Boolean', 'Buffer', 'ECPair', 'Function', 'Number', 'Point'],
           safari10: true,
         },
         output: {
