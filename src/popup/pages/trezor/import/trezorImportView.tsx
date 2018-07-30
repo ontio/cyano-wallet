@@ -17,9 +17,9 @@
  */
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
+import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { Filler, LogoHeader, View } from '../../../components';
-import { required } from '../../../utils/validate';
+import { required, samePassword } from '../../../utils/validate';
 
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
@@ -27,22 +27,22 @@ export interface Props {
   loading: boolean;
 }
 
-export const LedgerCreateView: React.SFC<Props> = (props) => (
+export const TrezorImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New Ledger account" />
+      <LogoHeader showLogout={false} title="Import trezor account" />
       <View content={true} className="spread-around">
-        <View>Choose your address.</View>
+        <View>Enter used index. Every index will generate unique account.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Form
         onSubmit={props.handleSubmit}
+        validate={samePassword}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
               <label>Index</label>
-              <Message>Enter ununsed index. Every index will generate unique account.</Message>
               <Field
                 name="index"
                 validate={required}
@@ -61,7 +61,7 @@ export const LedgerCreateView: React.SFC<Props> = (props) => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Sign up</Button>
+              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
               <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>

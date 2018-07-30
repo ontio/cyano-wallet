@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -15,32 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { get } from 'lodash';
 import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { withProps } from '../../compose';
-import { Props, SignupView } from './signupView';
+import { RouteComponentProps } from 'react-router';
+import { withProps } from '../../../compose';
+import { Props, TrezorNewView } from './trezorNewView';
 
-
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  withProps({
-    handleCreate: () => {
-      props.history.push('/create');
-    },
-    handleImport: () => {
-      props.history.push('/import');
-    },
-    handleLedger: () => {
-      props.history.push('/ledger/signup');
-    },
-    handleRestore: () => {
-      props.history.push('/restore');
-    },
-    handleTrezor: () => {
-      props.history.push('/trezor/signup');
-    }
-  }, (injectedProps) => (
-    <Component {...injectedProps} />
-  ))
-);
-
-export const Signup = enhancer(SignupView);
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => {
+  const mnemonics = get(props.location, 'state.mnemonics', '');
+  const wif = get(props.location, 'state.wif', '');
+  const encryptedWif = get(props.location, 'state.encryptedWif', '');
+  
+  return (
+    withProps({
+      encryptedWif,
+      handleContinue: () => {
+        props.history.push('/dashboard');
+      },
+      mnemonics,
+      wif
+    }, (injectedProps) => (
+      <Component {...injectedProps} />
+    ))
+  )
+};
+export const TrezorNew = enhancer(TrezorNewView);

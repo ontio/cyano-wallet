@@ -16,31 +16,28 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { withProps } from '../../compose';
-import { Props, SignupView } from './signupView';
+import { Button } from 'semantic-ui-react';
+import { Filler, LogoHeader, View } from '../../../components';
 
+export interface Props {
+  mnemonics: string;
+  wif: string;
+  handleContinue: () => void;
+}
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  withProps({
-    handleCreate: () => {
-      props.history.push('/create');
-    },
-    handleImport: () => {
-      props.history.push('/import');
-    },
-    handleLedger: () => {
-      props.history.push('/ledger/signup');
-    },
-    handleRestore: () => {
-      props.history.push('/restore');
-    },
-    handleTrezor: () => {
-      props.history.push('/trezor/signup');
-    }
-  }, (injectedProps) => (
-    <Component {...injectedProps} />
-  ))
+export const TrezorNewView: React.SFC<Props> = (props) => (
+  <View orientation="column" fluid={true}>
+    <View orientation="column" className="part gradient">
+      <LogoHeader showLogout={false} title="New Trezor account" />
+      <View content={true} className="spread-around">
+        <View>You have successfully registered new account.</View>
+      </View>
+    </View>
+    <View orientation="column" fluid={true} content={true} className="spread-around">
+      <Filler />
+      <View className="buttons">
+        <Button onClick={props.handleContinue}>Continue</Button>
+      </View>
+    </View>
+  </View>
 );
-
-export const Signup = enhancer(SignupView);

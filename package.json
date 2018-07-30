@@ -1,6 +1,6 @@
 {
   "name": "ontology-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ont-community/ontology-ts-sdk-ledger": "^1.0.1",
+    "@ont-community/ontology-ts-sdk-trezor": "^1.0.0",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-jest": "^22.1.0",
@@ -144,7 +145,7 @@
   "babel": {
     "presets": [
       [
-        "react-app",
+        "env",
         {
           "modules": false,
           "targets": {

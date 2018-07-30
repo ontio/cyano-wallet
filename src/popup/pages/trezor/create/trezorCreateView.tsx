@@ -27,10 +27,10 @@ export interface Props {
   loading: boolean;
 }
 
-export const LedgerCreateView: React.SFC<Props> = (props) => (
+export const TrezorCreateView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New Ledger account" />
+      <LogoHeader showLogout={false} title="New Trezor account" />
       <View content={true} className="spread-around">
         <View>Choose your address.</View>
       </View>

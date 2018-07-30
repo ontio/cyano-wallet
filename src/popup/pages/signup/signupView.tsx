@@ -25,6 +25,7 @@ export interface Props {
   handleImport: () => void;
   handleRestore: () => void;
   handleLedger: () => void;
+  handleTrezor: () => void;
 }
 
 export const SignupView: React.SFC<Props> = (props) => (
@@ -44,8 +45,9 @@ export const SignupView: React.SFC<Props> = (props) => (
         <Button size="small" onClick={props.handleRestore}>Restore account</Button>
       </View>
      <View className="center ledgerText">
-          <View>or use&nbsp;</View>
           <Clickable onClick={() => props.handleLedger()}>Ledger</Clickable>
+          <View>&nbsp;or&nbsp;</View>
+          <Clickable onClick={() => props.handleTrezor()}>Trezor</Clickable>
      </View> 
     </View>
   </View>

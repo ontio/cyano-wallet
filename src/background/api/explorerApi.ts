@@ -39,7 +39,7 @@ export async function getTransferList(address: string) {
 
       return transferList.map(transfer => ({
         amount: get(transfer, 'Amount', '0'),
-        asset: translateAsset(get(tx, 'AssetName')),
+        asset: translateAsset(get(transfer, 'AssetName')),
         from: get(transfer, 'FromAddress'),
         time: txnTime,
         to: get(transfer, 'ToAddress')

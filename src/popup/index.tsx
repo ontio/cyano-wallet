@@ -18,6 +18,7 @@
 import 'babel-polyfill';
 
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -48,6 +49,12 @@ import {
   SettingsPage,
   Signup,
   Transfers,
+  TrezorCreate, 
+  TrezorImport, 
+  TrezorNew, 
+  TrezorSendConfirm, 
+  TrezorSignup,
+  TrezorWithdrawConfirm, 
   WithdrawComplete,
   WithdrawConfirm,
   WithdrawFailed
@@ -55,6 +62,7 @@ import {
 import { store } from './redux';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
+Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
 
 export const AppView: React.SFC<{}> = () => (
@@ -88,6 +96,12 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/ledger/signup" exact={true} component={LedgerSignup} />
         <Route path="/ledger/withdrawConfirm" exact={true} component={LedgerWithdrawConfirm} />
        
+        <Route path="/trezor/create" exact={true} component={TrezorCreate} />
+        <Route path="/trezor/import" exact={true} component={TrezorImport} />
+        <Route path="/trezor/new" exact={true} component={TrezorNew} />
+        <Route path="/trezor/sendConfirm" exact={true} component={TrezorSendConfirm} />
+        <Route path="/trezor/signup" exact={true} component={TrezorSignup} />
+        <Route path="/trezor/withdrawConfirm" exact={true} component={TrezorWithdrawConfirm} />
       </>
     </Router>
   </Provider>

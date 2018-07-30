@@ -16,8 +16,24 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import 'babel-polyfill';
+import * as browser from 'webextension-polyfill';
+
+
+browser.webRequest.onBeforeSendHeaders.addListener(
+    (e: any) => {
+        for (const header of e.requestHeaders) {
+            if (header.name.toLowerCase() === "origin") {
+                header.value = 'https://extension.trezor.io';
+            }
+        }
+        return { requestHeaders: e.requestHeaders };
+    },
+    { urls: ["http://127.0.0.1/*"] },
+    ['blocking', 'requestHeaders']
+);
 
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import './dapp';
 import './redux';
@@ -27,4 +43,5 @@ import './persist/settingsProvider';
 import './persist/walletProvider';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
+Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));

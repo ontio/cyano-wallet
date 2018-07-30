@@ -20,6 +20,7 @@ import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { getAddress, getWallet } from '../../../api/authApi';
 import { isLedgerKey } from '../../../api/ledgerApi';
+import { isTrezorKey } from '../../../api/trezorApi';
 import { dummy, reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
 import { DashboardView, Props } from './dashboardView';
@@ -50,6 +51,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           if (isLedgerKey(wallet)) {
             props.history.push('/ledger/withdrawConfirm');
+          } else if (isTrezorKey(wallet)) {
+            props.history.push('/trezor/withdrawConfirm');
           } else {
             props.history.push('/withdrawConfirm');
           }
