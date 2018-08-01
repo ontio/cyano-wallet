@@ -15,36 +15,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import * as H from 'history';
 
-import { finishLoading, startLoading } from './loader';
-import { setRouterState } from './router';
-import { setBalance, setTransfers, transfer, withdrawOng } from './runtime';
-import { setSettings } from './settings';
-import { setTransactionResult } from './transaction';
-import { clearWallet, setWallet } from './wallet';
-
-export default {
-    loader: {
-        finishLoading,
-        startLoading
-    },
-    router: {
-        setRouterState
-    },
-    runtime: {
-        setBalance,
-        setTransfers,
-        transfer,
-        withdrawOng
-    },
-    settings: {
-        setSettings
-    },
-    transaction: {
-        setTransactionResult
-    },
-    wallet: {
-        clearWallet,
-        setWallet
-    }
+export interface RouterState {
+    entries: H.Location[];
+    index: number;
+    action: H.Action;
 };
+
+export const SET_ROUTER_STATE = 'SET_ROUTER_STATE';
+
+export const setRouterState = (entries: H.Location[], index: number, action: H.Action) => ({ type: SET_ROUTER_STATE, entries, index, action });

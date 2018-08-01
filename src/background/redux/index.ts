@@ -20,6 +20,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import { loaderReducer } from './loaderReducer';
+import { routerReducer } from './routerReducer';
 import { runtimeAliases, runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
 import { transactionReducer } from './transactionReducer';
@@ -27,6 +28,7 @@ import { walletReducer } from './walletReducer';
 
 export const globalReducer = combineReducers({
   loader: loaderReducer,
+  router: routerReducer,
   runtime: runtimeReducer,
   settings: settingsReducer,
   transaction: transactionReducer,

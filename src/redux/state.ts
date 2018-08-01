@@ -17,6 +17,7 @@
  */
 
 import { LoaderState } from './loader';
+import { RouterState } from './router';
 import { RuntimeState } from './runtime';
 import { SettingsState } from './settings';
 import { TransactionState } from './transaction';
@@ -24,6 +25,7 @@ import { WalletState } from './wallet';
 
 export interface GlobalState {
   loader: LoaderState;
+  router: RouterState;
   runtime: RuntimeState;
   settings: SettingsState;
   transaction: TransactionState;

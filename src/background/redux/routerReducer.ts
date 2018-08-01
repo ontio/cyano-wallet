@@ -15,36 +15,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Reducer } from 'redux';
+import { createKey, createLocation } from '../../redux/reduxHistory';
+import { RouterState, SET_ROUTER_STATE } from '../../redux/router';
 
-import { finishLoading, startLoading } from './loader';
-import { setRouterState } from './router';
-import { setBalance, setTransfers, transfer, withdrawOng } from './runtime';
-import { setSettings } from './settings';
-import { setTransactionResult } from './transaction';
-import { clearWallet, setWallet } from './wallet';
+const defaultState: RouterState = { 
+    action: 'POP',
+    entries: [createLocation('/', undefined, createKey())],
+    index: 0
+};
 
-export default {
-    loader: {
-        finishLoading,
-        startLoading
-    },
-    router: {
-        setRouterState
-    },
-    runtime: {
-        setBalance,
-        setTransfers,
-        transfer,
-        withdrawOng
-    },
-    settings: {
-        setSettings
-    },
-    transaction: {
-        setTransactionResult
-    },
-    wallet: {
-        clearWallet,
-        setWallet
+export const routerReducer: Reducer<RouterState> = (state = defaultState, action) => {
+    switch (action.type) {
+    case SET_ROUTER_STATE:
+        return {...state, action: action.action, entries: action.entries, index: action.index };
+    default:
+        return state;
     }
 };
