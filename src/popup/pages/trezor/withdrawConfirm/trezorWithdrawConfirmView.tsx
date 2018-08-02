@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../../components';
+import { Filler, LogoHeader, StatusBar, View } from '../../../components';
 
 export interface Props {
   handleCancel: () => void;
@@ -42,5 +42,6 @@ export const TrezorWithdrawConfirmView: React.SFC<Props> = (props) => (
         <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
       </View>
     </View>
+    <StatusBar />
   </View>
 );

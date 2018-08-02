@@ -19,3 +19,4 @@ export { Clickable } from './clickableText';
 export { Logo } from './logo/logo';
 export { LogoHeader } from './logoHeader/logoHeader';
 export { Filler, Spacer, View } from './view';
+export { StatusBar } from './statusBar/statusBar';

@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CONST, WebsocketClient } from 'ontology-ts-sdk';
+import Actions from '../redux/actions';
 import { compareSettings, SettingsState } from '../redux/settings';
 import { store } from './redux';
 
@@ -33,6 +34,20 @@ store.subscribe(() => {
     client = new WebsocketClient(url, true, false);
   }
 });
+
+window.setInterval(async () => {
+  try {
+    await client.sendHeartBeat();
+    store.dispatch(
+      Actions.status.changeNetworkState('CONNECTED')
+    );
+  } catch (e) {
+    store.dispatch(
+      Actions.status.changeNetworkState('DISCONNECTED')
+    );  
+  }
+}, 5000);
+
 
 export function getClient(): WebsocketClient {
   return client;

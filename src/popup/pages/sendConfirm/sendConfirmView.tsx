@@ -19,7 +19,7 @@ import { FormApi } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../components';
+import { Filler, LogoHeader, StatusBar, View } from '../../components';
 import { required } from '../../utils/validate';
 
 export interface Props {
@@ -66,5 +66,6 @@ export const SendConfirmView: React.SFC<Props> = (props) => (
           </SemanticForm>
         )} />
     </View>
+    <StatusBar />
   </View>
 );

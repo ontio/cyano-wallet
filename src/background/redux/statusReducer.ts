@@ -15,21 +15,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Reducer } from 'redux';
+import { CHANGE_NETWORK_STATE, StatusState } from '../../redux/status';
 
-import { LoaderState } from './loader';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionState } from './transaction';
-import { WalletState } from './wallet';
-
-export interface GlobalState {
-  loader: LoaderState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transaction: TransactionState;
-  wallet: WalletState;
+const defaultState: StatusState = { networkState: 'DISCONNECTED' };
+export const statusReducer: Reducer<StatusState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case CHANGE_NETWORK_STATE:
+      return { ...state, networkState: action.networkState };
+    default:
+      return state;
+  }
 };

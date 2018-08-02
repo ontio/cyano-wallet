@@ -18,7 +18,7 @@
 import * as QRCode from 'qrcode.react';
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
+import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
 
 export interface Props {
   address: string;
@@ -46,6 +46,6 @@ export const ReceiveView: React.SFC<Props> = (props) => (
         <Button onClick={props.handleReturn}>Return</Button>
       </View>
     </View>
-    
+    <StatusBar />
   </View>
 );

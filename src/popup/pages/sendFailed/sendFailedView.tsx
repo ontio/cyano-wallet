@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../components';
+import { Filler, LogoHeader, StatusBar, View } from '../../components';
 
 export interface Props {
   handleOk: () => void;
@@ -41,5 +41,6 @@ export const SendFailedView: React.SFC<Props> = (props) => (
         <Button onClick={props.handleOk}>Ok</Button>
       </View>
     </View>
+    <StatusBar />
   </View>
 );

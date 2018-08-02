@@ -16,20 +16,12 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoaderState } from './loader';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionState } from './transaction';
-import { WalletState } from './wallet';
+export type NetworkState = 'CONNECTED' | 'DISCONNECTED';
 
-export interface GlobalState {
-  loader: LoaderState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transaction: TransactionState;
-  wallet: WalletState;
+export interface StatusState {
+    networkState: NetworkState;
 };
+
+export const CHANGE_NETWORK_STATE = 'CHANGE_NETWORK_STATE';
+
+export const changeNetworkState = (networkState: NetworkState) => ({ type: CHANGE_NETWORK_STATE, networkState });

@@ -20,6 +20,7 @@ import { finishLoading, startLoading } from './loader';
 import { setRouterState } from './router';
 import { setBalance, setTransfers, transfer, withdrawOng } from './runtime';
 import { setSettings } from './settings';
+import { changeNetworkState } from './status';
 import { setTransactionResult } from './transaction';
 import { clearWallet, setWallet } from './wallet';
 
@@ -39,6 +40,9 @@ export default {
     },
     settings: {
         setSettings
+    },
+    status: {
+        changeNetworkState
     },
     transaction: {
         setTransactionResult

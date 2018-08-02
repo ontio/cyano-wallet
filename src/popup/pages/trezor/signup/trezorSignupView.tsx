@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Logo, Spacer, View } from '../../../components';
+import { Logo, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
   supported: boolean;
@@ -60,6 +60,6 @@ export const TrezorSignupView: React.SFC<Props> = (props) => (
         </View>
       </>
     )}
-
+    <StatusBar />
   </View>
 );

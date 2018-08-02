@@ -25,7 +25,7 @@ body {
   margin: 0;
   padding: 0;
   width: 350px;
-  height: 400px;
+  height: 430px;
 
   color: #595757;
   font-family: 'Source Sans Pro', sans-serif;
@@ -142,7 +142,7 @@ div.flex.error {
 }
 
 .gradient {
-  background-image: linear-gradient(to top, #2C92A5 0%, #37B6D3 100%);
+  background-color: #32b4d2;
   color: white;
 }
 
@@ -294,4 +294,8 @@ h4.unbound:hover {
 
 .ui.message.scroll {
   overflow-y: scroll;
+}
+
+.statusBar {
+  padding: 5px;
 }

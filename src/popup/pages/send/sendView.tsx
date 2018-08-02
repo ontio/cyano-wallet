@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
+import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
 import { range, required } from '../../utils/validate';
 
 export interface Props {
@@ -112,5 +112,6 @@ export const SendView: React.SFC<Props> = (props) => (
         </SemanticForm>
       )} />
     </View>
+    <StatusBar />
   </View>
 );

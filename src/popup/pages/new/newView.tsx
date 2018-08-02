@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, View } from '../../components';
+import { Filler, LogoHeader, StatusBar, View } from '../../components';
 
 export interface Props {
   mnemonics: string;
@@ -43,5 +43,6 @@ export const NewView: React.SFC<Props> = (props) => (
         <Button onClick={props.handleContinue}>Continue</Button>
       </View>
     </View>
+    <StatusBar />
   </View>
 );

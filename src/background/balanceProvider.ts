@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { getAddress } from '../api/authApi';
-import { setBalance, setTransfers } from '../redux/runtime';
+import Actions from '../redux/actions';
 import { getTransferList } from './api/explorerApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';
 import { store } from './redux';
@@ -30,7 +30,7 @@ window.setInterval(async () => {
     const unboundOng = await getUnboundOng();
 
     store.dispatch(
-      setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
+      Actions.runtime.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
     );
 
     const address = getAddress(walletEncoded);
@@ -38,7 +38,7 @@ window.setInterval(async () => {
     const transfers = await getTransferList(address);
     
     store.dispatch(
-      setTransfers(transfers)
+      Actions.runtime.setTransfers(transfers)
     );
   }
 }, 5000);

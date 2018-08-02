@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Clickable, Logo, Spacer, View } from '../../components';
+import { Clickable, Logo, Spacer, StatusBar, View } from '../../components';
 
 
 export interface Props {
@@ -50,5 +50,6 @@ export const SignupView: React.SFC<Props> = (props) => (
           <Clickable onClick={() => props.handleTrezor()}>Trezor</Clickable>
      </View> 
     </View>
+    <StatusBar />
   </View>
 );

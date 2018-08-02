@@ -18,7 +18,7 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
 import { Transfer } from '../../../redux/runtime';
-import { Clickable, Filler, LogoHeader, Spacer, View } from '../../components';
+import { Clickable, Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
 import { TransferList } from '../../components/transferList';
 
 export interface Props {
@@ -64,5 +64,6 @@ export const DashboardView: React.SFC<Props> = (props) => (
         <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
       </View>
     </View>
+    <StatusBar />
   </View>
 );

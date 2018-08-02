@@ -23,6 +23,7 @@ import { loaderReducer } from './loaderReducer';
 import { routerReducer } from './routerReducer';
 import { runtimeAliases, runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
+import { statusReducer } from './statusReducer';
 import { transactionReducer } from './transactionReducer';
 import { walletReducer } from './walletReducer';
 
@@ -31,6 +32,7 @@ export const globalReducer = combineReducers({
   router: routerReducer,
   runtime: runtimeReducer,
   settings: settingsReducer,
+  status: statusReducer,
   transaction: transactionReducer,
   wallet: walletReducer
 });
