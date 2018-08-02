@@ -11,15 +11,25 @@ export function createKey() {
     return Math.random().toString(36).substr(2, 6);
 }
 
+type getUserConfirmationType = (message: string, callback: (result: boolean) => void) => void;
+
+/**
+ * Implementation of History for React Router using underlying Redux store 
+ * for getting state and dispatching actions.
+ * 
+ * Inspired by Memory router from React Router.
+ */
 export class ReduxHistory implements H.History {
     private store: Store<GlobalState>;
     private state: RouterState;
     private transitionManager: TransitionManager;
+    private getUserConfirmation: getUserConfirmationType;
 
-    constructor(store: Store<GlobalState>) {
+    constructor(store: Store<GlobalState>, getUserConfirmation: getUserConfirmationType = (() => true)) {
         this.state = store.getState().router;
         this.store = store;
         this.transitionManager = createTransitionManager();
+        this.getUserConfirmation = getUserConfirmation;
     }
 
     public get index(): number {
@@ -57,7 +67,7 @@ export class ReduxHistory implements H.History {
         this.transitionManager.confirmTransitionTo(
             location,
             action,
-            () => true, // getUserConfirmation,,
+            this.getUserConfirmation,
             ok => {
                 if (!ok) {
                     return;
@@ -92,7 +102,7 @@ export class ReduxHistory implements H.History {
         this.transitionManager.confirmTransitionTo(
             location,
             action,
-            () => true, // getUserConfirmation,
+            this.getUserConfirmation,
             ok => {
                 if (!ok) {
                     return;
@@ -115,7 +125,7 @@ export class ReduxHistory implements H.History {
         this.transitionManager.confirmTransitionTo(
             location,
             action,
-            () => true, // getUserConfirmation,
+            this.getUserConfirmation,
             ok => {
                 if (ok) {
                     this.state.index = nextIndex;
