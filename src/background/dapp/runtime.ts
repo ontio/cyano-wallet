@@ -1,25 +1,20 @@
 import BigNumber from 'bignumber.js';
-import { Asset, Network } from './types';
+import { getAddress } from '../../api/authApi';
+import { store } from '../redux';
+import { Asset } from './types';
 
 /**
- * fixme
+ * Gets own address or null of not signed in.
  */
-export function isConnected(): boolean {
-    return false;
-}
+export function getOwnAddress(): string | null {
+    const state = store.getState();
+    const wallet = state.wallet.wallet;
 
-/**
- * fixme
- */
-export function getNetwork(): Network {
-    return 'MAIN';
-}
+    if (wallet === null) {
+        return null;
+    }
 
-/**
- * fixme
- */
-export function getOwnAddress(): string {
-    return '';
+    return getAddress(wallet);
 }
 
 /**

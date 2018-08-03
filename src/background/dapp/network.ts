@@ -1,8 +1,29 @@
 import BigNumber from 'bignumber.js';
 import { Crypto } from 'ontology-ts-sdk';
 import { getClient } from '../network';
-import { Asset, Block, MerkleProof, Transaction } from './types';
+import { store } from '../redux';
+import { Asset, Block, MerkleProof, Network, Transaction } from './types';
 import Address = Crypto.Address;
+
+/**
+ * Checks if connected to network.
+ * Because of multiple delays in different parts of browser and api,
+ * the information about disconnect is not instant.
+ */
+export function isConnected(): boolean {
+    const state = store.getState();
+    const status = state.status.networkState;
+
+    return status === 'CONNECTED';
+}
+
+/**
+ * Gets the currently connected network.
+ */
+export function getNetwork(): Network {
+    const state = store.getState();
+    return state.settings.net;
+}
 
 export async function getBalance(address: string, asset: Asset): Promise<BigNumber> {
     const client = getClient();
