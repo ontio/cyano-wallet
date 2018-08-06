@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   handleCancel: () => void;
@@ -29,13 +29,13 @@ export interface Props {
 export const ClearView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="Clear identity" />
+      <AccountLogoHeader title="Clear" />
       <View content={true} className="spread-around">
-        <View>Clearing will erase your identity and wallet from this device.</View>
+        <View>Clearing will erase your account and identity from this device.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Make sure you have your private key or mnemonics phrase backed up if you don't want to lose currently stored identity.</Message>
+      <Message>Make sure you have your private key or mnemonics phrase backed up if you don't want to lose currently stored data.</Message>
       <Filler />
       <View className="buttons">
         <Button disabled={props.loading} loading={props.loading} onClick={props.handleClear}>Clear</Button>

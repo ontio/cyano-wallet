@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { range, required } from '../../utils/validate';
 
 export interface Props {
@@ -47,7 +47,7 @@ const assetOptions = [
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Send" />
+      <AccountLogoHeader title="Send" />
       <View content={true} className="spread-around">
         <View>Double check the address of the recipient.</View>
       </View>

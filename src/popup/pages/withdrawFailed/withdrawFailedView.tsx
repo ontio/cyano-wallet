@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   handleOk: () => void;
@@ -27,7 +27,7 @@ export interface Props {
 export const WithdrawFailedView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Withdrawal failed" />
+      <AccountLogoHeader title="Withdrawal failed" />
       <View content={true} className="spread-around">
         <View>The withdrawal timeouted.</View>
       </View>

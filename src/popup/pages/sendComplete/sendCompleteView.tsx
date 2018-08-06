@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   handleOk: () => void;
@@ -29,7 +29,7 @@ export interface Props {
 export const SendCompleteView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Transaction finished" />
+      <AccountLogoHeader title="Transaction finished" />
       <View content={true} className="spread-around">
         <View>It could take a while until the balances change.</View>
       </View>

@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
   handleCancel: () => void;
@@ -30,7 +30,7 @@ export interface Props {
 export const TrezorWithdrawConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="ONG Withdrawal" />
+      <AccountLogoHeader title="ONG Withdrawal" />
       <View content={true} className="spread-around">
         <View>Confirm withdrawal of {props.unboundOng} ONG by Trezor.</View>
       </View>

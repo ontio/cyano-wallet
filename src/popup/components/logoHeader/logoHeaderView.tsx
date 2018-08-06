@@ -25,6 +25,8 @@ export interface Props {
   handleSettings: () => void;
   showLogout: boolean;
   showSettings: boolean;
+  showIdentity: boolean;
+  showAccount: boolean;
 }
 
 export const LogoHeaderView: React.SFC<Props> = (props) => (
@@ -32,6 +34,8 @@ export const LogoHeaderView: React.SFC<Props> = (props) => (
     <img height="30" src={require('../../assets/ontsymbol.png')} />
     <h1>{props.title}</h1>
     <View orientation="row" fluid={true} className="buttons">
+      { props.showIdentity ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="id card" /> : (null) }
+      { props.showAccount ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="money" /> : (null) }
       { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" /> : (null) }
       { props.showLogout ? <Button onClick={props.handleClear} size="big" compact={true} basic={true} icon="shutdown" /> : (null) }
     </View>

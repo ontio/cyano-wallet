@@ -18,7 +18,7 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
 import { Transfer } from '../../../redux/runtime';
-import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { TransferList } from '../../components/transferList';
 
 export interface Props {
@@ -30,7 +30,7 @@ export interface Props {
 export const TransfersView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="partSmall gradient">
-      <LogoHeader showLogout={true} title="Transfers" />
+      <AccountLogoHeader title="Transfers" />
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <View orientation="column" className="transfersView">

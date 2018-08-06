@@ -18,7 +18,7 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
 import { Transfer } from '../../../redux/runtime';
-import { Clickable, Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Clickable, Filler, Spacer, StatusBar, View } from '../../components';
 import { TransferList } from '../../components/transferList';
 
 export interface Props {
@@ -37,7 +37,7 @@ export interface Props {
 export const DashboardView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Balances" />
+      <AccountLogoHeader title="Balances" />
       <View content={true} className="spread-around">
         <View orientation="column" className="balance">
           <label>ONT</label>

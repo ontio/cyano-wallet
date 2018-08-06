@@ -19,7 +19,7 @@ import { FormApi } from 'final-form';
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 import { required } from '../../utils/validate';
 
 export interface Props {
@@ -31,7 +31,7 @@ export interface Props {
 export const SendConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Confirm transaction" />
+      <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
         <View>Confirm the transaction by unlocking the wallet with your password.</View>
       </View>
