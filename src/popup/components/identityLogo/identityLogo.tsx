@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -16,23 +17,23 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { View } from '../view';
+import { withProps, withRouter } from '../../compose';
+import { IdentityLogoView, Props } from './identityLogoView';
 
-export interface Props {
-  handleSettings: () => void;
-}
-export const LogoView: React.SFC<Props> = (props) => (
-  <View orientation="column" className="logo"> 
-    <View className="spread">
-      <View orientation="row" fluid={true} className="buttons">
-        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
-      </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
-      <View orientation="row" fluid={true} className="buttons">
-        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
-      </View>
-    </View>
-    <h1 className="header">Ontology Web Wallet</h1>
-  </View>
+
+const enhancer = (Component: React.ComponentType<Props>) => () => (
+  withRouter(routerProps => (
+    withProps({
+      handleAccount: () => {
+        routerProps.history.push('/');
+      },
+      handleSettings: () => {
+        routerProps.history.push('/settings');
+      }
+    }, (injectedProps) => (
+      <Component {...injectedProps} />
+    ))
+  ))
 );
+
+export const IdentityLogo = enhancer(IdentityLogoView);

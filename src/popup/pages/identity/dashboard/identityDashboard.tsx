@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -16,23 +17,24 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { View } from '../view';
+import { RouterProps } from 'react-router';
+import { getIdentity } from '../../../../api/authApi';
+import { dummy, reduxConnect, withProps } from '../../../compose';
+import { GlobalState } from '../../../redux';
+import { IdentityDashboardView, Props } from './identityDashboardView';
 
-export interface Props {
-  handleSettings: () => void;
-}
-export const LogoView: React.SFC<Props> = (props) => (
-  <View orientation="column" className="logo"> 
-    <View className="spread">
-      <View orientation="row" fluid={true} className="buttons">
-        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
-      </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
-      <View orientation="row" fluid={true} className="buttons">
-        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
-      </View>
-    </View>
-    <h1 className="header">Ontology Web Wallet</h1>
-  </View>
+const mapStateToProps = (state: GlobalState) => ({
+  walletEncoded: state.wallet.wallet
+});
+
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
+  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
+    withProps({
+      ontId: getIdentity(reduxProps.walletEncoded!)
+    }, (injectedProps) => (
+      <Component {...injectedProps} />
+    ))
+  ))
 );
+
+export const IdentityDashboard = enhancer(IdentityDashboardView);

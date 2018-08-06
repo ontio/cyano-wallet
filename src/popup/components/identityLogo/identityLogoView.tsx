@@ -16,23 +16,26 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { View } from '../view';
 
 export interface Props {
   handleSettings: () => void;
+  handleAccount: () => void;
 }
-export const LogoView: React.SFC<Props> = (props) => (
+export const IdentityLogoView: React.SFC<Props> = (props) => (
   <View orientation="column" className="logo"> 
     <View className="spread">
       <View orientation="row" fluid={true} className="buttons">
         <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
+        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
       </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
+      <Icon className="img" name="user circle" size="massive" />
       <View orientation="row" fluid={true} className="buttons">
+        <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="money" />
         <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
       </View>
     </View>
-    <h1 className="header">Ontology Web Wallet</h1>
+    <h1 className="header">Ontology Identity</h1>
   </View>
 );

@@ -16,23 +16,31 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { View } from '../view';
+import { RouterProps } from 'react-router';
+import { withProps } from '../../../compose';
+import { IdentitySignupView, Props } from './identitySignupView';
 
-export interface Props {
-  handleSettings: () => void;
-}
-export const LogoView: React.SFC<Props> = (props) => (
-  <View orientation="column" className="logo"> 
-    <View className="spread">
-      <View orientation="row" fluid={true} className="buttons">
-        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
-      </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
-      <View orientation="row" fluid={true} className="buttons">
-        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
-      </View>
-    </View>
-    <h1 className="header">Ontology Web Wallet</h1>
-  </View>
+
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
+  withProps({
+    handleCreate: () => {
+      props.history.push('/create');
+    },
+    handleImport: () => {
+      props.history.push('/import');
+    },
+    handleLedger: () => {
+      props.history.push('/ledger/signup');
+    },
+    handleRestore: () => {
+      props.history.push('/restore');
+    },
+    handleTrezor: () => {
+      props.history.push('/trezor/signup');
+    }
+  }, (injectedProps) => (
+    <Component {...injectedProps} />
+  ))
 );
+
+export const IdentitySignup = enhancer(IdentitySignupView);

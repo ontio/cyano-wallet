@@ -16,23 +16,28 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { View } from '../view';
+import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
-  handleSettings: () => void;
+  ontId: string;
 }
-export const LogoView: React.SFC<Props> = (props) => (
-  <View orientation="column" className="logo"> 
-    <View className="spread">
-      <View orientation="row" fluid={true} className="buttons">
-        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
-      </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
-      <View orientation="row" fluid={true} className="buttons">
-        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
+
+export const IdentityDashboardView: React.SFC<Props> = (props) => (
+  <View orientation="column" fluid={true}>
+    <View orientation="column" className="part gradient">
+      <IdentityLogoHeader title="My identity" />
+      <View content={true}>
+        <View orientation="column">
+          <h4>Registered ONT ID</h4>
+          <label>{props.ontId}</label>
+        </View>
       </View>
     </View>
-    <h1 className="header">Ontology Web Wallet</h1>
+    <View orientation="column" fluid={true} content={true} className="spread-around">
+      <h1>Verifiable claims</h1>
+      <Spacer />
+      <Filler />
+    </View>
+    <StatusBar />
   </View>
 );

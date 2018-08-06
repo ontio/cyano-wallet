@@ -32,8 +32,14 @@ interface OuterProps {
 const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
   withRouter(routerProps => (
     withProps({
+      handleAccount: () => {
+        routerProps.history.push('/');
+      },
       handleClear: () => {
         routerProps.history.push('/clear');
+      },
+      handleIdentity: () => {
+        routerProps.history.push('/identity');
       },
       handleSettings: () => {
         routerProps.history.push('/settings');

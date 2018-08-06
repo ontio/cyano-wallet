@@ -104,3 +104,13 @@ export function getAddress(walletEncoded: string) {
   const wallet = getWallet(walletEncoded);
   return wallet.defaultAccountAddress;
 }
+
+export function getIdentity(walletEncoded: string) {
+  const wallet = getWallet(walletEncoded);
+  if (wallet.defaultOntid !== '') {
+    console.log('only id', wallet.defaultOntid, 'shit');
+    return wallet.defaultOntid;
+  } else {
+    return null;
+  }
+}

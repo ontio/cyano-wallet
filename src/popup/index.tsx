@@ -33,6 +33,9 @@ import {
   Create, 
   Dashboard, 
   Home, 
+  IdentityDashboard, 
+  IdentityHome,
+  IdentitySignup, 
   Import, 
   LedgerCreate, 
   LedgerImport, 
@@ -42,20 +45,20 @@ import {
   LedgerWithdrawConfirm, 
   New, 
   Receive, 
-  Restore, 
-  Send, 
+  Restore,
+  Send,
   SendComplete,
   SendConfirm,
   SendFailed,
   SettingsPage,
-  Signup,
-  Transfers,
+  Signup, 
+  Transfers, 
   TrezorCreate, 
   TrezorImport, 
-  TrezorNew, 
+  TrezorNew,
   TrezorSendConfirm, 
   TrezorSignup,
-  TrezorWithdrawConfirm, 
+  TrezorWithdrawConfirm,
   WithdrawComplete,
   WithdrawConfirm,
   WithdrawFailed
@@ -104,6 +107,10 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/trezor/sendConfirm" exact={true} component={TrezorSendConfirm} />
         <Route path="/trezor/signup" exact={true} component={TrezorSignup} />
         <Route path="/trezor/withdrawConfirm" exact={true} component={TrezorWithdrawConfirm} />
+
+        <Route path="/identity" exact={true} component={IdentityHome} />
+        <Route path="/identity/dashboard" exact={true} component={IdentityDashboard} />
+        <Route path="/identity/sign-up" exact={true} component={IdentitySignup} />
       </>
     </Router>
   </Provider>

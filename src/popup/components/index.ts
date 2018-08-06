@@ -17,6 +17,7 @@
  */
 export { Clickable } from './clickableText';
 export { Logo } from './logo/logo';
+export { IdentityLogo } from './identityLogo/identityLogo';
 export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
 export { Filler, Spacer, View } from './view';
 export { StatusBar } from './statusBar/statusBar';

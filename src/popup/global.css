@@ -157,7 +157,7 @@ div.flex.content {
   margin: 10px;
 }
 
-.logo img {
+.logo img, .logo .img {
   align-self: center;
   margin-top: 20px;
 }
@@ -167,12 +167,13 @@ div.flex.content {
   margin: 10px;
 }
 
-.logoHeader .buttons {
+.logoHeader .buttons, .logo .buttons {
   justify-content: flex-end;
 }
 
-.logo .button {
+.logo .buttons {
   align-self: flex-start;
+  align-items: flex-start;
   margin: 10px !important;
 }
 

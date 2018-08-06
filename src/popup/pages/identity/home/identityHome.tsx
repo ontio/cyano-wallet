@@ -17,8 +17,9 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { dummy, lifecycle, reduxConnect } from "../../compose";
-import { GlobalState } from '../../redux';
+import { getIdentity } from '../../../../api/authApi';
+import { dummy, lifecycle, reduxConnect } from "../../../compose";
+import { GlobalState } from '../../../redux';
 
 const mapStateToProps = (state: GlobalState) => ({
   wallet: state.wallet.wallet
@@ -29,10 +30,11 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
     lifecycle({
       componentDidMount: async () => {
         
-        if (reduxProps.wallet != null) {
-          props.history.push('/dashboard');
+        const identity = getIdentity(reduxProps.wallet!);
+        if (identity != null) {
+          props.history.push('/identity/dashboard');
         } else {
-          props.history.push('/sign-up');
+          props.history.push('/identity/sign-up');
         }
       }
     }, () => (
@@ -41,4 +43,4 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
   ))
 );
 
-export const Home = enhancer(() => null);
+export const IdentityHome = enhancer(() => null);
