@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export type Network = 'MAIN' | 'TEST' | 'PRIVATE';
 
 export type Asset = 'ONT' | 'ONG';
@@ -66,4 +68,15 @@ export interface MerkleProof {
     CurBlockRoot: string;
     CurBlockHeight: number;
     TargetHashes: string[];
+}
+
+export interface Balance {
+    ont: BigNumber;
+    ong: BigNumber;
+}
+
+export interface OntIdAttribute {
+    key: string;
+    type: string;
+    value: string;
 }

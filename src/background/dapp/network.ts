@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Crypto } from 'ontology-ts-sdk';
 import { getClient } from '../network';
 import { store } from '../redux';
-import { Asset, Block, MerkleProof, Network, Transaction } from './types';
+import { Asset, Balance, Block, MerkleProof, Network, Transaction } from './types';
 import Address = Crypto.Address;
 
 /**
@@ -25,10 +25,13 @@ export function getNetwork(): Network {
     return state.settings.net;
 }
 
-export async function getBalance(address: string, asset: Asset): Promise<BigNumber> {
+export async function getBalance(address: string): Promise<Balance> {
     const client = getClient();
     const response = await client.getBalance(new Address(address));
-    return response.Result[asset];
+    return {
+        ong: response.Result.ONG,
+        ont: response.Result.ONT
+    };
 }
 
 export async function getBlock(block: number | string): Promise<Block> {
