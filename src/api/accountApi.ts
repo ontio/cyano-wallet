@@ -34,17 +34,17 @@ export function decryptAccount(wallet: Wallet, password: string) {
   });
 }
 
-export async function accountSignUp(password: string) {
+export function accountSignUp(password: string) {
   const mnemonics = utils.generateMnemonic(32);
-  return await accountImportMnemonics(mnemonics, password);
+  return accountImportMnemonics(mnemonics, password);
 }
 
-export async function accountImportMnemonics(mnemonics: string, password: string) {
+export function accountImportMnemonics(mnemonics: string, password: string) {
   // generate NEO address for now
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
 
-  const result = await accountImportPrivateKey(wif, password);
+  const result = accountImportPrivateKey(wif, password);
 
   return {
     mnemonics,
@@ -52,7 +52,7 @@ export async function accountImportMnemonics(mnemonics: string, password: string
   };
 }
 
-export async function accountImportPrivateKey(wif: string, password: string) {
+export function accountImportPrivateKey(wif: string, password: string) {
   const wallet = Wallet.create(uuid());
   const scrypt = wallet.scrypt;
   const scryptParams = {
