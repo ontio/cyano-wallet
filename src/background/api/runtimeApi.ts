@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
-import { CONST, Crypto, DDO, Identity, OntAssetTxBuilder, OntidContract, TransactionBuilder, TxSignature } from 'ontology-ts-sdk';
+import { CONST, Crypto, Identity, OntAssetTxBuilder, OntidContract, TransactionBuilder, TxSignature } from 'ontology-ts-sdk';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { decryptIdentity } from '../../api/identityApi';
