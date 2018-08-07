@@ -16,11 +16,21 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Reducer } from 'redux';
-import { CLEAR_WALLET, SET_WALLET, WalletState } from '../../redux/wallet';
+import { getWallet } from '../../api/authApi';
+import { CLEAR_IDENTITY, CLEAR_WALLET, SET_WALLET, WalletState } from '../../redux/wallet';
 
 const defaultState: WalletState = { wallet: null };
 export const walletReducer: Reducer<WalletState> = (state = defaultState, action) => {
   switch (action.type) {
+    case CLEAR_IDENTITY:
+      
+      let walletEncoded = state.wallet!;
+      const wallet = getWallet(walletEncoded);
+      wallet.identities = [];
+      wallet.setDefaultIdentity('');
+
+      walletEncoded = wallet.toJson();
+      return { ...state, wallet: walletEncoded };
     case CLEAR_WALLET:
       return { ...state, wallet: null };
     case SET_WALLET:

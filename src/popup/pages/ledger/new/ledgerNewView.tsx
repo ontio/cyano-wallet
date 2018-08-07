@@ -28,7 +28,7 @@ export interface Props {
 export const LedgerNewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New Ledger account" />
+      <LogoHeader title="New Ledger account" />
       <View content={true} className="spread-around">
         <View>You have successfully registered new account.</View>
       </View>

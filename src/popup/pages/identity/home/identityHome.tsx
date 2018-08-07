@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { getIdentity } from '../../../../api/authApi';
+import { getIdentity } from '../../../../api/identityApi';
 import { dummy, lifecycle, reduxConnect } from "../../../compose";
 import { GlobalState } from '../../../redux';
 

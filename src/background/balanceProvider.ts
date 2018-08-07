@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { getAddress } from '../api/authApi';
+import { getAddress } from '../api/accountApi';
 import Actions from '../redux/actions';
 import { getTransferList } from './api/explorerApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';

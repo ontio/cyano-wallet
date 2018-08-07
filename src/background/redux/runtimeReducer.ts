@@ -15,11 +15,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Identity } from 'ontology-ts-sdk';
 import { timeout, TimeoutError } from 'promise-timeout';
 import { Dispatch, Reducer } from 'redux';
 import Actions from '../../redux/actions';
-import { AssetType, RuntimeState, SET_BALANCE, SET_TRANSFERS, TRANSFER, WITHDRAW_ONG } from '../../redux/runtime';
-import { transfer, withdrawOng } from '../api/runtimeApi';
+import { AssetType, CHECK_ONT_ID, REGISTER_ONT_ID, RuntimeState, SET_BALANCE, SET_TRANSFERS, TRANSFER, WITHDRAW_ONG } from '../../redux/runtime';
+import { checkOntId, registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
 
 const defaultState: RuntimeState = { ongAmount: 0, ontAmount: 0, unboundAmount: 0, transfers: [] };
 
@@ -35,6 +36,45 @@ export const runtimeReducer: Reducer<RuntimeState> = (state = defaultState, acti
 };
 
 export const runtimeAliases = {
+  [CHECK_ONT_ID]: (action: any) => {
+    return async (dispatch: Dispatch) => {
+      const password: string = action.password;
+      const identityEncoded: string = action.identity;
+      const identity = Identity.parseJson(identityEncoded);
+      
+      const result = await checkOntId(identity, password);
+
+      dispatch(
+        Actions.transaction.setTransactionResult(result, null)
+      );
+    }
+  },
+  [REGISTER_ONT_ID]: (action: any) => {
+    return async (dispatch: Dispatch) => {
+      try {
+        const password: string = action.password;
+        const accountPassword: string = action.accountPassword;
+        const identityEncoded: string = action.identity;
+        const identity = Identity.parseJson(identityEncoded);
+        
+        await timeout(registerOntId(identity, password, accountPassword), 15000);
+
+        dispatch(
+          Actions.transaction.setTransactionResult(true, null)
+        );
+      } catch (e) {
+        if (e instanceof TimeoutError) {
+          dispatch(
+            Actions.transaction.setTransactionResult(false, 'TIMEOUT')
+          );
+        } else {
+          dispatch(
+            Actions.transaction.setTransactionResult(false, 'WRONG_PASSWORD')
+          );
+        }
+      }
+    }
+  },
   [TRANSFER]: (action: any) => {
     return async (dispatch: Dispatch) => {
       try {

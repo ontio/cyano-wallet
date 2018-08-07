@@ -23,5 +23,9 @@ export interface WalletState {
 export const SET_WALLET = 'SET_WALLET';
 export const CLEAR_WALLET = 'CLEAR_WALLET';
 
+export const CLEAR_IDENTITY = 'CLEAR_IDENTITY';
+
 export const setWallet = (walletEncoded: string) => ({ type: SET_WALLET, wallet: walletEncoded });
 export const clearWallet = () => ({ type: CLEAR_WALLET });
+
+export const clearIdentity = () => ({ type: CLEAR_IDENTITY });

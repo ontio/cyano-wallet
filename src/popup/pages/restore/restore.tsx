@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { importMnemonics } from '../../../api/authApi';
+import { accountImportMnemonics } from '../../../api/accountApi';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { Props, RestoreView } from './restoreView';
@@ -46,7 +46,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         await actions.startLoading();
 
-        const { encryptedWif, wif, wallet } = await importMnemonics(mnemonics, password);
+        const { encryptedWif, wif, wallet } = accountImportMnemonics(mnemonics, password);
         await actions.setWallet(wallet);
 
         await actions.finishLoading();

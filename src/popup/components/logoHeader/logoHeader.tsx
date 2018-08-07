@@ -21,7 +21,6 @@ import { withProps, withRouter } from '../../compose';
 import { LogoHeaderView, Props } from './logoHeaderView';
 
 interface OuterProps {
-  showLogout: boolean;
   showSettings?: boolean;
   showAccount?: boolean;
   showIdentity?: boolean;
@@ -35,9 +34,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
       handleAccount: () => {
         routerProps.history.push('/');
       },
-      handleClear: () => {
-        routerProps.history.push('/clear');
-      },
       handleIdentity: () => {
         routerProps.history.push('/identity');
       },
@@ -46,7 +42,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
       }
     }, (injectedProps) => (
       <Component {...injectedProps} title={props.title} 
-        showLogout={props.showLogout} 
         showSettings={props.showSettings !== undefined ? props.showSettings : true} 
         showAccount={props.showAccount === true} 
         showIdentity={props.showIdentity === true} 
@@ -62,9 +57,9 @@ interface TitleOuterProps {
 }
 
 export const IdentityLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader showAccount={true} showLogout={true} showSettings={true} title={props.title} />
+  <LogoHeader showAccount={true} showSettings={true} title={props.title} />
 );
 
 export const AccountLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader showIdentity={true} showLogout={true} showSettings={true} title={props.title} />
+  <LogoHeader showIdentity={true} showSettings={true} title={props.title} />
 );

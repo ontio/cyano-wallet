@@ -18,7 +18,8 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { getAddress, getWallet } from '../../../api/authApi';
+import { getAddress } from '../../../api/accountApi';
+import { getWallet } from '../../../api/authApi';
 import { isLedgerKey } from '../../../api/ledgerApi';
 import { isTrezorKey } from '../../../api/trezorApi';
 import { dummy, reduxConnect, withProps } from '../../compose';

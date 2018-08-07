@@ -18,7 +18,7 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { getAddress } from '../../../api/authApi';
+import { getAddress } from '../../../api/accountApi';
 import { dummy, reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
 import { Props, ReceiveView } from './receiveView';

@@ -30,7 +30,7 @@ export interface Props {
 export const ImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="Import private key" />
+      <LogoHeader title="Import private key" />
       <View content={true} className="spread-around">
         <View>Enter your private key and passphrase for account encryption.</View>
       </View>

@@ -16,25 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { get } from 'lodash';
 import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { getIdentity } from '../../../../api/identityApi';
-import { dummy, reduxConnect, withProps } from '../../../compose';
-import { GlobalState } from '../../../redux';
-import { IdentityDashboardView, Props } from './identityDashboardView';
+import { RouteComponentProps } from 'react-router';
+import { withProps } from '../../../compose';
+import { IdentityNewView, Props } from './identityNewView';
 
-const mapStateToProps = (state: GlobalState) => ({
-  walletEncoded: state.wallet.wallet
-});
-
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => {
+  const mnemonics = get(props.location, 'state.mnemonics', '');
+  const wif = get(props.location, 'state.wif', '');
+  const encryptedWif = get(props.location, 'state.encryptedWif', '');
+  
+  return (
     withProps({
-      ontId: getIdentity(reduxProps.walletEncoded!)!
+      encryptedWif,
+      handleContinue: () => {
+        props.history.push('/identity/dashboard');
+      },
+      mnemonics,
+      wif
     }, (injectedProps) => (
       <Component {...injectedProps} />
     ))
-  ))
-);
-
-export const IdentityDashboard = enhancer(IdentityDashboardView);
+  )
+};
+export const IdentityNew = enhancer(IdentityNewView);

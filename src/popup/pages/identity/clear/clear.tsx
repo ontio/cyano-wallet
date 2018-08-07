@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -18,23 +17,41 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { getIdentity } from '../../../../api/identityApi';
-import { dummy, reduxConnect, withProps } from '../../../compose';
-import { GlobalState } from '../../../redux';
-import { IdentityDashboardView, Props } from './identityDashboardView';
+import { bindActionCreators, Dispatch } from 'redux';
+import { reduxConnect, withProps } from '../../../compose';
+import { Actions, GlobalState } from '../../../redux';
+import { IdentityClearView, Props } from './clearView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  walletEncoded: state.wallet.wallet
+  loading: state.loader.loading
 });
 
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
+  clearIdentity: Actions.wallet.clearIdentity, 
+  finishLoading: Actions.loader.finishLoading,
+  startLoading: Actions.loader.startLoading
+}, dispatch);
+
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
-      ontId: getIdentity(reduxProps.walletEncoded!)!
+      handleCancel: () => {
+        props.history.goBack();
+      },
+      handleClear: async () => {
+       
+        await actions.startLoading();
+
+        await actions.clearIdentity();
+  
+        await actions.finishLoading();
+  
+        props.history.push('/');
+      }
     }, (injectedProps) => (
-      <Component {...injectedProps} />
+      <Component {...injectedProps} loading={reduxProps.loading} />
     ))
   ))
-);
+)
 
-export const IdentityDashboard = enhancer(IdentityDashboardView);
+export const IdentityClear = enhancer(IdentityClearView);

@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { Filler, LogoHeader, StatusBar, View } from '../../../components';
 
 export interface Props {
   mnemonics: string;
@@ -25,12 +25,12 @@ export interface Props {
   handleContinue: () => void;
 }
 
-export const NewView: React.SFC<Props> = (props) => (
+export const IdentityNewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New account" />
+      <LogoHeader title="New identity" />
       <View content={true} className="spread-around">
-        <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
+        <View>Here you have your mnemonics phrase and private key. You can use either to restore your identity.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

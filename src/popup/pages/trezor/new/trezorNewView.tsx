@@ -28,7 +28,7 @@ export interface Props {
 export const TrezorNewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New Trezor account" />
+      <LogoHeader title="New Trezor account" />
       <View content={true} className="spread-around">
         <View>You have successfully registered new account.</View>
       </View>

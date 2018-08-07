@@ -32,7 +32,7 @@ export const IdentityLogoView: React.SFC<Props> = (props) => (
       </View>
       <Icon className="img" name="user circle" size="massive" />
       <View orientation="row" fluid={true} className="buttons">
-        <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="money" />
+        <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="dollar" />
         <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
       </View>
     </View>

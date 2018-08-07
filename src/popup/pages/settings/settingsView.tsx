@@ -26,6 +26,9 @@ import { required } from '../../utils/validate';
 export interface Props {
   handleSave: (values: object) => Promise<void>;
   handleCancel: () => void;
+  handleClear: () => void;
+
+  handleClearIdentity: () => void;
   settings: SettingsState;
 }
 
@@ -47,7 +50,7 @@ const netOptions: Array<{ text: string, value: NetValue }> = [
 export const SettingsView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} showSettings={false} title="Settings" />
+      <LogoHeader showSettings={false} title="Settings" />
       <View content={true} className="spread-around">
         <View>Wallet needs to be restarted for changes to take effect.</View>
       </View>
@@ -105,6 +108,11 @@ export const SettingsView: React.SFC<Props> = (props) => (
                     )} />
                 </View>
               </>) : (null)}
+              <Spacer />
+              <View className="buttons">
+                <Button onClick={props.handleClear} icon="delete" title="Clear account and identity" content="Clear wallet" />
+                <Button onClick={props.handleClearIdentity} icon="user delete" title="Clear only identity" content="Clear identity" />
+              </View>
             <Filler />
             <View className="buttons">
               <Button icon="check" content="Save" />

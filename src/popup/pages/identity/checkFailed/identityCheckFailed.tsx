@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -17,24 +16,18 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { getIdentity } from '../../../../api/identityApi';
-import { dummy, reduxConnect, withProps } from '../../../compose';
-import { GlobalState } from '../../../redux';
-import { IdentityDashboardView, Props } from './identityDashboardView';
+import { RouteComponentProps } from 'react-router';
+import { withProps } from '../../../compose';
+import { IdentityCheckFailedView, Props } from './identityCheckFailedView';
 
-const mapStateToProps = (state: GlobalState) => ({
-  walletEncoded: state.wallet.wallet
-});
-
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
-    withProps({
-      ontId: getIdentity(reduxProps.walletEncoded!)!
-    }, (injectedProps) => (
-      <Component {...injectedProps} />
-    ))
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
+  withProps({
+    handleOk: () => {
+      props.history.push('/identity');
+    }    
+  }, (injectedProps) => (
+    <Component {...injectedProps} />
   ))
 );
 
-export const IdentityDashboard = enhancer(IdentityDashboardView);
+export const IdentityCheckFailed = enhancer(IdentityCheckFailedView);

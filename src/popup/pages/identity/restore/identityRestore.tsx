@@ -19,39 +19,57 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { accountImportPrivateKey } from '../../../api/accountApi';
-import { reduxConnect, withProps } from '../../compose';
-import { Actions, GlobalState } from '../../redux';
-import { ImportView, Props } from './importView';
+import { getWallet } from '../../../../api/authApi';
+import { identityImportMnemonics } from '../../../../api/identityApi';
+import { reduxConnect, withProps } from '../../../compose';
+import { Actions, GlobalState } from '../../../redux';
+import { IdentityRestoreView, Props } from './identityRestoreView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
+  transaction: state.transaction,
+  walletEncoded: state.wallet.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+  checkOntId: Actions.runtime.checkOntId,
   finishLoading: Actions.loader.finishLoading,
-  setWallet: Actions.wallet.setWallet,
-  startLoading: Actions.loader.startLoading
+  setWallet: Actions.wallet.setWallet, 
+  startLoading: Actions.loader.startLoading, 
 }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) => (
     withProps({
       handleCancel: () => {
         props.history.goBack();
       },
       handleSubmit: async (values: object) => {
+        const wallet = getWallet(reduxProps.walletEncoded!);
+
         const password = get(values, 'password', '');
-        const wif = get(values, 'privateKey', '');
+        const mnemonics = get(values, 'mnemonics', '');
 
         await actions.startLoading();
 
-        const { wallet } = accountImportPrivateKey(wif, password);
-        await actions.setWallet(wallet);
+        const { encryptedWif, wif, identity } = identityImportMnemonics(mnemonics, password, wallet.scrypt);
+
+        await actions.checkOntId(identity.toJson(), password);
 
         await actions.finishLoading();
 
-        props.history.push('/dashboard');
+        const transactionResult = getReduxProps().transaction;
+        
+        if (transactionResult.result) {
+          wallet.addIdentity(identity);
+          wallet.setDefaultIdentity(identity.ontid);
+
+          await actions.setWallet(wallet.toJson());
+
+          props.history.push('/identity/new', { encryptedWif, mnemonics, wif });
+        } else {
+          props.history.push('/identity/checkFailed');
+        }
       },    
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
@@ -59,4 +77,4 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   ))
 )
 
-export const Import = enhancer(ImportView);
+export const IdentityRestore = enhancer(IdentityRestoreView);

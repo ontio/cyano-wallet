@@ -17,30 +17,29 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
-  mnemonics: string;
-  wif: string;
-  handleContinue: () => void;
+  handleCancel: () => void;
+
+  handleClear: () => Promise<void>;
+  loading: boolean;
 }
 
-export const NewView: React.SFC<Props> = (props) => (
+export const IdentityClearView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New account" />
+      <AccountLogoHeader title="Clear identity" />
       <View content={true} className="spread-around">
-        <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
+        <View>Clearing will erase only your identity from this device. Account will be not erased.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <label>Mnemonics phrase</label>
-      <Message className="scroll">{props.mnemonics}</Message>
-      <label>Private key (WIF format)</label>
-      <Message className="breakWords">{props.wif}</Message>
+      <Message>Make sure you have your private key or mnemonics phrase backed up if you don't want to lose currently stored data.</Message>
       <Filler />
       <View className="buttons">
-        <Button onClick={props.handleContinue}>Continue</Button>
+        <Button disabled={props.loading} loading={props.loading} onClick={props.handleClear}>Clear</Button>
+        <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
       </View>
     </View>
     <StatusBar />

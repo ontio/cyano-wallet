@@ -18,11 +18,11 @@
 
 import { finishLoading, startLoading } from './loader';
 import { setRouterState } from './router';
-import { setBalance, setTransfers, transfer, withdrawOng } from './runtime';
+import { checkOntId, registerOntId, setBalance, setTransfers, transfer, withdrawOng } from './runtime';
 import { setSettings } from './settings';
 import { changeNetworkState } from './status';
 import { setTransactionResult } from './transaction';
-import { clearWallet, setWallet } from './wallet';
+import { clearIdentity, clearWallet, setWallet } from './wallet';
 
 export default {
     loader: {
@@ -33,6 +33,8 @@ export default {
         setRouterState
     },
     runtime: {
+        checkOntId,
+        registerOntId,
         setBalance,
         setTransfers,
         transfer,
@@ -48,6 +50,7 @@ export default {
         setTransactionResult
     },
     wallet: {
+        clearIdentity,
         clearWallet,
         setWallet
     }

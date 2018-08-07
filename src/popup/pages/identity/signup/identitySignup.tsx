@@ -24,19 +24,19 @@ import { IdentitySignupView, Props } from './identitySignupView';
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withProps({
     handleCreate: () => {
-      props.history.push('/create');
+      props.history.push('/identity/create');
     },
     handleImport: () => {
-      props.history.push('/import');
+      props.history.push('/identity/import');
     },
     handleLedger: () => {
-      props.history.push('/ledger/signup');
+      props.history.push('/identity/ledger/signup');
     },
     handleRestore: () => {
-      props.history.push('/restore');
+      props.history.push('/identity/restore');
     },
     handleTrezor: () => {
-      props.history.push('/trezor/signup');
+      props.history.push('/identity/trezor/signup');
     }
   }, (injectedProps) => (
     <Component {...injectedProps} />

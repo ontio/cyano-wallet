@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { getAddress } from '../../api/authApi';
+import { getAddress } from '../../api/accountApi';
 import { store } from '../redux';
 import { Asset } from './types';
 

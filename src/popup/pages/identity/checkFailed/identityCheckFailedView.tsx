@@ -17,30 +17,25 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
-  mnemonics: string;
-  wif: string;
-  handleContinue: () => void;
+  handleOk: () => void;
 }
 
-export const NewView: React.SFC<Props> = (props) => (
+export const IdentityCheckFailedView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New account" />
+      <AccountLogoHeader title="Identity not found" />
       <View content={true} className="spread-around">
-        <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
+        <View>The identity was not registered.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <label>Mnemonics phrase</label>
-      <Message className="scroll">{props.mnemonics}</Message>
-      <label>Private key (WIF format)</label>
-      <Message className="breakWords">{props.wif}</Message>
+      <Message>The identity was not found on blockchain.</Message>
       <Filler />
       <View className="buttons">
-        <Button onClick={props.handleContinue}>Continue</Button>
+        <Button onClick={props.handleOk}>Ok</Button>
       </View>
     </View>
     <StatusBar />

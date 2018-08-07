@@ -16,8 +16,10 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
-import { CONST, Crypto, OntAssetTxBuilder, TransactionBuilder } from 'ontology-ts-sdk';
-import { decryptWallet, getWallet } from '../../api/authApi';
+import { CONST, Crypto, DDO, Identity, OntAssetTxBuilder, OntidContract, TransactionBuilder, TxSignature } from 'ontology-ts-sdk';
+import { decryptAccount } from '../../api/accountApi';
+import { getWallet } from '../../api/authApi';
+import { decryptIdentity } from '../../api/identityApi';
 import { AssetType } from '../../redux/runtime';
 import Address = Crypto.Address;
 import { getClient } from '../network';
@@ -53,7 +55,7 @@ export async function transfer(password: string, recipient: string, asset: Asset
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
-  const privateKey = decryptWallet(wallet, password);
+  const privateKey = decryptAccount(wallet, password);
 
   const to = new Address(recipient);
 
@@ -80,7 +82,7 @@ export async function withdrawOng(password: string, amount: string) {
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
-  const privateKey = decryptWallet(wallet, password);
+  const privateKey = decryptAccount(wallet, password);
 
   amount = String(Number(amount) * 1000000000);
 
@@ -96,4 +98,48 @@ export async function withdrawOng(password: string, amount: string) {
 
   const client = getClient();
   await client.sendRawTransaction(tx.serialize(), false, true);
+}
+
+export async function registerOntId(identity: Identity, password: string, accountPassword: string) {
+  const state = store.getState();
+  const wallet = getWallet(state.wallet.wallet!);
+
+  const from = wallet.accounts[0].address;
+  const accountPrivateKey = decryptAccount(wallet, accountPassword);
+  const identityPrivateKey = decryptIdentity(identity, password, wallet.scrypt);
+
+  const identityPublicKey = identityPrivateKey.getPublicKey();
+
+  const tx = OntidContract.buildRegisterOntidTx(
+    identity.ontid, 
+    identityPublicKey, 
+    '500', 
+    `${CONST.DEFAULT_GAS_LIMIT}`
+  );
+
+  tx.payer = from;
+  await TransactionBuilder.signTransactionAsync(tx, accountPrivateKey);
+
+  // signs by identity private key
+  const signature = await TxSignature.createAsync(tx, identityPrivateKey);
+  tx.sigs.push(signature);
+
+  const client = getClient();
+  await client.sendRawTransaction(tx.serialize(), false, true);
+}
+
+export async function checkOntId(identity: Identity, password: string) {
+  const ontId = identity.ontid;
+  
+  const tx = OntidContract.buildGetDDOTx(ontId);
+
+  const client = getClient();
+  const result = await client.sendRawTransaction(tx.serialize(), true, false);
+
+  if (result.Result.Result === '') {
+    return false;
+  }
+  
+  // fixme: get DDO and check if public key of the identity is pressent
+  return true;
 }

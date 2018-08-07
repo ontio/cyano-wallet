@@ -30,7 +30,7 @@ export interface Props {
 export const TrezorImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="Import trezor account" />
+      <LogoHeader title="Import trezor account" />
       <View content={true} className="spread-around">
         <View>Enter used index. Every index will generate unique account.</View>
       </View>

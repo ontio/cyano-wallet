@@ -21,7 +21,7 @@ import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { NetValue, setSettings } from '../../../redux/settings';
-import { reduxConnect, withProps } from '../../compose';
+import { reduxConnect, withProps, withRouter } from '../../compose';
 import { GlobalState } from '../../redux';
 import { Props, SettingsView } from './settingsView';
 
@@ -32,22 +32,30 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
-      },
-      handleSave: async (values: object) => {
-        const net: NetValue = get(values, 'net', 'TEST');
-        const address: string = get(values, 'address', '');
-        const ssl: boolean = get(values, 'ssl', false);
+  withRouter(routerProps => (
+    reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
+      withProps({
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleClear: () => {
+          routerProps.history.push('/clear');
+        },
+        handleClearIdentity: () => {
+          routerProps.history.push('/identity/clear');
+        },
+        handleSave: async (values: object) => {
+          const net: NetValue = get(values, 'net', 'TEST');
+          const address: string = get(values, 'address', '');
+          const ssl: boolean = get(values, 'ssl', false);
 
-        actions.setSettings(address, ssl, net);
+          actions.setSettings(address, ssl, net);
 
-        props.history.goBack();
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} settings={reduxProps.settings} />
+          props.history.goBack();
+        }
+      }, (injectedProps) => (
+        <Component {...injectedProps} settings={reduxProps.settings} />
+      ))
     ))
   ))
 )

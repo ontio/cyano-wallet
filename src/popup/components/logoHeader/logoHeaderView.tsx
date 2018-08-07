@@ -21,13 +21,12 @@ import { View } from '../view';
 
 export interface Props {
   title: string;
-  handleClear: () => void;
   handleSettings: () => void;
 
   handleIdentity: () => void;
 
   handleAccount: () => void;
-  showLogout: boolean;
+  
   showSettings: boolean;
   showIdentity: boolean;
   showAccount: boolean;
@@ -38,10 +37,9 @@ export const LogoHeaderView: React.SFC<Props> = (props) => (
     <img height="30" src={require('../../assets/ontology-logo.svg')} />
     <h1>{props.title}</h1>
     <View orientation="row" fluid={true} className="buttons">
-      { props.showIdentity ? <Button onClick={props.handleIdentity} size="big" compact={true} basic={true} icon="user circle" /> : (null) }
-      { props.showAccount ? <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="money" /> : (null) }
-      { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" /> : (null) }
-      { props.showLogout ? <Button onClick={props.handleClear} size="big" compact={true} basic={true} icon="shutdown" /> : (null) }
+      { props.showIdentity ? <Button onClick={props.handleIdentity} size="big" compact={true} basic={true} icon="user circle" title="Identity" /> : (null) }
+      { props.showAccount ? <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="dollar" title="Account" /> : (null) }
+      { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" title="Settings" /> : (null) }
     </View>
   </View>
 );

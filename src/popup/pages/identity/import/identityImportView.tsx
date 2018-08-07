@@ -17,9 +17,9 @@
  */
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../../components';
-import { required } from '../../../utils/validate';
+import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../../components';
+import { required, samePassword } from '../../../utils/validate';
 
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
@@ -27,31 +27,28 @@ export interface Props {
   loading: boolean;
 }
 
-export const TrezorCreateView: React.SFC<Props> = (props) => (
+export const IdentityImportView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="New Trezor account" />
+      <LogoHeader title="Import private key" />
       <View content={true} className="spread-around">
-        <View>Choose your address.</View>
+        <View>Enter your private key and passphrase for identity encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Form
         onSubmit={props.handleSubmit}
+        validate={samePassword}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Index</label>
-              <Message>Enter ununsed index. Every index will generate unique account.</Message>
+              <label>Private key (WIF format)</label>
               <Field
-                name="index"
+                name="privateKey"
                 validate={required}
                 render={(t) => (
-                  <SemanticForm.Input
-                    type="number"
-                    min="0"
-                    max="255"
-                    step="1"
+                  <SemanticForm.TextArea
+                    rows={2}
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
@@ -59,9 +56,42 @@ export const TrezorCreateView: React.SFC<Props> = (props) => (
                   />
                 )} />
             </View>
+            <Spacer />
+            <View orientation="column">
+              <label>Password</label>
+              <Field
+                name="password"
+                validate={required}
+                render={(t) => (
+                  <SemanticForm.Input
+                    onChange={t.input.onChange}
+                    input={{ ...t.input, value: t.input.value }}
+                    icon="key"
+                    type="password"
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
+                  />
+                )} />
+            </View>
+            <Spacer />
+            <View orientation="column">
+              <label>Password again</label>
+              <Field
+                name="passwordAgain"
+                render={(t) => (
+                  <SemanticForm.Input
+                    onChange={t.input.onChange}
+                    input={{ ...t.input, value: t.input.value }}
+                    icon="key"
+                    type="password"
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
+                  />
+                )} />
+            </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Sign up</Button>
+              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
               <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>

@@ -33,30 +33,37 @@ import {
   Create, 
   Dashboard, 
   Home, 
+  IdentityCheckFailed, 
+  IdentityClear,
+  IdentityCreate, 
+  IdentityCreateConfirm, 
   IdentityDashboard, 
-  IdentityHome,
+  IdentityHome, 
+  IdentityImport, 
+  IdentityNew, 
+  IdentityRestore, 
   IdentitySignup, 
   Import, 
   LedgerCreate, 
-  LedgerImport, 
-  LedgerNew, 
-  LedgerSendConfirm, 
-  LedgerSignup, 
-  LedgerWithdrawConfirm, 
-  New, 
+  LedgerImport,
+  LedgerNew,
+  LedgerSendConfirm,
+  LedgerSignup,
+  LedgerWithdrawConfirm,
+  New,
   Receive, 
-  Restore,
-  Send,
-  SendComplete,
+  Restore, 
+  Send, 
+  SendComplete, 
   SendConfirm,
-  SendFailed,
+  SendFailed, 
   SettingsPage,
-  Signup, 
-  Transfers, 
-  TrezorCreate, 
-  TrezorImport, 
+  Signup,
+  Transfers,
+  TrezorCreate,
+  TrezorImport,
   TrezorNew,
-  TrezorSendConfirm, 
+  TrezorSendConfirm,
   TrezorSignup,
   TrezorWithdrawConfirm,
   WithdrawComplete,
@@ -109,7 +116,14 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/trezor/withdrawConfirm" exact={true} component={TrezorWithdrawConfirm} />
 
         <Route path="/identity" exact={true} component={IdentityHome} />
+        <Route path="/identity/checkFailed" exact={true} component={IdentityCheckFailed} />
+        <Route path="/identity/clear" exact={true} component={IdentityClear} />
+        <Route path="/identity/create" exact={true} component={IdentityCreate} />
+        <Route path="/identity/createConfirm" exact={true} component={IdentityCreateConfirm} />
         <Route path="/identity/dashboard" exact={true} component={IdentityDashboard} />
+        <Route path="/identity/import" exact={true} component={IdentityImport} />
+        <Route path="/identity/new" exact={true} component={IdentityNew} />
+        <Route path="/identity/restore" exact={true} component={IdentityRestore} />
         <Route path="/identity/sign-up" exact={true} component={IdentitySignup} />
       </>
     </Router>
