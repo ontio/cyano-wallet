@@ -162,8 +162,9 @@ div.flex.content {
   margin-top: 20px;
 }
 
-.logoHeader {
+.flex.logoHeader {
   align-items: flex-start;
+  flex-shrink: 0;
   margin: 10px;
 }
 
@@ -264,8 +265,14 @@ h1.header {
   cursor: pointer;
 }
 
-.transfersView {
+.flex.scrollView {
   overflow-y: auto;
+  flex-direction: column;
+}
+
+.flex.scrollView .flex.content {
+  flex-shrink: 0;
+  flex-direction: column;
 }
 
 .transferList {
@@ -299,4 +306,9 @@ h4.unbound:hover {
 
 .statusBar {
   padding: 5px;
+  flex-shrink: 0;
+}
+
+.flex.optionsButtons {
+  flex-direction: column;
 }

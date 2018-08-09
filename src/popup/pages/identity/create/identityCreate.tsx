@@ -25,6 +25,7 @@ import { IdentityCreateView, Props } from './identityCreateView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
+  ongAmount: state.runtime.ongAmount,
   walletEncoded: state.wallet.wallet
 });
 
@@ -44,7 +45,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         const password = get(values, 'password', '');
   
         props.history.push('/identity/createConfirm', { password });
-      }
+      },
+      haveEnoughOng: reduxProps.ongAmount >= 0.01
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
     ))

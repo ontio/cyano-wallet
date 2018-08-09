@@ -17,6 +17,7 @@
  */
 import { get } from 'lodash';
 import * as React from 'react';
+import * as FileReaderInput from 'react-file-reader-input';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { NetValue, SettingsState } from '../../../redux/settings';
@@ -27,9 +28,14 @@ export interface Props {
   handleSave: (values: object) => Promise<void>;
   handleCancel: () => void;
   handleClear: () => void;
-
   handleClearIdentity: () => void;
+
+  handleExport: () => void;
+
+  handleImport: (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => void;
   settings: SettingsState;
+  enableClear: boolean;
+  enableClearIdentity: boolean;
 }
 
 const netOptions: Array<{ text: string, value: NetValue }> = [
@@ -61,59 +67,83 @@ export const SettingsView: React.SFC<Props> = (props) => (
         onSubmit={props.handleSave}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
-            <View orientation="column">
-              <label>Net</label>
-              <Field
-                name="net"
-                validate={required}
-                render={(t) => (
-                  <SemanticForm.Dropdown
-                    fluid={true}
-                    selection={true}
-                    options={netOptions}
-                    onChange={(e, data) => t.input.onChange(data.value)}
-                    value={t.input.value}
-                    error={t.meta.touched && t.meta.invalid}
-                  />
-                )} />
-            </View>
-            {get(formProps.values, 'net') === 'PRIVATE' ? (
-              <>
-                <Spacer />
+            <View className="scrollView">
+              <View className="content">
                 <View orientation="column">
-                  <label>Private node ip/address</label>
+                  <label>Net</label>
                   <Field
-                    name="address"
+                    name="net"
                     validate={required}
                     render={(t) => (
-                      <SemanticForm.Input
-                        onChange={t.input.onChange}
+                      <SemanticForm.Dropdown
+                        fluid={true}
+                        selection={true}
+                        options={netOptions}
+                        onChange={(e, data) => t.input.onChange(data.value)}
                         value={t.input.value}
-                        placeholder="polaris1.ont.io"
                         error={t.meta.touched && t.meta.invalid}
                       />
                     )} />
                 </View>
-                <Spacer />
-                <View orientation="column">
-                  <label>Use SSL</label>
-                  <Field
-                    name="ssl"
-                    render={(t) => (
-                      <SemanticForm.Checkbox
-                        onChange={(e, d) => t.input.onChange(d.checked)}
-                        checked={t.input.value}
-                        error={t.meta.touched && t.meta.invalid}
-                      />
-                    )} />
+                {get(formProps.values, 'net') === 'PRIVATE' ? (
+                  <>
+                    <Spacer />
+                    <View orientation="column">
+                      <label>Private node ip/address</label>
+                      <Field
+                        name="address"
+                        validate={required}
+                        render={(t) => (
+                          <SemanticForm.Input
+                            onChange={t.input.onChange}
+                            value={t.input.value}
+                            placeholder="polaris1.ont.io"
+                            error={t.meta.touched && t.meta.invalid}
+                          />
+                        )} />
+                    </View>
+                    <Spacer />
+                    <View orientation="column">
+                      <label>Use SSL</label>
+                      <Field
+                        name="ssl"
+                        render={(t) => (
+                          <SemanticForm.Checkbox
+                            onChange={(e, d) => t.input.onChange(d.checked)}
+                            checked={t.input.value}
+                            error={t.meta.touched && t.meta.invalid}
+                          />
+                        )} />
+                    </View>
+                  </>) : (null)}
+                  <Spacer />
+                  <Button 
+                    disabled={!props.enableClear} onClick={props.handleClear} 
+                    icon="delete" title="Clear account and identity" content="Clear wallet" 
+                  />
+                  <Spacer />
+                  <Button 
+                    disabled={!props.enableClearIdentity} onClick={props.handleClearIdentity} 
+                    icon="user delete" title="Clear only identity" content="Clear identity" 
+                  />
+                  <Spacer />
+                  <Button 
+                    type="button"
+                    disabled={!props.enableClear} onClick={props.handleExport} 
+                    content="Export wallet" 
+                  />
+                  <Spacer />
+                  <FileReaderInput onChange={props.handleImport} as="text">
+                    <Button
+                      type="button"
+                      fluid={true}
+                      content="Import wallet" 
+                    />
+                  </FileReaderInput>
                 </View>
-              </>) : (null)}
-              <Spacer />
-              <View className="buttons">
-                <Button onClick={props.handleClear} icon="delete" title="Clear account and identity" content="Clear wallet" />
-                <Button onClick={props.handleClearIdentity} icon="user delete" title="Clear only identity" content="Clear identity" />
-              </View>
+              </View>  
             <Filler />
+            <Spacer />
             <View className="buttons">
               <Button icon="check" content="Save" />
               <Button onClick={props.handleCancel}>Cancel</Button>

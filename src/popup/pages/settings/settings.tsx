@@ -16,25 +16,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import * as FileSaver from 'file-saver';
 import { get } from 'lodash';
 import * as React from 'react';
+import * as FileReaderInput from 'react-file-reader-input';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { NetValue, setSettings } from '../../../redux/settings';
+import { getWallet } from '../../../api/authApi';
+import { getIdentity } from '../../../api/identityApi';
+import Actions from '../../../redux/actions';
+import { NetValue } from '../../../redux/settings';
 import { reduxConnect, withProps, withRouter } from '../../compose';
 import { GlobalState } from '../../redux';
 import { Props, SettingsView } from './settingsView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  settings: state.settings
+  settings: state.settings,
+  wallet: state.wallet.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
+  setSettings: Actions.settings.setSettings,
+  setWallet: Actions.wallet.setWallet
+}, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withRouter(routerProps => (
     reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
       withProps({
+        enableClear: reduxProps.wallet !== null,
+        enableClearIdentity: reduxProps.wallet !== null && getIdentity(reduxProps.wallet) !== null,
+
         handleCancel: () => {
           props.history.goBack();
         },
@@ -44,14 +56,33 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleClearIdentity: () => {
           routerProps.history.push('/identity/clear');
         },
+        handleExport: () => {
+          const blob = new Blob([reduxProps.wallet], {type: 'text/plain;charset=utf-8'});
+          FileSaver.saveAs(blob, 'wallet.dat');
+        },
+        handleImport: async (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => {
+          const [e] = results[0];
+            
+          if (e !== null && e.target !== null) {
+              const data: string = get(e.target, 'result');
+              
+              const wallet = getWallet(data);
+              // sets default address for OWallet exports
+              if (wallet.defaultAccountAddress == null ||
+                wallet.defaultAccountAddress === '') {
+                  wallet.defaultAccountAddress = wallet.accounts[0].address.toBase58();
+              }
+
+              await actions.setWallet(wallet.toJson());
+              routerProps.history.push('/');
+          }
+        },
         handleSave: async (values: object) => {
           const net: NetValue = get(values, 'net', 'TEST');
           const address: string = get(values, 'address', '');
           const ssl: boolean = get(values, 'ssl', false);
 
           actions.setSettings(address, ssl, net);
-
-          props.history.goBack();
         }
       }, (injectedProps) => (
         <Component {...injectedProps} settings={reduxProps.settings} />

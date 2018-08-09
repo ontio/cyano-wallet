@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
 import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../../components';
 import { required, samePassword } from '../../../utils/validate';
 
@@ -25,6 +25,7 @@ export interface Props {
   handleSubmit: (values: object) => Promise<void>;
   handleCancel: () => void;
   loading: boolean;
+  haveEnoughOng: boolean;
 }
 
 export const IdentityCreateView: React.SFC<Props> = (props) => (
@@ -36,6 +37,9 @@ export const IdentityCreateView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
+      {!props.haveEnoughOng ? (
+        <Message>You does not have enough ONG.</Message>
+      ) : (null)}
       <Form
         onSubmit={props.handleSubmit}
         validate={samePassword}
@@ -53,7 +57,7 @@ export const IdentityCreateView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
-                    disabled={props.loading}
+                    disabled={props.loading || !props.haveEnoughOng}
                   />
                 )} />
             </View>
@@ -69,13 +73,13 @@ export const IdentityCreateView: React.SFC<Props> = (props) => (
                     icon="key"
                     type="password"
                     error={t.meta.touched && t.meta.invalid}
-                    disabled={props.loading}
+                    disabled={props.loading || !props.haveEnoughOng}
                   />
                 )} />
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Create</Button>
+              <Button disabled={props.loading || !props.haveEnoughOng} loading={props.loading}>Create</Button>
               <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
