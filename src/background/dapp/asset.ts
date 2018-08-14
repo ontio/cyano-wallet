@@ -34,7 +34,8 @@ function sleep(ms: number) {
 }
 
 /**
- * fixme
+ * fixme: wait for popup to open and then send the request
+ * fixme: resolve/reject the request based on the transfer outcome
  */
 export async function makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<void> {
   await showPopup();
