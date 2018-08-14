@@ -15,37 +15,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { GlobalStore } from '../../redux/state';
-import { setWallet } from '../../redux/wallet';
-import { clearWallet, loadWallet, saveWallet } from '../api/walletApi';
+import { browser } from 'webextension-polyfill-ts';
 
-let oldWallet: string | null;
+const width = 350;
+const height = 430 + 22;
+let popupId: number | undefined;
 
-export function initWalletProvider(store: GlobalStore) {
-  /**
-   * Syncs wallet to storage
-   */
-  store.subscribe(async () => {
-    const state = store.getState();
-    const wallet = state.wallet.wallet;
+export async function sendMessageToPopup(msg: any) {
+  return browser.runtime.sendMessage(msg);
+}
 
-    if (oldWallet !== wallet) {
-      oldWallet = wallet;
+export async function showPopup() {
+  let popup = await findPopup();
 
-      if (wallet == null) {
-        await clearWallet();
-      } else {
-        await saveWallet(wallet);
-      }
-    }
+  if (popup !== null) {
+    browser.windows.update(popup.id!, { focused: true });
+  } else {
+    popup = await browser.windows.create({
+      height,
+      type: 'popup',
+      url: 'popup.html',
+      width,
+    });
+    popupId = popup.id;
+  }
+}
+
+async function findPopup() {
+  const windows = await browser.windows.getAll({
+    windowTypes: ['popup']
   });
 
-  /**
-   * Loads wallet from storage on startup
-   */
-  loadWallet().then((wallet) => {
-    if (wallet != null) {
-      store.dispatch(setWallet(wallet));
-    }
-  });
+  const ownWindows = windows.filter(w => w.id === popupId);
+
+  if (ownWindows.length > 0) {
+    return ownWindows[0];
+  } else {
+    return null;
+  }
 }

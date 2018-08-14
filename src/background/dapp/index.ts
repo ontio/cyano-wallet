@@ -1,6 +1,12 @@
-import * as network from './network';
-import * as runtime from './runtime'; 
-import * as sc from './sc'; 
-import * as utils from './utils'; 
+import { provider } from 'ontology-dapi';
+import * as asset from './asset';
+import * as network from './network';
 
-export { network, runtime, sc, utils };
+export function registerConnector() {
+  provider.registerProvider(
+    {
+      asset,
+      network
+    }
+  );
+}

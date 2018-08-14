@@ -1,8 +1,7 @@
 import * as H from 'history';
 import createTransitionManager, { TransitionManager } from 'history/createTransitionManager';
-import { Store } from 'redux';
 import Actions from '../redux/actions';
-import { GlobalState } from '../redux/state';
+import { GlobalStore } from '../redux/state';
 import { RouterState } from './router';
 
 export { createLocation } from 'history';
@@ -20,12 +19,12 @@ type getUserConfirmationType = (message: string, callback: (result: boolean) => 
  * Inspired by Memory router from React Router.
  */
 export class ReduxHistory implements H.History {
-    private store: Store<GlobalState>;
+    private store: GlobalStore;
     private state: RouterState;
     private transitionManager: TransitionManager;
     private getUserConfirmation: getUserConfirmationType;
 
-    constructor(store: Store<GlobalState>, getUserConfirmation: getUserConfirmationType = (() => true)) {
+    constructor(store: GlobalStore, getUserConfirmation: getUserConfirmationType = (() => true)) {
         this.state = store.getState().router;
         this.store = store;
         this.transitionManager = createTransitionManager();

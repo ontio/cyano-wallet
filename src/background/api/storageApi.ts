@@ -15,20 +15,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as browser from 'webextension-polyfill';
+import { browser } from "webextension-polyfill-ts";
 
 export async function storageGet(key: string) {
   const result = await browser.storage.local.get(key);
   return result[key] as string | null;
-};
+}
 
 export async function storageSet(key: string, value: string) {
   const current = await browser.storage.local.get();
-  await browser.storage.local.set({...current, [key]: value});
+  await browser.storage.local.set({ ...current, [key]: value });
   return Promise.resolve();
-};
+}
 
 export async function storageClear(key: string) {
   await browser.storage.local.remove(key);
   return Promise.resolve();
-};
+}

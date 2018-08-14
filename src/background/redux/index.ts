@@ -18,6 +18,7 @@
 import { alias, wrapStore } from 'react-chrome-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
+import { GlobalStore } from '../../redux/state';
 // import { composeWithDevTools } from 'remote-redux-devtools';
 import { loaderReducer } from './loaderReducer';
 import { routerReducer } from './routerReducer';
@@ -41,7 +42,16 @@ export const aliases = {
   ...runtimeAliases
 };
 
-// export const store = createStore(globalReducer, composeWithDevTools(applyMiddleware(alias(aliases), thunk)));
-export const store = createStore(globalReducer, applyMiddleware(alias(aliases), thunk));
+let store: GlobalStore;
 
-wrapStore(store, { portName: 'ONT_EXTENSION' });
+export function initStore(): GlobalStore {
+  // store = createStore(globalReducer, composeWithDevTools(applyMiddleware(alias(aliases), thunk)));
+  store = createStore(globalReducer, applyMiddleware(alias(aliases), thunk));
+  wrapStore(store, { portName: 'ONT_EXTENSION' });
+
+  return store;
+}
+
+export function getStore() {
+  return store;
+}

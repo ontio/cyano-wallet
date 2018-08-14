@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { Store } from 'redux';
 import { LoaderState } from './loader';
 import { RouterState } from './router';
 import { RuntimeState } from './runtime';
@@ -33,3 +34,5 @@ export interface GlobalState {
   transaction: TransactionState;
   wallet: WalletState;
 };
+
+export type GlobalStore = Store<GlobalState>;

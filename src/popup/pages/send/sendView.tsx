@@ -19,10 +19,19 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { AssetType } from '../../../redux/runtime';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { range, required } from '../../utils/validate';
 
+export interface PreparedTransfer {
+  recipient?: string;
+  amount?: number;
+  asset?: AssetType;
+}
+
 export interface Props {
+  preparedTransfer?: PreparedTransfer;
+  locked: boolean;
   ontAmount: number;
   ongAmount: number;
   handleConfirm: (values: object) => Promise<void>;
@@ -33,11 +42,11 @@ export interface Props {
 const assetOptions = [
   {
     text: 'ONT',
-    value: 'ONT'
+    value: 'ONT',
   },
   {
     text: 'ONG',
-    value: 'ONG'
+    value: 'ONG',
   },
 ];
 
@@ -53,64 +62,73 @@ export const SendView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
-      <Form onSubmit={props.handleConfirm} render={(formProps) => (
-        <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
-          <View orientation="column">
-            <label>Recipient</label>
-            <Field
-              name="recipient"
-              validate={required}
-              render={(t) => (
-                <SemanticForm.Input
-                  onChange={t.input.onChange}
-                  value={t.input.value}
-                  error={t.meta.touched && t.meta.invalid}
-                />
-              )} />
-          </View>
-          <Spacer />
-          <View orientation="column">
-            <label>Asset</label>
-            <Field
-              name="asset"
-              validate={required}
-              render={(t) => (
-                <SemanticForm.Dropdown
-                  fluid={true}
-                  selection={true}
-                  options={assetOptions}
-                  onChange={(e, data) =>  t.input.onChange(data.value)}
-                  value={t.input.value}
-                  error={t.meta.touched && t.meta.invalid}
-                />
-              )} />
-          </View>
-          <Spacer />
-          <View orientation="column">
-            <label>Amount</label>
-            <Field
-              name="amount"
-              validate={range(0, get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount)}
-              render={(t) => (
-                <SemanticForm.Input
-                  type="number"
-                  placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                  step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
-                  onChange={t.input.onChange}
-                  input={{ ...t.input, value: t.input.value }}
-                  error={t.meta.touched && t.meta.invalid}
-                  disabled={get(formProps.values, 'asset') === undefined}
-                  action={(<Button type='button' onClick={() => props.handleMax(formProps)} content="MAX" />)}
-                />
-              )} />
-          </View>
-          <Filler />
-          <View className="buttons">
-            <Button icon="check" content="Confirm" />
-            <Button onClick={props.handleCancel}>Cancel</Button>
-          </View>
-        </SemanticForm>
-      )} />
+      <Form
+        initialValues={props.preparedTransfer}
+        onSubmit={props.handleConfirm}
+        render={(formProps) => (
+          <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
+            <View orientation="column">
+              <label>Recipient</label>
+              <Field
+                name="recipient"
+                validate={required}
+                render={(t) => (
+                  <SemanticForm.Input
+                    onChange={t.input.onChange}
+                    value={t.input.value}
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.locked}
+                  />
+                )}
+              />
+            </View>
+            <Spacer />
+            <View orientation="column">
+              <label>Asset</label>
+              <Field
+                name="asset"
+                validate={required}
+                render={(t) => (
+                  <SemanticForm.Dropdown
+                    fluid={true}
+                    selection={true}
+                    options={assetOptions}
+                    onChange={(e, data) => t.input.onChange(data.value)}
+                    value={t.input.value}
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.locked}
+                  />
+                )}
+              />
+            </View>
+            <Spacer />
+            <View orientation="column">
+              <label>Amount</label>
+              <Field
+                name="amount"
+                validate={range(0, get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount)}
+                render={(t) => (
+                  <SemanticForm.Input
+                    type="number"
+                    placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
+                    step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
+                    onChange={t.input.onChange}
+                    input={{ ...t.input, value: t.input.value }}
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.locked || get(formProps.values, 'asset') === undefined}
+                    action={<Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" />}
+                  />
+                )}
+              />
+            </View>
+            <Filler />
+            <View className="buttons">
+              <Button icon="check" content="Confirm" />
+              <Button onClick={props.handleCancel}>Cancel</Button>
+            </View>
+          </SemanticForm>
+        )}
+      />
     </View>
     <StatusBar />
   </View>

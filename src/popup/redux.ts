@@ -17,11 +17,17 @@
  */
 
 import { Store } from 'react-chrome-redux';
-import { GlobalState } from '../redux/state';
+import { GlobalState, GlobalStore } from '../redux/state';
 
 export { GlobalState } from '../redux/state';
 export { default as Actions } from '../redux/actions';
 
-export const store = new Store<GlobalState>({
-    portName: 'ONT_EXTENSION' // communication port name
-});
+let store: GlobalStore;
+
+export function initStore(): GlobalStore {
+    store = new Store<GlobalState>({
+        portName: 'ONT_EXTENSION' // communication port name
+    });
+    
+    return store;
+}

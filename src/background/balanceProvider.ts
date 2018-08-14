@@ -17,28 +17,30 @@
  */
 import { getAddress } from '../api/accountApi';
 import Actions from '../redux/actions';
+import { GlobalStore } from '../redux/state';
 import { getTransferList } from './api/explorerApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';
-import { store } from './redux';
 
-window.setInterval(async () => {
-  const state = store.getState();  
-  const walletEncoded = state.wallet.wallet;
-  
-  if (walletEncoded !== null) {
-    const balance = await getBalance();
-    const unboundOng = await getUnboundOng();
-
-    store.dispatch(
-      Actions.runtime.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
-    );
-
-    const address = getAddress(walletEncoded);
-
-    const transfers = await getTransferList(address);
+export function initBalanceProvider(store: GlobalStore) {
+  window.setInterval(async () => {
+    const state = store.getState();  
+    const walletEncoded = state.wallet.wallet;
     
-    store.dispatch(
-      Actions.runtime.setTransfers(transfers)
-    );
-  }
-}, 5000);
+    if (walletEncoded !== null) {
+      const balance = await getBalance();
+      const unboundOng = await getUnboundOng();
+
+      store.dispatch(
+        Actions.runtime.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
+      );
+
+      const address = getAddress(walletEncoded);
+
+      const transfers = await getTransferList(address);
+      
+      store.dispatch(
+        Actions.runtime.setTransfers(transfers)
+      );
+    }
+  }, 5000);
+}

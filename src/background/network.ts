@@ -18,36 +18,38 @@
 import { CONST, WebsocketClient } from 'ontology-ts-sdk';
 import Actions from '../redux/actions';
 import { compareSettings, SettingsState } from '../redux/settings';
-import { store } from './redux';
+import { GlobalStore } from '../redux/state';
 
 let client: WebsocketClient;
 let settings: SettingsState | null = null;
 
-store.subscribe(() => {
-  const state = store.getState();
-  const newSettings = state.settings;
+export function initNetwork(store: GlobalStore) {
+  store.subscribe(() => {
+    const state = store.getState();
+    const newSettings = state.settings;
+  
+    if (!compareSettings(settings, newSettings)) {
+      settings = newSettings;
+  
+      const url = `${newSettings.ssl ? 'wss' : 'ws'}://${getNodeAddress()}:${CONST.HTTP_WS_PORT}`;
+      client = new WebsocketClient(url, false, false);
+    }
+  });
 
-  if (!compareSettings(settings, newSettings)) {
-    settings = newSettings;
-
-    const url = `${newSettings.ssl ? 'wss' : 'ws'}://${getNodeAddress()}:${CONST.HTTP_WS_PORT}`;
-    client = new WebsocketClient(url, true, false);
-  }
-});
-
-window.setInterval(async () => {
-  try {
-    await client.sendHeartBeat();
-    store.dispatch(
-      Actions.status.changeNetworkState('CONNECTED')
-    );
-  } catch (e) {
-    store.dispatch(
-      Actions.status.changeNetworkState('DISCONNECTED')
-    );  
-  }
-}, 5000);
-
+  window.setInterval(async () => {
+    try {
+      await client.sendHeartBeat();
+      store.dispatch(
+        Actions.status.changeNetworkState('CONNECTED')
+      );
+    } catch (e) {
+      store.dispatch(
+        Actions.status.changeNetworkState('DISCONNECTED')
+      );  
+    }
+  }, 5000);
+  
+}
 
 export function getClient(): WebsocketClient {
   return client;

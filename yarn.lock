@@ -75,6 +75,12 @@
     trezor.js "^6.17.6"
     uuid "^3.2.1"
 
+"@ont-community/window-post-message-proxy@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.7.tgz#aae7659371cfa0cf9b09e813bbba83b7c72f74ac"
+  dependencies:
+    es6-promise "^3.1.2"
+
 "@types/file-saver@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@types/file-saver/-/file-saver-1.3.0.tgz#0ef213077e704fc3f4e7a86cfd31c9de4f4f47a7"
@@ -2927,6 +2933,10 @@ es6-map@^0.1.3:
     es6-set "~0.1.5"
     es6-symbol "~3.1.1"
     event-emitter "~0.3.5"
+
+es6-promise@^3.1.2:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
 
 es6-promise@^4.0.5:
   version "4.2.4"
@@ -8589,9 +8599,15 @@ web-ext-types@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/web-ext-types/-/web-ext-types-2.1.0.tgz#31d0dbf5176298cd806274acc4383385b81a8bb6"
 
-webextension-polyfill@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.3.0.tgz#f2868572e3b22c33c104e219d89d0cfec01ddf37"
+webextension-polyfill-ts@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/webextension-polyfill-ts/-/webextension-polyfill-ts-0.8.7.tgz#081b64a891fd11e7c614c141686243795933ce66"
+  dependencies:
+    webextension-polyfill "^0.2.1"
+
+webextension-polyfill@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/webextension-polyfill/-/webextension-polyfill-0.2.1.tgz#cdfc9126033039f1713553157d35beff1d4d6f4a"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

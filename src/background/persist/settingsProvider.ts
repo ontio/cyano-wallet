@@ -16,31 +16,31 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { setSettings, SettingsState } from '../../redux/settings';
+import { GlobalStore } from '../../redux/state';
 import { loadSettings, saveSettings } from '../api/settingsApi';
-import { store } from '../redux';
 
 let oldSettings: SettingsState;
 
-/**
- * Syncs settings to storage
- */
-store.subscribe(async () => {
-  const state = store.getState();
-  const settings = state.settings;
+export function initSettingsProvider(store: GlobalStore) {
+  /**
+   * Syncs settings to storage
+   */
+  store.subscribe(async () => {
+    const state = store.getState();
+    const settings = state.settings;
 
-  if (oldSettings !== settings) {
-    oldSettings = settings;
-    await saveSettings(settings);
-  }
-});
+    if (oldSettings !== settings) {
+      oldSettings = settings;
+      await saveSettings(settings);
+    }
+  });
 
-/**
- * Loads settings from storage on startup
- */
-loadSettings().then(settings => {
-  if (settings !== null) {
-    store.dispatch(
-      setSettings(settings.address, settings.ssl, settings.net)
-    );
-  }
-});
+  /**
+   * Loads settings from storage on startup
+   */
+  loadSettings().then((settings) => {
+    if (settings !== null) {
+      store.dispatch(setSettings(settings.address, settings.ssl, settings.net));
+    }
+  });
+}

@@ -1,36 +1,35 @@
-import BigNumber from 'bignumber.js';
+import Address = Crypto.Address;
+import { Asset, Balance, Block, MerkleProof, Network, Transaction } from 'ontology-dapi';
 import { Crypto } from 'ontology-ts-sdk';
 import { getClient } from '../network';
-import { store } from '../redux';
-import { Asset, Balance, Block, MerkleProof, Network, Transaction } from './types';
-import Address = Crypto.Address;
+import { getStore } from '../redux';
 
 /**
  * Checks if connected to network.
  * Because of multiple delays in different parts of browser and api,
  * the information about disconnect is not instant.
  */
-export function isConnected(): boolean {
-    const state = store.getState();
+export function isConnected(): Promise<boolean> {
+    const state = getStore().getState();
     const status = state.status.networkState;
 
-    return status === 'CONNECTED';
+    return Promise.resolve(status === 'CONNECTED');
 }
 
 /**
  * Gets the currently connected network.
  */
-export function getNetwork(): Network {
-    const state = store.getState();
-    return state.settings.net;
+export function getNetwork(): Promise<Network> {
+    const state = getStore().getState();
+    return Promise.resolve(state.settings.net);
 }
 
 export async function getBalance(address: string): Promise<Balance> {
     const client = getClient();
     const response = await client.getBalance(new Address(address));
     return {
-        ong: response.Result.ONG,
-        ont: response.Result.ONT
+        ong: response.Result.ong,
+        ont: response.Result.ont
     };
 }
 
@@ -76,7 +75,7 @@ export async function getStorage(constractAddress: string, key: string): Promise
     return response.Result;
 }
 
-export async function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<BigNumber> {
+export async function getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<number> {
     const client = getClient();
     const response = await client.getAllowance(asset, new Address(fromAddress), new Address(toAddress));
     return response.Result;

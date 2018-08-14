@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { EventListener, Parameter } from 'ontology-dapi';
 import { getClient } from '../network';
-import { EventListener, Parameter } from './types';
 
 export async function deploy(code: string, name: string, version: string, author: string, email: string, 
     description: string, needStorage: boolean, gasPrice: BigNumber, gasLimit: BigNumber): Promise<void> {

@@ -15,37 +15,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { GlobalStore } from '../../redux/state';
-import { setWallet } from '../../redux/wallet';
-import { clearWallet, loadWallet, saveWallet } from '../api/walletApi';
+import { browser } from 'webextension-polyfill-ts';
+import { getHistory } from './history';
 
-let oldWallet: string | null;
+export function registerBackChannel() {
+  browser.runtime.onMessage.addListener((request, sender) => {
+    if (request.operation === 'init_transfer') {
+      const { recipient, asset, amount } = request;
+      console.log('amount', amount);
 
-export function initWalletProvider(store: GlobalStore) {
-  /**
-   * Syncs wallet to storage
-   */
-  store.subscribe(async () => {
-    const state = store.getState();
-    const wallet = state.wallet.wallet;
+      const history = getHistory();
+      history.push('/send', { recipient, asset, amount });
 
-    if (oldWallet !== wallet) {
-      oldWallet = wallet;
+      // fixme: wait for the transfer to go through
+      
 
-      if (wallet == null) {
-        await clearWallet();
-      } else {
-        await saveWallet(wallet);
-      }
-    }
-  });
-
-  /**
-   * Loads wallet from storage on startup
-   */
-  loadWallet().then((wallet) => {
-    if (wallet != null) {
-      store.dispatch(setWallet(wallet));
+      return Promise.resolve();
     }
   });
 }

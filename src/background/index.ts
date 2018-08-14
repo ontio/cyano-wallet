@@ -16,32 +16,43 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import 'babel-polyfill';
-import * as browser from 'webextension-polyfill';
 
-
-browser.webRequest.onBeforeSendHeaders.addListener(
-    (e: any) => {
-        for (const header of e.requestHeaders) {
-            if (header.name.toLowerCase() === "origin") {
-                header.value = 'https://extension.trezor.io';
-            }
-        }
-        return { requestHeaders: e.requestHeaders };
-    },
-    { urls: ["http://127.0.0.1/*"] },
-    ['blocking', 'requestHeaders']
-);
-
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
-import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
+import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
-import './dapp';
-import './redux';
+import { browser } from 'webextension-polyfill-ts';
+import { initBalanceProvider } from './balanceProvider';
+import { registerConnector } from './dapp';
+import { initNetwork } from './network';
+import { initSettingsProvider } from './persist/settingsProvider';
+import { initWalletProvider } from './persist/walletProvider';
+import { initStore } from './redux';
 
-import './balanceProvider';
-import './persist/settingsProvider';
-import './persist/walletProvider';
+const store = initStore();
+initNetwork(store);
+initBalanceProvider(store);
+initSettingsProvider(store);
+initWalletProvider(store);
+registerConnector();
+
+// pretends we are hosted on https://extension.trezor.io so trezor bridge will allow communication
+browser.webRequest.onBeforeSendHeaders.addListener(
+  (e) => {
+    if (e.requestHeaders !== undefined) {
+      for (const header of e.requestHeaders) {
+        if (header.name.toLowerCase() === 'origin') {
+          header.value = 'https://extension.trezor.io';
+        }
+      }
+    }
+    return { requestHeaders: e.requestHeaders };
+  },
+  { urls: ['http://127.0.0.1/*'] },
+  ['blocking', 'requestHeaders'],
+);
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
-Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
+Ledger.setLedgerTransport(
+  new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true),
+);

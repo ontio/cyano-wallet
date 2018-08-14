@@ -23,10 +23,10 @@ import { decryptIdentity } from '../../api/identityApi';
 import { AssetType } from '../../redux/runtime';
 import Address = Crypto.Address;
 import { getClient } from '../network';
-import { store } from '../redux';
+import { getStore } from '../redux';
 
 export async function getBalance() {
-  const state = store.getState();
+  const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const client = getClient();
@@ -41,7 +41,7 @@ export async function getBalance() {
 }
 
 export async function getUnboundOng() {
-  const state = store.getState();
+  const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const client = getClient();
@@ -51,7 +51,7 @@ export async function getUnboundOng() {
 }
 
 export async function transfer(password: string, recipient: string, asset: AssetType, amount: string) {
-  const state = store.getState();
+  const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
@@ -78,7 +78,7 @@ export async function transfer(password: string, recipient: string, asset: Asset
 }
 
 export async function withdrawOng(password: string, amount: string) {
-  const state = store.getState();
+  const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
@@ -101,7 +101,7 @@ export async function withdrawOng(password: string, amount: string) {
 }
 
 export async function registerOntId(identity: Identity, password: string, accountPassword: string) {
-  const state = store.getState();
+  const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;

@@ -19,4 +19,3 @@ declare module 'uuid';
 declare module 'websocket-as-promised';
 declare module '@ledgerhq/hw-transport-node-hid';
 declare module '@ledgerhq/hw-transport-u2f';
-declare module 'webextension-polyfill';
