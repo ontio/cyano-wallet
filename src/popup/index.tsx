@@ -27,7 +27,7 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
-import { registerBackChannel } from './backChannel';
+import { initBackChannel } from './backChannel';
 import { initHistory } from './history';
 import {
   Clear,
@@ -85,6 +85,7 @@ Ledger.setLedgerTransport(
 const store = initStore();
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
+  initBackChannel(store);
   
   const AppView: React.SFC<{}> = () => (
     <Provider store={store}>
@@ -142,5 +143,3 @@ const unsubscribe = store.subscribe(() => {
   unsubscribe(); // make sure to only fire once
   ReactDOM.render(<AppView />, document.getElementById('root') as HTMLElement);
 });
-
-registerBackChannel();

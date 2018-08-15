@@ -77,26 +77,50 @@ export const runtimeAliases = {
   },
   [TRANSFER]: (action: any) => {
     return async (dispatch: Dispatch) => {
+      const password: string = action.password;
+      const recipient: string = action.recipient;
+      const asset: AssetType = action.asset;
+      const amount: string = action.amount;
+      const requestId: string | undefined = action.requestId;
+
+      console.log('transfer request', requestId);
+
       try {
-        const password: string = action.password;
-        const recipient: string = action.recipient;
-        const asset: AssetType = action.asset;
-        const amount: string = action.amount;
-        
         await timeout(transfer(password, recipient, asset, amount), 15000);
 
         dispatch(
           Actions.transaction.setTransactionResult(true, null)
         );
+
+        if (requestId !== undefined) {
+          // resolves request
+          dispatch(
+            Actions.transactionRequests.resolveRequest(requestId)
+          )
+        };
       } catch (e) {
         if (e instanceof TimeoutError) {
           dispatch(
             Actions.transaction.setTransactionResult(false, 'TIMEOUT')
           );
+
+          if (requestId !== undefined) {
+            // resolves request
+            dispatch(
+              Actions.transactionRequests.resolveRequest(requestId, 'TIMEOUT')
+            )
+          };
         } else {
           dispatch(
             Actions.transaction.setTransactionResult(false, 'WRONG_PASSWORD')
           );
+
+          if (requestId !== undefined) {
+            // resolves request
+            dispatch(
+              Actions.transactionRequests.resolveRequest(requestId, 'WRONG_PASSWORD')
+            )
+          };
         }
       }
     }

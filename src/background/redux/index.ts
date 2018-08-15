@@ -26,6 +26,7 @@ import { runtimeAliases, runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
 import { statusReducer } from './statusReducer';
 import { transactionReducer } from './transactionReducer';
+import { transactionRequestsReducer } from './transactionRequestsReducer';
 import { walletReducer } from './walletReducer';
 
 export const globalReducer = combineReducers({
@@ -35,6 +36,7 @@ export const globalReducer = combineReducers({
   settings: settingsReducer,
   status: statusReducer,
   transaction: transactionReducer,
+  transactionRequests: transactionRequestsReducer,
   wallet: walletReducer
 });
 

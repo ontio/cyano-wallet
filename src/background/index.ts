@@ -22,7 +22,7 @@ import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import { browser } from 'webextension-polyfill-ts';
 import { initBalanceProvider } from './balanceProvider';
-import { registerConnector } from './dapp';
+import { initDApiProvider } from './dapp';
 import { initNetwork } from './network';
 import { initSettingsProvider } from './persist/settingsProvider';
 import { initWalletProvider } from './persist/walletProvider';
@@ -33,7 +33,7 @@ initNetwork(store);
 initBalanceProvider(store);
 initSettingsProvider(store);
 initWalletProvider(store);
-registerConnector();
+initDApiProvider();
 
 // pretends we are hosted on https://extension.trezor.io so trezor bridge will allow communication
 browser.webRequest.onBeforeSendHeaders.addListener(

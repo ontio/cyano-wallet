@@ -47,11 +47,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         const recipient: string = get(props.location, 'state.recipient', '');
         const asset: AssetType = get(props.location, 'state.asset', '');
         const amount: string = get(props.location, 'state.amount', '');
+        const requestId: string | undefined = get(props.location, 'state.requestId', undefined);
 
         const password: string = get(values, 'password', '');
 
         await actions.startLoading();
-        await actions.transfer(password, recipient, asset, amount);
+        await actions.transfer(password, recipient, asset, amount, requestId);
         await actions.finishLoading();
 
         const transactionResult = getReduxProps().transaction;

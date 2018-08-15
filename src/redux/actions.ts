@@ -22,6 +22,7 @@ import { checkOntId, registerOntId, setBalance, setTransfers, transfer, withdraw
 import { setSettings } from './settings';
 import { changeNetworkState } from './status';
 import { setTransactionResult } from './transaction';
+import { addRequest, resolveRequest } from './transactionRequests';
 import { clearIdentity, clearWallet, setWallet } from './wallet';
 
 export default {
@@ -48,6 +49,10 @@ export default {
     },
     transaction: {
         setTransactionResult
+    },
+    transactionRequests: {
+        addRequest,
+        resolveRequest
     },
     wallet: {
         clearIdentity,

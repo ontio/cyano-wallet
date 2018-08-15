@@ -16,25 +16,28 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Store } from 'redux';
-import { LoaderState } from './loader';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionState } from './transaction';
-import { TransactionRequestsState } from './transactionRequests';
-import { WalletState } from './wallet';
+// tslint:disable:variable-name
+export class Deferred<T> {
+  private _promise: Promise<T>;
+  private _resolve: (value?: T | PromiseLike<T>) => void;
+  private _reject: (reason?: any) => void;
 
-export interface GlobalState {
-  loader: LoaderState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transaction: TransactionState;
-  transactionRequests: TransactionRequestsState;
-  wallet: WalletState;
-};
+  constructor() {
+    this._promise = new Promise<T>((resolve, reject) => {
+      this._resolve = resolve;
+      this._reject = reject;
+    });
+  }
 
-export type GlobalStore = Store<GlobalState>;
+  get promise(): Promise<T> {
+    return this._promise;
+  }
+
+  public resolve = (value?: T | PromiseLike<T>): void => {
+    this._resolve(value);
+  };
+
+  public reject = (reason?: any): void => {
+    this._reject(reason);
+  };
+}

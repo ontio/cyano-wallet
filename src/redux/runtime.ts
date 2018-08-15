@@ -47,7 +47,7 @@ export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: 
 
 export const setTransfers = (transfers: Transfer[]) => ({ type: SET_TRANSFERS, transfers });
 
-export const transfer = (password: string, recipient: string, asset: AssetType, amount: string) => ({ type: TRANSFER, password, recipient, asset, amount });
+export const transfer = (password: string, recipient: string, asset: AssetType, amount: string, requestId?: string) => ({ type: TRANSFER, password, recipient, asset, amount, requestId });
 
 export const registerOntId = (identity: string, password: string, accountPassword: string) => ({ type: REGISTER_ONT_ID, identity, password, accountPassword });
 

@@ -22,7 +22,14 @@ const height = 430 + 22;
 let popupId: number | undefined;
 
 export async function sendMessageToPopup(msg: any) {
-  return browser.runtime.sendMessage(msg);
+  // unwraps error to rejected Promise, becuase browser.runtime.sendMessage does not support reject
+  return browser.runtime.sendMessage(msg).then(result => {
+    if (result !== undefined && result.error !== undefined) {
+      return Promise.reject(result.error);
+    } else {
+      return Promise.resolve(result);
+    }
+  });
 }
 
 export async function showPopup() {

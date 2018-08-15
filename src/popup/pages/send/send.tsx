@@ -19,13 +19,14 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { RouteComponentProps } from 'react-router';
+import { bindActionCreators, Dispatch } from 'redux';
+import { v4 as uuid } from 'uuid';
 import { getWallet } from '../../../api/authApi';
 import { isLedgerKey } from '../../../api/ledgerApi';
 import { isTrezorKey } from '../../../api/trezorApi';
-import { AssetType } from '../../../redux/runtime';
 import { dummy, reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { PreparedTransfer, Props, SendView } from './sendView';
+import { Actions, GlobalState } from '../../redux';
+import { InitialValues, Props, SendView } from './sendView';
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -33,30 +34,33 @@ const mapStateToProps = (state: GlobalState) => ({
   walletEncoded: state.wallet.wallet,
 });
 
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
+  resolveRequest: Actions.transactionRequests.resolveRequest
+}, dispatch);
+
+
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => {
-    const preparedAmount: number | undefined = get(props.location, 'state.amount', undefined);
-    const preparedRecipient: string | undefined = get(props.location, 'state.recipient', undefined);
-    const preparedAsset: AssetType | undefined = get(props.location, 'state.asset', undefined);
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+    const initialValues: InitialValues = {
+      amount: get(props.location, 'state.amount', undefined),
+      asset: get(props.location, 'state.asset', undefined),
+      recipient: get(props.location, 'state.recipient', undefined)
+    };
 
-    let preparedTransfer: PreparedTransfer | undefined;
-    let locked: boolean = false;
-
-    if (preparedAmount !== undefined) {
-      locked = true;
-      preparedTransfer = {
-        amount: preparedAmount,
-        asset: preparedAsset,
-        recipient: preparedRecipient
-      };
-    }
+    const locked: boolean = get(props.location, 'state.locked', false);
+    const requestId: string | undefined = get(props.location, 'state.requestId', undefined);
 
     return withProps(
       {
-        handleCancel: () => {
+        handleCancel: async () => {
+          if (requestId !== undefined) {
+            await actions.resolveRequest(requestId, 'CANCELED');
+          }
+
           props.history.goBack();
         },
         handleConfirm: async (values: object) => {
+          console.log('confirm');
           const recipient = get(values, 'recipient', '');
           const asset = get(values, 'asset', '');
           const amount = get(values, 'amount', '');
@@ -64,11 +68,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const wallet = getWallet(reduxProps.walletEncoded!);
 
           if (isLedgerKey(wallet)) {
-            props.history.push('/ledger/sendConfirm', { recipient, asset, amount });
+            props.history.push('/ledger/sendConfirm', { recipient, asset, amount, requestId });
           } else if (isTrezorKey(wallet)) {
-            props.history.push('/trezor/sendConfirm', { recipient, asset, amount });
+            props.history.push('/trezor/sendConfirm', { recipient, asset, amount, requestId });
           } else {
-            props.history.push('/sendConfirm', { recipient, asset, amount });
+            props.history.push('/sendConfirm', { recipient, asset, amount, requestId });
           }
         },
         handleMax: (formProps: FormRenderProps) => {
@@ -81,8 +85,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           }
           return true;
         },
-        locked,
-        preparedTransfer
+        initialValues,
+        locked
       },
       (injectedProps) => (
         <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />

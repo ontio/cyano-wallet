@@ -23,14 +23,14 @@ import { AssetType } from '../../../redux/runtime';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { range, required } from '../../utils/validate';
 
-export interface PreparedTransfer {
+export interface InitialValues {
   recipient?: string;
   amount?: number;
   asset?: AssetType;
 }
 
 export interface Props {
-  preparedTransfer?: PreparedTransfer;
+  initialValues: InitialValues;
   locked: boolean;
   ontAmount: number;
   ongAmount: number;
@@ -63,7 +63,7 @@ export const SendView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true}>
       <Form
-        initialValues={props.preparedTransfer}
+        initialValues={props.initialValues}
         onSubmit={props.handleConfirm}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">

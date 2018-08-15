@@ -38,11 +38,12 @@ function sleep(ms: number) {
  * fixme: resolve/reject the request based on the transfer outcome
  */
 export async function makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<void> {
-  await showPopup();
   
+  await showPopup();
+  console.log("makeee2");
   await sleep(5000);
 
-  const response = await sendMessageToPopup({
+  const promise = sendMessageToPopup({
     amount,
     asset,
     operation: 'init_transfer',
@@ -50,7 +51,12 @@ export async function makeTransfer(sender: string, recipient: string, asset: Ass
     sender
   });
 
-  console.log('response from popup: ', response);
+  console.log('promise', promise);
+  const result = await promise;
+  console.log('result', result);
+  
+
+  return result;
   // const url = browser.runtime.getURL('popup.html');
   // browser.tabs.create({ url });
 
