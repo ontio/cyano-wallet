@@ -20,11 +20,10 @@ import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { v4 as uuid } from 'uuid';
 import { getWallet } from '../../../api/authApi';
 import { isLedgerKey } from '../../../api/ledgerApi';
 import { isTrezorKey } from '../../../api/trezorApi';
-import { dummy, reduxConnect, withProps } from '../../compose';
+import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { InitialValues, Props, SendView } from './sendView';
 
@@ -53,14 +52,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
     return withProps(
       {
         handleCancel: async () => {
+          props.history.goBack();
+
           if (requestId !== undefined) {
             await actions.resolveRequest(requestId, 'CANCELED');
           }
-
-          props.history.goBack();
         },
         handleConfirm: async (values: object) => {
-          console.log('confirm');
           const recipient = get(values, 'recipient', '');
           const asset = get(values, 'asset', '');
           const amount = get(values, 'amount', '');
@@ -89,7 +87,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         locked
       },
       (injectedProps) => (
-        <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
+        <Component {...injectedProps} />
       ),
     );
   });

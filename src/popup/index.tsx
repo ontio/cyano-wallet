@@ -27,7 +27,6 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
-import { initBackChannel } from './backChannel';
 import { initHistory } from './history';
 import {
   Clear,
@@ -72,6 +71,8 @@ import {
   WithdrawFailed,
 } from './pages';
 import { initStore } from './redux';
+import { requestsManager } from './requestsManager';
+import { backgroundManager } from './backgroundManager';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
@@ -85,7 +86,10 @@ Ledger.setLedgerTransport(
 const store = initStore();
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
-  initBackChannel(store);
+  
+  requestsManager.initialize(store, history);
+  backgroundManager.initialize();
+
   
   const AppView: React.SFC<{}> = () => (
     <Provider store={store}>

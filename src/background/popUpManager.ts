@@ -15,49 +15,74 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Rpc } from 'ontology-dapi';
 import { browser } from 'webextension-polyfill-ts';
+import { Deferred } from '../deffered';
 
+// size of the popup. needs to be in sync with css.
 const width = 350;
 const height = 430 + 22;
-let popupId: number | undefined;
 
-export async function sendMessageToPopup(msg: any) {
-  // unwraps error to rejected Promise, becuase browser.runtime.sendMessage does not support reject
-  return browser.runtime.sendMessage(msg).then(result => {
-    if (result !== undefined && result.error !== undefined) {
-      return Promise.reject(result.error);
-    } else {
-      return Promise.resolve(result);
-    }
-  });
-}
+class PopupManager {
+  private rpc: Rpc;
+  private popupId: number;
 
-export async function showPopup() {
-  let popup = await findPopup();
+  private initialized: Deferred<void>;
 
-  if (popup !== null) {
-    browser.windows.update(popup.id!, { focused: true });
-  } else {
-    popup = await browser.windows.create({
-      height,
-      type: 'popup',
-      url: 'popup.html',
-      width,
+  constructor() {
+    this.show = this.show.bind(this);
+    this.callMethod = this.callMethod.bind(this);
+
+    this.rpc = new Rpc({
+      addListener: browser.runtime.onMessage.addListener,
+      destination: 'popup',
+      postMessage: browser.runtime.sendMessage,
+      source: 'background'
     });
-    popupId = popup.id;
+
+    this.rpc.register('popup_initialized', () => {
+      if (this.initialized !== undefined) {
+        this.initialized.resolve();
+      }
+    })    
+  }
+  public async show() {
+    let popup = await this.findPopup();
+  
+    if (popup !== null) {
+      browser.windows.update(popup.id!, { focused: true });
+    } else {
+      this.initialized = new Deferred<void>();
+      
+      popup = await browser.windows.create({
+        height,
+        type: 'popup',
+        url: 'popup.html',
+        width,
+      });
+      this.popupId = popup.id!;   
+      
+      await this.initialized.promise;
+    }
+  }
+
+  public async callMethod(method: string, ...params: any[]) {
+    return this.rpc.call(method, ...params);
+  }
+  
+  private async findPopup() {
+    const windows = await browser.windows.getAll({
+      windowTypes: ['popup'],
+    });
+  
+    const ownWindows = windows.filter((w) => w.id === this.popupId);
+  
+    if (ownWindows.length > 0) {
+      return ownWindows[0];
+    } else {
+      return null;
+    }
   }
 }
 
-async function findPopup() {
-  const windows = await browser.windows.getAll({
-    windowTypes: ['popup']
-  });
-
-  const ownWindows = windows.filter(w => w.id === popupId);
-
-  if (ownWindows.length > 0) {
-    return ownWindows[0];
-  } else {
-    return null;
-  }
-}
+export const popupManager = new PopupManager();

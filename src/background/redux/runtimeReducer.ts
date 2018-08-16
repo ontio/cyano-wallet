@@ -83,8 +83,6 @@ export const runtimeAliases = {
       const amount: string = action.amount;
       const requestId: string | undefined = action.requestId;
 
-      console.log('transfer request', requestId);
-
       try {
         await timeout(transfer(password, recipient, asset, amount), 15000);
 

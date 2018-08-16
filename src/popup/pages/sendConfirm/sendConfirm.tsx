@@ -54,20 +54,27 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         await actions.startLoading();
         await actions.transfer(password, recipient, asset, amount, requestId);
         await actions.finishLoading();
-
+  
         const transactionResult = getReduxProps().transaction;
-        
-        if (transactionResult.result) {
-          props.history.push('/sendComplete', { recipient, asset, amount });
-        } else if (transactionResult.error === 'TIMEOUT') {
-          props.history.push('/sendFailed', { recipient, asset, amount });
-        } else if (transactionResult.error === 'WRONG_PASSWORD') {
+
+        if (transactionResult.error === 'WRONG_PASSWORD') {
           formApi.change('password', '');
           
           return {
             password: ''
           };
-        }
+        } else {
+          if (requestId !== undefined) {
+            // returns to dashboard if external request
+            props.history.push('/dashboard');
+          } else {
+            if (transactionResult.result) {
+              props.history.push('/sendComplete', { recipient, asset, amount });
+            } else if (transactionResult.error === 'TIMEOUT') {
+              props.history.push('/sendFailed', { recipient, asset, amount });
+            }            
+          }
+        } 
 
         return {};
       }

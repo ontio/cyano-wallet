@@ -1,6 +1,6 @@
 import { Asset } from 'ontology-dapi';
 import { getAddress } from '../../api/accountApi';
-import { sendMessageToPopup, showPopup } from '../popUpManager';
+import { popupManager } from '../popUpManager';
 import { getStore } from '../redux';
 
 /**
@@ -29,37 +29,9 @@ export function getDefaultAccount(): Promise<string | null> {
   return Promise.resolve(getAddress(wallet));
 }
 
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
- * fixme: wait for popup to open and then send the request
- * fixme: resolve/reject the request based on the transfer outcome
- */
 export async function makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<void> {
   
-  await showPopup();
-  console.log("makeee2");
-  await sleep(5000);
+  await popupManager.show();
 
-  const promise = sendMessageToPopup({
-    amount,
-    asset,
-    operation: 'init_transfer',
-    recipient,
-    sender
-  });
-
-  console.log('promise', promise);
-  const result = await promise;
-  console.log('result', result);
-  
-
-  return result;
-  // const url = browser.runtime.getURL('popup.html');
-  // browser.tabs.create({ url });
-
-  // window.open("popup.html", "extension_popup", "width=350,height=430,status=no,scrollbars=yes,resizable=no");
-  // return Promise.reject('Not supported yet.');
+  return await popupManager.callMethod('init_transfer', recipient, asset, amount);
 }

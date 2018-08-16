@@ -7,8 +7,7 @@
   "version": "0.3.1",
 
   "browser_action": {
-    "default_popup": "popup.html",
-    "default_title": "Open the popup"
+    "default_title": "Open the wallet"
   },
   "background": {
     "page": "background.html",
