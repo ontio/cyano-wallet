@@ -21,7 +21,7 @@ import { Field, Form, FormRenderProps } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { AssetType } from '../../../redux/runtime';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { range, required } from '../../utils/validate';
+import { gt, required } from '../../utils/validate';
 
 export interface InitialValues {
   recipient?: string;
@@ -32,8 +32,6 @@ export interface InitialValues {
 export interface Props {
   initialValues: InitialValues;
   locked: boolean;
-  ontAmount: number;
-  ongAmount: number;
   handleConfirm: (values: object) => Promise<void>;
   handleMax: (formProps: FormRenderProps) => void;
   handleCancel: () => void;
@@ -106,7 +104,7 @@ export const SendView: React.SFC<Props> = (props) => (
               <label>Amount</label>
               <Field
                 name="amount"
-                validate={range(0, get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount)}
+                validate={gt(0)}
                 render={(t) => (
                   <SemanticForm.Input
                     type="number"

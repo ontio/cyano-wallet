@@ -53,3 +53,14 @@ export function range(from: number, to: number){
     return (val <= from || val > to);
   }
 }
+
+export function gt(than: number){ 
+  return function gtCheck(value: string){ 
+    if (value === undefined) {
+      return true;
+    } 
+
+    const val = Number(value);
+    return (val <= than);
+  }
+}
