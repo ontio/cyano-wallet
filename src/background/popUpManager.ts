@@ -21,7 +21,7 @@ import { Deferred } from '../deffered';
 
 // size of the popup. needs to be in sync with css.
 const width = 350;
-const height = 430 + 22;
+const height = 452;
 
 class PopupManager {
   private rpc: Rpc;
