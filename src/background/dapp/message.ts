@@ -31,7 +31,10 @@ export const messageApi: MessageApi = {
     if (accounts.includes(address)) {
       publicKey = await assetApi.getPublicKey(address);
     } else if (identities.includes(address)) {
-      publicKey = await identityApi.getPublicKey(address);
+      const publicKeys = await identityApi.getPublicKeys(address);
+
+      // todo: support more than one public key
+      publicKey = publicKeys[0];
     } else {
       throw new Error('WRONG_ADDRESS');
     }
