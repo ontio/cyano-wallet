@@ -10,7 +10,7 @@ const messagePrefix = 'Ontology message:';
 
 export const messageApi: MessageApi = {
 
-  async signMessageHash(address: string, messageHash: string): Promise<void> {
+  async signMessageHash(address: string, messageHash: string): Promise<string> {
     const accounts = await assetApi.getOwnAccounts();
     const identities = await identityApi.getOwnIdentities();
 
@@ -53,7 +53,7 @@ export const messageApi: MessageApi = {
     return Promise.resolve(result);
   },
 
-  async signMessage(address: string, message: string): Promise<void> {
+  async signMessage(address: string, message: string): Promise<string> {
     const accounts = await assetApi.getOwnAccounts();
     const identities = await identityApi.getOwnIdentities();
 

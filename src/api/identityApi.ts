@@ -33,14 +33,14 @@ export function decryptIdentity(identity: Identity, password: string, scrypt: an
   });
 }
 
-export function identitySignUp(password: string, scrypt: any) {
+export function identitySignUp(password: string, scrypt: any, neo: boolean) {
   const mnemonics = utils.generateMnemonic(32);
-  return identityImportMnemonics(mnemonics, password, scrypt);
+  return identityImportMnemonics(mnemonics, password, scrypt, neo);
 }
 
-export function identityImportMnemonics(mnemonics: string, password: string, scrypt: any) {
-  // generate NEO address for now
-  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
+export function identityImportMnemonics(mnemonics: string, password: string, scrypt: any, neo: boolean) {
+  const bip32Path = neo ? "m/44'/888'/0'/0/0" : "m/44'/1024'/0'/0/0";
+  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, bip32Path);
   const wif = privateKey.serializeWIF();
 
   const result = identityImportPrivateKey(wif, password, scrypt);

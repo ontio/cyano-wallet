@@ -49,10 +49,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         const password = get(values, 'password', '');
         const mnemonics = get(values, 'mnemonics', '');
+        const neo: boolean = get(values, 'neo', false);
 
         await actions.startLoading();
 
-        const { encryptedWif, wif, identity } = identityImportMnemonics(mnemonics, password, wallet.scrypt);
+        const { encryptedWif, wif, identity } = identityImportMnemonics(mnemonics, password, wallet.scrypt, neo);
 
         await actions.checkOntId(identity.toJson(), password);
 

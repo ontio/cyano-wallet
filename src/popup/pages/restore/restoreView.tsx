@@ -89,6 +89,19 @@ export const RestoreView: React.SFC<Props> = (props) => (
                   />
                 )} />
             </View>
+            <Spacer />
+            <View orientation="column">
+              <label>NEO compatible</label>
+              <Field
+                name="neo"
+                render={(t) => (
+                  <SemanticForm.Checkbox
+                    onChange={(e, d) => t.input.onChange(d.checked)}
+                    checked={t.input.value}
+                    error={t.meta.touched && t.meta.invalid}
+                  />
+                )} />
+            </View>
             <Filler />
             <View className="buttons">
               <Button disabled={props.loading} loading={props.loading}>Restore</Button>

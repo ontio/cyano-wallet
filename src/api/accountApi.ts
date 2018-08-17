@@ -34,14 +34,14 @@ export function decryptAccount(wallet: Wallet, password: string) {
   });
 }
 
-export function accountSignUp(password: string) {
+export function accountSignUp(password: string, neo: boolean) {
   const mnemonics = utils.generateMnemonic(32);
-  return accountImportMnemonics(mnemonics, password);
+  return accountImportMnemonics(mnemonics, password, neo);
 }
 
-export function accountImportMnemonics(mnemonics: string, password: string) {
-  // generate NEO address for now
-  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
+export function accountImportMnemonics(mnemonics: string, password: string, neo: boolean) {
+  const bip32Path = neo ? "m/44'/888'/0'/0/0" : "m/44'/1024'/0'/0/0";
+  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, bip32Path);
   const wif = privateKey.serializeWIF();
 
   const result = accountImportPrivateKey(wif, password);

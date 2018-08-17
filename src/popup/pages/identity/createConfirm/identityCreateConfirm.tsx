@@ -50,11 +50,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         const wallet = getWallet(reduxProps.walletEncoded!);
 
         const password: string = get(props.location, 'state.password', '');
+        const neo: boolean = get(props.location, 'state.neo', false);
 
         const accountPassword: string = get(values, 'password', '');
+        
 
         await actions.startLoading();
-        const { encryptedWif, mnemonics, wif, identity } = identitySignUp(password, wallet.scrypt);
+        const { encryptedWif, mnemonics, wif, identity } = identitySignUp(password, wallet.scrypt, neo);
         await actions.registerOntId(identity.toJson(), password, accountPassword);
 
         wallet.addIdentity(identity);

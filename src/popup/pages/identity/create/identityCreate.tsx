@@ -43,8 +43,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       },
       handleSubmit: async (values: object) => {
         const password = get(values, 'password', '');
+        const neo: boolean = get(values, 'neo', false);
   
-        props.history.push('/identity/createConfirm', { password });
+        props.history.push('/identity/createConfirm', { password, neo });
       },
       haveEnoughOng: reduxProps.ongAmount >= 0.01
     }, (injectedProps) => (

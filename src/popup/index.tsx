@@ -27,6 +27,7 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
+import { backgroundManager } from './backgroundManager';
 import { initHistory } from './history';
 import {
   Clear,
@@ -72,7 +73,6 @@ import {
 } from './pages';
 import { initStore } from './redux';
 import { requestsManager } from './requestsManager';
-import { backgroundManager } from './backgroundManager';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
