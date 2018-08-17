@@ -79,3 +79,14 @@ export function getAddress(walletEncoded: string) {
   const wallet = getWallet(walletEncoded);
   return wallet.defaultAccountAddress;
 }
+
+export function getAddressPk(walletEncoded: string, address: string) {
+  const wallet = getWallet(walletEncoded);
+  
+  const account = wallet.accounts.find(a => a.address.toBase58() === address);
+  if (account !== undefined) {
+    return account.publicKey;
+  } else {
+    return undefined;
+  }
+}

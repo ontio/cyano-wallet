@@ -1,12 +1,18 @@
 import { provider } from 'ontology-dapi';
-import * as asset from './asset';
-import * as network from './network';
+import { assetApi as asset } from './asset';
+import { identityApi as identity } from './identity';
+import { messageApi as message } from './message';
+import { networkApi as network } from './network';
+import { smartContractApi as smartContract } from './smartContract';
 
 export function initDApiProvider() {
   provider.registerProvider(
     {
       asset,
-      network
+      identity,
+      message,
+      network,
+      smartContract
     }
   );
 }
