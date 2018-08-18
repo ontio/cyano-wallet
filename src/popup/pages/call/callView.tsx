@@ -19,11 +19,13 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { required } from '../../utils/validate';
+import { gt, required } from '../../utils/validate';
 
 export interface InitialValues {
   contract?: string;
   method?: string;
+  gasPrice?: string;
+  gasLimit?: string;
 }
 
 export interface Props {
@@ -36,7 +38,7 @@ export interface Props {
 export const CallView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="Call SC" />
+      <AccountLogoHeader title="SC call" />
       <View content={true} className="spread-around">
         <View>Call to a smart contract.</View>
       </View>
@@ -47,39 +49,79 @@ export const CallView: React.SFC<Props> = (props) => (
         onSubmit={props.handleConfirm}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
-            <View orientation="column">
-              <label>Address</label>
-              <Field
-                name="contract"
-                validate={required}
-                render={(t) => (
-                  <SemanticForm.Input
-                    onChange={t.input.onChange}
-                    value={t.input.value}
-                    error={t.meta.touched && t.meta.invalid}
-                    disabled={props.locked}
+            <View className="scrollView">
+              <View className="content">
+                <View orientation="column">
+                  <label>Contract</label>
+                  <Field
+                    name="contract"
+                    validate={required}
+                    render={(t) => (
+                      <SemanticForm.Input
+                        onChange={t.input.onChange}
+                        value={t.input.value}
+                        error={t.meta.touched && t.meta.invalid}
+                        disabled={props.locked}
+                      />
+                    )}
                   />
-                )}
-              />
-            </View>
-            <Spacer />
-            <View orientation="column">
-              <label>Method</label>
-              <Field
-                name="method"
-                validate={required}
-                render={(t) => (
-                  <SemanticForm.Input
-                    onChange={t.input.onChange}
-                    value={t.input.value}
-                    error={t.meta.touched && t.meta.invalid}
-                    disabled={props.locked}
+                </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Method</label>
+                  <Field
+                    name="method"
+                    validate={required}
+                    render={(t) => (
+                      <SemanticForm.Input
+                        onChange={t.input.onChange}
+                        value={t.input.value}
+                        error={t.meta.touched && t.meta.invalid}
+                        disabled={props.locked}
+                      />
+                    )}
                   />
-                )}
-              />
+                </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Gas price</label>
+                  <Field
+                    name="gasPrice"
+                    validate={gt(0)}
+                    render={(t) => (
+                      <SemanticForm.Input
+                        type="number"
+                        placeholder={'500'}
+                        step={'0.00000000001'}
+                        onChange={t.input.onChange}
+                        input={{ ...t.input, value: t.input.value }}
+                        error={t.meta.touched && t.meta.invalid}
+                      />
+                    )}
+                  />
+                </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Gas limit</label>
+                  <Field
+                    name="gasLimit"
+                    validate={gt(0)}
+                    render={(t) => (
+                      <SemanticForm.Input
+                        type="number"
+                        placeholder={'30000'}
+                        step={'0.00000000001'}
+                        onChange={t.input.onChange}
+                        input={{ ...t.input, value: t.input.value }}
+                        error={t.meta.touched && t.meta.invalid}
+                      />
+                    )}
+                  />
+                </View>
+              </View>
             </View>
-            <Spacer />
             <Filler />
+            <Spacer />
             <View className="buttons">
               <Button icon="check" content="Confirm" />
               <Button onClick={props.handleCancel}>Cancel</Button>

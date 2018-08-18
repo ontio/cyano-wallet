@@ -33,7 +33,7 @@ export const CallConfirmView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Confirm SC call" />
       <View content={true} className="spread-around">
-        <View>Confirm the smart contract call by unlocking the wallet with your password.</View>
+        <View>Confirm the call by unlocking the wallet with your password.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

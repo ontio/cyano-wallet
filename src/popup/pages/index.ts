@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+export { Call } from './call/call';
 export { CallConfirm } from './callConfirm/callConfirm';
 export { Clear } from './clear/clear';
 export { Create } from './create/create';

@@ -92,7 +92,7 @@ export class RequestsManager {
     );
 
     await this.popupManager.show();
-    await this.popupManager.callMethod('history_push', '/callConfirm', {
+    await this.popupManager.callMethod('history_push', '/call', {
       ...args,
       locked: true,
       requestId,

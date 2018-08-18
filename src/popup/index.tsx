@@ -29,49 +29,7 @@ import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { initBackgroundManager } from './backgroundManager';
 import { initHistory } from './history';
-import {
-  CallConfirm,
-  Clear,
-  Create,
-  Dashboard,
-  Home,
-  IdentityCheckFailed,
-  IdentityClear,
-  IdentityCreate,
-  IdentityCreateConfirm,
-  IdentityDashboard,
-  IdentityHome,
-  IdentityImport,
-  IdentityNew,
-  IdentityRestore,
-  IdentitySignup,
-  Import,
-  LedgerCreate,
-  LedgerImport,
-  LedgerNew,
-  LedgerSendConfirm,
-  LedgerSignup,
-  LedgerWithdrawConfirm,
-  New,
-  Receive,
-  Restore,
-  Send,
-  SendComplete,
-  SendConfirm,
-  SendFailed,
-  SettingsPage,
-  Signup,
-  Transfers,
-  TrezorCreate,
-  TrezorImport,
-  TrezorNew,
-  TrezorSendConfirm,
-  TrezorSignup,
-  TrezorWithdrawConfirm,
-  WithdrawComplete,
-  WithdrawConfirm,
-  WithdrawFailed,
-} from './pages';
+import * as Pages from './pages';
 import { initStore } from './redux';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
@@ -92,52 +50,53 @@ const unsubscribe = store.subscribe(() => {
     <Provider store={store}>
       <Router history={history}>
         <>
-          <Route path="/dashboard" exact={true} component={Dashboard} />
-          <Route path="/send" exact={true} component={Send} />
-          <Route path="/sendConfirm" exact={true} component={SendConfirm} />
-          <Route path="/sendComplete" exact={true} component={SendComplete} />
-          <Route path="/sendFailed" exact={true} component={SendFailed} />
-          <Route path="/settings" exact={true} component={SettingsPage} />
-          <Route path="/receive" exact={true} component={Receive} />
-          <Route path="/transfers" exact={true} component={Transfers} />
-          <Route path="/withdrawConfirm" exact={true} component={WithdrawConfirm} />
-          <Route path="/withdrawComplete" exact={true} component={WithdrawComplete} />
-          <Route path="/withdrawFailed" exact={true} component={WithdrawFailed} />
+          <Route path="/dashboard" exact={true} component={Pages.Dashboard} />
+          <Route path="/send" exact={true} component={Pages.Send} />
+          <Route path="/sendConfirm" exact={true} component={Pages.SendConfirm} />
+          <Route path="/sendComplete" exact={true} component={Pages.SendComplete} />
+          <Route path="/sendFailed" exact={true} component={Pages.SendFailed} />
+          <Route path="/settings" exact={true} component={Pages.SettingsPage} />
+          <Route path="/receive" exact={true} component={Pages.Receive} />
+          <Route path="/transfers" exact={true} component={Pages.Transfers} />
+          <Route path="/withdrawConfirm" exact={true} component={Pages.WithdrawConfirm} />
+          <Route path="/withdrawComplete" exact={true} component={Pages.WithdrawComplete} />
+          <Route path="/withdrawFailed" exact={true} component={Pages.WithdrawFailed} />
 
-          <Route path="/" exact={true} component={Home} />
-          <Route path="/new" exact={true} component={New} />
-          <Route path="/clear" exact={true} component={Clear} />
-          <Route path="/restore" exact={true} component={Restore} />
-          <Route path="/import" exact={true} component={Import} />
-          <Route path="/create" exact={true} component={Create} />
-          <Route path="/sign-up" exact={true} component={Signup} />
+          <Route path="/" exact={true} component={Pages.Home} />
+          <Route path="/new" exact={true} component={Pages.New} />
+          <Route path="/clear" exact={true} component={Pages.Clear} />
+          <Route path="/restore" exact={true} component={Pages.Restore} />
+          <Route path="/import" exact={true} component={Pages.Import} />
+          <Route path="/create" exact={true} component={Pages.Create} />
+          <Route path="/sign-up" exact={true} component={Pages.Signup} />
 
-          <Route path="/ledger/create" exact={true} component={LedgerCreate} />
-          <Route path="/ledger/import" exact={true} component={LedgerImport} />
-          <Route path="/ledger/new" exact={true} component={LedgerNew} />
-          <Route path="/ledger/sendConfirm" exact={true} component={LedgerSendConfirm} />
-          <Route path="/ledger/signup" exact={true} component={LedgerSignup} />
-          <Route path="/ledger/withdrawConfirm" exact={true} component={LedgerWithdrawConfirm} />
+          <Route path="/ledger/create" exact={true} component={Pages.LedgerCreate} />
+          <Route path="/ledger/import" exact={true} component={Pages.LedgerImport} />
+          <Route path="/ledger/new" exact={true} component={Pages.LedgerNew} />
+          <Route path="/ledger/sendConfirm" exact={true} component={Pages.LedgerSendConfirm} />
+          <Route path="/ledger/signup" exact={true} component={Pages.LedgerSignup} />
+          <Route path="/ledger/withdrawConfirm" exact={true} component={Pages.LedgerWithdrawConfirm} />
 
-          <Route path="/trezor/create" exact={true} component={TrezorCreate} />
-          <Route path="/trezor/import" exact={true} component={TrezorImport} />
-          <Route path="/trezor/new" exact={true} component={TrezorNew} />
-          <Route path="/trezor/sendConfirm" exact={true} component={TrezorSendConfirm} />
-          <Route path="/trezor/signup" exact={true} component={TrezorSignup} />
-          <Route path="/trezor/withdrawConfirm" exact={true} component={TrezorWithdrawConfirm} />
+          <Route path="/trezor/create" exact={true} component={Pages.TrezorCreate} />
+          <Route path="/trezor/import" exact={true} component={Pages.TrezorImport} />
+          <Route path="/trezor/new" exact={true} component={Pages.TrezorNew} />
+          <Route path="/trezor/sendConfirm" exact={true} component={Pages.TrezorSendConfirm} />
+          <Route path="/trezor/signup" exact={true} component={Pages.TrezorSignup} />
+          <Route path="/trezor/withdrawConfirm" exact={true} component={Pages.TrezorWithdrawConfirm} />
 
-          <Route path="/identity" exact={true} component={IdentityHome} />
-          <Route path="/identity/checkFailed" exact={true} component={IdentityCheckFailed} />
-          <Route path="/identity/clear" exact={true} component={IdentityClear} />
-          <Route path="/identity/create" exact={true} component={IdentityCreate} />
-          <Route path="/identity/createConfirm" exact={true} component={IdentityCreateConfirm} />
-          <Route path="/identity/dashboard" exact={true} component={IdentityDashboard} />
-          <Route path="/identity/import" exact={true} component={IdentityImport} />
-          <Route path="/identity/new" exact={true} component={IdentityNew} />
-          <Route path="/identity/restore" exact={true} component={IdentityRestore} />
-          <Route path="/identity/sign-up" exact={true} component={IdentitySignup} />
+          <Route path="/identity" exact={true} component={Pages.IdentityHome} />
+          <Route path="/identity/checkFailed" exact={true} component={Pages.IdentityCheckFailed} />
+          <Route path="/identity/clear" exact={true} component={Pages.IdentityClear} />
+          <Route path="/identity/create" exact={true} component={Pages.IdentityCreate} />
+          <Route path="/identity/createConfirm" exact={true} component={Pages.IdentityCreateConfirm} />
+          <Route path="/identity/dashboard" exact={true} component={Pages.IdentityDashboard} />
+          <Route path="/identity/import" exact={true} component={Pages.IdentityImport} />
+          <Route path="/identity/new" exact={true} component={Pages.IdentityNew} />
+          <Route path="/identity/restore" exact={true} component={Pages.IdentityRestore} />
+          <Route path="/identity/sign-up" exact={true} component={Pages.IdentitySignup} />
 
-          <Route path="/callConfirm" exact={true} component={CallConfirm} />
+          <Route path="/call" exact={true} component={Pages.Call} />
+          <Route path="/callConfirm" exact={true} component={Pages.CallConfirm} />
         </>
       </Router>
     </Provider>

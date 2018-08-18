@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
+import { Parameter } from 'ontology-dapi';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -38,12 +39,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
     const initialValues: InitialValues = {
-      contract: get(props.location, 'state.contract', undefined),
-      method: get(props.location, 'state.method', undefined),
+      contract: get(props.location, 'state.contract', ''),
+      gasLimit: String(get(props.location, 'state.gasLimit', 0)),
+      gasPrice: String(get(props.location, 'state.gasPrice', 0)),
+      method: get(props.location, 'state.method', '')
     };
 
     const locked: boolean = get(props.location, 'state.locked', false);
-    const requestId: string | undefined = get(props.location, 'state.requestId', undefined);
+    const requestId: string = get(props.location, 'state.requestId');
+    const parameters: Parameter[] = get(props.location, 'state.parameters', '');
+    const addresses: string[] = get(props.location, 'state.addresses', []);
 
     return withProps(
       {
@@ -55,21 +60,21 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           }
         },
         handleConfirm: async (values: object) => {
-          const contract = get(values, 'contract', '');
-          const method = get(values, 'method', '');
+          const contract: string = get(values, 'contract', '');
+          const method: string = get(values, 'method', '');
+          const gasPrice = Number(get(values, 'gasPrice', '0'));
+          const gasLimit = Number(get(values, 'gasLimit', '0'));
           
           const wallet = getWallet(reduxProps.walletEncoded!);
 
           if (isLedgerKey(wallet)) {
-            // tslint:disable-next-line:no-console
-            console.error('Unsupported.')
+            throw new Error('UNSUPPORTED');
             // props.history.push('/ledger/sendConfirm', { recipient, asset, amount, requestId });
           } else if (isTrezorKey(wallet)) {
-            // tslint:disable-next-line:no-console
-            console.error('Unsupported.')
+            throw new Error('UNSUPPORTED');
             // props.history.push('/trezor/sendConfirm', { recipient, asset, amount, requestId });
           } else {
-            props.history.push('/callConfirm', { contract, method, requestId });
+            props.history.push('/callConfirm', { contract, method, requestId, parameters, gasPrice, gasLimit, addresses });
           }
         },
         initialValues,
