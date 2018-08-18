@@ -84,7 +84,7 @@ export const runtimeAliases = {
       const requestId: string | undefined = action.requestId;
 
       try {
-        await timeout(transfer(password, recipient, asset, amount), 15000);
+        const result = await timeout(transfer(password, recipient, asset, amount), 15000);
 
         dispatch(
           Actions.transaction.setTransactionResult(true, null)
@@ -93,7 +93,7 @@ export const runtimeAliases = {
         if (requestId !== undefined) {
           // resolves request
           dispatch(
-            Actions.transactionRequests.resolveRequest(requestId)
+            Actions.transactionRequests.resolveRequest(requestId, undefined, result.Result.TxHash)
           )
         };
       } catch (e) {

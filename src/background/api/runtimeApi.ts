@@ -74,7 +74,7 @@ export async function transfer(password: string, recipient: string, asset: Asset
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   const client = getClient();
-  await client.sendRawTransaction(tx.serialize(), false, true);
+  return await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
 export async function withdrawOng(password: string, amount: string) {
