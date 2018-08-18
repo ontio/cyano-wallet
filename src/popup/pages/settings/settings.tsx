@@ -82,7 +82,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const address: string = get(values, 'address', '');
           const ssl: boolean = get(values, 'ssl', false);
 
-          actions.setSettings(address, ssl, net);
+          await actions.setSettings(address, ssl, net);
+          props.history.goBack();
         }
       }, (injectedProps) => (
         <Component {...injectedProps} settings={reduxProps.settings} />
