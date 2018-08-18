@@ -28,8 +28,12 @@ export const smartContractApi: SmartContractApi = {
     });
   },
 
-  invokeRead(contract: string, method: string, parameters: Parameter[]): Promise<any> {
-    throw new Error('UNSUPPORTED');
+  async invokeRead(contract: string, method: string, parameters: Parameter[]): Promise<any> {
+    return await getRequestsManager().initScCallRead({
+      contract,
+      method,
+      parameters
+    });
   },
 
   deploy(

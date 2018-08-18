@@ -21,8 +21,10 @@ export interface SmartContractState {}
 export const SC_CALL = 'SC_CALL';
 export const SC_CALL_READ = 'SC_CALL_READ';
 
-export const scCall = (password: string, contract: string, method: string, parameters: any[], requestId: string) => ({
+export const scCall = (password: string, contract: string, method: string, parameters: any[], requestId: string, gasPrice: number, gasLimit: number) => ({
   contract,
+  gasLimit,
+  gasPrice,
   method,
   parameters,
   password,

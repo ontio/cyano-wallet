@@ -16,14 +16,14 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Parameter } from 'ontology-dapi';
-import { CONST, Crypto, Parameter as OntParameter, ParameterType as OntParameterType, TransactionBuilder } from 'ontology-ts-sdk';
+import { Crypto, Parameter as OntParameter, ParameterType as OntParameterType, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import Address = Crypto.Address;
 import { getClient } from '../network';
 import { getStore } from '../redux';
 
-export async function scCall(password: string, contract: string, method: string, parameters: Parameter[]) {
+export async function scCall(password: string, contract: string, method: string, parameters: Parameter[], gasPrice: number, gasLimit: number) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
@@ -32,11 +32,11 @@ export async function scCall(password: string, contract: string, method: string,
 
   // convert params
   const params = parameters.map(parameter =>
-    new OntParameter(parameter.name, OntParameterType[parameter.type], parameter.value)
+    new OntParameter('', OntParameterType[parameter.type], parameter.value)
   );
 
-  const tx = TransactionBuilder.makeInvokeTransaction(method, params, new Address(contract), '500',
-  `${CONST.DEFAULT_GAS_LIMIT}`, account);
+  const tx = TransactionBuilder.makeInvokeTransaction(method, params, new Address(utils.reverseHex(contract)), String(gasPrice),
+  String(gasLimit), account);
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
@@ -47,11 +47,10 @@ export async function scCall(password: string, contract: string, method: string,
 export async function scCallRead(contract: string, method: string, parameters: Parameter[]) {
   // convert params
   const params = parameters.map(parameter =>
-    new OntParameter(parameter.name, OntParameterType[parameter.type], parameter.value)
+    new OntParameter('', OntParameterType[parameter.type], parameter.value)
   );
 
-  const tx = TransactionBuilder.makeInvokeTransaction(method, params, new Address(contract), '500',
-  `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = TransactionBuilder.makeInvokeTransaction(method, params, new Address(utils.reverseHex(contract)));
 
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), true, false);

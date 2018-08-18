@@ -32,7 +32,7 @@ export const smartContractReducer: Reducer<SmartContractState> = (state = defaul
   }
 };
 
-export const runtimeAliases = {
+export const smartContractAliases = {
   [SC_CALL]: (action: any) => {
     return async (dispatch: Dispatch) => {
       const contract: string = action.contract;
@@ -40,9 +40,11 @@ export const runtimeAliases = {
       const parameters: Parameter[] = action.parameters;
       const password: string = action.password;
       const requestId: string = action.requestId;
+      const gasPrice: number = action.gasPrice;
+      const gasLimit: number = action.gasLimit;
 
       try {
-        const result = await timeout(scCall(password, contract, method, parameters), 15000);
+        const result = await timeout(scCall(password, contract, method, parameters, gasPrice, gasLimit), 15000);
 
         // resolves request
         dispatch(Actions.transactionRequests.resolveRequest(requestId, undefined, result));

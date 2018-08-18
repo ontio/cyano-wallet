@@ -24,7 +24,7 @@ import { loaderReducer } from './loaderReducer';
 import { routerReducer } from './routerReducer';
 import { runtimeAliases, runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
-import { smartContractReducer } from './smartContractReducer';
+import { smartContractAliases, smartContractReducer } from './smartContractReducer';
 import { statusReducer } from './statusReducer';
 import { transactionReducer } from './transactionReducer';
 import { transactionRequestsReducer } from './transactionRequestsReducer';
@@ -43,7 +43,8 @@ export const globalReducer = combineReducers({
 });
 
 export const aliases = {
-  ...runtimeAliases
+  ...runtimeAliases,
+  ...smartContractAliases
 };
 
 let store: GlobalStore;

@@ -47,8 +47,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         // const account: string = get(props.location, 'state.account', '');
         // const addresses: string[] = get(props.location, 'state.addresses', '');
         const contract: string = get(props.location, 'state.contract', '');
-        // const gasLimit: number = get(props.location, 'state.gasLimit', 30000);
-        // const gasPrice: number = get(props.location, 'state.gasPrice', 500);
+        const gasLimit: number = get(props.location, 'state.gasLimit', 30000);
+        const gasPrice: number = get(props.location, 'state.gasPrice', 500);
         const method: string = get(props.location, 'state.method', '');
         const parameters: Parameter[] = get(props.location, 'state.parameters', '');
         const requestId: string = get(props.location, 'state.requestId', undefined);
@@ -58,7 +58,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         const password: string = get(values, 'password', '');
 
         await actions.startLoading();
-        await actions.scCall(password, contract, method, parameters, requestId);
+        await actions.scCall(password, contract, method, parameters, requestId, gasPrice, gasLimit);
         await actions.finishLoading();
 
         const requests = getReduxProps().requests;
