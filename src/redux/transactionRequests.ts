@@ -15,15 +15,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Parameter } from 'ontology-dapi';
 import { AssetType } from './runtime';
 
-export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED';
+export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED' | 'OTHER';
 
-export type TransactionType = 'transfer';
+export type TransactionType = 'transfer' | 'sc_call' | 'sc_call_read';
 
 export interface TransactionRequest {
   id: string;
   type: TransactionType;
+  resolved: boolean;
+  error?: ErrorCode;
+  result?: any;
 }
 
 export interface TransferRequest extends TransactionRequest {
@@ -31,12 +35,26 @@ export interface TransferRequest extends TransactionRequest {
   recipient: string;
   amount: number;
   asset: AssetType;
-  resolved: boolean;
-  error?: ErrorCode;
+}
+
+export interface ScCallRequest extends TransactionRequest {
+  account: string;
+  contract: string;
+  method: string;
+  gasPrice: number;
+  gasLimit: number;
+  addresses: string[];
+  parameters: Parameter[];
+}
+
+export interface ScCallReadRequest extends TransactionRequest {
+  contract: string;
+  method: string;
+  parameters: Parameter[];
 }
 
 export interface TransactionRequestsState {
-  requests: TransferRequest[];
+  requests: TransactionRequest[];
 }
 
 export const ADD_TRANSACTION_REQUEST = 'ADD_TRANSACTION_REQUEST';
@@ -47,8 +65,9 @@ export const addRequest = (request: TransactionRequest) => ({
   type: ADD_TRANSACTION_REQUEST
 });
 
-export const resolveRequest = (id: string, error?: ErrorCode) => ({
+export const resolveRequest = (id: string, error?: ErrorCode, result?: any) => ({
   error,
   id,
+  result,
   type: RESOLVE_TRANSACTION_REQUEST
 });

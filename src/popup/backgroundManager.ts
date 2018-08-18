@@ -15,13 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { MethodType, Rpc } from 'ontology-dapi';
+import { History } from 'history';
+ import { Rpc } from 'ontology-dapi';
 import { browser } from 'webextension-polyfill-ts';
 
 class BackgroundManager {
     private rpc: Rpc;
+    private history: History;
 
-    constructor() {
+    constructor(history: History) {
+      this.history = history;
       this.rpc = new Rpc({
         addListener: browser.runtime.onMessage.addListener,
         destination: 'background',
@@ -29,15 +32,16 @@ class BackgroundManager {
         postMessage: browser.runtime.sendMessage,
         source: 'popup'
       });
-    }
 
-    public initialize() {
+      this.rpc.register('history_push', this.historyPush.bind(this));
       this.rpc.call('popup_initialized');
     }
 
-    public registerMethod(name: string, method: MethodType) {
-      this.rpc.register(name, method);
+    public historyPush(path: string, state: any) {
+      this.history.push(path, state);
     }
  }
 
- export const backgroundManager = new BackgroundManager();
+ export function initBackgroundManager(history: History) {
+   return new BackgroundManager(history);
+ }

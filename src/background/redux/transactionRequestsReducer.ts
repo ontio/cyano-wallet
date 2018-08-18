@@ -37,6 +37,7 @@ export const transactionRequestsReducer: Reducer<TransactionRequestsState> = (st
             ...state.requests.find((r) => r.id === action.id),
             error: action.error,
             resolved: true,
+            result: action.result
           },
         ],
       };

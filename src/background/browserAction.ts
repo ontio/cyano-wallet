@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
-import { popupManager } from './popUpManager';
+import { PopupManager } from './popUpManager';
 
-export function initBrowserAction() {
+export function initBrowserAction(popupManager: PopupManager) {
   browser.browserAction.onClicked.addListener(popupManager.show);
 }

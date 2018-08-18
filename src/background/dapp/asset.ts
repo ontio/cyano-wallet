@@ -1,7 +1,7 @@
 import { Asset, AssetApi } from 'ontology-dapi';
 import { getAddress, getAddressPk } from '../../api/accountApi';
-import { popupManager } from '../popUpManager';
 import { getStore } from '../redux';
+import { getRequestsManager } from '../requestsManager';
 
 export const assetApi: AssetApi = {
   getOwnAccounts(): Promise<string[]> {
@@ -49,8 +49,6 @@ export const assetApi: AssetApi = {
       throw new Error('WRONG_SENDER');
     }
 
-    await popupManager.show();
-
-    return await popupManager.callMethod('init_transfer', recipient, asset, amount);
+    return await getRequestsManager().initTransfer({recipient, asset, amount});
   }
 }

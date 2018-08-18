@@ -27,15 +27,19 @@ import { initDApiProvider } from './dapp';
 import { initNetwork } from './network';
 import { initSettingsProvider } from './persist/settingsProvider';
 import { initWalletProvider } from './persist/walletProvider';
+import { initPopupManager } from './popUpManager';
 import { initStore } from './redux';
+import { initRequestsManager } from './requestsManager';
 
 const store = initStore();
 initNetwork(store);
 initBalanceProvider(store);
 initSettingsProvider(store);
 initWalletProvider(store);
+const popupManager = initPopupManager();
+initRequestsManager(store, popupManager);
 initDApiProvider();
-initBrowserAction();
+initBrowserAction(popupManager);
 
 // pretends we are hosted on https://extension.trezor.io so trezor bridge will allow communication
 browser.webRequest.onBeforeSendHeaders.addListener(

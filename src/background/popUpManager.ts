@@ -23,7 +23,7 @@ import { Deferred } from '../deffered';
 const width = 350;
 const height = 452;
 
-class PopupManager {
+export class PopupManager {
   private rpc: Rpc;
   private popupId: number;
 
@@ -85,4 +85,6 @@ class PopupManager {
   }
 }
 
-export const popupManager = new PopupManager();
+export function initPopupManager() {
+  return new PopupManager();
+}

@@ -27,9 +27,10 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
-import { backgroundManager } from './backgroundManager';
+import { initBackgroundManager } from './backgroundManager';
 import { initHistory } from './history';
 import {
+  CallConfirm,
   Clear,
   Create,
   Dashboard,
@@ -72,7 +73,6 @@ import {
   WithdrawFailed,
 } from './pages';
 import { initStore } from './redux';
-import { requestsManager } from './requestsManager';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
@@ -86,10 +86,7 @@ Ledger.setLedgerTransport(
 const store = initStore();
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
-  
-  requestsManager.initialize(store, history);
-  backgroundManager.initialize();
-
+  initBackgroundManager(history);
   
   const AppView: React.SFC<{}> = () => (
     <Provider store={store}>
@@ -139,6 +136,8 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/identity/new" exact={true} component={IdentityNew} />
           <Route path="/identity/restore" exact={true} component={IdentityRestore} />
           <Route path="/identity/sign-up" exact={true} component={IdentitySignup} />
+
+          <Route path="/callConfirm" exact={true} component={CallConfirm} />
         </>
       </Router>
     </Provider>

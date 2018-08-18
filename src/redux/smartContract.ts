@@ -16,27 +16,24 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Store } from 'redux';
-import { LoaderState } from './loader';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { SmartContractState } from './smartContract';
-import { StatusState } from './status';
-import { TransactionState } from './transaction';
-import { TransactionRequestsState } from './transactionRequests';
-import { WalletState } from './wallet';
+// tslint:disable-next-line:no-empty-interface
+export interface SmartContractState {}
+export const SC_CALL = 'SC_CALL';
+export const SC_CALL_READ = 'SC_CALL_READ';
 
-export interface GlobalState {
-  loader: LoaderState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  smartContract: SmartContractState;
-  status: StatusState;
-  transaction: TransactionState;
-  transactionRequests: TransactionRequestsState;
-  wallet: WalletState;
-};
+export const scCall = (password: string, contract: string, method: string, parameters: any[], requestId: string) => ({
+  contract,
+  method,
+  parameters,
+  password,
+  requestId,
+  type: SC_CALL
+});
 
-export type GlobalStore = Store<GlobalState>;
+export const scCallRead = (contract: string, method: string, parameters: any[], requestId: string) => ({
+  contract,
+  method,
+  parameters,
+  requestId,
+  type: SC_CALL_READ
+});

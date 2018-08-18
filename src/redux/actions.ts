@@ -20,6 +20,7 @@ import { finishLoading, startLoading } from './loader';
 import { setRouterState } from './router';
 import { checkOntId, registerOntId, setBalance, setTransfers, transfer, withdrawOng } from './runtime';
 import { setSettings } from './settings';
+import { scCall, scCallRead } from './smartContract'; 
 import { changeNetworkState } from './status';
 import { setTransactionResult } from './transaction';
 import { addRequest, resolveRequest } from './transactionRequests';
@@ -43,6 +44,10 @@ export default {
     },
     settings: {
         setSettings
+    },
+    smartContract: {
+        scCall,
+        scCallRead
     },
     status: {
         changeNetworkState

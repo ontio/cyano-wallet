@@ -24,6 +24,7 @@ import { loaderReducer } from './loaderReducer';
 import { routerReducer } from './routerReducer';
 import { runtimeAliases, runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
+import { smartContractReducer } from './smartContractReducer';
 import { statusReducer } from './statusReducer';
 import { transactionReducer } from './transactionReducer';
 import { transactionRequestsReducer } from './transactionRequestsReducer';
@@ -34,6 +35,7 @@ export const globalReducer = combineReducers({
   router: routerReducer,
   runtime: runtimeReducer,
   settings: settingsReducer,
+  smartContract: smartContractReducer,
   status: statusReducer,
   transaction: transactionReducer,
   transactionRequests: transactionRequestsReducer,
