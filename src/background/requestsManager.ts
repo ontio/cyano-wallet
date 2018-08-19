@@ -7,6 +7,7 @@ import { GlobalStore } from '../redux/state';
 import {
   ScCallReadRequest,
   ScCallRequest,
+  ScDeployRequest,
   TransactionRequestsState,
   TransferRequest,
 } from '../redux/transactionRequests';
@@ -124,6 +125,42 @@ export class RequestsManager {
     );
 
     await this.store.dispatch(Actions.transactionRequests.submitRequest(requestId));
+
+    return deferred.promise;
+  }
+
+  public async initScDeploy(args: {
+    account: string,
+    code: string,
+    name: string,
+    version: string,
+    author: string,
+    email: string,
+    description: string,
+    needStorage: boolean,
+    gasPrice: number,
+    gasLimit: number
+  }) {
+    const requestId = uuid();
+
+    // stores deferred object to resolve when the transaction is resolved
+    const deferred = new Deferred<any>();
+    this.requestDeferreds.set(requestId, deferred);
+
+    await this.store.dispatch(
+      Actions.transactionRequests.addRequest<ScDeployRequest>({
+        ...args,
+        id: requestId,
+        type: 'sc_deploy',
+      }),
+    );
+
+    await this.popupManager.show();
+    await this.popupManager.callMethod('history_push', '/deploy', {
+      ...args,
+      locked: true,
+      requestId,
+    });
 
     return deferred.promise;
   }

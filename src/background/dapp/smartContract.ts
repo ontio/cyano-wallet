@@ -24,7 +24,7 @@ export const smartContractApi: SmartContractApi = {
       gasLimit,
       gasPrice,
       method,
-      parameters
+      parameters,
     });
   },
 
@@ -32,11 +32,11 @@ export const smartContractApi: SmartContractApi = {
     return await getRequestsManager().initScCallRead({
       contract,
       method,
-      parameters
+      parameters,
     });
   },
 
-  deploy(
+  async deploy(
     account: string,
     code: string,
     name: string,
@@ -48,6 +48,22 @@ export const smartContractApi: SmartContractApi = {
     gasPrice: number,
     gasLimit: number,
   ): Promise<void> {
-    throw new Error('UNSUPPORTED');
+    const accounts = await assetApi.getOwnAccounts();
+    if (!accounts.includes(account)) {
+      throw new Error('WRONG_ACCOUNT');
+    }
+
+    return await getRequestsManager().initScDeploy({
+      account,
+      author,
+      code,
+      description,
+      email,
+      gasLimit,
+      gasPrice,
+      name,
+      needStorage,
+      version,
+    });
   },
 };

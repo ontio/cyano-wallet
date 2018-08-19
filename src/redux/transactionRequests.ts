@@ -66,6 +66,7 @@ export interface ScCallRequest extends TransactionRequest {
 }
 
 export interface ScDeployRequest extends TransactionRequest {
+  account: string;
   code: string;
   name: string;
   version: string;

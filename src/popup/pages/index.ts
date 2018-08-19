@@ -21,6 +21,7 @@ export { Confirm } from './confirm/confirm';
 export { Confirm as ConfirmNormal } from './confirm/confirmNormal';
 export { Create } from './create/create';
 export { Dashboard } from './dashboard/dashboard';
+export { Deploy } from './deploy/deploy';
 export { Home } from './home/home';
 export { IdentityDashboard } from './identity/dashboard/identityDashboard';
 export { IdentityClear } from './identity/clear/clear';
