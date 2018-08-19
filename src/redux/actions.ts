@@ -18,12 +18,10 @@
 
 import { finishLoading, startLoading } from './loader';
 import { setRouterState } from './router';
-import { checkOntId, registerOntId, setBalance, setTransfers, transfer, withdrawOng } from './runtime';
+import { setBalance, setTransfers } from './runtime';
 import { setSettings } from './settings';
-import { scCall, scCallRead } from './smartContract'; 
 import { changeNetworkState } from './status';
-import { setTransactionResult } from './transaction';
-import { addRequest, resolveRequest } from './transactionRequests';
+import { addRequest, resolveRequest, submitRequest, updateRequest } from './transactionRequests';
 import { clearIdentity, clearWallet, setWallet } from './wallet';
 
 export default {
@@ -35,29 +33,20 @@ export default {
         setRouterState
     },
     runtime: {
-        checkOntId,
-        registerOntId,
         setBalance,
         setTransfers,
-        transfer,
-        withdrawOng
     },
     settings: {
         setSettings
     },
-    smartContract: {
-        scCall,
-        scCallRead
-    },
     status: {
         changeNetworkState
     },
-    transaction: {
-        setTransactionResult
-    },
     transactionRequests: {
         addRequest,
-        resolveRequest
+        resolveRequest,
+        submitRequest,
+        updateRequest
     },
     wallet: {
         clearIdentity,

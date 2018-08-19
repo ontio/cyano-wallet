@@ -21,9 +21,6 @@ import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   handleOk: () => void;
-  amount: string;
-  asset: string;
-  recipient: string;
 }
 
 export const SendFailedView: React.SFC<Props> = (props) => (
@@ -35,7 +32,7 @@ export const SendFailedView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your transaction of {props.amount} {props.asset} to {props.recipient} has not completed in time. This does not mean it necessary failed. Check your balances.</Message>
+      <Message>Your transaction has not completed in time. This does not mean it necessary failed. Check the blockchain.</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>

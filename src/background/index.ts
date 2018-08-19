@@ -32,11 +32,12 @@ import { initStore } from './redux';
 import { initRequestsManager } from './requestsManager';
 
 const store = initStore();
+const popupManager = initPopupManager(store);
+
 initNetwork(store);
 initBalanceProvider(store);
 initSettingsProvider(store);
 initWalletProvider(store);
-const popupManager = initPopupManager();
 initRequestsManager(store, popupManager);
 initDApiProvider();
 initBrowserAction(popupManager);

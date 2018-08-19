@@ -20,25 +20,23 @@ import { Button } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
-  handleCancel: () => void;
-
   handleSubmit: () => Promise<void>;
+  handleCancel: () => void;
   loading: boolean;
-  unboundOng: number;
 }
 
-export const LedgerWithdrawConfirmView: React.SFC<Props> = (props) => (
+export const TrezorConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="ONG Withdrawal" />
+      <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
-        <View>Confirm withdrawal of {props.unboundOng} ONG by Ledger.</View>
+        <View>Confirm the transaction on your Trezor.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Filler />
       <View className="buttons">
-        <Button disabled={props.loading} onClick={props.handleSubmit} loading={props.loading}>Use Ledger</Button>
+        <Button disabled={props.loading} onClick={props.handleSubmit} loading={props.loading}>Use Trezor</Button>
         <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
       </View>
     </View>

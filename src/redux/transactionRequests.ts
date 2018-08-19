@@ -20,12 +20,18 @@ import { AssetType } from './runtime';
 
 export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED' | 'OTHER';
 
-export type TransactionType = 'transfer' | 'sc_call' | 'sc_call_read';
+export type TransactionType =
+  | 'transfer'
+  | 'withdraw_ong'
+  | 'register_ont_id'
+  | 'sc_call'
+  | 'sc_call_read'
+  | 'sc_deploy';
 
 export interface TransactionRequest {
   id: string;
   type: TransactionType;
-  resolved: boolean;
+  resolved?: boolean;
   error?: ErrorCode;
   result?: any;
 }
@@ -37,6 +43,18 @@ export interface TransferRequest extends TransactionRequest {
   asset: AssetType;
 }
 
+export interface WithdrawOngRequest extends TransactionRequest {
+  amount: number;
+}
+
+export interface RegisterOntIdRequest extends TransactionRequest {
+  identity: string;
+  encryptedWif: string;
+  mnemonics: string;
+  wif: string;
+  password: string;
+}
+
 export interface ScCallRequest extends TransactionRequest {
   account: string;
   contract: string;
@@ -45,6 +63,18 @@ export interface ScCallRequest extends TransactionRequest {
   gasLimit: number;
   addresses: string[];
   parameters: Parameter[];
+}
+
+export interface ScDeployRequest extends TransactionRequest {
+  code: string;
+  name: string;
+  version: string;
+  author: string;
+  email: string;
+  description: string;
+  needStorage: boolean;
+  gasPrice: number;
+  gasLimit: number;
 }
 
 export interface ScCallReadRequest extends TransactionRequest {
@@ -58,16 +88,31 @@ export interface TransactionRequestsState {
 }
 
 export const ADD_TRANSACTION_REQUEST = 'ADD_TRANSACTION_REQUEST';
-export const RESOLVE_TRANSACTION_REQUEST = 'RESOLVE_TRANSACTION_REQUEST';
 
-export const addRequest = (request: TransactionRequest) => ({
+export const UPDATE_REQUEST = 'UPDATE_REQUEST';
+export const RESOLVE_TRANSACTION_REQUEST = 'RESOLVE_TRANSACTION_REQUEST';
+export const SUBMIT_REQUEST = 'SUBMIT_REQUEST';
+
+export const addRequest = <T extends TransactionRequest>(request: T) => ({
   request,
-  type: ADD_TRANSACTION_REQUEST
+  type: ADD_TRANSACTION_REQUEST,
+});
+
+export const updateRequest = <T extends TransactionRequest>(id: string, request: Partial<T>) => ({
+  id,
+  request,
+  type: UPDATE_REQUEST,
 });
 
 export const resolveRequest = (id: string, error?: ErrorCode, result?: any) => ({
   error,
   id,
   result,
-  type: RESOLVE_TRANSACTION_REQUEST
+  type: RESOLVE_TRANSACTION_REQUEST,
+});
+
+export const submitRequest = (id: string, password?: string) => ({
+  id,
+  password,
+  type: SUBMIT_REQUEST,
 });

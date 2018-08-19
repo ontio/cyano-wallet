@@ -20,9 +20,7 @@ import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getWallet } from '../../../api/authApi';
-import { isLedgerKey } from '../../../api/ledgerApi';
-import { isTrezorKey } from '../../../api/trezorApi';
+import { TransferRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { InitialValues, Props, SendView } from './sendView';
@@ -30,48 +28,42 @@ import { InitialValues, Props, SendView } from './sendView';
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
-  walletEncoded: state.wallet.wallet,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
-  resolveRequest: Actions.transactionRequests.resolveRequest
-}, dispatch);
-
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      resolveRequest: Actions.transactionRequests.resolveRequest,
+      updateRequest: Actions.transactionRequests.updateRequest,
+    },
+    dispatch,
+  );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
-    const initialValues: InitialValues = {
-      amount: get(props.location, 'state.amount', undefined),
-      asset: get(props.location, 'state.asset', undefined),
-      recipient: get(props.location, 'state.recipient', undefined)
-    };
-
-    const locked: boolean = get(props.location, 'state.locked', false);
-    const requestId: string | undefined = get(props.location, 'state.requestId', undefined);
-
-    return withProps(
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    withProps(
       {
         handleCancel: async () => {
           props.history.goBack();
 
-          if (requestId !== undefined) {
-            await actions.resolveRequest(requestId, 'CANCELED');
-          }
+          const requestId: string = get(props.location, 'state.requestId');
+          await actions.resolveRequest(requestId, 'CANCELED');
         },
         handleConfirm: async (values: object) => {
+          const requestId: string = get(props.location, 'state.requestId');
+
           const recipient = get(values, 'recipient', '');
           const asset = get(values, 'asset', '');
           const amount = get(values, 'amount', '');
 
-          const wallet = getWallet(reduxProps.walletEncoded!);
+          // todo: no type check TransferRequest
+          await actions.updateRequest(requestId, {
+            amount,
+            asset,
+            recipient,
+          } as Partial<TransferRequest>);
 
-          if (isLedgerKey(wallet)) {
-            props.history.push('/ledger/sendConfirm', { recipient, asset, amount, requestId });
-          } else if (isTrezorKey(wallet)) {
-            props.history.push('/trezor/sendConfirm', { recipient, asset, amount, requestId });
-          } else {
-            props.history.push('/sendConfirm', { recipient, asset, amount, requestId });
-          }
+          props.history.push('/confirm', { requestId, redirectSucess: '/sendComplete', redirectFail: '/sendFailed' });
         },
         handleMax: (formProps: FormRenderProps) => {
           const asset: string | undefined = get(formProps.values, 'asset');
@@ -83,13 +75,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           }
           return true;
         },
-        initialValues,
-        locked
+        initialValues: {
+          amount: get(props.location, 'state.amount', undefined),
+          asset: get(props.location, 'state.asset', undefined),
+          recipient: get(props.location, 'state.recipient', undefined),
+        } as InitialValues,
+        locked: get(props.location, 'state.locked', false),
       },
-      (injectedProps) => (
-        <Component {...injectedProps} />
-      ),
-    );
-  });
+      (injectedProps) => <Component {...injectedProps} />,
+    ),
+  );
 
 export const Send = enhancer(SendView);

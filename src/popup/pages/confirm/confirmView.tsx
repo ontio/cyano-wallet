@@ -28,12 +28,12 @@ export interface Props {
   loading: boolean;
 }
 
-export const CallConfirmView: React.SFC<Props> = (props) => (
+export const ConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="Confirm SC call" />
+      <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
-        <View>Confirm the call by unlocking the wallet with your password.</View>
+        <View>Confirm the transaction by unlocking the wallet with your password.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

@@ -22,12 +22,10 @@ import { GlobalStore } from '../../redux/state';
 // import { composeWithDevTools } from 'remote-redux-devtools';
 import { loaderReducer } from './loaderReducer';
 import { routerReducer } from './routerReducer';
-import { runtimeAliases, runtimeReducer } from './runtimeReducer';
+import { runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
-import { smartContractAliases, smartContractReducer } from './smartContractReducer';
 import { statusReducer } from './statusReducer';
-import { transactionReducer } from './transactionReducer';
-import { transactionRequestsReducer } from './transactionRequestsReducer';
+import { transactionRequestsAliases, transactionRequestsReducer } from './transactionRequestsReducer';
 import { walletReducer } from './walletReducer';
 
 export const globalReducer = combineReducers({
@@ -35,16 +33,13 @@ export const globalReducer = combineReducers({
   router: routerReducer,
   runtime: runtimeReducer,
   settings: settingsReducer,
-  smartContract: smartContractReducer,
   status: statusReducer,
-  transaction: transactionReducer,
   transactionRequests: transactionRequestsReducer,
   wallet: walletReducer
 });
 
 export const aliases = {
-  ...runtimeAliases,
-  ...smartContractAliases
+  ...transactionRequestsAliases
 };
 
 let store: GlobalStore;

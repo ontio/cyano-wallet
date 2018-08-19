@@ -15,11 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Rpc } from 'ontology-dapi';
+import { MethodType, Rpc } from 'ontology-dapi';
+import { Identity } from 'ontology-ts-sdk';
 import { browser } from 'webextension-polyfill-ts';
+import { decryptAccount } from '../api/accountApi';
+import { getWallet } from '../api/authApi';
 import { Deferred } from '../deffered';
+import { GlobalStore } from '../redux/state';
+import { checkOntId } from './api/runtimeApi';
 
-// size of the popup. needs to be in sync with css.
+// size of the popup
 const width = 350;
 const height = 452;
 
@@ -27,9 +32,12 @@ export class PopupManager {
   private rpc: Rpc;
   private popupId: number;
 
+  private store: GlobalStore;
+
   private initialized: Deferred<void>;
 
-  constructor() {
+  constructor(store: GlobalStore) {
+    this.store = store;
     this.show = this.show.bind(this);
     this.callMethod = this.callMethod.bind(this);
 
@@ -37,31 +45,29 @@ export class PopupManager {
       addListener: browser.runtime.onMessage.addListener,
       destination: 'popup',
       postMessage: browser.runtime.sendMessage,
-      source: 'background'
+      source: 'background',
     });
 
-    this.rpc.register('popup_initialized', () => {
-      if (this.initialized !== undefined) {
-        this.initialized.resolve();
-      }
-    })    
+    this.rpc.register('popup_initialized', this.pupupInitialized.bind(this));
+    this.rpc.register('check_account_password', this.checkAccountPassword.bind(this));
+    this.rpc.register('check_ont_id', this.checkOntId.bind(this));
   }
   public async show() {
     let popup = await this.findPopup();
-  
+
     if (popup !== null) {
       browser.windows.update(popup.id!, { focused: true });
     } else {
       this.initialized = new Deferred<void>();
-      
+
       popup = await browser.windows.create({
         height,
         type: 'popup',
         url: 'popup.html',
         width,
       });
-      this.popupId = popup.id!;   
-      
+      this.popupId = popup.id!;
+
       await this.initialized.promise;
     }
   }
@@ -69,22 +75,52 @@ export class PopupManager {
   public async callMethod(method: string, ...params: any[]) {
     return this.rpc.call(method, ...params);
   }
-  
+
+  public registerMethod(name: string, method: MethodType) {
+    this.rpc.register(name, method);
+  }
+
   private async findPopup() {
     const windows = await browser.windows.getAll({
       windowTypes: ['popup'],
     });
-  
+
     const ownWindows = windows.filter((w) => w.id === this.popupId);
-  
+
     if (ownWindows.length > 0) {
       return ownWindows[0];
     } else {
       return null;
     }
   }
+
+  private pupupInitialized() {
+    if (this.initialized !== undefined) {
+      this.initialized.resolve();
+    }
+  }
+  private checkAccountPassword(password: string) {
+    const encodedWallet = this.store.getState().wallet.wallet;
+    if (encodedWallet === null) {
+      throw new Error('NO_ACCOUNT');
+    }
+
+    try {
+      const wallet = getWallet(encodedWallet);
+      decryptAccount(wallet, password);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private checkOntId(identityEncoded: string, password: string) {
+    const identity = Identity.parseJson(identityEncoded);
+    return checkOntId(identity, password);
+  }
 }
 
-export function initPopupManager() {
-  return new PopupManager();
+export function initPopupManager(store: GlobalStore) {
+  return new PopupManager(store);
 }

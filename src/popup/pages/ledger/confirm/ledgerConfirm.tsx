@@ -15,26 +15,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormApi } from 'final-form';
 import { get } from 'lodash';
-
-import { Parameter } from 'ontology-dapi';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { reduxConnect, withProps } from '../../compose';
-import { Actions, GlobalState } from '../../redux';
-import { CallConfirmView, Props } from './callConfirmView';
+import { reduxConnect, withProps } from '../../../compose';
+import { Actions, GlobalState } from '../../../redux';
+import { LedgerConfirmView, Props } from './ledgerConfirmView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  requests: state.transactionRequests.requests
+  requests: state.transactionRequests.requests,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
   finishLoading: Actions.loader.finishLoading,
-  scCall: Actions.smartContract.scCall,
-  startLoading: Actions.loader.startLoading
+  startLoading: Actions.loader.startLoading,
+  submitRequest: Actions.transactionRequests.submitRequest,
 }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
@@ -43,42 +40,28 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       handleCancel: () => {
         props.history.goBack();
       },
-      handleSubmit: async (values: object, formApi: FormApi) => {
-        // const account: string = get(props.location, 'state.account', '');
-        // const addresses: string[] = get(props.location, 'state.addresses', '');
-        const contract: string = get(props.location, 'state.contract', '');
-        const gasLimit: number = get(props.location, 'state.gasLimit', 30000);
-        const gasPrice: number = get(props.location, 'state.gasPrice', 500);
-        const method: string = get(props.location, 'state.method', '');
-        const parameters: Parameter[] = get(props.location, 'state.parameters', '');
-        const requestId: string = get(props.location, 'state.requestId', undefined);
+      handleSubmit: async () => {
+        const requestId: string = get(props.location, 'state.requestId');
+        const redirectSucess: string = get(props.location, 'state.redirectSucess');
+        const redirectFail: string = get(props.location, 'state.redirectFail');
 
-        // custom account, addresses and gas specifics are not supported yet
-
-        const password: string = get(values, 'password', '');
-
+        
         await actions.startLoading();
-        await actions.scCall(password, contract, method, parameters, requestId, gasPrice, gasLimit);
+        await actions.submitRequest(requestId, '');
         await actions.finishLoading();
 
         const requests = getReduxProps().requests;
-        const request = requests.find(r => r.id === requestId);
+        const request = requests.find((r) => r.id === requestId);
 
         if (request === undefined) {
           throw new Error('Request not found');
         }
-  
-        if (request.error === 'WRONG_PASSWORD') {
-          formApi.change('password', '');
-          
-          return {
-            password: ''
-          };
-        } else {
-          props.history.push('/dashboard');
-        } 
 
-        return {};
+        if (request.error !== undefined) {
+          props.history.push(redirectFail, { requestId });
+        } else {
+          props.history.push(redirectSucess, { requestId });
+        }
       }
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
@@ -86,4 +69,4 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
   ))
 )
 
-export const CallConfirm = enhancer(CallConfirmView);
+export const LedgerConfirm = enhancer(LedgerConfirmView);

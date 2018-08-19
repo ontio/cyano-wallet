@@ -21,9 +21,6 @@ import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   handleOk: () => void;
-  amount: string;
-  asset: string;
-  recipient: string;
 }
 
 export const SendCompleteView: React.SFC<Props> = (props) => (
@@ -31,11 +28,11 @@ export const SendCompleteView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Transaction finished" />
       <View content={true} className="spread-around">
-        <View>It could take a while until the balances change.</View>
+        <View>It could take a while the data on blockchain update.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your transaction of {props.amount} {props.asset} to {props.recipient} has completed. This does not mean it succeeded. Check your balances.</Message>
+      <Message>Your transaction has completed. This does not mean it necessary succeeded. Check blockchain to be sure.</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>

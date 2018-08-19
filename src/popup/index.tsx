@@ -52,16 +52,14 @@ const unsubscribe = store.subscribe(() => {
         <>
           <Route path="/dashboard" exact={true} component={Pages.Dashboard} />
           <Route path="/send" exact={true} component={Pages.Send} />
-          <Route path="/sendConfirm" exact={true} component={Pages.SendConfirm} />
+          <Route path="/confirm" exact={true} component={Pages.Confirm} />
+          <Route path="/confirm-normal" exact={true} component={Pages.ConfirmNormal} />
           <Route path="/sendComplete" exact={true} component={Pages.SendComplete} />
           <Route path="/sendFailed" exact={true} component={Pages.SendFailed} />
           <Route path="/settings" exact={true} component={Pages.SettingsPage} />
           <Route path="/receive" exact={true} component={Pages.Receive} />
           <Route path="/transfers" exact={true} component={Pages.Transfers} />
-          <Route path="/withdrawConfirm" exact={true} component={Pages.WithdrawConfirm} />
-          <Route path="/withdrawComplete" exact={true} component={Pages.WithdrawComplete} />
-          <Route path="/withdrawFailed" exact={true} component={Pages.WithdrawFailed} />
-
+        
           <Route path="/" exact={true} component={Pages.Home} />
           <Route path="/new" exact={true} component={Pages.New} />
           <Route path="/clear" exact={true} component={Pages.Clear} />
@@ -73,22 +71,19 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/ledger/create" exact={true} component={Pages.LedgerCreate} />
           <Route path="/ledger/import" exact={true} component={Pages.LedgerImport} />
           <Route path="/ledger/new" exact={true} component={Pages.LedgerNew} />
-          <Route path="/ledger/sendConfirm" exact={true} component={Pages.LedgerSendConfirm} />
+          <Route path="/ledger/confirm" exact={true} component={Pages.LedgerConfirm} />
           <Route path="/ledger/signup" exact={true} component={Pages.LedgerSignup} />
-          <Route path="/ledger/withdrawConfirm" exact={true} component={Pages.LedgerWithdrawConfirm} />
-
+          
           <Route path="/trezor/create" exact={true} component={Pages.TrezorCreate} />
           <Route path="/trezor/import" exact={true} component={Pages.TrezorImport} />
           <Route path="/trezor/new" exact={true} component={Pages.TrezorNew} />
-          <Route path="/trezor/sendConfirm" exact={true} component={Pages.TrezorSendConfirm} />
+          <Route path="/trezor/confirm" exact={true} component={Pages.TrezorConfirm} />
           <Route path="/trezor/signup" exact={true} component={Pages.TrezorSignup} />
-          <Route path="/trezor/withdrawConfirm" exact={true} component={Pages.TrezorWithdrawConfirm} />
-
+          
           <Route path="/identity" exact={true} component={Pages.IdentityHome} />
           <Route path="/identity/checkFailed" exact={true} component={Pages.IdentityCheckFailed} />
           <Route path="/identity/clear" exact={true} component={Pages.IdentityClear} />
           <Route path="/identity/create" exact={true} component={Pages.IdentityCreate} />
-          <Route path="/identity/createConfirm" exact={true} component={Pages.IdentityCreateConfirm} />
           <Route path="/identity/dashboard" exact={true} component={Pages.IdentityDashboard} />
           <Route path="/identity/import" exact={true} component={Pages.IdentityImport} />
           <Route path="/identity/new" exact={true} component={Pages.IdentityNew} />
@@ -96,7 +91,6 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/identity/sign-up" exact={true} component={Pages.IdentitySignup} />
 
           <Route path="/call" exact={true} component={Pages.Call} />
-          <Route path="/callConfirm" exact={true} component={Pages.CallConfirm} />
         </>
       </Router>
     </Provider>

@@ -2,8 +2,14 @@ import { Parameter } from 'ontology-dapi';
 import { v4 as uuid } from 'uuid';
 import { Deferred } from '../deffered';
 import Actions from '../redux/actions';
+import { AssetType } from '../redux/runtime';
 import { GlobalStore } from '../redux/state';
-import { ScCallReadRequest, ScCallRequest, TransactionRequestsState, TransferRequest } from '../redux/transactionRequests';
+import {
+  ScCallReadRequest,
+  ScCallRequest,
+  TransactionRequestsState,
+  TransferRequest,
+} from '../redux/transactionRequests';
 import { PopupManager } from './popUpManager';
 
 /**
@@ -47,7 +53,7 @@ export class RequestsManager {
     });
   }
 
-  public async initTransfer(args: { recipient: string; asset: string; amount: number }) {
+  public async initTransfer(args: { recipient: string; asset: AssetType; amount: number }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved
@@ -55,11 +61,12 @@ export class RequestsManager {
     this.requestDeferreds.set(requestId, deferred);
 
     await this.store.dispatch(
-      Actions.transactionRequests.addRequest({
+      Actions.transactionRequests.addRequest<TransferRequest>({
         ...args,
         id: requestId,
+        sender: '',
         type: 'transfer',
-      } as TransferRequest),
+      }),
     );
 
     await this.popupManager.show();
@@ -84,11 +91,11 @@ export class RequestsManager {
     this.requestDeferreds.set(requestId, deferred);
 
     await this.store.dispatch(
-      Actions.transactionRequests.addRequest({
+      Actions.transactionRequests.addRequest<ScCallRequest>({
         ...args,
         id: requestId,
         type: 'sc_call',
-      } as ScCallRequest),
+      }),
     );
 
     await this.popupManager.show();
@@ -109,16 +116,14 @@ export class RequestsManager {
     this.requestDeferreds.set(requestId, deferred);
 
     await this.store.dispatch(
-      Actions.transactionRequests.addRequest({
+      Actions.transactionRequests.addRequest<ScCallReadRequest>({
         ...args,
         id: requestId,
         type: 'sc_call_read',
-      } as ScCallReadRequest),
+      }),
     );
 
-    await this.store.dispatch(
-      Actions.smartContract.scCallRead(args.contract, args.method, args.parameters, requestId)
-    );
+    await this.store.dispatch(Actions.transactionRequests.submitRequest(requestId));
 
     return deferred.promise;
   }

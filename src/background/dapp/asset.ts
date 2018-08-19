@@ -43,7 +43,7 @@ export const assetApi: AssetApi = {
     }
   },
 
-  async makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<void> {
+  async makeTransfer(sender: string, recipient: string, asset: Asset, amount: number): Promise<string> {
     const accounts = await assetApi.getOwnAccounts();
     if (!accounts.includes(sender)) {
       throw new Error('WRONG_SENDER');

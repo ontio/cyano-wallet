@@ -19,20 +19,19 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { AssetType } from '../../../../redux/runtime';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions, GlobalState } from '../../../redux';
-import { Props, TrezorSendConfirmView } from './trezorSendConfirmView';
+import { Props, TrezorConfirmView } from './trezorConfirmView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  transaction: state.transaction
+  requests: state.transactionRequests.requests,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
   finishLoading: Actions.loader.finishLoading,
   startLoading: Actions.loader.startLoading,
-  transfer: Actions.runtime.transfer
+  submitRequest: Actions.transactionRequests.submitRequest,
 }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
@@ -42,23 +41,26 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         props.history.goBack();
       },
       handleSubmit: async () => {
-        const recipient: string = get(props.location, 'state.recipient', '');
-        const asset: AssetType = get(props.location, 'state.asset', '');
-        const amount: string = get(props.location, 'state.amount', '');
+        const requestId: string = get(props.location, 'state.requestId');
+        const redirectSucess: string = get(props.location, 'state.redirectSucess');
+        const redirectFail: string = get(props.location, 'state.redirectFail');
 
+        
         await actions.startLoading();
-        await actions.transfer('', recipient, asset, amount);
+        await actions.submitRequest(requestId, '');
         await actions.finishLoading();
 
-        const transactionResult = getReduxProps().transaction;
-        
-        if (transactionResult.result) {
-          props.history.push('/sendComplete', { recipient, asset, amount });
-        } else if (transactionResult.error === 'TIMEOUT') {
-          props.history.push('/sendFailed', { recipient, asset, amount });
+        const requests = getReduxProps().requests;
+        const request = requests.find((r) => r.id === requestId);
+
+        if (request === undefined) {
+          throw new Error('Request not found');
+        }
+
+        if (request.error !== undefined) {
+          props.history.push(redirectFail, { requestId });
         } else {
-          // tslint:disable-next-line:no-console
-          console.log('Error', transactionResult);
+          props.history.push(redirectSucess, { requestId });
         }
       }
     }, (injectedProps) => (
@@ -67,4 +69,4 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
   ))
 )
 
-export const TrezorSendConfirm = enhancer(TrezorSendConfirmView);
+export const TrezorConfirm = enhancer(TrezorConfirmView);

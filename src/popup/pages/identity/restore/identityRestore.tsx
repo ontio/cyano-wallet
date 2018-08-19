@@ -21,18 +21,17 @@ import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getWallet } from '../../../../api/authApi';
 import { identityImportMnemonics } from '../../../../api/identityApi';
+import { getBackgroundManager } from '../../../backgroundManager';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions, GlobalState } from '../../../redux';
 import { IdentityRestoreView, Props } from './identityRestoreView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  transaction: state.transaction,
   walletEncoded: state.wallet.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  checkOntId: Actions.runtime.checkOntId,
   finishLoading: Actions.loader.finishLoading,
   setWallet: Actions.wallet.setWallet, 
   startLoading: Actions.loader.startLoading, 
@@ -55,13 +54,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         const { encryptedWif, wif, identity } = identityImportMnemonics(mnemonics, password, wallet.scrypt, neo);
 
-        await actions.checkOntId(identity.toJson(), password);
+        const ontIdExist = await getBackgroundManager().checkOntId(identity.toJson(), password);
 
         await actions.finishLoading();
 
-        const transactionResult = getReduxProps().transaction;
-        
-        if (transactionResult.result) {
+        if (ontIdExist) {
           wallet.addIdentity(identity);
           wallet.setDefaultIdentity(identity.ontid);
 

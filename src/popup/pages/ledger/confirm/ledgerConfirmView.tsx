@@ -16,27 +16,28 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button, Message } from 'semantic-ui-react';
-import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
+import { Button } from 'semantic-ui-react';
+import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
-  handleOk: () => void;
-  amount: string;
+  handleSubmit: () => Promise<void>;
+  handleCancel: () => void;
+  loading: boolean;
 }
 
-export const WithdrawFailedView: React.SFC<Props> = (props) => (
+export const LedgerConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="Withdrawal failed" />
+      <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
-        <View>The withdrawal timeouted.</View>
+        <View>Confirm the transaction on your Ledger.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your withdrawal of {props.amount} ONG to your address has not completed in time. This does not mean it necessary failed. Check your balances.</Message>
       <Filler />
       <View className="buttons">
-        <Button onClick={props.handleOk}>Ok</Button>
+        <Button disabled={props.loading} onClick={props.handleSubmit} loading={props.loading}>Use Ledger</Button>
+        <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
       </View>
     </View>
     <StatusBar />

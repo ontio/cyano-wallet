@@ -16,32 +16,47 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { History } from 'history';
- import { Rpc } from 'ontology-dapi';
+import { Rpc } from 'ontology-dapi';
 import { browser } from 'webextension-polyfill-ts';
 
 class BackgroundManager {
-    private rpc: Rpc;
-    private history: History;
+  private rpc: Rpc;
+  private history: History;
 
-    constructor(history: History) {
-      this.history = history;
-      this.rpc = new Rpc({
-        addListener: browser.runtime.onMessage.addListener,
-        destination: 'background',
-        logMessages: true,
-        postMessage: browser.runtime.sendMessage,
-        source: 'popup'
-      });
+  constructor(history: History) {
+    this.history = history;
+    this.rpc = new Rpc({
+      addListener: browser.runtime.onMessage.addListener,
+      destination: 'background',
+      logMessages: true,
+      postMessage: browser.runtime.sendMessage,
+      source: 'popup',
+    });
 
-      this.rpc.register('history_push', this.historyPush.bind(this));
-      this.rpc.call('popup_initialized');
-    }
+    this.rpc.register('history_push', this.historyPush.bind(this));
+    this.rpc.call('popup_initialized');
+  }
 
-    public historyPush(path: string, state: any) {
-      this.history.push(path, state);
-    }
- }
+  public checkAccountPassword(password: string) {
+    return this.rpc.call<boolean>('check_account_password', password);
+  }
 
- export function initBackgroundManager(history: History) {
-   return new BackgroundManager(history);
- }
+  public checkOntId(encodedIdentity: string, password: string) {
+    return this.rpc.call<boolean>('check_ont_id', encodedIdentity, password);
+  }
+
+  private historyPush(path: string, state: any) {
+    this.history.push(path, state);
+  }
+}
+
+let backgroundManager: BackgroundManager;
+
+export function initBackgroundManager(history: History) {
+  backgroundManager = new BackgroundManager(history);
+  return backgroundManager;
+}
+
+export function getBackgroundManager() {
+  return backgroundManager;
+}

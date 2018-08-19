@@ -20,7 +20,7 @@ import { CONST, Crypto, Identity, OntAssetTxBuilder, OntidContract, TransactionB
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { decryptIdentity } from '../../api/identityApi';
-import { AssetType } from '../../redux/runtime';
+import { RegisterOntIdRequest, TransferRequest, WithdrawOngRequest } from '../../redux/transactionRequests';
 import Address = Crypto.Address;
 import { getClient } from '../network';
 import { getStore } from '../redux';
@@ -50,21 +50,25 @@ export async function getUnboundOng() {
   return unboundOng;
 }
 
-export async function transfer(password: string, recipient: string, asset: AssetType, amount: string) {
+export async function transfer(request: TransferRequest, password: string) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
   const privateKey = decryptAccount(wallet, password);
 
-  const to = new Address(recipient);
+  const to = new Address(request.recipient);
 
-  if (asset === 'ONG') {
-    amount = String(Number(amount) * 1000000000);
+  let amount: string;
+
+  if (request.asset === 'ONG') {
+    amount = String(request.amount * 1000000000);
+  } else {
+    amount = String(request.amount);
   }
 
   const tx = OntAssetTxBuilder.makeTransferTx(
-    asset,
+    request.asset,
     from,
     to,
     amount,
@@ -77,19 +81,19 @@ export async function transfer(password: string, recipient: string, asset: Asset
   return await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
-export async function withdrawOng(password: string, amount: string) {
+export async function withdrawOng(request: WithdrawOngRequest, password: string) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
   const from = wallet.accounts[0].address;
   const privateKey = decryptAccount(wallet, password);
 
-  amount = String(Number(amount) * 1000000000);
+  const amount = String(request.amount * 1000000000);
 
   const tx = OntAssetTxBuilder.makeWithdrawOngTx(
     from, 
     from, 
-    String(amount), 
+    amount, 
     from, 
     '500', 
     `${CONST.DEFAULT_GAS_LIMIT}`
@@ -100,7 +104,11 @@ export async function withdrawOng(password: string, amount: string) {
   await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
-export async function registerOntId(identity: Identity, password: string, accountPassword: string) {
+export async function registerOntId(request: RegisterOntIdRequest, password: string) {
+  const accountPassword: string = request.password;
+  const identityEncoded: string = request.identity;
+  const identity = Identity.parseJson(identityEncoded);
+  
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 

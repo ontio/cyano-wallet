@@ -18,12 +18,12 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
+import { bindActionCreators, Dispatch } from 'redux';
+import { v4 as uuid } from 'uuid';
 import { getAddress } from '../../../api/accountApi';
-import { getWallet } from '../../../api/authApi';
-import { isLedgerKey } from '../../../api/ledgerApi';
-import { isTrezorKey } from '../../../api/trezorApi';
-import { dummy, reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
+import { TransferRequest, WithdrawOngRequest } from '../../../redux/transactionRequests';
+import { reduxConnect, withProps } from '../../compose';
+import { Actions, GlobalState } from '../../redux';
 import { DashboardView, Props } from './dashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -34,29 +34,45 @@ const mapStateToProps = (state: GlobalState) => ({
   walletEncoded: state.wallet.wallet
 });
 
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
+  addRequest: Actions.transactionRequests.addRequest
+}, dispatch);
+
+
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
     withProps({
       handleReceive: () => {
         props.history.push('/receive');
       },
-      handleSend: () => {
-        props.history.push('/send');
+      handleSend: async () => {
+        const requestId = uuid();
+        // todo: no type check TransferRequest
+        await actions.addRequest({
+          amount: 0,
+          asset: 'ONT',
+          id: requestId,
+          recipient: '',
+          type: 'transfer',
+        } as TransferRequest);
+
+        props.history.push('/send', { requestId });
       },
       handleTransfers: () => {
         props.history.push('/transfers');
       },
-      handleWithdraw: () => {
+      handleWithdraw: async () => {
         if (reduxProps.unboundAmount > 0) {
-          const wallet = getWallet(reduxProps.walletEncoded!);
 
-          if (isLedgerKey(wallet)) {
-            props.history.push('/ledger/withdrawConfirm');
-          } else if (isTrezorKey(wallet)) {
-            props.history.push('/trezor/withdrawConfirm');
-          } else {
-            props.history.push('/withdrawConfirm');
-          }
+          const requestId = uuid();
+          // todo: no type check TransferRequest
+          await actions.addRequest({
+            amount: reduxProps.unboundAmount,
+            id: requestId,
+            type: 'withdraw_ong',
+          } as WithdrawOngRequest);
+
+          props.history.push('/confirm', { requestId, redirectSucess: '/sendComplete', redirectFail: '/sendFailed' });
         }
       },
       ownAddress: getAddress(reduxProps.walletEncoded!),

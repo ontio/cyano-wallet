@@ -21,9 +21,7 @@ import { LoaderState } from './loader';
 import { RouterState } from './router';
 import { RuntimeState } from './runtime';
 import { SettingsState } from './settings';
-import { SmartContractState } from './smartContract';
 import { StatusState } from './status';
-import { TransactionState } from './transaction';
 import { TransactionRequestsState } from './transactionRequests';
 import { WalletState } from './wallet';
 
@@ -32,9 +30,7 @@ export interface GlobalState {
   router: RouterState;
   runtime: RuntimeState;
   settings: SettingsState;
-  smartContract: SmartContractState;
   status: StatusState;
-  transaction: TransactionState;
   transactionRequests: TransactionRequestsState;
   wallet: WalletState;
 };

@@ -36,21 +36,7 @@ export interface RuntimeState {
 
 export const SET_BALANCE = 'SET_BALANCE';
 export const SET_TRANSFERS = 'SET_TRANSFERS';
-export const TRANSFER = "TRANSFER";
-export const WITHDRAW_ONG = "WITHDRAW_ONG";
-
-export const REGISTER_ONT_ID = "REGISTER_ONT_ID";
-
-export const CHECK_ONT_ID = "CHECK_ONT_ID";
 
 export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount });
 
 export const setTransfers = (transfers: Transfer[]) => ({ type: SET_TRANSFERS, transfers });
-
-export const transfer = (password: string, recipient: string, asset: AssetType, amount: string, requestId?: string) => ({ type: TRANSFER, password, recipient, asset, amount, requestId });
-
-export const registerOntId = (identity: string, password: string, accountPassword: string) => ({ type: REGISTER_ONT_ID, identity, password, accountPassword });
-
-export const checkOntId = (identity: string, password: string) => ({ type: CHECK_ONT_ID, identity, password });
-
-export const withdrawOng = (password: string, amount: string) => ({ type: WITHDRAW_ONG, password, amount });

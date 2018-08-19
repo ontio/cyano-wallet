@@ -97,7 +97,7 @@ export const RestoreView: React.SFC<Props> = (props) => (
                 render={(t) => (
                   <SemanticForm.Checkbox
                     onChange={(e, d) => t.input.onChange(d.checked)}
-                    checked={t.input.value}
+                    checked={t.input.checked}
                     error={t.meta.touched && t.meta.invalid}
                   />
                 )} />
