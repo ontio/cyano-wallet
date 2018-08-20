@@ -23,6 +23,8 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 * Withdraw (claim) ONG
 * Switch networks (Test/Main/Private) with TLS support
 * ONT ID support
+* Ontology dAPI support
+* NEO and ONT address support for normal and Ledger accounts
 
 ## Installation
 
