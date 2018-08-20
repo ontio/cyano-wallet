@@ -9,8 +9,8 @@
     "test": "node scripts/test.js --env=jsdom"
   },
   "dependencies": {
-    "@ont-community/ontology-ts-sdk-ledger": "^1.0.1",
-    "@ont-community/ontology-ts-sdk-trezor": "^1.0.0",
+    "@ont-community/ontology-ts-sdk-ledger": "^1.0.3",
+    "@ont-community/ontology-ts-sdk-trezor": "^1.0.1",
     "@ont-community/window-post-message-proxy": "^0.2.8",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
