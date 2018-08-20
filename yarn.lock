@@ -51,9 +51,9 @@
     elliptic "^6.4.0"
     safe-buffer "^5.1.1"
 
-"@ont-community/ontology-ts-sdk-ledger@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@ont-community/ontology-ts-sdk-ledger/-/ontology-ts-sdk-ledger-1.0.5.tgz#ac5c33a539b74e116760afdc91967b8e5f27fa02"
+"@ont-community/ontology-ts-sdk-ledger@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@ont-community/ontology-ts-sdk-ledger/-/ontology-ts-sdk-ledger-1.0.6.tgz#195ed4630c0997ae9092bf8f6b7efe1ae7356587"
   dependencies:
     "@ledgerhq/hw-transport-node-hid" "^4.15.0"
     "@ledgerhq/hw-transport-u2f" "^4.15.0"
