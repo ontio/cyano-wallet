@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { get } from 'lodash';
 import { Account, Crypto, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
@@ -89,4 +90,8 @@ export function getAddressPk(walletEncoded: string, address: string) {
   } else {
     return undefined;
   }
+}
+
+export function isLedgerKey(wallet: Wallet) {
+  return get(wallet.accounts[0].encryptedKey, 'type') === 'LEDGER';
 }

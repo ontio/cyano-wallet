@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { isLedgerSupported } from '../../../../api/ledgerApi';
+import { getBackgroundManager } from '../../../backgroundManager';
 import { lifecycle, withProps, withState } from '../../../compose';
 import { LedgerSignupView, Props } from './ledgerSignupView';
 
@@ -37,7 +37,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       componentDidMount: () => {
         const timer = window.setInterval(async () => {
           
-          const supported = await isLedgerSupported();
+          const supported = await getBackgroundManager().isLedgerSupported();
           setState({ ...getState(), supported });
         }, 2000);
 

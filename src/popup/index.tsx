@@ -34,9 +34,6 @@ import { initStore } from './redux';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
-Ledger.setLedgerTransport(
-  new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true),
-);
 
 /**
  * Render after the redux store is connected to background script

@@ -18,7 +18,7 @@
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, StatusBar, View } from '../../../components';
+import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../../components';
 import { required, samePassword } from '../../../utils/validate';
 
 export interface Props {
@@ -56,6 +56,19 @@ export const LedgerImportView: React.SFC<Props> = (props) => (
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
+                  />
+                )} />
+            </View>
+            <Spacer />
+            <View orientation="column">
+              <label>NEO compatible</label>
+              <Field
+                name="neo"
+                render={(t) => (
+                  <SemanticForm.Checkbox
+                    onChange={(e, d) => t.input.onChange(d.checked)}
+                    checked={t.input.checked}
+                    error={t.meta.touched && t.meta.invalid}
                   />
                 )} />
             </View>

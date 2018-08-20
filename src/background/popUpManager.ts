@@ -22,6 +22,7 @@ import { decryptAccount } from '../api/accountApi';
 import { getWallet } from '../api/authApi';
 import { Deferred } from '../deffered';
 import { GlobalStore } from '../redux/state';
+import * as Ledger from './api/ledgerApi';
 import { checkOntId } from './api/runtimeApi';
 
 // size of the popup
@@ -51,6 +52,8 @@ export class PopupManager {
     this.rpc.register('popup_initialized', this.pupupInitialized.bind(this));
     this.rpc.register('check_account_password', this.checkAccountPassword.bind(this));
     this.rpc.register('check_ont_id', this.checkOntId.bind(this));
+    this.rpc.register('is_ledger_supported', this.isLedgerSupported.bind(this));
+    this.rpc.register('import_ledger_key', this.importLedgerKey.bind(this));
   }
   public async show() {
     let popup = await this.findPopup();
@@ -118,6 +121,14 @@ export class PopupManager {
   private checkOntId(identityEncoded: string, password: string) {
     const identity = Identity.parseJson(identityEncoded);
     return checkOntId(identity, password);
+  }
+
+  private isLedgerSupported() {
+    return Ledger.isLedgerSupported();
+  }
+
+  private importLedgerKey(index: number, neo: boolean) {
+    return Ledger.importLedgerKey(index, neo);
   }
 }
 

@@ -45,6 +45,14 @@ class BackgroundManager {
     return this.rpc.call<boolean>('check_ont_id', encodedIdentity, password);
   }
 
+  public isLedgerSupported() {
+    return this.rpc.call<boolean>('is_ledger_supported');
+  }
+
+  public importLedgerKey(index: number, neo: boolean) {
+    return this.rpc.call<{ wallet: string }>('import_ledger_key', index, neo);
+  }
+
   private historyPush(path: string, state: any) {
     this.history.push(path, state);
   }

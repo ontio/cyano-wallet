@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { importLedgerKey } from '../../../../api/ledgerApi';
+import { getBackgroundManager } from '../../../backgroundManager';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions, GlobalState } from '../../../redux';
 import { LedgerCreateView, Props } from './ledgerCreateView';
@@ -42,10 +42,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       },
       handleSubmit: async (values: object) => {
         const index = get(values, 'index', '');
+        const neo: boolean = get(values, 'neo', false);
   
         await actions.startLoading();
   
-        const { wallet } = await importLedgerKey(Number(index));
+        const { wallet } = await getBackgroundManager().importLedgerKey(Number(index), neo);
         await actions.setWallet(wallet);
   
         await actions.finishLoading();

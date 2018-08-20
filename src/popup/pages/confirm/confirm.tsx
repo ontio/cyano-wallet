@@ -17,8 +17,8 @@
  */
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { isLedgerKey } from '../../../api/accountApi';
 import { getWallet } from '../../../api/authApi';
-import { isLedgerKey } from '../../../api/ledgerApi';
 import { isTrezorKey } from '../../../api/trezorApi';
 import { dummy, lifecycle, reduxConnect } from '../../compose';
 import { GlobalState } from '../../redux';
