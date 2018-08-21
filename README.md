@@ -1,4 +1,4 @@
-# Ontology ID & Wallet
+# Cyano wallet - an Ontology wallet
 
 
 <p>
