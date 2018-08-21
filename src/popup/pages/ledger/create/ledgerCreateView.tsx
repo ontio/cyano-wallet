@@ -21,9 +21,15 @@ import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
 import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../../components';
 import { required } from '../../../utils/validate';
 
+export interface InitialValues {
+  index: string;
+  neo: boolean;
+}
+
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
   handleCancel: () => void;
+  initialValues: InitialValues;
   loading: boolean;
 }
 
@@ -37,6 +43,7 @@ export const LedgerCreateView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Form
+        initialValues={props.initialValues}
         onSubmit={props.handleSubmit}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
@@ -67,7 +74,7 @@ export const LedgerCreateView: React.SFC<Props> = (props) => (
                 render={(t) => (
                   <SemanticForm.Checkbox
                     onChange={(e, d) => t.input.onChange(d.checked)}
-                    checked={t.input.checked}
+                    checked={t.input.value}
                     error={t.meta.touched && t.meta.invalid}
                   />
                 )} />

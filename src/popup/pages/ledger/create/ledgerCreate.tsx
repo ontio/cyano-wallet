@@ -52,6 +52,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         await actions.finishLoading();
   
         props.history.push('/ledger/new', { index });
+      },
+      initialValues: {
+        index: '0',
+        neo: true
       }
     }, (injectedProps) => (
       <Component {...injectedProps} loading={reduxProps.loading} />
