@@ -1,7 +1,6 @@
 # Ontology ID & Wallet
 
 
-
 <p>
   <img width="300px" src="/wallet.png">
   <img width="300px" src="/wallet2.png">
