@@ -58,7 +58,7 @@ export const SettingsView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader showSettings={false} title="Settings" />
       <View content={true} className="spread-around">
-        <View>Wallet needs to be restarted for changes to take effect.</View>
+        <View>Backup your wallet before clearing.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>

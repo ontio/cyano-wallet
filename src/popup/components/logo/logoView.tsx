@@ -28,11 +28,12 @@ export const LogoView: React.SFC<Props> = (props) => (
       <View orientation="row" fluid={true} className="buttons">
         <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
       </View>
-      <img width="100" src={require('../../assets/ontology-logo.svg')} />
+      <img width="120" src={require('../../assets/gem2.svg')} />
       <View orientation="row" fluid={true} className="buttons">
         <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
       </View>
     </View>
-    <h1 className="header">Ontology Web Wallet</h1>
+    <h1 className="header">Cyano Wallet</h1>
+    <p className="subtitle">an Ontology wallet</p>
   </View>
 );

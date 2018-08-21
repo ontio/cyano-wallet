@@ -34,7 +34,7 @@ export interface Props {
 
 export const LogoHeaderView: React.SFC<Props> = (props) => (
   <View className="logoHeader">
-    <img height="30" src={require('../../assets/ontology-logo.svg')} />
+    <img height="30" src={require('../../assets/gem2.svg')} />
     <h1>{props.title}</h1>
     <View orientation="row" fluid={true} className="buttons">
       { props.showIdentity ? <Button onClick={props.handleIdentity} size="big" compact={true} basic={true} icon="user circle" title="Identity" /> : (null) }

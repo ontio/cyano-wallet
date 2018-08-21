@@ -153,6 +153,14 @@ h1, h2, h3, h4 {
   margin-bottom: 0;
 }
 
+.subtitle {
+  font-weight: 200 !important;
+  font-family: 'Source Sans Pro', sans-serif;
+  margin-top: 0;
+  margin-bottom: 0;
+  align-self: center;
+}
+
 div.flex.content {
   margin: 10px;
 }
@@ -220,6 +228,7 @@ div.flex.content {
 h1.header {
   margin-top: 10px;
   align-self: center;
+  font-size: 2.5rem;
 }
 
 .buttons {

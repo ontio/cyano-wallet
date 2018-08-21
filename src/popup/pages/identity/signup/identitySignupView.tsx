@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Clickable, IdentityLogo, Spacer, StatusBar, View } from '../../../components';
+import { IdentityLogo, Spacer, StatusBar, View } from '../../../components';
 
 
 export interface Props {
@@ -44,11 +44,11 @@ export const IdentitySignupView: React.SFC<Props> = (props) => (
         <Spacer />
         <Button size="small" onClick={props.handleRestore}>Restore identity</Button>
       </View>
-     <View className="center ledgerText">
+     {/* <View className="center ledgerText">
           <Clickable onClick={() => props.handleLedger()}>Ledger</Clickable>
           <View>&nbsp;or&nbsp;</View>
           <Clickable onClick={() => props.handleTrezor()}>Trezor</Clickable>
-     </View> 
+     </View>  */}
     </View>
     <StatusBar />
   </View>
