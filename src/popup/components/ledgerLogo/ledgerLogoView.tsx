@@ -15,11 +15,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from './clickableText';
-export { Logo } from './logo/logo';
-export { LedgerLogo } from './ledgerLogo/ledgerLogo';
-export { IdentityLogo } from './identityLogo/identityLogo';
-export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
-export { Filler, Spacer, View } from './view';
-export { StatusBar } from './statusBar/statusBar';
-export { TrezorLogo } from './trezorLogo/trezorLogo';
+import * as React from 'react';
+import { Button } from 'semantic-ui-react';
+import { View } from '../view';
+
+export interface Props {
+  handleSettings: () => void;
+}
+export const LedgerLogoView: React.SFC<Props> = (props) => (
+  <View orientation="column" className="logo"> 
+    <View className="spread">
+      <View orientation="row" fluid={true} className="buttons">
+        <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
+      </View>
+      <img width="100" src={require('../../assets/ledger.svg')} />
+      <View orientation="row" fluid={true} className="buttons">
+        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
+      </View>
+    </View>
+    <h1 className="header">Ontology Web Wallet</h1>
+  </View>
+);

@@ -35,7 +35,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   withState<State>(defaultState, (state, setState, getState) => (
     lifecycle({
       componentDidMount: async () => {
-        
         const timer = window.setInterval(async () => {
           
           const supported = await isTrezorSupported();

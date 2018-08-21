@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Logo, Spacer, StatusBar, View } from '../../../components';
+import { LedgerLogo, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
   supported: boolean;
@@ -28,7 +28,7 @@ export interface Props {
 
 export const LedgerSignupView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true} className="gradient">
-    <Logo />
+    <LedgerLogo />
     {props.supported ? (
       <>
         <View orientation="column" className="hint">
@@ -39,8 +39,6 @@ export const LedgerSignupView: React.SFC<Props> = (props) => (
           <View orientation="column" fluid={true} className="center signButtons">
             <Spacer />
             <Button size="small" onClick={props.handleCreate}>New account</Button>
-            <Spacer />
-            <Button size="small" onClick={props.handleImport}>Import private key</Button>
             <Spacer />
             <Button size="small" onClick={props.handleCancel}>Cancel</Button>
           </View>

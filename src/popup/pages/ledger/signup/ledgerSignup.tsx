@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { timeout } from 'promise-timeout';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { getBackgroundManager } from '../../../backgroundManager';
@@ -34,14 +35,20 @@ const defaultState = {
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   withState<State>(defaultState, (state, setState, getState) => (
     lifecycle({
-      componentDidMount: () => {
-        const timer = window.setInterval(async () => {
-          
-          const supported = await getBackgroundManager().isLedgerSupported();
-          setState({ ...getState(), supported });
-        }, 2000);
+      componentDidMount: async () => {
+        async function checkStatus() {
+          try {
+            const supported = await timeout(getBackgroundManager().isLedgerSupported(), 2000);
+            setState({ ...getState(), supported });
+          } catch (e) {
+            setState({ ...getState(), supported: false });
+          }
+        }
 
+        const timer = window.setInterval(checkStatus, 3000);
         setState({ ...state, timer });
+
+        await checkStatus();
       },
 
       componentWillUnmount: () => {

@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -15,11 +16,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from './clickableText';
-export { Logo } from './logo/logo';
-export { LedgerLogo } from './ledgerLogo/ledgerLogo';
-export { IdentityLogo } from './identityLogo/identityLogo';
-export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
-export { Filler, Spacer, View } from './view';
-export { StatusBar } from './statusBar/statusBar';
-export { TrezorLogo } from './trezorLogo/trezorLogo';
+import * as React from 'react';
+import { withProps, withRouter } from '../../compose';
+import { LedgerLogoView, Props } from './ledgerLogoView';
+
+
+const enhancer = (Component: React.ComponentType<Props>) => () => (
+  withRouter(routerProps => (
+    withProps({
+      handleSettings: () => {
+        routerProps.history.push('/settings');
+      }
+    }, (injectedProps) => (
+      <Component {...injectedProps} />
+    ))
+  ))
+);
+
+export const LedgerLogo = enhancer(LedgerLogoView);
