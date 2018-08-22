@@ -96,6 +96,7 @@ To use your Trezor, you also needs custom firmware located at https://github.com
 ## License
 
 This project is licensed under the LGPL License - see the [LICENSE.md](LICENSE.md) file for details
+The application Gem icon is made by Freepik from www.flaticon.com
 
 ## Acknowledgments
 
