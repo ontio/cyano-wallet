@@ -37,7 +37,7 @@
     "lodash": "^4.17.10",
     "object-assign": "4.1.1",
     "ontology-dapi": "^0.3.1",
-    "ontology-ts-sdk": "^0.9.1",
+    "ontology-ts-sdk": "^0.9.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
