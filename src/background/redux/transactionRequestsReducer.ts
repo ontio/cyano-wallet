@@ -126,8 +126,14 @@ export const transactionRequestsAliases = {
   },
 };
 
-function submitTransfer(request: TransferRequest, password: string) {
-  return timeout(transfer(request, password).then(r => r.Result.TxHash), 15000);
+async function submitTransfer(request: TransferRequest, password: string) {
+  const result = await timeout(transfer(request, password), 15000);
+
+  if (result.Result.State === 0) {
+    throw new Error('OTHER');
+  }
+
+  return result.Result.TxHash; 
 }
 
 function submitWithdrawOng(request: WithdrawOngRequest, password: string) {

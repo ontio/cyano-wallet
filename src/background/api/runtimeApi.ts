@@ -58,14 +58,7 @@ export async function transfer(request: TransferRequest, password: string) {
   const privateKey = decryptAccount(wallet, password);
 
   const to = new Address(request.recipient);
-
-  let amount: string;
-
-  if (request.asset === 'ONG') {
-    amount = String(request.amount * 1000000000);
-  } else {
-    amount = String(request.amount);
-  }
+  const amount = String(request.amount);
 
   const tx = OntAssetTxBuilder.makeTransferTx(
     request.asset,
@@ -88,7 +81,7 @@ export async function withdrawOng(request: WithdrawOngRequest, password: string)
   const from = wallet.accounts[0].address;
   const privateKey = decryptAccount(wallet, password);
 
-  const amount = String(request.amount * 1000000000);
+  const amount = String(request.amount);
 
   const tx = OntAssetTxBuilder.makeWithdrawOngTx(
     from, 

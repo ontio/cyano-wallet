@@ -25,7 +25,7 @@ import { gt, required } from '../../utils/validate';
 
 export interface InitialValues {
   recipient?: string;
-  amount?: number;
+  amount?: string;
   asset?: AssetType;
 }
 

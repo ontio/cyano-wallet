@@ -31,7 +31,7 @@ export function initBalanceProvider(store: GlobalStore) {
       const unboundOng = await getUnboundOng();
 
       store.dispatch(
-        Actions.runtime.setBalance(balance.ong / 1000000000, balance.ont, unboundOng / 1000000000)
+        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng)
       );
 
       const address = getAddress(walletEncoded);

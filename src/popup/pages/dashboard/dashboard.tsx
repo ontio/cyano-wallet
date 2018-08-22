@@ -24,6 +24,7 @@ import { getAddress } from '../../../api/accountApi';
 import { TransferRequest, WithdrawOngRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
+import { convertAmountToStr } from '../../utils/number';
 import { DashboardView, Props } from './dashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -75,10 +76,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           props.history.push('/confirm', { requestId, redirectSucess: '/sendComplete', redirectFail: '/sendFailed' });
         }
       },
+      ongAmount: convertAmountToStr(reduxProps.ongAmount, 'ONG'),
+      ontAmount: convertAmountToStr(reduxProps.ontAmount, 'ONT'),
       ownAddress: getAddress(reduxProps.walletEncoded!),
-      transfers: reduxProps.transfers.slice(0, 2)
+      transfers: reduxProps.transfers.slice(0, 2),
+      unboundAmount: convertAmountToStr(reduxProps.unboundAmount, 'ONG'),
     }, (injectedProps) => (
-      <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} unboundAmount={reduxProps.unboundAmount} />
+      <Component {...injectedProps} />
     ))
   ))
 );

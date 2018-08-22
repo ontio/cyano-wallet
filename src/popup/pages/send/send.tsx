@@ -15,14 +15,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { BigNumber } from 'bignumber.js';
 import { get } from 'lodash';
 import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { AssetType } from '../../../redux/runtime';
 import { TransferRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
+import { convertAmountFromStr, convertAmountToBN, convertAmountToStr } from '../../utils/number';
 import { InitialValues, Props, SendView } from './sendView';
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -40,8 +43,18 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
-    withProps(
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+    const initAsset: AssetType = get(props.location, 'state.asset', 'ONT');
+    const initAmountNumber: number | undefined = get(props.location, 'state.amount', undefined);
+    const initRecipient: string | undefined = get(props.location, 'state.recipient', undefined);
+
+    const initialValues: InitialValues = {
+      amount: convertAmountToStr(initAmountNumber, initAsset),
+      asset: initAsset,
+      recipient: initRecipient,
+    };
+
+    return withProps(
       {
         handleCancel: async () => {
           props.history.goBack();
@@ -52,9 +65,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         handleConfirm: async (values: object) => {
           const requestId: string = get(props.location, 'state.requestId');
 
-          const recipient = get(values, 'recipient', '');
-          const asset = get(values, 'asset', '');
-          const amount = get(values, 'amount', '');
+          const recipient: string = get(values, 'recipient', '');
+          const asset: AssetType = get(values, 'asset', '');
+          const amountStr: string = get(values, 'amount', '0');
+
+          const amount = convertAmountFromStr(amountStr, asset);
 
           // todo: no type check TransferRequest
           await actions.updateRequest(requestId, {
@@ -69,21 +84,21 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const asset: string | undefined = get(formProps.values, 'asset');
 
           if (asset === 'ONT') {
-            formProps.form.change('amount', reduxProps.ontAmount);
+            formProps.form.change('amount', String(reduxProps.ontAmount));
           } else if (asset === 'ONG') {
-            formProps.form.change('amount', reduxProps.ongAmount);
+            let amountBN = convertAmountToBN(reduxProps.ongAmount, 'ONG');
+            amountBN = amountBN.minus(new BigNumber('0.01'));
+            amountBN = amountBN.isNegative() ? new BigNumber(0) : amountBN;
+
+            formProps.form.change('amount', amountBN.toString());
           }
           return true;
         },
-        initialValues: {
-          amount: get(props.location, 'state.amount', undefined),
-          asset: get(props.location, 'state.asset', undefined),
-          recipient: get(props.location, 'state.recipient', undefined),
-        } as InitialValues,
+        initialValues,
         locked: get(props.location, 'state.locked', false),
       },
       (injectedProps) => <Component {...injectedProps} />,
-    ),
-  );
+    );
+  });
 
 export const Send = enhancer(SendView);

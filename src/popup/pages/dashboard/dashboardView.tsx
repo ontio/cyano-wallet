@@ -22,10 +22,10 @@ import { AccountLogoHeader, Clickable, Filler, Spacer, StatusBar, View } from '.
 import { TransferList } from '../../components/transferList';
 
 export interface Props {
-  ontAmount: number;
-  ongAmount: number;
+  ontAmount: string;
+  ongAmount: string;
 
-  unboundAmount: number;
+  unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[];
   handleSend: () => void;
