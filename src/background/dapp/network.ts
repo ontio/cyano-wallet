@@ -23,7 +23,10 @@ export const networkApi: NetworkApi = {
      */
     getNetwork(): Promise<Network> {
         const state = getStore().getState();
-        return Promise.resolve(state.settings.net);
+        return Promise.resolve({
+            address: state.settings.address,
+            type: state.settings.net
+        });
     },
 
     async getBalance(address: string): Promise<Balance> {

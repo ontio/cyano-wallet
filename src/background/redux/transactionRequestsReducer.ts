@@ -127,13 +127,13 @@ export const transactionRequestsAliases = {
 };
 
 async function submitTransfer(request: TransferRequest, password: string) {
-  const result = await timeout(transfer(request, password), 15000);
+  const response = await timeout(transfer(request, password), 15000);
 
-  if (result.Result.State === 0) {
+  if (response.Result.State === 0) {
     throw new Error('OTHER');
   }
 
-  return result.Result.TxHash; 
+  return response.Result.TxHash; 
 }
 
 function submitWithdrawOng(request: WithdrawOngRequest, password: string) {
@@ -157,12 +157,30 @@ async function submitRegisterOntId(
   await dispatch(Actions.wallet.setWallet(wallet.toJson()));
 }
 
-function submitScCall(request: ScCallRequest, password: string) {
-  return timeout(scCall(request, password), 15000);
+async function submitScCall(request: ScCallRequest, password: string) {
+  const response = await timeout(scCall(request, password), 15000);
+
+  if (response.Result.State === 0) {
+    throw new Error('OTHER');
+  }
+
+  const notify = response.Result.Notify
+                  .filter((element: any) => element.ContractAddress === request.contract)
+                  .map((element: any) => element.States);
+  return {
+    result: notify,
+    transaction: response.Result.TxHash
+  };
 }
 
-function submitScCallRead(request: ScCallReadRequest) {
-  return timeout(scCallRead(request), 15000);
+async function submitScCallRead(request: ScCallReadRequest) {
+  const response = await timeout(scCallRead(request), 15000);
+
+  if (response.Result.State === 0) {
+    throw new Error('OTHER');
+  }
+
+  return response.Result.Result;
 }
 
 function submitScDeploy(request: ScDeployRequest, password: string) {

@@ -71,7 +71,7 @@ export const messageApi: MessageApi = {
   },
 
   async verifyMessagePk(publicKey: string, message: string, signature: string): Promise<boolean> {
-    const pk = PublicKey.deserializeHex(new utils.StringReader(message));
+    const pk = PublicKey.deserializeHex(new utils.StringReader(publicKey));
     const sig = Signature.deserializeHex(signature);
 
     const result = pk.verify(utils.str2hexstr(message), sig);
