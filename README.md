@@ -111,3 +111,7 @@ The application Gem icon is made by Freepik from www.flaticon.com
 ## Acknowledgments
 
 Many thanks to the whole Ontology team, who done a great job bringing Ontology to life.
+
+## Donations
+
+Donations greatly appreciated and ONT/ONG can be sent to: AcqSLx1nSLy9uvVDPrWdNJgwNPfA8UUM4H
