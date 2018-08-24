@@ -27,9 +27,16 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 
 ## Installation
 
-Please ensure you re-install the ontology ledger app via the ledger live manager even if it shows as the same version number you have installed.  Also, if you want to access your NEO based address, select NEO compatible mode when adding the ledger wallet **
+#### Please ensure you re-install the ontology ledger app via the ledger live manager even if it shows as the same version number you have installed.  Also, if you want to access your NEO based address, select NEO compatible mode when adding the ledger wallet.
 
-Plugin is currently distributed in Chrome web store at https://chrome.google.com/webstore/detail/ontology-web-wallet/dkdedlpgdmmkkfjabffeganieamfklkm . To build manually see the steps below. Or you can download pre-build plugin for Chrome from Release page.
+### Download 
+
+Plugin is currently distributed in Chrome web store at https://chrome.google.com/webstore/detail/ontology-web-wallet/dkdedlpgdmmkkfjabffeganieamfklkm . 
+
+
+### Manual build
+
+To build manually see the steps below. Or you can download pre-build plugin for Chrome from Release page.
 
 ### Required Tools and Dependencies
 
