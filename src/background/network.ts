@@ -80,3 +80,7 @@ export function getNodeAddress(): string | null {
     throw new Error('Wrong net');
   }
 }
+
+export function getNeoNodeAddress() : string {
+  return 'http://neonode1.ont.network:10332';
+}

@@ -22,6 +22,7 @@ import { AccountLogoHeader, Clickable, Filler, Spacer, StatusBar, View } from '.
 import { TransferList } from '../../components/transferList';
 
 export interface Props {
+  nepAmount: string;
   ontAmount: string;
   ongAmount: string;
 
@@ -32,16 +33,18 @@ export interface Props {
   handleTransfers: () => void;
   handleReceive: () => void;
   handleWithdraw: () => void;
+  handleSwap: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Balances" />
-      <View content={true} className="spread-around">
+      <View content={true} className="spread-around balance-wrapper">
         <View orientation="column" className="balance">
           <label>ONT</label>
-          <h1>{props.ontAmount}</h1>
+          <h3>{props.ontAmount}</h3>
+          <h4 onClick={props.handleSwap} className="unbound"> {props.nepAmount} (Swap)</h4>
         </View>
         <View orientation="column" className="balance">
           <label>ONG</label>

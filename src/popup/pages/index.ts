@@ -46,6 +46,7 @@ export { SendComplete } from './sendComplete/sendComplete';
 export { SendFailed } from './sendFailed/sendFailed';
 export { SettingsPage } from './settings/settings';
 export { Signup } from './signup/signup';
+export { Swap } from './swap/swap';
 export { Transfers } from './transfers/transfers';
 export { TrezorCreate } from './trezor/create/trezorCreate';
 export { TrezorImport } from './trezor/import/trezorImport';

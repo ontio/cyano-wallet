@@ -18,12 +18,12 @@
 import { Reducer } from 'redux';
 import { RuntimeState, SET_BALANCE, SET_TRANSFERS } from '../../redux/runtime';
 
-const defaultState: RuntimeState = { ongAmount: 0, ontAmount: 0, unboundAmount: 0, transfers: [] };
+const defaultState: RuntimeState = { ongAmount: 0, ontAmount: 0, unboundAmount: 0, nepAmount: 0, transfers: [] };
 
 export const runtimeReducer: Reducer<RuntimeState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_BALANCE:
-      return { ...state, ongAmount: action.ongAmount, ontAmount: action.ontAmount, unboundAmount: action.unboundAmount };
+      return { ...state, ongAmount: action.ongAmount, ontAmount: action.ontAmount, unboundAmount: action.unboundAmount, nepAmount: action.nepAmount };
     case SET_TRANSFERS:
       return { ...state, transfers: action.transfers };
     default:

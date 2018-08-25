@@ -288,8 +288,13 @@ h1.header {
   width: 100%;
 }
 
+div.flex.content.balance-wrapper {
+  margin-top: 0px;
+}
+
 .flex.balance {
-  align-items: flex-end;
+  align-items: center;
+  flex-basis: 50%;
 }
 
 .flex.balance label {

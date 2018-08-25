@@ -29,11 +29,13 @@ import {
   ScCallRequest,
   ScDeployRequest,
   SUBMIT_REQUEST,
+  SwapRequest,
   TransactionRequestsState,
   TransferRequest,
   UPDATE_REQUEST,
   WithdrawOngRequest,
 } from '../../redux/transactionRequests';
+import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
 import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
 
@@ -95,6 +97,9 @@ export const transactionRequestsAliases = {
           case 'withdraw_ong':
             result = await submitWithdrawOng(request as WithdrawOngRequest, password!);
             break;
+          case 'swap':
+            result = await submitSwap(request as SwapRequest, password!);
+            break;
           case 'register_ont_id':
             result = await submitRegisterOntId(request as RegisterOntIdRequest, password!, dispatch, state);
             break;
@@ -138,6 +143,10 @@ async function submitTransfer(request: TransferRequest, password: string) {
 
 function submitWithdrawOng(request: WithdrawOngRequest, password: string) {
   return timeout(withdrawOng(request, password), 15000);
+}
+
+function submitSwap(request: SwapRequest, password: string) {
+  return timeout(swapNep(request, password), 15000);
 }
 
 async function submitRegisterOntId(

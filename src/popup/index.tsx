@@ -49,6 +49,7 @@ const unsubscribe = store.subscribe(() => {
         <>
           <Route path="/dashboard" exact={true} component={Pages.Dashboard} />
           <Route path="/send" exact={true} component={Pages.Send} />
+          <Route path="/swap" exact={true} component={Pages.Swap} />
           <Route path="/confirm" exact={true} component={Pages.Confirm} />
           <Route path="/confirm-normal" exact={true} component={Pages.ConfirmNormal} />
           <Route path="/sendComplete" exact={true} component={Pages.SendComplete} />

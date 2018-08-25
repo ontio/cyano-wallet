@@ -23,6 +23,7 @@ export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED' | 'OTHER';
 export type TransactionType =
   | 'transfer'
   | 'withdraw_ong'
+  | 'swap'
   | 'register_ont_id'
   | 'sc_call'
   | 'sc_call_read'
@@ -44,6 +45,10 @@ export interface TransferRequest extends TransactionRequest {
 }
 
 export interface WithdrawOngRequest extends TransactionRequest {
+  amount: number;
+}
+
+export interface SwapRequest extends TransactionRequest {
   amount: number;
 }
 

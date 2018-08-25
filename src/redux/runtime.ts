@@ -29,6 +29,7 @@ export interface Transfer {
 export interface RuntimeState {
   ongAmount: number;
   ontAmount: number;
+  nepAmount: number;
 
   unboundAmount: number;
   transfers: Transfer[];
@@ -37,6 +38,6 @@ export interface RuntimeState {
 export const SET_BALANCE = 'SET_BALANCE';
 export const SET_TRANSFERS = 'SET_TRANSFERS';
 
-export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount });
+export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number, nepAmount: number) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount, nepAmount });
 
 export const setTransfers = (transfers: Transfer[]) => ({ type: SET_TRANSFERS, transfers });

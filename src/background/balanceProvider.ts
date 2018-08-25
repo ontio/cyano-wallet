@@ -19,6 +19,7 @@ import { getAddress } from '../api/accountApi';
 import Actions from '../redux/actions';
 import { GlobalStore } from '../redux/state';
 import { getTransferList } from './api/explorerApi';
+import { getNepBalance } from './api/neoApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';
 
 export function initBalanceProvider(store: GlobalStore) {
@@ -29,9 +30,10 @@ export function initBalanceProvider(store: GlobalStore) {
     if (walletEncoded !== null) {
       const balance = await getBalance();
       const unboundOng = await getUnboundOng();
-
+      const nep = await getNepBalance();
+      
       store.dispatch(
-        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng)
+        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, nep !== null ? nep : 0)
       );
 
       const address = getAddress(walletEncoded);

@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import BigNumber from 'bignumber.js';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { v4 as uuid } from 'uuid';
 import { getAddress } from '../../../api/accountApi';
-import { TransferRequest, WithdrawOngRequest } from '../../../redux/transactionRequests';
+import { SwapRequest, TransferRequest, WithdrawOngRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
-import { convertAmountToStr } from '../../utils/number';
+import { convertAmountToBN, convertAmountToStr } from '../../utils/number';
 import { DashboardView, Props } from './dashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
+  nepAmount: state.runtime.nepAmount,
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
   transfers: state.runtime.transfers,
@@ -59,6 +61,19 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         props.history.push('/send', { requestId });
       },
+      handleSwap: async () => {
+        if (convertAmountToBN(reduxProps.nepAmount, 'NEP').gte(new BigNumber('1.0'))) {
+          const requestId = uuid();
+          // todo: no type check SwapRequest
+          await actions.addRequest({
+            amount: reduxProps.nepAmount,
+            id: requestId,
+            type: 'swap',
+          } as SwapRequest);
+
+          props.history.push('/swap', { requestId });
+        }
+      },
       handleTransfers: () => {
         props.history.push('/transfers');
       },
@@ -76,6 +91,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           props.history.push('/confirm', { requestId, redirectSucess: '/sendComplete', redirectFail: '/sendFailed' });
         }
       },
+      nepAmount: convertAmountToStr(reduxProps.nepAmount, 'NEP'),
       ongAmount: convertAmountToStr(reduxProps.ongAmount, 'ONG'),
       ontAmount: convertAmountToStr(reduxProps.ontAmount, 'ONT'),
       ownAddress: getAddress(reduxProps.walletEncoded!),
