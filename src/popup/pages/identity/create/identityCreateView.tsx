@@ -38,7 +38,7 @@ export const IdentityCreateView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       {!props.haveEnoughOng ? (
-        <Message>You does not have enough ONG.</Message>
+        <Message>You do not have enough ONG (0.01 ONG required).</Message>
       ) : (null)}
       <Form
         onSubmit={props.handleSubmit}
