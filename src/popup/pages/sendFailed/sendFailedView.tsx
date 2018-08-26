@@ -28,11 +28,11 @@ export const SendFailedView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Transaction failed" />
       <View content={true} className="spread-around">
-        <View>The transaction timeouted.</View>
+        <View>The transaction timed out.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your transaction has not completed in time. This does not mean it necessary failed. Check the blockchain.</Message>
+      <Message>Your transaction has not completed in time. This does not mean it has failed, please check the blockchain to confirm. (Note: Make sure you have 0.01 claimed ONG to pay the network transaction fee)</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>

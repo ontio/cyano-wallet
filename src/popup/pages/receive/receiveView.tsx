@@ -31,7 +31,7 @@ export const ReceiveView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Receive funds" />
       <View content={true} className="spread-around">
-        <View>Use your public address to fund your wallet.</View>
+        <View>Use your public address to send funds to your wallet.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>

@@ -32,7 +32,7 @@ export const IdentityCheckFailedView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>The identity was not found on blockchain.</Message>
+      <Message>The identity was not found on the blockchain.</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>
