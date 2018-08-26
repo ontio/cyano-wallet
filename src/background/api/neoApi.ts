@@ -29,7 +29,7 @@ export async function getNepBalance() {
       wallet.accounts[0].address,
     );
 
-    if (response === undefined || response.result === undefined) {
+    if (response == null || response.result == null) {
       return 0;
     } else {
       return parseInt(utils.reverseHex(response.result), 16);

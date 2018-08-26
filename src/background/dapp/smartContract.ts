@@ -1,4 +1,4 @@
-import { Parameter, SmartContractApi } from 'ontology-dapi';
+import { Parameter, Response, SmartContractApi } from 'ontology-dapi';
 import { getRequestsManager } from '../requestsManager';
 import { assetApi } from './asset';
 
@@ -11,7 +11,7 @@ export const smartContractApi: SmartContractApi = {
     gasPrice: number,
     gasLimit: number,
     addresses: string[],
-  ): Promise<void> {
+  ): Promise<Response> {
     const accounts = await assetApi.getOwnAccounts();
     if (!accounts.includes(account)) {
       throw new Error('WRONG_ACCOUNT');
