@@ -28,11 +28,11 @@ export const SendCompleteView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Transaction finished" />
       <View content={true} className="spread-around">
-        <View>It could take a while the data on blockchain update.</View>
+        <View>It may take a while for the blockchain to update.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your transaction has completed. This does not mean it necessary succeeded. Check blockchain to be sure.</Message>
+      <Message>Your transaction has completed. This does not mean it has succeeded, please check the blockchain to confirm.</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>
