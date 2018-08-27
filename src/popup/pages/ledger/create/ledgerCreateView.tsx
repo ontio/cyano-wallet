@@ -49,7 +49,7 @@ export const LedgerCreateView: React.SFC<Props> = (props) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
               <label>Index</label>
-              <Message>Enter ununsed index. Every index will generate unique account.</Message>
+              <Message>Enter account index. Every index will generate unique account. Default is 0.</Message>
               <Field
                 name="index"
                 validate={required}
