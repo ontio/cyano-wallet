@@ -47,7 +47,8 @@ export async function swapNep(request: SwapRequest, password: string) {
   const to = new Address(swapAddress);
   const privateKey = decryptAccount(wallet, password);
 
-  const tx = await constructNepTransfer(from, to, request.amount, privateKey);
+  const tx = constructNepTransfer(from, to, request.amount);
+  await signTransaction(tx, privateKey);
 
   const nodeAddress = getNeoNodeAddress();
   const response: any | undefined = await NeoCore.NeoRpc.sendRawTransaction(
@@ -62,7 +63,7 @@ export async function swapNep(request: SwapRequest, password: string) {
   }
 }
 
-async function constructNepTransfer(from: Address, to: Address, amount: number, privateKey: PrivateKey) {
+export function constructNepTransfer(from: Address, to: Address, amount: number) {
   const abiInfo = AbiInfo.parseJson(NEP5_ABI);
   const contractAddr = new Address(utils.reverseHex(ontContract));
 
@@ -74,14 +75,10 @@ async function constructNepTransfer(from: Address, to: Address, amount: number, 
   const p3 = new Parameter('value', ParameterType.Integer, amount);
   func.setParamsValue(p1, p2, p3);
 
-  const tx = NeoCore.SmartContract.makeInvokeTransaction(contractAddr, from, func);
-
-  await signTransaction(tx, privateKey);
-  
-  return tx;
+  return NeoCore.SmartContract.makeInvokeTransaction(contractAddr, from, func);
 }
 
-async function signTransaction(tx: NeoCore.TransactionNeo, privateKey: PrivateKey) {
+export async function signTransaction(tx: NeoCore.TransactionNeo, privateKey: PrivateKey) {
   const sigData = await constructSignature(tx, privateKey);
 
   const p = new NeoCore.Program();
@@ -90,7 +87,7 @@ async function signTransaction(tx: NeoCore.TransactionNeo, privateKey: PrivateKe
   tx.scripts = [p]; 
 }
 
-async function constructSignature(tx: NeoCore.TransactionNeo, privateKey: PrivateKey) {
+export async function constructSignature(tx: NeoCore.TransactionNeo, privateKey: PrivateKey) {
   const sig = await privateKey.signAsync(tx, SignatureScheme.ECDSAwithSHA256);
   const sigHex = sig.serializeHex();
   const signature = sigHex.substring(2);

@@ -106,10 +106,7 @@
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
     ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"
-    ],
+    "testRegex": "/test/.*\\.(ts|tsx|js)$",
     "testEnvironment": "node",
     "testURL": "http://localhost",
     "transform": {

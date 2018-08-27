@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import BigNumber from 'bignumber.js';
 import { get } from 'lodash';
 import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
@@ -25,7 +26,6 @@ import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { convertAmountFromStr, convertAmountToBN, convertAmountToStr } from '../../utils/number';
 import { InitialValues, Props, SwapView } from './swapView';
-import BigNumber from 'bignumber.js';
 
 const mapStateToProps = (state: GlobalState) => ({
   nepAmount: state.runtime.nepAmount
