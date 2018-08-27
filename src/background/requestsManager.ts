@@ -77,13 +77,12 @@ export class RequestsManager {
   }
 
   public async initScCall(args: {
-    account: string;
     contract: string;
     method: string;
     parameters: Parameter[];
     gasPrice: number;
     gasLimit: number;
-    addresses: string[];
+    requireIdentity: boolean;
   }) {
     const requestId = uuid();
 
@@ -130,7 +129,6 @@ export class RequestsManager {
   }
 
   public async initScDeploy(args: {
-    account: string,
     code: string,
     name: string,
     version: string,

@@ -81,17 +81,6 @@ export function getAddress(walletEncoded: string) {
   return wallet.defaultAccountAddress;
 }
 
-export function getAddressPk(walletEncoded: string, address: string) {
-  const wallet = getWallet(walletEncoded);
-  
-  const account = wallet.accounts.find(a => a.address.toBase58() === address);
-  if (account !== undefined) {
-    return account.publicKey;
-  } else {
-    return undefined;
-  }
-}
-
 export function isLedgerKey(wallet: Wallet) {
   return get(wallet.accounts[0].encryptedKey, 'type') === 'LEDGER';
 }

@@ -3,23 +3,6 @@ import { getIdentity } from '../../api/identityApi';
 import { getStore } from '../redux';
 
 export const identityApi: IdentityApi = {
-  getOwnIdentities(): Promise<string[]> {
-    const state = getStore().getState();
-    const wallet = state.wallet.wallet;
-
-    if (wallet === null) {
-      return Promise.reject('NO_IDENTITY');
-    }
-
-    const identity = getIdentity(wallet);
-
-    if (identity !== null) {
-      return Promise.resolve([identity]);
-    } else {
-      return Promise.reject('NO_IDENTITY');
-    }
-  },
-
   getDefaultIdentity(): Promise<string> {
     const state = getStore().getState();
     const wallet = state.wallet.wallet;
@@ -48,11 +31,11 @@ export const identityApi: IdentityApi = {
     throw new Error('UNSUPPORTED');
   },
 
-  addAttributes(identity: string, attributes: OntIdAttribute[]): Promise<void> {
+  addAttributes(attributes: OntIdAttribute[]): Promise<void> {
     throw new Error('UNSUPPORTED');
   },
 
-  removeAttribute(identity: string, key: string): Promise<void> {
+  removeAttribute(key: string): Promise<void> {
     throw new Error('UNSUPPORTED');
   }
 }
