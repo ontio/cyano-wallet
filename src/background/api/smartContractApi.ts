@@ -20,9 +20,7 @@ import {
   Parameter as OntParameter,
   ParameterType as OntParameterType,
   TransactionBuilder,
-  utils,
-  OntAssetTxBuilder,
-  Account,
+  utils
 } from 'ontology-ts-sdk';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
