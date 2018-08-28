@@ -1,5 +1,5 @@
 import Address = Crypto.Address;
-import { Asset, Balance, Block, MerkleProof, Network, NetworkApi, Transaction } from 'ontology-dapi';
+import { Balance, Block, MerkleProof, Network, NetworkApi, Transaction } from 'ontology-dapi';
 import { Crypto } from 'ontology-ts-sdk';
 import { getClient } from '../network';
 import { getStore } from '../redux';
@@ -29,7 +29,7 @@ export const networkApi: NetworkApi = {
         });
     },
 
-    async getBalance(address: string): Promise<Balance> {
+    async getBalance({ address }): Promise<Balance> {
         const client = getClient();
         const response = await client.getBalance(new Address(address));
         return {
@@ -38,21 +38,15 @@ export const networkApi: NetworkApi = {
         };
     },
 
-    async getBlock(block: number | string): Promise<Block> {
+    async getBlock({ block }): Promise<Block> {
         const client = getClient();
         const response = await client.getBlockJson(block);
         return response.Result;
     },
 
-    async getTransaction(txHash: string): Promise<Transaction> {
+    async getTransaction({ txHash }): Promise<Transaction> {
         const client = getClient();
         const response = await client.getRawTransactionJson(txHash);
-        return response.Result;
-    },
-
-    async getGenerateBlockTime(): Promise<number | null> {
-        const client = getClient();
-        const response = await client.getGenerateBlockTime();
         return response.Result;
     },
 
@@ -68,19 +62,19 @@ export const networkApi: NetworkApi = {
         return response.Result;
     },
 
-    async getMerkleProof(txHash: string): Promise<MerkleProof> {
+    async getMerkleProof({ txHash }): Promise<MerkleProof> {
         const client = getClient();
         const response = await client.getMerkleProof(txHash);
         return response.Result;
     },
 
-    async getStorage(constractAddress: string, key: string): Promise<string> {
+    async getStorage({ contract, key }): Promise<string> {
         const client = getClient();
-        const response = await client.getStorage(constractAddress, key);
+        const response = await client.getStorage(contract, key);
         return response.Result;
     },
 
-    async getAllowance(asset: Asset, fromAddress: string, toAddress: string): Promise<number> {
+    async getAllowance({ asset, fromAddress, toAddress }): Promise<number> {
         const client = getClient();
         const response = await client.getAllowance(asset, new Address(fromAddress), new Address(toAddress));
         return response.Result;

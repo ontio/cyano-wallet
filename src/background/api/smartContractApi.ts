@@ -21,6 +21,8 @@ import {
   ParameterType as OntParameterType,
   TransactionBuilder,
   utils,
+  OntAssetTxBuilder,
+  Account,
 } from 'ontology-ts-sdk';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
@@ -30,6 +32,11 @@ import { getClient } from '../network';
 import { getStore } from '../redux';
 
 export async function scCall(request: ScCallRequest, password: string) {
+  request.parameters = request.parameters !== undefined ? request.parameters : [];
+  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
+  request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
+  
+
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
@@ -57,6 +64,8 @@ export async function scCall(request: ScCallRequest, password: string) {
 }
 
 export async function scCallRead(request: ScCallReadRequest) {
+  request.parameters = request.parameters !== undefined ? request.parameters : [];
+
   // convert params
   const params = request.parameters.map(
     (parameter) => new OntParameter('', OntParameterType[parameter.type], parameter.value),
@@ -73,6 +82,9 @@ export async function scCallRead(request: ScCallReadRequest) {
 }
 
 export async function scDeploy(request: ScDeployRequest, password: string) {
+  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
+  request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
+
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 

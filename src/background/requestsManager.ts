@@ -79,10 +79,10 @@ export class RequestsManager {
   public async initScCall(args: {
     contract: string;
     method: string;
-    parameters: Parameter[];
-    gasPrice: number;
-    gasLimit: number;
-    requireIdentity: boolean;
+    parameters?: Parameter[];
+    gasPrice?: number;
+    gasLimit?: number;
+    requireIdentity?: boolean;
   }) {
     const requestId = uuid();
 
@@ -108,7 +108,7 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-  public async initScCallRead(args: { contract: string; method: string; parameters: Parameter[] }) {
+  public async initScCallRead(args: { contract: string; method: string; parameters?: Parameter[] }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved
@@ -130,14 +130,14 @@ export class RequestsManager {
 
   public async initScDeploy(args: {
     code: string,
-    name: string,
-    version: string,
-    author: string,
-    email: string,
-    description: string,
-    needStorage: boolean,
-    gasPrice: number,
-    gasLimit: number
+    name?: string,
+    version?: string,
+    author?: string,
+    email?: string,
+    description?: string,
+    needStorage?: boolean,
+    gasPrice?: number,
+    gasLimit?: number
   }) {
     const requestId = uuid();
 

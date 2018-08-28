@@ -7,14 +7,15 @@ import { providerApi } from './provider';
 import { smartContractApi as smartContract } from './smartContract';
 
 export function initDApiProvider() {
-  provider.registerProvider(
-    {
+  provider.registerProvider({
+    logMessages: false,
+    provider: {
       asset,
       identity,
       message,
       network,
       provider: providerApi,
-      smartContract
-    }
-  );
+      smartContract,
+    },
+  });
 }

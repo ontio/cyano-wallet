@@ -63,28 +63,28 @@ export interface RegisterOntIdRequest extends TransactionRequest {
 export interface ScCallRequest extends TransactionRequest {
   contract: string;
   method: string;
-  gasPrice: number;
-  gasLimit: number;
-  requireIdentity: boolean;
-  parameters: Parameter[];
+  gasPrice?: number;
+  gasLimit?: number;
+  requireIdentity?: boolean;
+  parameters?: Parameter[];
 }
 
 export interface ScDeployRequest extends TransactionRequest {
   code: string;
-  name: string;
-  version: string;
-  author: string;
-  email: string;
-  description: string;
-  needStorage: boolean;
-  gasPrice: number;
-  gasLimit: number;
+  name?: string;
+  version?: string;
+  author?: string;
+  email?: string;
+  description?: string;
+  needStorage?: boolean;
+  gasPrice?: number;
+  gasLimit?: number;
 }
 
 export interface ScCallReadRequest extends TransactionRequest {
   contract: string;
   method: string;
-  parameters: Parameter[];
+  parameters?: Parameter[];
 }
 
 export interface TransactionRequestsState {

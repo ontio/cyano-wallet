@@ -1,9 +1,9 @@
-import { IdentityApi, OntIdAttribute, OntIdDDO } from 'ontology-dapi';
+import { IdentityApi, OntIdDDO } from 'ontology-dapi';
 import { getIdentity } from '../../api/identityApi';
 import { getStore } from '../redux';
 
 export const identityApi: IdentityApi = {
-  getDefaultIdentity(): Promise<string> {
+  getIdentity(): Promise<string> {
     const state = getStore().getState();
     const wallet = state.wallet.wallet;
 
@@ -19,23 +19,15 @@ export const identityApi: IdentityApi = {
     }
   },
 
-  getPublicKeys(identity: string): Promise<string[]> {
+  getDDO({ identity }): Promise<OntIdDDO> {
     throw new Error('UNSUPPORTED');
   },
 
-  getDDO(identity: string): Promise<OntIdDDO> {
+  addAttributes({ attributes }): Promise<void> {
     throw new Error('UNSUPPORTED');
   },
 
-  getAttributes(identity: string): Promise<OntIdAttribute[]> {
-    throw new Error('UNSUPPORTED');
-  },
-
-  addAttributes(attributes: OntIdAttribute[]): Promise<void> {
-    throw new Error('UNSUPPORTED');
-  },
-
-  removeAttribute(key: string): Promise<void> {
+  removeAttribute({ key }): Promise<void> {
     throw new Error('UNSUPPORTED');
   }
 }

@@ -1,14 +1,14 @@
-import { Parameter, Response, SmartContractApi } from 'ontology-dapi';
+import { Response, SmartContractApi } from 'ontology-dapi';
 import { getRequestsManager } from '../requestsManager';
 
 export const smartContractApi: SmartContractApi = {
-  async invoke(
-    contract: string,
-    method: string,
-    parameters: Parameter[],
-    gasPrice: number,
-    gasLimit: number,
-    requireIdentity: boolean
+  async invoke({
+    contract,
+    method,
+    parameters,
+    gasPrice,
+    gasLimit,
+    requireIdentity}
   ): Promise<Response> {
     return await getRequestsManager().initScCall({
       contract,
@@ -20,7 +20,7 @@ export const smartContractApi: SmartContractApi = {
     });
   },
 
-  async invokeRead(contract: string, method: string, parameters: Parameter[]): Promise<any> {
+  async invokeRead({ contract, method, parameters }): Promise<any> {
     return await getRequestsManager().initScCallRead({
       contract,
       method,
@@ -28,17 +28,17 @@ export const smartContractApi: SmartContractApi = {
     });
   },
 
-  async deploy(
-    code: string,
-    name: string,
-    version: string,
-    author: string,
-    email: string,
-    description: string,
-    needStorage: boolean,
-    gasPrice: number,
-    gasLimit: number,
-  ): Promise<void> {
+  async deploy({
+    code,
+    name,
+    version,
+    author,
+    email,
+    description,
+    needStorage,
+    gasPrice,
+    gasLimit,
+  }): Promise<void> {
 
     return await getRequestsManager().initScDeploy({
       author,

@@ -68,6 +68,7 @@ export async function transfer(request: TransferRequest, password: string) {
     '500',
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
+
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   const client = getClient();
