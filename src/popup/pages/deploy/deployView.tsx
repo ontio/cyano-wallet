@@ -59,7 +59,6 @@ export const DeployView: React.SFC<Props> = (props) => (
                   <label>Name</label>
                   <Field
                     name="name"
-                    validate={required}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -76,7 +75,6 @@ export const DeployView: React.SFC<Props> = (props) => (
                   <label>Version</label>
                   <Field
                     name="version"
-                    validate={required}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -93,7 +91,6 @@ export const DeployView: React.SFC<Props> = (props) => (
                   <label>Description</label>
                   <Field
                     name="description"
-                    validate={required}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -110,7 +107,6 @@ export const DeployView: React.SFC<Props> = (props) => (
                   <label>Author</label>
                   <Field
                     name="author"
-                    validate={required}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -127,7 +123,6 @@ export const DeployView: React.SFC<Props> = (props) => (
                   <label>Email</label>
                   <Field
                     name="email"
-                    validate={required}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
