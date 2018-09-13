@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { gt, required } from '../../utils/validate';
+import { gt } from '../../utils/validate';
 
 export interface InitialValues {
   name?: string;

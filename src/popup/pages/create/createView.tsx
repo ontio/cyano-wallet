@@ -81,7 +81,7 @@ export const CreateView: React.SFC<Props> = (props) => (
                 render={(t) => (
                   <SemanticForm.Checkbox
                     onChange={(e, d) => t.input.onChange(d.checked)}
-                    checked={t.input.checked}
+                    checked={t.input.value}
                     error={t.meta.touched && t.meta.invalid}
                   />
                 )} />
