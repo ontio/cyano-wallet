@@ -27,7 +27,8 @@ export type TransactionType =
   | 'register_ont_id'
   | 'sc_call'
   | 'sc_call_read'
-  | 'sc_deploy';
+  | 'sc_deploy'
+  | 'message_sign';
 
 export interface TransactionRequest {
   id: string;
@@ -50,6 +51,10 @@ export interface WithdrawOngRequest extends TransactionRequest {
 
 export interface SwapRequest extends TransactionRequest {
   amount: number;
+}
+
+export interface MessageSignRequest extends TransactionRequest {
+  message: string;
 }
 
 export interface RegisterOntIdRequest extends TransactionRequest {

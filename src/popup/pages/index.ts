@@ -38,6 +38,7 @@ export { LedgerImport } from './ledger/import/ledgerImport';
 export { LedgerNew } from './ledger/new/ledgerNew';
 export { LedgerConfirm } from './ledger/confirm/ledgerConfirm';
 export { LedgerSignup } from './ledger/signup/ledgerSignup';
+export { MessageSign } from './messageSign/messageSign';
 export { New } from './new/new';
 export { Receive } from './receive/receive';
 export { Restore } from './restore/restore';

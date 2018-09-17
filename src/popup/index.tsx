@@ -57,6 +57,8 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/settings" exact={true} component={Pages.SettingsPage} />
           <Route path="/receive" exact={true} component={Pages.Receive} />
           <Route path="/transfers" exact={true} component={Pages.Transfers} />
+
+          <Route path="/message-sign" exact={true} component={Pages.MessageSign} />
         
           <Route path="/" exact={true} component={Pages.Home} />
           <Route path="/new" exact={true} component={Pages.New} />

@@ -1,4 +1,6 @@
 import { MessageApi, Signature } from 'ontology-dapi';
+import { messageVerify } from '../api/messageApi';
+import { getRequestsManager } from '../requestsManager';
 
 // const messagePrefix = 'Ontology message:';
 
@@ -12,11 +14,11 @@ export const messageApi: MessageApi = {
     throw new Error('UNSUPPORTED');
   },
 
-  async signMessage({ message }): Promise<Signature> {
-    throw new Error('UNSUPPORTED');
+  signMessage({ message }): Promise<Signature> {
+    return getRequestsManager().initMessageSign({message});
   },
 
   async verifyMessage({ message, signature }): Promise<boolean> {
-    throw new Error('UNSUPPORTED');
+    return Promise.resolve(messageVerify(message, signature));
   }
 }

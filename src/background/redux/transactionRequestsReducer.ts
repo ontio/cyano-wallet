@@ -23,6 +23,7 @@ import Actions from '../../redux/actions';
 import { GlobalState } from '../../redux/state';
 import {
   ADD_TRANSACTION_REQUEST,
+  MessageSignRequest,
   RegisterOntIdRequest,
   RESOLVE_TRANSACTION_REQUEST,
   ScCallReadRequest,
@@ -35,6 +36,7 @@ import {
   UPDATE_REQUEST,
   WithdrawOngRequest,
 } from '../../redux/transactionRequests';
+import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
 import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
@@ -112,6 +114,9 @@ export const transactionRequestsAliases = {
           case 'sc_deploy':
             result = await submitScDeploy(request as ScDeployRequest, password!);
             break;
+          case 'message_sign':
+            result = await submitMessageSign(request as MessageSignRequest, password!);
+            break;
         }
 
         // resolves request
@@ -180,6 +185,10 @@ async function submitScCall(request: ScCallRequest, password: string) {
     result: notify,
     transaction: response.Result.TxHash
   };
+}
+
+async function submitMessageSign(request: MessageSignRequest, password: string) {
+  return timeout(messageSign(request, password), 15000);
 }
 
 async function submitScCallRead(request: ScCallReadRequest) {

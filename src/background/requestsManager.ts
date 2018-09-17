@@ -5,6 +5,7 @@ import Actions from '../redux/actions';
 import { AssetType } from '../redux/runtime';
 import { GlobalStore } from '../redux/state';
 import {
+  MessageSignRequest,
   ScCallReadRequest,
   ScCallRequest,
   ScDeployRequest,
@@ -72,6 +73,27 @@ export class RequestsManager {
 
     await this.popupManager.show();
     await this.popupManager.callMethod('history_push', '/send', { ...args, requestId, locked: true });
+
+    return deferred.promise;
+  }
+
+  public async initMessageSign(args: { message: string }) {
+    const requestId = uuid();
+
+    // stores deferred object to resolve when the transaction is resolved
+    const deferred = new Deferred<any>();
+    this.requestDeferreds.set(requestId, deferred);
+
+    await this.store.dispatch(
+      Actions.transactionRequests.addRequest<MessageSignRequest>({
+        ...args,
+        id: requestId,
+        type: 'message_sign',
+      }),
+    );
+
+    await this.popupManager.show();
+    await this.popupManager.callMethod('history_push', '/message-sign', { ...args, requestId, locked: true });
 
     return deferred.promise;
   }

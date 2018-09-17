@@ -5753,9 +5753,9 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-dapi@^0.3.10:
-  version "0.3.10"
-  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.3.10.tgz#2eef3aa8e3751871fd6df5a38b5284aaab7d9262"
+ontology-dapi@^0.3.12:
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.3.12.tgz#3b9150a94f4af4fac4a6201cce349c6b0cdaba40"
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     bs58 "^4.0.1"
