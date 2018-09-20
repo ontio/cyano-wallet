@@ -64,8 +64,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const [e] = results[0];
             
           if (e !== null && e.target !== null) {
-              const data: string = get(e.target, 'result');
+              let data: string = get(e.target, 'result');
               
+              // fix missing identities
+              const parsed = JSON.parse(data);
+              if (parsed.identities == null) {
+                parsed.identities = [];
+                data = JSON.stringify(parsed);
+              }
+
               const wallet = getWallet(data);
               // sets default address for OWallet exports
               if (wallet.defaultAccountAddress == null ||
