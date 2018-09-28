@@ -20,6 +20,7 @@ import { Button, Message } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
+  message: string;
   handleOk: () => void;
 }
 
@@ -32,7 +33,7 @@ export const SendFailedView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your transaction has not completed in time. This does not mean it has failed, please check the blockchain to confirm. (Note: Make sure you have 0.01 claimed ONG to pay the network transaction fee)</Message>
+      <Message>{props.message}</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>

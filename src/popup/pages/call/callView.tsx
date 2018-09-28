@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { gt, required } from '../../utils/validate';
+import { gte, required } from '../../utils/validate';
 
 export interface InitialValues {
   contract?: string;
@@ -87,7 +87,7 @@ export const CallView: React.SFC<Props> = (props) => (
                   <label>Gas price</label>
                   <Field
                     name="gasPrice"
-                    validate={gt(0)}
+                    validate={gte(0)}
                     render={(t) => (
                       <SemanticForm.Input
                         type="number"
@@ -105,7 +105,7 @@ export const CallView: React.SFC<Props> = (props) => (
                   <label>Gas limit</label>
                   <Field
                     name="gasLimit"
-                    validate={gt(0)}
+                    validate={gte(0)}
                     render={(t) => (
                       <SemanticForm.Input
                         type="number"

@@ -126,8 +126,15 @@ export const transactionRequestsAliases = {
           // resolves request
           dispatch(Actions.transactionRequests.resolveRequest(requestId, 'TIMEOUT'));
         } else {
+          let msg: string;
+
+          if (e instanceof Error) {
+            msg = e.message;
+          } else {
+            msg = e;
+          }
           // resolves request
-          dispatch(Actions.transactionRequests.resolveRequest(requestId, 'OTHER'));
+          dispatch(Actions.transactionRequests.resolveRequest(requestId, 'OTHER', msg));
           // tslint:disable-next-line:no-console
           console.error('Error during submiting transaction', e);
         }

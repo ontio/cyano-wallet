@@ -18,23 +18,38 @@
 import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { TransactionRequest } from '../../../redux/transactionRequests';
 import { withProps } from '../../compose';
 import { Props, SendFailedView } from './sendFailedView';
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => (
-  withProps({
-    amount: get(props.location, 'state.amount', ''),
-    asset: get(props.location, 'state.asset', ''),
-    handleCancel: () => {
-      props.history.goBack();
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) => {
+  const request: TransactionRequest = get(props.location, 'state.request', '');
+
+  let message: string;
+
+  if (request.error === 'TIMEOUT') {
+    message = 'Your transaction has not completed in time. This does not mean it has failed, please check the blockchain to confirm. (Note: Make sure you have 0.01 claimed ONG to pay the network transaction fee)';
+  } else if (request.error === 'OTHER' && typeof request.result === 'string') {
+    message = request.result;
+  } else {
+    message = 'Unspecified error occured.';
+  }
+
+  return withProps(
+    {
+      amount: get(props.location, 'state.amount', ''),
+      asset: get(props.location, 'state.asset', ''),
+      handleCancel: () => {
+        props.history.goBack();
+      },
+      handleOk: () => {
+        props.history.push('/dashboard');
+      },
+      message,
+      recipient: get(props.location, 'state.recipient', '')
     },
-    handleOk: () => {
-      props.history.push('/dashboard');
-    },
-    recipient: get(props.location, 'state.recipient', '')
-  }, (injectedProps) => (
-    <Component {...injectedProps} />
-  ))
-);
+    (injectedProps) => <Component {...injectedProps} />,
+  );
+};
 
 export const SendFailed = enhancer(SendFailedView);

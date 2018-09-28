@@ -51,6 +51,14 @@
     elliptic "^6.4.0"
     safe-buffer "^5.1.1"
 
+"@ont-community/hdkey-secp256r1@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ont-community/hdkey-secp256r1/-/hdkey-secp256r1-1.0.1.tgz#81840bd0ae3442baed490eac204646bb845e9f89"
+  dependencies:
+    coinstring "^2.0.0"
+    elliptic "^6.4.0"
+    safe-buffer "^5.1.1"
+
 "@ont-community/html5-websocket@^2.0.2":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@ont-community/html5-websocket/-/html5-websocket-2.0.3.tgz#702419116217ec749c6eea18b234bd3d600b0c5c"
@@ -2281,6 +2289,10 @@ crypto-js@^3.1.9-1:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
+
+crypto@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/crypto/-/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -5281,6 +5293,10 @@ micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
+milagro-crypto-js@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/milagro-crypto-js/-/milagro-crypto-js-3.3.0.tgz#4135222d5e6a23bc98ea8d4e093017707df0990f"
+
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
@@ -5784,6 +5800,37 @@ ontology-ts-sdk@^0.9.4:
     ecurve "^1.0.6"
     elliptic "^6.4.0"
     js-sha3 "^0.7.0"
+    promise-timeout "^1.3.0"
+    scrypt-async "^2.0.0"
+    secure-random "^1.1.1"
+    sm.js "0.1.7"
+    uuid "^3.2.1"
+    websocket-as-promised "^0.8.0"
+    wif "^2.0.6"
+    ws "^4.1.0"
+
+ontology-ts-sdk@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.6.tgz#458131fba6bacfbb61f9c39663063d1a54ee6040"
+  dependencies:
+    "@ont-community/hdkey-secp256r1" "^1.0.1"
+    "@ont-community/html5-websocket" "^2.0.2"
+    axios "^0.17.1"
+    babel-polyfill "^6.26.0"
+    base-x "^3.0.3"
+    base64-url "^2.2.0"
+    bigi "^1.4.2"
+    bignumber.js "^6.0.0"
+    bip39 "^2.5.0"
+    bs58 "^4.0.1"
+    bs58check "^2.1.1"
+    crypto "^1.0.1"
+    crypto-js "^3.1.9-1"
+    ecdsa "^0.7.0"
+    ecurve "^1.0.6"
+    elliptic "^6.4.0"
+    js-sha3 "^0.7.0"
+    milagro-crypto-js "^3.3.0"
     promise-timeout "^1.3.0"
     scrypt-async "^2.0.0"
     secure-random "^1.1.1"

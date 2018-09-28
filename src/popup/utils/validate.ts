@@ -64,3 +64,14 @@ export function gt(than: number){
     return (val <= than);
   }
 }
+
+export function gte(than: number){ 
+  return function gtCheck(value: string){ 
+    if (value === undefined) {
+      return true;
+    } 
+
+    const val = Number(value);
+    return (val < than);
+  }
+}

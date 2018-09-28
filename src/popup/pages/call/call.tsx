@@ -59,7 +59,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             method,
           } as Partial<ScCallRequest>);
 
-          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/dashboard' });
+          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/sendFailed' });
         },
         initialValues: {
           contract: get(props.location, 'state.contract', ''),
