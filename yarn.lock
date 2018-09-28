@@ -5809,9 +5809,9 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.6.tgz#458131fba6bacfbb61f9c39663063d1a54ee6040"
+ontology-ts-sdk@^0.9.7:
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.7.tgz#bf3c051479a74181bfed3e5b8ebba6ffe2cc3d42"
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"
