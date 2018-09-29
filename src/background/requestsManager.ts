@@ -45,7 +45,7 @@ export class RequestsManager {
             if (request.error === undefined) {
               deferred.resolve(request.result);
             } else {
-              deferred.reject(request.error);
+              deferred.reject(request.result !== undefined ? request.result : request.error);
             }
 
             this.requestDeferreds.delete(request.id);

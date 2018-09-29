@@ -30,7 +30,17 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
   if (request.error === 'TIMEOUT') {
     message = 'Your transaction has not completed in time. This does not mean it has failed, please check the blockchain to confirm. (Note: Make sure you have 0.01 claimed ONG to pay the network transaction fee)';
   } else if (request.error === 'OTHER' && typeof request.result === 'string') {
-    message = request.result;
+    try {
+      const parsed = JSON.parse(request.result);
+      if (parsed.Result !== undefined) {
+        message = parsed.Result;  
+      } else {
+        message = request.result;  
+      }
+    } catch (e) {
+      message = request.result;
+    }
+    
   } else {
     message = 'Unspecified error occured.';
   }
