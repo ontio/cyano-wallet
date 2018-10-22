@@ -3,28 +3,28 @@ import { getRequestsManager } from '../requestsManager';
 
 export const smartContractApi: SmartContractApi = {
   async invoke({
-    contract,
-    method,
-    parameters,
+    scriptHash,
+    operation,
+    args,
     gasPrice,
     gasLimit,
     requireIdentity}
   ): Promise<Response> {
     return await getRequestsManager().initScCall({
-      contract,
+      contract: scriptHash,
       gasLimit,
       gasPrice,
-      method,
-      parameters,
+      method: operation,
+      parameters: args,
       requireIdentity
     });
   },
 
-  async invokeRead({ contract, method, parameters }): Promise<any> {
+  async invokeRead({ scriptHash, operation, args }): Promise<any> {
     return await getRequestsManager().initScCallRead({
-      contract,
-      method,
-      parameters,
+      contract: scriptHash,
+      method: operation,
+      parameters: args,
     });
   },
 

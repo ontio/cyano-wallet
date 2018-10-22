@@ -5769,9 +5769,9 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-dapi@^0.3.12:
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.3.12.tgz#3b9150a94f4af4fac4a6201cce349c6b0cdaba40"
+ontology-dapi@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.0.tgz#74d8f18bcac6c70149e8f075443fddb0a29ce782"
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     bs58 "^4.0.1"
@@ -5809,9 +5809,9 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^0.9.8:
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.8.tgz#2c5688a5ac89d955ff0b1035fd0f71b143e39d48"
+ontology-ts-sdk@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.1.tgz#b453061ae670d16d6612bcfed31f4dd14814cf0c"
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"
