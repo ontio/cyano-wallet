@@ -1,6 +1,8 @@
 import Address = Crypto.Address;
 import { Balance, Block, MerkleProof, Network, NetworkApi, Transaction } from 'ontology-dapi';
 import { Crypto } from 'ontology-ts-sdk';
+import { decodeAmount } from 'src/popup/utils/number';
+import { getTokenBalance } from '../api/tokenApi';
 import { getClient } from '../network';
 import { getStore } from '../redux';
 
@@ -30,12 +32,23 @@ export const networkApi: NetworkApi = {
     },
 
     async getBalance({ address }): Promise<Balance> {
+        const state = getStore().getState();
         const client = getClient();
         const response = await client.getBalance(new Address(address));
-        return {
-            ong: response.Result.ong,
-            ont: response.Result.ont
+
+        const balance: Balance = {
+            ONG: decodeAmount(response.Result.ong, 9),
+            ONT: response.Result.ont,     
         };
+
+        const addr = new Address(address);
+        for (const token of state.settings.tokens) {
+            const tokenBalance = await getTokenBalance(token.contract, addr);
+            
+            balance[token.symbol] = decodeAmount(tokenBalance, token.decimals);
+        }
+
+        return balance;
     },
 
     async getBlock({ block }): Promise<Block> {

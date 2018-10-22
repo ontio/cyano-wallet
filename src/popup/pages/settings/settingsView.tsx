@@ -33,6 +33,9 @@ export interface Props {
   handleExport: () => void;
 
   handleImport: (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => void;
+
+  handleTokenSettings: () => void;
+  
   settings: SettingsState;
   enableClear: boolean;
   enableClearIdentity: boolean;
@@ -140,6 +143,12 @@ export const SettingsView: React.SFC<Props> = (props) => (
                       content="Import wallet" 
                     />
                   </FileReaderInput>
+                  <Spacer />
+                  <Button 
+                    type="button"
+                    onClick={props.handleTokenSettings} 
+                    content="OEP-4 Tokens" 
+                  />
                 </View>
               </View>  
             <Filler />

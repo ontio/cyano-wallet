@@ -24,6 +24,7 @@ import { Deferred } from '../deffered';
 import { GlobalStore } from '../redux/state';
 import * as Ledger from './api/ledgerApi';
 import { checkOntId } from './api/runtimeApi';
+import { getOEP4Token } from './api/tokenApi';
 
 // size of the popup
 const width = 350;
@@ -52,6 +53,7 @@ export class PopupManager {
     this.rpc.register('popup_initialized', this.pupupInitialized.bind(this));
     this.rpc.register('check_account_password', this.checkAccountPassword.bind(this));
     this.rpc.register('check_ont_id', this.checkOntId.bind(this));
+    this.rpc.register('get_oep4_token', this.getOEP4Token.bind(this));
     this.rpc.register('is_ledger_supported', this.isLedgerSupported.bind(this));
     this.rpc.register('import_ledger_key', this.importLedgerKey.bind(this));
   }
@@ -121,6 +123,10 @@ export class PopupManager {
   private checkOntId(identityEncoded: string, password: string) {
     const identity = Identity.parseJson(identityEncoded);
     return checkOntId(identity, password);
+  }
+
+  private getOEP4Token(contract: string) {
+    return getOEP4Token(contract);
   }
 
   private isLedgerSupported() {

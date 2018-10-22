@@ -54,3 +54,6 @@ export { TrezorImport } from './trezor/import/trezorImport';
 export { TrezorNew } from './trezor/new/trezorNew';
 export { TrezorConfirm } from './trezor/confirm/trezorConfirm';
 export { TrezorSignup } from './trezor/signup/trezorSignup';
+export { TokenSettings } from './tokenSettings/tokenSettings';
+export { TokenSettingsAdd } from './tokenSettingsAdd/tokenSettingsAdd';
+export { TokenSettingsDel } from './tokenSettingsDel/tokenSettingsDel';

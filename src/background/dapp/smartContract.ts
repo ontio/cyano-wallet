@@ -2,29 +2,36 @@ import { Response, SmartContractApi } from 'ontology-dapi';
 import { getRequestsManager } from '../requestsManager';
 
 export const smartContractApi: SmartContractApi = {
-  async invoke({
-    scriptHash,
-    operation,
-    args,
-    gasPrice,
-    gasLimit,
-    requireIdentity}
-  ): Promise<Response> {
+  async invoke(options): Promise<Response> {
+    const {
+      scriptHash,
+      operation,
+      args,
+      gasPrice,
+      gasLimit,
+      requireIdentity} = options;
+
+    const oldOptions: any = options;
+
     return await getRequestsManager().initScCall({
-      contract: scriptHash,
+      contract: scriptHash !== undefined ? scriptHash : oldOptions.contract,
       gasLimit,
       gasPrice,
-      method: operation,
-      parameters: args,
+      method: operation !== undefined ? operation : oldOptions.method,
+      parameters: args !== undefined ? args : oldOptions.parameters,
       requireIdentity
     });
   },
 
-  async invokeRead({ scriptHash, operation, args }): Promise<any> {
+  async invokeRead(options): Promise<any> {
+    const { scriptHash, operation, args } = options;
+
+    const oldOptions: any = options;
+
     return await getRequestsManager().initScCallRead({
-      contract: scriptHash,
-      method: operation,
-      parameters: args,
+      contract: scriptHash !== undefined ? scriptHash : oldOptions.contract,
+      method: operation !== undefined ? operation : oldOptions.method,
+      parameters: args !== undefined ? args : oldOptions.parameters,
     });
   },
 

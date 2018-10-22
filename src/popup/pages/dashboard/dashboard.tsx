@@ -20,18 +20,23 @@ import BigNumber from 'bignumber.js';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { OEP4TokenAmount } from 'src/api/tokenApi';
+import { TokenAmountState } from 'src/redux/runtime';
+import { TokenState } from 'src/redux/settings';
 import { v4 as uuid } from 'uuid';
 import { getAddress } from '../../../api/accountApi';
 import { SwapRequest, TransferRequest, WithdrawOngRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
-import { convertAmountToBN, convertAmountToStr } from '../../utils/number';
+import { convertAmountToBN, convertAmountToStr, decodeAmount } from '../../utils/number';
 import { DashboardView, Props } from './dashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
   nepAmount: state.runtime.nepAmount,
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
+  tokenAmounts: state.runtime.tokenAmounts,
+  tokens: state.settings.tokens,
   transfers: state.runtime.transfers,
   unboundAmount: state.runtime.unboundAmount,
   walletEncoded: state.wallet.wallet
@@ -95,12 +100,28 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       ongAmount: convertAmountToStr(reduxProps.ongAmount, 'ONG'),
       ontAmount: convertAmountToStr(reduxProps.ontAmount, 'ONT'),
       ownAddress: getAddress(reduxProps.walletEncoded!),
-      transfers: reduxProps.transfers.slice(0, 2),
+      tokens: prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts),
       unboundAmount: convertAmountToStr(reduxProps.unboundAmount, 'ONG'),
     }, (injectedProps) => (
       <Component {...injectedProps} />
     ))
   ))
 );
+
+function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[] = []): OEP4TokenAmount[]{
+  return items.map(item => {
+    const contract = item.contract;
+    const token = tokens.find(t => t.contract === contract)!;
+
+    const amount = decodeAmount(item.amount, token.decimals);
+
+    return {
+      amount,
+      decimals: token.decimals,
+      name: token.name,
+      symbol: token.symbol
+    }
+  });
+}
 
 export const Dashboard = enhancer(DashboardView);

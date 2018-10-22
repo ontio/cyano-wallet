@@ -30,3 +30,18 @@ export function convertAmountFromStr(amount: string, asset: AssetType | 'NEP') {
 export function convertAmountToStr(amount: number | undefined, asset: AssetType | 'NEP') {
     return convertAmountToBN(amount, asset).toString();
 }
+
+export function encodeAmount(amount: string, decimals: number) {
+  let amountBN = new BigNumber(amount);
+  amountBN = amountBN.shiftedBy(decimals);
+
+  return amountBN.toString();
+}
+
+export function decodeAmount(amount: string, decimals: number) {
+  let amountBN = new BigNumber(amount);
+  amountBN = amountBN.shiftedBy(-decimals);
+
+  return amountBN.toString();
+}
+  

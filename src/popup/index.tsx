@@ -55,6 +55,9 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/sendComplete" exact={true} component={Pages.SendComplete} />
           <Route path="/sendFailed" exact={true} component={Pages.SendFailed} />
           <Route path="/settings" exact={true} component={Pages.SettingsPage} />
+          <Route path="/settings/token" exact={true} component={Pages.TokenSettings} />
+          <Route path="/settings/token/add" exact={true} component={Pages.TokenSettingsAdd} />
+          <Route path="/settings/token/del" exact={true} component={Pages.TokenSettingsDel} />
           <Route path="/receive" exact={true} component={Pages.Receive} />
           <Route path="/transfers" exact={true} component={Pages.Transfers} />
 

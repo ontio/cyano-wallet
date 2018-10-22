@@ -17,9 +17,8 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Transfer } from '../../../redux/runtime';
-import { AccountLogoHeader, Clickable, Filler, Spacer, StatusBar, View } from '../../components';
-import { TransferList } from '../../components/transferList';
+import { OEP4TokenAmount } from 'src/api/tokenApi';
+import { AccountLogoHeader, Filler, Spacer, StatusBar, TokenAmountList, View } from '../../components';
 
 export interface Props {
   nepAmount: string;
@@ -28,7 +27,7 @@ export interface Props {
 
   unboundAmount: string;
   ownAddress: string;
-  transfers: Transfer[];
+  tokens: OEP4TokenAmount[];
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
@@ -55,17 +54,15 @@ export const DashboardView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <h1>Last transfers</h1>
+      <h1>OEP-4 tokens</h1>
       <Spacer />
-      <TransferList ownAddress={props.ownAddress} transfers={props.transfers} />
+      <TokenAmountList tokens={props.tokens} />
       <Spacer />
-      <View className="center">
-        <Clickable onClick={props.handleTransfers}>more</Clickable>
-      </View>
       <Filler />
       <View className="buttons">
         <Button icon="send" content="Send" onClick={props.handleSend} />
         <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
+        <Button icon="list" onClick={props.handleTransfers} />
       </View>
     </View>
     <StatusBar />

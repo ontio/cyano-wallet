@@ -31,6 +31,7 @@ import { InitialValues, Props, SendView } from './sendView';
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
+  tokens: state.settings.tokens
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -54,8 +55,22 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       recipient: initRecipient,
     };
 
+    const tokenOptions = reduxProps.tokens.map(token => ({ text: token.symbol, value: token.symbol }));
+
+    const nativeOptions = [
+      {
+        text: 'ONT',
+        value: 'ONT',
+      },
+      {
+        text: 'ONG',
+        value: 'ONG',
+      },
+    ];
+
     return withProps(
       {
+        assetOptions: [...nativeOptions, ...tokenOptions],
         handleCancel: async () => {
           props.history.goBack();
 

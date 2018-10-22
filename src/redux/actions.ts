@@ -19,7 +19,7 @@
 import { finishLoading, startLoading } from './loader';
 import { setRouterState } from './router';
 import { setBalance, setTransfers } from './runtime';
-import { setSettings } from './settings';
+import { addToken, delToken, setSettings } from './settings';
 import { changeNetworkState } from './status';
 import { addRequest, resolveRequest, submitRequest, updateRequest } from './transactionRequests';
 import { clearIdentity, clearWallet, setWallet } from './wallet';
@@ -37,6 +37,8 @@ export default {
         setTransfers,
     },
     settings: {
+        addToken,
+        delToken,
         setSettings
     },
     status: {

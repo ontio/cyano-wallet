@@ -15,18 +15,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Reducer } from 'redux';
-import { RuntimeState, SET_BALANCE, SET_TRANSFERS } from '../../redux/runtime';
+import * as React from 'react';
+import { List } from 'semantic-ui-react';
+import { TokenState } from 'src/redux/settings';
+import { View } from './view';
 
-const defaultState: RuntimeState = { ongAmount: 0, ontAmount: 0, unboundAmount: 0, nepAmount: 0, transfers: [], tokenAmounts: [] };
+interface Props {
+  onDel: (contract: string) => void;
+  tokens: TokenState[];
+}
 
-export const runtimeReducer: Reducer<RuntimeState> = (state = defaultState, action) => {
-  switch (action.type) {
-    case SET_BALANCE:
-      return { ...state, ongAmount: action.ongAmount, ontAmount: action.ontAmount, unboundAmount: action.unboundAmount, nepAmount: action.nepAmount, tokenAmounts: action.tokenAmounts };
-    case SET_TRANSFERS:
-      return { ...state, transfers: action.transfers };
-    default:
-      return state;
-  }
-};
+export const TokenList: React.SFC<Props> = (props) => (
+  <View>
+    <List className="transferList" divided={true}>
+      {props.tokens.map((token, i) => (
+        <List.Item key={i}>
+          <List.Icon name="times circle outline" size="large" verticalAlign="middle" onClick={() => props.onDel(token.contract)} />
+          <List.Content>
+            <List.Header>{token.symbol} - {token.name}</List.Header>
+            <List.Description>{token.contract}</List.Description>
+          </List.Content>
+        </List.Item>
+      ))}
+    </List>
+  </View>
+);

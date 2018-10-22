@@ -48,7 +48,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         enableClearIdentity: reduxProps.wallet !== null && getIdentity(reduxProps.wallet) !== null,
 
         handleCancel: () => {
-          props.history.goBack();
+          props.history.push('/');
         },
         handleClear: () => {
           routerProps.history.push('/clear');
@@ -89,9 +89,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const address: string = get(values, 'address', '');
           const ssl: boolean = get(values, 'ssl', false);
 
-          await actions.setSettings(address, ssl, net);
+          await actions.setSettings(address, ssl, net, reduxProps.settings.tokens);
           props.history.goBack();
-        }
+        },
+        handleTokenSettings: () => {
+          routerProps.history.push('/settings/token');
+        },
       }, (injectedProps) => (
         <Component {...injectedProps} settings={reduxProps.settings} />
       ))

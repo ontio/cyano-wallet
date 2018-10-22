@@ -40,7 +40,10 @@ export function initSettingsProvider(store: GlobalStore) {
    */
   loadSettings().then((settings) => {
     if (settings !== null) {
-      store.dispatch(setSettings(settings.address, settings.ssl, settings.net));
+      if (settings.tokens === undefined) {
+        settings.tokens = [];
+      }
+      store.dispatch(setSettings(settings.address, settings.ssl, settings.net, settings.tokens));
     }
   });
 }

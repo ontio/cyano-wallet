@@ -17,6 +17,7 @@
  */
 import { History } from 'history';
 import { Rpc } from 'ontology-dapi';
+import { OEP4Token } from 'src/api/tokenApi';
 import { browser } from 'webextension-polyfill-ts';
 
 class BackgroundManager {
@@ -43,6 +44,10 @@ class BackgroundManager {
 
   public checkOntId(encodedIdentity: string, password: string) {
     return this.rpc.call<boolean>('check_ont_id', encodedIdentity, password);
+  }
+
+  public getOEP4Token(contract: string) {
+    return this.rpc.call<OEP4Token>('get_oep4_token', contract);
   }
 
   public isLedgerSupported() {

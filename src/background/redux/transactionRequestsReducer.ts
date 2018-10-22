@@ -40,6 +40,7 @@ import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
 import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
+import { transferToken } from '../api/tokenApi';
 
 const defaultState: TransactionRequestsState = { requests: [] };
 
@@ -144,7 +145,13 @@ export const transactionRequestsAliases = {
 };
 
 async function submitTransfer(request: TransferRequest, password: string) {
-  const response = await timeout(transfer(request, password), 15000);
+  let response: any;
+
+  if (request.asset === 'ONT' || request.asset === 'ONG') {
+    response = await timeout(transfer(request, password), 15000);
+  } else {
+    response = await timeout(transferToken(request, password), 15000);
+  }
 
   if (response.Result.State === 0) {
     throw new Error('OTHER');

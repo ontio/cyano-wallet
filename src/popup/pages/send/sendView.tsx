@@ -23,6 +23,11 @@ import { AssetType } from '../../../redux/runtime';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { gt, required } from '../../utils/validate';
 
+export interface AssetOption {
+  text: string;
+  value: string;
+}
+
 export interface InitialValues {
   recipient?: string;
   amount?: string;
@@ -30,23 +35,13 @@ export interface InitialValues {
 }
 
 export interface Props {
+  assetOptions: AssetOption[];
   initialValues: InitialValues;
   locked: boolean;
   handleConfirm: (values: object) => Promise<void>;
   handleMax: (formProps: FormRenderProps) => void;
   handleCancel: () => void;
 }
-
-const assetOptions = [
-  {
-    text: 'ONT',
-    value: 'ONT',
-  },
-  {
-    text: 'ONG',
-    value: 'ONG',
-  },
-];
 
 /**
  * todo: amount number step does not work for ONG, should be changed to custom validation
@@ -90,7 +85,7 @@ export const SendView: React.SFC<Props> = (props) => (
                   <SemanticForm.Dropdown
                     fluid={true}
                     selection={true}
-                    options={assetOptions}
+                    options={props.assetOptions}
                     onChange={(e, data) => t.input.onChange(data.value)}
                     value={t.input.value}
                     error={t.meta.touched && t.meta.invalid}

@@ -23,3 +23,5 @@ export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/
 export { Filler, Spacer, View } from './view';
 export { StatusBar } from './statusBar/statusBar';
 export { TrezorLogo } from './trezorLogo/trezorLogo';
+export { TokenList } from './tokenList';
+export { TokenAmountList } from './tokenAmountList';

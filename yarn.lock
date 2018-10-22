@@ -109,6 +109,10 @@
   version "4.14.109"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.109.tgz#b1c4442239730bf35cabaf493c772b18c045886d"
 
+"@types/long@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.0.tgz#719551d2352d301ac8b81db732acb6bdc28dbdef"
+
 "@types/node@*", "@types/node@^10.3.2":
   version "10.3.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.2.tgz#3840ec6c12556fdda6e0e6d036df853101d732a4"
@@ -5769,9 +5773,9 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-dapi@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.0.tgz#74d8f18bcac6c70149e8f075443fddb0a29ce782"
+ontology-dapi@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.1.tgz#9429c0d403a490b0bbaba6aa520fb9661a3b6adb"
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     bs58 "^4.0.1"

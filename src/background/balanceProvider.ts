@@ -15,25 +15,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { TokenAmountState } from 'src/redux/runtime';
 import { getAddress } from '../api/accountApi';
 import Actions from '../redux/actions';
 import { GlobalStore } from '../redux/state';
 import { getTransferList } from './api/explorerApi';
 import { getNepBalance } from './api/neoApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';
+import { getTokenBalanceOwn } from './api/tokenApi';
 
 export function initBalanceProvider(store: GlobalStore) {
   window.setInterval(async () => {
     const state = store.getState();  
     const walletEncoded = state.wallet.wallet;
+    const tokens = state.settings.tokens;
     
     if (walletEncoded !== null) {
       const balance = await getBalance();
       const unboundOng = await getUnboundOng();
       const nep = await getNepBalance();
+      const tokenBalances: TokenAmountState[] = [];
+
+      for (const token of tokens) {
+        try {
+          const amount = await getTokenBalanceOwn(token.contract);
+          tokenBalances.push({contract: token.contract, amount });
+        } catch (e) {
+          // tslint:disable-next-line:no-console
+          console.warn('Failed to load balance of token: ', token.contract);
+        }
+      }
       
       store.dispatch(
-        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, nep !== null ? nep : 0)
+        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, nep !== null ? nep : 0, tokenBalances)
       );
 
       const address = getAddress(walletEncoded);

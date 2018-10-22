@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export type AssetType = 'ONT' | 'ONG';
+export type AssetType = 'ONT' | 'ONG' | string;
 
 export interface Transfer {
   amount: string;
@@ -26,6 +26,11 @@ export interface Transfer {
   time: number;
 }
 
+export interface TokenAmountState {
+  contract: string;
+  amount: string;
+}
+
 export interface RuntimeState {
   ongAmount: number;
   ontAmount: number;
@@ -33,11 +38,13 @@ export interface RuntimeState {
 
   unboundAmount: number;
   transfers: Transfer[];
+
+  tokenAmounts: TokenAmountState[];
 };
 
 export const SET_BALANCE = 'SET_BALANCE';
 export const SET_TRANSFERS = 'SET_TRANSFERS';
 
-export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number, nepAmount: number) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount, nepAmount });
+export const setBalance = (ongAmount: number, ontAmount: number, unboundAmount: number, nepAmount: number, tokenAmounts: TokenAmountState[]) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount, nepAmount, tokenAmounts });
 
 export const setTransfers = (transfers: Transfer[]) => ({ type: SET_TRANSFERS, transfers });
