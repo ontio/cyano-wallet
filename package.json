@@ -1,6 +1,6 @@
 {
   "name": "cyano-wallet",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
@@ -37,8 +37,8 @@
     "lodash": "^4.17.10",
     "long": "^4.0.0",
     "object-assign": "4.1.1",
-    "ontology-dapi": "^0.4.2",
-    "ontology-ts-sdk": "^1.0.1",
+    "ontology-dapi": "^0.4.5",
+    "ontology-ts-sdk": "^1.0.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",

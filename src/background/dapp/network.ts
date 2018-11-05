@@ -91,5 +91,62 @@ export const networkApi: NetworkApi = {
         const client = getClient();
         const response = await client.getAllowance(asset, new Address(fromAddress), new Address(toAddress));
         return response.Result;
+    },
+
+    async getUnboundOng({ address }) {
+        const client = getClient();
+        const response = await client.getUnboundong(new Address(address));
+        return String(response.Result);
+    },
+    async getContract({ hash }) {
+        const client = getClient();
+        const response = await client.getContractJson(hash);
+        return response.Result;
+    },
+    async getSmartCodeEvent({ value }) {
+        const client = getClient();
+        const response = await client.getSmartCodeEvent(value);
+        return response.Result;
+    },
+    async getBlockHeightByTxHash({ hash }) {
+        const client = getClient();
+        const response = await client.getBlockHeightByTxHash(hash);
+        return response.Result;
+    },
+
+    async getBlockHash({ height }) {
+        const client = getClient();
+        const response = await client.getBlockHash(height);
+        return response.Result;
+    },
+    async getBlockTxsByHeight({ height }) {
+        const client = getClient();
+        const response = await client.getBlockTxsByHeight(height);
+        return response.Result;
+    },
+    async getGasPrice() {
+        const client = getClient();
+        const response = await client.getGasPrice();
+        return response.Result;
+    },
+    async getGrantOng({ address }) {
+        const client = getClient();
+        const response = await client.getGrantOng(new Address(address));
+        return String(response.Result);
+    },
+    async getMempoolTxCount() {
+        const client = getClient();
+        const response = await client.getMempoolTxCount();
+        return response.Result;
+    },
+    async getMempoolTxState({ hash }) {
+        const client = getClient();
+        const response = await client.getMempoolTxState(hash);
+        return response.Result;
+    },
+    async getVersion() {
+        const client = getClient();
+        const response = await client.getVersion();
+        return response.Result;
     }
 }

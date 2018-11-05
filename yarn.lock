@@ -5773,10 +5773,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-dapi@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.2.tgz#3facaf661e50c1e3ecdcf3d74d2a8cd8b346e81e"
-  integrity sha512-YY6G3zVImVbQj3QLkLmOxtncd8w4+fq8keC2P+WG0FZ7sZgL9nPwRR4Kfy5rmSgDLsjf0Fs40MQHF607AqfyVQ==
+ontology-dapi@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.5.tgz#754b916a27b668ba5daa69d9e40c356fd39a3cd9"
+  integrity sha512-FnBfTbOTSHMUXh6nOxxZyv0mfhjAkWOAZ7GwfejPnAJOY6Sa42uSk27rLRKADW2UCItYqveLvWHpWTzIk8Go1w==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     bs58 "^4.0.1"
@@ -5814,9 +5814,10 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.1.tgz#b453061ae670d16d6612bcfed31f4dd14814cf0c"
+ontology-ts-sdk@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.2.tgz#1477c358d4430a02be637cf4516aeb4406103473"
+  integrity sha512-b1wzjo+kFeqWTxHuNH5kHcNDsbenN+PdrPBB6+8Hgu9Z/Wi9g5bZhUQcaIooSMuyYoDljiweJnzzh0XG8+DwYA==
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"
@@ -5825,7 +5826,7 @@ ontology-ts-sdk@^1.0.1:
     base-x "^3.0.3"
     base64-url "^2.2.0"
     bigi "^1.4.2"
-    bignumber.js "^6.0.0"
+    bignumber.js "^7.2.1"
     bip39 "^2.5.0"
     bs58 "^4.0.1"
     bs58check "^2.1.1"
