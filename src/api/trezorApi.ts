@@ -24,7 +24,7 @@ export async function isTrezorSupported() {
   // return await Trezor.isTrezorSupported();
 }
 
-export async function importTrezorKey(index: number) {
+export async function importTrezorKey(index: number): Promise<{ wallet: string }> {
   throw new Error('Unsupported');
   // const wallet = Wallet.create(uuid());
   // const scrypt = wallet.scrypt;
