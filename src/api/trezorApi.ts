@@ -15,56 +15,56 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
+// import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { get } from 'lodash';
-import { Account, Wallet } from 'ontology-ts-sdk';
-import { v4 as uuid } from 'uuid';
+import { Wallet } from 'ontology-ts-sdk';
 
 export async function isTrezorSupported() {
-  return await Trezor.isTrezorSupported();
+  return false;
+  // return await Trezor.isTrezorSupported();
 }
 
 export async function importTrezorKey(index: number) {
-    const wallet = Wallet.create(uuid());
-    const scrypt = wallet.scrypt;
-    const scryptParams = {
-      blockSize: scrypt.r,
-      cost: scrypt.n,
-      parallel: scrypt.p,
-      size: scrypt.dkLen
-    };
-  
-    const privateKey = await Trezor.create(index);
-    // const publicKey = privateKey.getPublicKey();
-  
-    // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
-    // const ontId = identity.ontid;
-  
-    // register the ONT ID on blockchain
-    // if (register) {
-    //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
-    //   tx.payer = identity.controls[0].address;
-      
-    //   await TransactionBuilder.signTransactionAsync(tx, privateKey);
-  
-    //   const protocol = ssl ? 'wss' : 'ws';
-    //   const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
-    //   await client.sendRawTransaction(tx.serialize(), false, true);
-    // }
-  
-    const account = Account.create(privateKey, '', uuid(), scryptParams);
-  
-    // wallet.addIdentity(identity);
-    wallet.addAccount(account);
-    // wallet.setDefaultIdentity(identity.ontid);
-    wallet.setDefaultAccount(account.address.toBase58());
-  
-    return {
-      wallet: wallet.toJson()
-    };
-  }
-  
-  export function isTrezorKey(wallet: Wallet) {
-    return get(wallet.accounts[0].encryptedKey, 'type') === 'TREZOR';
-  }
-  
+  throw new Error('Unsupported');
+  // const wallet = Wallet.create(uuid());
+  // const scrypt = wallet.scrypt;
+  // const scryptParams = {
+  //   blockSize: scrypt.r,
+  //   cost: scrypt.n,
+  //   parallel: scrypt.p,
+  //   size: scrypt.dkLen,
+  // };
+
+  // const privateKey = await Trezor.create(index);
+  // const publicKey = privateKey.getPublicKey();
+
+  // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
+  // const ontId = identity.ontid;
+
+  // register the ONT ID on blockchain
+  // if (register) {
+  //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
+  //   tx.payer = identity.controls[0].address;
+
+  //   await TransactionBuilder.signTransactionAsync(tx, privateKey);
+
+  //   const protocol = ssl ? 'wss' : 'ws';
+  //   const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
+  //   await client.sendRawTransaction(tx.serialize(), false, true);
+  // }
+
+  // const account = Account.create(privateKey, '', uuid(), scryptParams);
+
+  // wallet.addIdentity(identity);
+  // wallet.addAccount(account);
+  // wallet.setDefaultIdentity(identity.ontid);
+  // wallet.setDefaultAccount(account.address.toBase58());
+
+  // return {
+  //   wallet: wallet.toJson(),
+  // };
+}
+
+export function isTrezorKey(wallet: Wallet) {
+  return get(wallet.accounts[0].encryptedKey, 'type') === 'TREZOR';
+}

@@ -17,8 +17,8 @@
  */
 import { History } from 'history';
 import { Rpc } from 'ontology-dapi';
-import { OEP4Token } from 'src/api/tokenApi';
 import { browser } from 'webextension-polyfill-ts';
+import { OEP4Token } from '../api/tokenApi';
 
 class BackgroundManager {
   private rpc: Rpc;
@@ -29,7 +29,7 @@ class BackgroundManager {
     this.rpc = new Rpc({
       addListener: browser.runtime.onMessage.addListener,
       destination: 'background',
-      logMessages: true,
+      logMessages: false,
       postMessage: browser.runtime.sendMessage,
       source: 'popup',
     });

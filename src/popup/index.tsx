@@ -18,7 +18,7 @@
 import 'babel-polyfill';
 
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
-import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
+// import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -33,7 +33,7 @@ import * as Pages from './pages';
 import { initStore } from './redux';
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
-Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
+// Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
 
 /**
  * Render after the redux store is connected to background script
@@ -42,7 +42,7 @@ const store = initStore();
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
   initBackgroundManager(history);
-  
+
   const AppView: React.SFC<{}> = () => (
     <Provider store={store}>
       <Router history={history}>
@@ -62,7 +62,7 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/transfers" exact={true} component={Pages.Transfers} />
 
           <Route path="/message-sign" exact={true} component={Pages.MessageSign} />
-        
+
           <Route path="/" exact={true} component={Pages.Home} />
           <Route path="/new" exact={true} component={Pages.New} />
           <Route path="/clear" exact={true} component={Pages.Clear} />
@@ -76,13 +76,13 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/ledger/new" exact={true} component={Pages.LedgerNew} />
           <Route path="/ledger/confirm" exact={true} component={Pages.LedgerConfirm} />
           <Route path="/ledger/signup" exact={true} component={Pages.LedgerSignup} />
-          
+
           <Route path="/trezor/create" exact={true} component={Pages.TrezorCreate} />
           <Route path="/trezor/import" exact={true} component={Pages.TrezorImport} />
           <Route path="/trezor/new" exact={true} component={Pages.TrezorNew} />
           <Route path="/trezor/confirm" exact={true} component={Pages.TrezorConfirm} />
           <Route path="/trezor/signup" exact={true} component={Pages.TrezorSignup} />
-          
+
           <Route path="/identity" exact={true} component={Pages.IdentityHome} />
           <Route path="/identity/checkFailed" exact={true} component={Pages.IdentityCheckFailed} />
           <Route path="/identity/clear" exact={true} component={Pages.IdentityClear} />

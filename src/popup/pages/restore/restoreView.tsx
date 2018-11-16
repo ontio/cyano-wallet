@@ -54,7 +54,8 @@ export const RestoreView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -71,7 +72,8 @@ export const RestoreView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -87,7 +89,8 @@ export const RestoreView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -96,19 +99,25 @@ export const RestoreView: React.SFC<Props> = (props) => (
                 name="neo"
                 render={(t) => (
                   <SemanticForm.Checkbox
-                    onChange={(e, d) => t.input.onChange(d.checked)}
-                    checked={t.input.value}
+                    onChange={(e, d) => t.input.onChange(d.checked)}
+                    checked={Boolean(t.input.value)}
                     error={t.meta.touched && t.meta.invalid}
                   />
-                )} />
+                )}
+              />
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
-              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
+              <Button disabled={props.loading} loading={props.loading}>
+                Restore
+              </Button>
+              <Button disabled={props.loading} onClick={props.handleCancel}>
+                Cancel
+              </Button>
             </View>
           </SemanticForm>
-        )} />
+        )}
+      />
     </View>
     <StatusBar />
   </View>

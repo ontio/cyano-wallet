@@ -1,6 +1,6 @@
 {
   "name": "cyano-wallet",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ont-community/ontology-ts-sdk-ledger": "^1.0.8",
-    "@ont-community/ontology-ts-sdk-trezor": "^1.0.3",
     "@types/long": "^4.0.0",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
