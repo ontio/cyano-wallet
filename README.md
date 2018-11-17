@@ -110,6 +110,11 @@ This project is licensed under the LGPL License - see the [LICENSE.md](LICENSE.m
 
 The application Gem icon is made by Freepik from www.flaticon.com
 
+## Privacy policy
+
+To see detailed privacy policy of this project visit [PRIVACY.md](PRIVACY.md)
+
+
 ## Acknowledgments
 
 Many thanks to the whole Ontology team, who done a great job bringing Ontology to life.
