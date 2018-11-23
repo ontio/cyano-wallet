@@ -31,9 +31,7 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 
 ### Download 
 
-Plugin has been taken down from Chrome web store temporarily. Until it is restored, you have the option to build your own (follow the instructions in Manual build section) or download from the Releases page.
-
-~~Plugin is currently distributed in Chrome web store at https://chrome.google.com/webstore/detail/ontology-web-wallet/dkdedlpgdmmkkfjabffeganieamfklkm .~~
+Plugin is currently distributed in Chrome web store at https://chrome.google.com/webstore/detail/ontology-web-wallet/dkdedlpgdmmkkfjabffeganieamfklkm .
 
 
 ### Manual build
