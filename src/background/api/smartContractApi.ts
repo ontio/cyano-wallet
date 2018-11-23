@@ -15,19 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import {
-  Crypto,
-  Parameter as OntParameter,
-  ParameterType as OntParameterType,
-  TransactionBuilder,
-  utils
-} from 'ontology-ts-sdk';
+import { Parameter } from 'ontology-dapi';
+import { Crypto, TransactionBuilder, utils } from 'ontology-ts-sdk';
+import { buildInvokePayload } from 'ontology-ts-test';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
-import Address = Crypto.Address;
 import { getClient } from '../network';
 import { getStore } from '../redux';
+
+import Address = Crypto.Address;
 
 export async function scCall(request: ScCallRequest, password: string) {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
@@ -42,18 +39,19 @@ export async function scCall(request: ScCallRequest, password: string) {
   const privateKey = decryptAccount(wallet, password);
 
   // convert params
-  const params = request.parameters.map(
-    (parameter) => new OntParameter('', OntParameterType[parameter.type], parameter.value),
-  );
-
+  const params = convertParams(request.parameters);
+  const payload = buildInvokePayload(request.contract, request.method, params);
+  
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
-    params,
+    [],
     new Address(utils.reverseHex(request.contract)),
     String(request.gasPrice),
     String(request.gasLimit),
     account,
   );
+
+  (tx.payload as any).code = payload.toString('hex');
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
@@ -65,15 +63,17 @@ export async function scCallRead(request: ScCallReadRequest) {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
 
   // convert params
-  const params = request.parameters.map(
-    (parameter) => new OntParameter('', OntParameterType[parameter.type], parameter.value),
-  );
+  const params = convertParams(request.parameters);
+  const payload = buildInvokePayload(request.contract, request.method, params);
 
+  
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
-    params,
+    [],
     new Address(utils.reverseHex(request.contract)),
   );
+
+  (tx.payload as any).code = payload.toString('hex');
 
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), true, false);
@@ -106,4 +106,27 @@ export async function scDeploy(request: ScDeployRequest, password: string) {
 
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), false, true);
+}
+
+function convertParams(parameters?: Parameter[]): any[] {
+  if (parameters === undefined) {
+    return [];
+  }
+
+  return parameters.map(p => {
+    if (p.type === 'Boolean') {
+      return p.value === true || p.value === 'true';
+    } else if (p.type === 'Integer') {
+      return Number(p.value);
+    } else if (p.type === 'ByteArray') {
+      return new Buffer(p.value, 'hex');
+    } else if (p.type === 'String') {
+      return p.value;
+    } else if (p.type === 'Array') {
+      return convertParams(p.value);
+    } else {
+      // send as is, so underlying library can process it
+      return p.value;
+    }
+  })
 }
