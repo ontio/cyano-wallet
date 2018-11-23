@@ -20,7 +20,6 @@ import { getAddress } from '../api/accountApi';
 import Actions from '../redux/actions';
 import { GlobalStore } from '../redux/state';
 import { getTransferList } from './api/explorerApi';
-import { getNepBalance } from './api/neoApi';
 import { getBalance, getUnboundOng } from './api/runtimeApi';
 import { getTokenBalanceOwn } from './api/tokenApi';
 
@@ -33,7 +32,7 @@ export function initBalanceProvider(store: GlobalStore) {
     if (walletEncoded !== null) {
       const balance = await getBalance();
       const unboundOng = await getUnboundOng();
-      const nep = await getNepBalance();
+      
       const tokenBalances: TokenAmountState[] = [];
 
       for (const token of tokens) {
@@ -47,7 +46,7 @@ export function initBalanceProvider(store: GlobalStore) {
       }
       
       store.dispatch(
-        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, nep !== null ? nep : 0, tokenBalances)
+        Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, 0, tokenBalances)
       );
 
       const address = getAddress(walletEncoded);
@@ -58,5 +57,5 @@ export function initBalanceProvider(store: GlobalStore) {
         Actions.runtime.setTransfers(transfers)
       );
     }
-  }, 5000);
+  }, 15000);
 }
