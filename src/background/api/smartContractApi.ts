@@ -64,7 +64,6 @@ export async function scCallRead(request: ScCallReadRequest) {
   // convert params
   const params = convertParams(request.parameters);
   const payload = buildInvokePayload(request.contract, request.method, params);
-  console.log('Params', request.parameters);
 
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
