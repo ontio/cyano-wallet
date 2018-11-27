@@ -5656,10 +5656,10 @@ ontology-dapi@^0.4.6:
     uuid "^3.3.2"
     webextension-polyfill-ts "^0.8.7"
 
-ontology-ts-crypto@^0.1.23:
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/ontology-ts-crypto/-/ontology-ts-crypto-0.1.23.tgz#dbd84216fe98981a64b2b414eba8a05c2f722290"
-  integrity sha512-JrOLuOQTW2jF9z6bTzEUDyGmkR7wJ8IR6XbRVqAVwNCnRh3B8EjBbdkCb1KpC0BaQ0iNgWBWJ6SCEbT40AmE1Q==
+ontology-ts-crypto@^0.1.24:
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/ontology-ts-crypto/-/ontology-ts-crypto-0.1.24.tgz#cf43785e42b23d7ec4552b674e5cd22284d2d4f6"
+  integrity sha512-INyBflJusLh7ZZjv5bFUVx/VPrBHGttG4GH5THKtukTwVP7s/cUyePxUX75afg7cD9FBtaqwWLIWsOka4P8IIg==
   dependencies:
     "@types/bytebuffer" "~5"
     "@types/elliptic" "^6.4.0"
@@ -5736,17 +5736,17 @@ ontology-ts-sdk@^1.0.2:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-test@0.2.33:
-  version "0.2.33"
-  resolved "https://registry.yarnpkg.com/ontology-ts-test/-/ontology-ts-test-0.2.33.tgz#d0c34e7d43b52a636672ca1752d82869ea65a1da"
-  integrity sha512-q7yYMrYQ946z4QEWsoAqu6h5IMfntuPxm/iY90IA09qanmEmN0bO32TPwPi3EJ5cElCdnzgU8M3FF6RsKa7s9A==
+ontology-ts-test@^0.2.36:
+  version "0.2.36"
+  resolved "https://registry.yarnpkg.com/ontology-ts-test/-/ontology-ts-test-0.2.36.tgz#986f9933808af49649e2d6594ffeab5ae000a65e"
+  integrity sha512-vX5fbE8MrwEncILAaht3ZLNJGpXyuSKkGahYh0ZR4JATSIV+21UUCJNizf7UCjc8SXRLx4x7HegE8vzZte7xNA==
   dependencies:
     "@types/long" "~4"
     bignumber.js "^8.0.1"
     commander "^2.18.0"
     cross-fetch "^2.2.2"
     long "~4"
-    ontology-ts-crypto "^0.1.23"
+    ontology-ts-crypto "^0.1.24"
 
 opn@5.2.0:
   version "5.2.0"

@@ -17,7 +17,7 @@
  */
 import { Parameter } from 'ontology-dapi';
 import { Crypto, TransactionBuilder, utils } from 'ontology-ts-sdk';
-import { buildInvokePayload } from 'ontology-ts-test';
+import { buildInvokePayload } from 'ontology-ts-test';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
@@ -30,7 +30,6 @@ export async function scCall(request: ScCallRequest, password: string) {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
   request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
   request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
-  
 
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
@@ -41,7 +40,7 @@ export async function scCall(request: ScCallRequest, password: string) {
   // convert params
   const params = convertParams(request.parameters);
   const payload = buildInvokePayload(request.contract, request.method, params);
-  
+
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
     [],
@@ -65,8 +64,8 @@ export async function scCallRead(request: ScCallReadRequest) {
   // convert params
   const params = convertParams(request.parameters);
   const payload = buildInvokePayload(request.contract, request.method, params);
+  console.log('Params', request.parameters);
 
-  
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
     [],
@@ -113,20 +112,35 @@ function convertParams(parameters?: Parameter[]): any[] {
     return [];
   }
 
-  return parameters.map(p => {
-    if (p.type === 'Boolean') {
-      return p.value === true || p.value === 'true';
-    } else if (p.type === 'Integer') {
-      return Number(p.value);
-    } else if (p.type === 'ByteArray') {
-      return new Buffer(p.value, 'hex');
-    } else if (p.type === 'String') {
-      return p.value;
-    } else if (p.type === 'Array') {
-      return convertParams(p.value);
-    } else {
-      // send as is, so underlying library can process it
-      return p.value;
+  return parameters.map((p) => convertParam(p));
+}
+
+function convertMapParams(map: any) {
+  const obj = {};
+  for (const prop in map) {
+    if (map.hasOwnProperty(prop)) {
+      obj[prop] = convertParam(map[prop]);
     }
-  })
+  }
+
+  return obj;
+}
+
+function convertParam(parameter: Parameter) {
+  if (parameter.type === 'Boolean') {
+    return parameter.value === true || parameter.value === 'true';
+  } else if (parameter.type === 'Integer') {
+    return Number(parameter.value);
+  } else if (parameter.type === 'ByteArray') {
+    return new Buffer(parameter.value, 'hex');
+  } else if (parameter.type === 'String') {
+    return parameter.value;
+  } else if (parameter.type === 'Array') {
+    return convertParams(parameter.value);
+  } else if (parameter.type === 'Map') {
+    return convertMapParams(parameter.value);
+  } else {
+    // send as is, so underlying library can process it
+    return parameter.value;
+  }
 }
