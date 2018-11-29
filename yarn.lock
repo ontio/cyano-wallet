@@ -5736,10 +5736,10 @@ ontology-ts-sdk@^1.0.2:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-test@^0.2.36:
-  version "0.2.36"
-  resolved "https://registry.yarnpkg.com/ontology-ts-test/-/ontology-ts-test-0.2.36.tgz#986f9933808af49649e2d6594ffeab5ae000a65e"
-  integrity sha512-vX5fbE8MrwEncILAaht3ZLNJGpXyuSKkGahYh0ZR4JATSIV+21UUCJNizf7UCjc8SXRLx4x7HegE8vzZte7xNA==
+ontology-ts-test@^0.2.37:
+  version "0.2.37"
+  resolved "https://registry.yarnpkg.com/ontology-ts-test/-/ontology-ts-test-0.2.37.tgz#a3206c91dcf1b8d5b24f4b29a7744b64e5e1b6aa"
+  integrity sha512-gJvHBPX/zI8fIr52mq23gCIkOM4HWpva9M7l5VB4Om8khi7cT6CGeQxq2j9n16xjdCxzTM4XEn5mAsZTtH4v8g==
   dependencies:
     "@types/long" "~4"
     bignumber.js "^8.0.1"
