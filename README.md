@@ -58,7 +58,7 @@ npm install --global yarn
 
 #### Download
 ```
-git clone 'https://github.com/backslash47/ontology-plugin-wallet.git'
+git clone 'https://github.com/OntologyCommunityDevelopers/cyano-wallet.git'
 ```
 
 #### Start the extension in watch mode
