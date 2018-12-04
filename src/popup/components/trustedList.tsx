@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { List, Icon } from 'semantic-ui-react';
+import { Icon, List } from 'semantic-ui-react';
 import { TrustedSc } from 'src/redux/settings';
 import { View } from './view';
 
