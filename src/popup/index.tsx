@@ -58,6 +58,9 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/settings/token" exact={true} component={Pages.TokenSettings} />
           <Route path="/settings/token/add" exact={true} component={Pages.TokenSettingsAdd} />
           <Route path="/settings/token/del" exact={true} component={Pages.TokenSettingsDel} />
+          <Route path="/settings/trusted" exact={true} component={Pages.TrustedScs} />
+          <Route path="/settings/trusted/add" exact={true} component={Pages.TrustedScsAdd} />
+          <Route path="/settings/trusted/del" exact={true} component={Pages.TrustedScsDel} />
           <Route path="/receive" exact={true} component={Pages.Receive} />
           <Route path="/transfers" exact={true} component={Pages.Transfers} />
 

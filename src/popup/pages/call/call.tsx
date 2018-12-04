@@ -19,22 +19,33 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { GlobalState } from '../../../redux/state';
 import { ScCallRequest } from '../../../redux/transactionRequests';
-import { dummy, reduxConnect, withProps } from '../../compose';
+import { reduxConnect, withProps } from '../../compose';
 import { Actions } from '../../redux';
 import { CallView, InitialValues, Props } from './callView';
+
+const mapStateToProps = (state: GlobalState) => ({
+  loading: state.loader.loading,
+  password: state.password.password,
+  requests: state.transactionRequests.requests,
+  trustedScs: state.settings.trustedScs,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      finishLoading: Actions.loader.finishLoading,
       resolveRequest: Actions.transactionRequests.resolveRequest,
+      startLoading: Actions.loader.startLoading,
+      submitRequest: Actions.transactionRequests.submitRequest,
       updateRequest: Actions.transactionRequests.updateRequest,
     },
     dispatch,
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
-  reduxConnect(dummy, mapDispatchToProps, (reduxProps, actions) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) =>
     withProps(
       {
         handleCancel: async () => {
@@ -59,6 +70,34 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             method,
           } as Partial<ScCallRequest>);
 
+          if (reduxProps.password !== undefined) {
+            // check if we already have password stored
+
+            const trustedSc = reduxProps.trustedScs.find((t) => t.contract === contract);
+            if (trustedSc !== undefined && trustedSc.password === false) {
+              // check if password is not required
+
+              await actions.startLoading();
+              await actions.submitRequest(requestId, reduxProps.password);
+              await actions.finishLoading();
+
+              const requests = getReduxProps().requests;
+              const request = requests.find((r) => r.id === requestId);
+
+              if (request === undefined) {
+                throw new Error('Request not found');
+              }
+
+              if (request.error !== undefined) {
+                props.history.push('/sendFailed', { ...props.location.state, request });
+              } else {
+                props.history.push('/dashboard', { ...props.location.state, request });
+              }
+
+              return;
+            }
+          }
+
           props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/sendFailed' });
         },
         initialValues: {
@@ -69,7 +108,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         } as InitialValues,
         locked: get(props.location, 'state.locked', false),
       },
-      (injectedProps) => <Component {...injectedProps} />,
+      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
     ),
   );
 

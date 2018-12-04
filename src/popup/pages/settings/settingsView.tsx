@@ -30,29 +30,30 @@ export interface Props {
   handleClear: () => void;
   handleClearIdentity: () => void;
 
-  handleExport: () => void;
+  handleExport: () => void;
 
   handleImport: (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => void;
 
   handleTokenSettings: () => void;
-  
+  handleTrustedScs: () => void;
+
   settings: SettingsState;
   enableClear: boolean;
   enableClearIdentity: boolean;
 }
 
-const netOptions: Array<{ text: string, value: NetValue }> = [
+const netOptions: Array<{ text: string; value: NetValue }> = [
   {
     text: 'Test-Net',
-    value: 'TEST'
+    value: 'TEST',
   },
   {
     text: 'Main-Net',
-    value: 'MAIN'
+    value: 'MAIN',
   },
   {
     text: 'Private-Net',
-    value: 'PRIVATE'
+    value: 'PRIVATE',
   },
 ];
 
@@ -86,7 +87,8 @@ export const SettingsView: React.SFC<Props> = (props) => (
                         value={t.input.value}
                         error={t.meta.touched && t.meta.invalid}
                       />
-                    )} />
+                    )}
+                  />
                 </View>
                 {get(formProps.values, 'net') === 'PRIVATE' ? (
                   <>
@@ -103,7 +105,8 @@ export const SettingsView: React.SFC<Props> = (props) => (
                             placeholder="polaris1.ont.io"
                             error={t.meta.touched && t.meta.invalid}
                           />
-                        )} />
+                        )}
+                      />
                     </View>
                     <Spacer />
                     <View orientation="column">
@@ -112,45 +115,48 @@ export const SettingsView: React.SFC<Props> = (props) => (
                         name="ssl"
                         render={(t) => (
                           <SemanticForm.Checkbox
-                            onChange={(e, d) => t.input.onChange(d.checked)}
+                            onChange={(e, d) => t.input.onChange(d.checked)}
                             checked={t.input.value}
                             error={t.meta.touched && t.meta.invalid}
                           />
-                        )} />
+                        )}
+                      />
                     </View>
-                  </>) : (null)}
-                  <Spacer />
-                  <Button 
-                    disabled={!props.enableClear} onClick={props.handleClear} 
-                    icon="delete" title="Clear account and identity" content="Clear wallet" 
-                  />
-                  <Spacer />
-                  <Button 
-                    disabled={!props.enableClearIdentity} onClick={props.handleClearIdentity} 
-                    icon="user delete" title="Clear only identity" content="Clear identity" 
-                  />
-                  <Spacer />
-                  <Button 
-                    type="button"
-                    disabled={!props.enableClear} onClick={props.handleExport} 
-                    content="Export wallet" 
-                  />
-                  <Spacer />
-                  <FileReaderInput onChange={props.handleImport} as="text">
-                    <Button
-                      type="button"
-                      fluid={true}
-                      content="Import wallet" 
-                    />
-                  </FileReaderInput>
-                  <Spacer />
-                  <Button 
-                    type="button"
-                    onClick={props.handleTokenSettings} 
-                    content="OEP-4 Tokens" 
-                  />
-                </View>
-              </View>  
+                  </>
+                ) : null}
+                <Spacer />
+                <Button
+                  disabled={!props.enableClear}
+                  onClick={props.handleClear}
+                  icon="delete"
+                  title="Clear account and identity"
+                  content="Clear wallet"
+                />
+                <Spacer />
+                <Button
+                  disabled={!props.enableClearIdentity}
+                  onClick={props.handleClearIdentity}
+                  icon="user delete"
+                  title="Clear only identity"
+                  content="Clear identity"
+                />
+                <Spacer />
+                <Button
+                  type="button"
+                  disabled={!props.enableClear}
+                  onClick={props.handleExport}
+                  content="Export wallet"
+                />
+                <Spacer />
+                <FileReaderInput onChange={props.handleImport} as="text">
+                  <Button type="button" fluid={true} content="Import wallet" />
+                </FileReaderInput>
+                <Spacer />
+                <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" />
+                <Spacer />
+                <Button type="button" onClick={props.handleTrustedScs} content="Trusted Contracts" />
+              </View>
+            </View>
             <Filler />
             <Spacer />
             <View className="buttons">
@@ -158,7 +164,8 @@ export const SettingsView: React.SFC<Props> = (props) => (
               <Button onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
-        )} />
+        )}
+      />
     </View>
     <StatusBar />
   </View>

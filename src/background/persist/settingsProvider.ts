@@ -43,7 +43,10 @@ export function initSettingsProvider(store: GlobalStore) {
       if (settings.tokens === undefined) {
         settings.tokens = [];
       }
-      store.dispatch(setSettings(settings.address, settings.ssl, settings.net, settings.tokens));
+      if (settings.trustedScs === undefined) {
+        settings.trustedScs = [];
+      }
+      store.dispatch(setSettings(settings.address, settings.ssl, settings.net, settings.tokens, settings.trustedScs));
     }
   });
 }

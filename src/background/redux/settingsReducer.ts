@@ -16,13 +16,27 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Reducer } from 'redux';
-import { ADD_TOKEN, DEL_TOKEN, SET_SETTINGS, SettingsState } from '../../redux/settings';
+import {
+  ADD_TOKEN,
+  ADD_TRUSTED_SC,
+  DEL_TOKEN,
+  DEL_TRUSTED_SC,
+  SET_SETTINGS,
+  SettingsState,
+} from '../../redux/settings';
 
-const defaultState: SettingsState = { address: 'dapp1.ont.io', ssl: false, net: 'MAIN', tokens: [] };
+const defaultState: SettingsState = { address: 'dapp1.ont.io', ssl: false, net: 'MAIN', tokens: [], trustedScs: [] };
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_SETTINGS:
-      return { ...state, address: action.address, ssl: action.ssl, net: action.net, tokens: action.tokens };
+      return {
+        ...state,
+        address: action.address,
+        net: action.net,
+        ssl: action.ssl,
+        tokens: action.tokens,
+        trustedScs: action.trustedScs,
+      };
     case ADD_TOKEN:
       return {
         ...state,
@@ -37,10 +51,28 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
           },
         ],
       };
+    case ADD_TRUSTED_SC:
+      return {
+        ...state,
+        trustedScs: [
+          ...state.trustedScs.filter((sc) => sc.contract !== action.contract),
+          {
+            confirm: action.confirm,
+            contract: action.contract,
+            name: action.name,
+            password: action.password,
+          },
+        ],
+      };
     case DEL_TOKEN:
       return {
         ...state,
         tokens: state.tokens.filter((token) => token.contract !== action.contract),
+      };
+    case DEL_TRUSTED_SC:
+      return {
+        ...state,
+        trustedScs: state.trustedScs.filter((sc) => sc.contract !== action.contract),
       };
     default:
       return state;

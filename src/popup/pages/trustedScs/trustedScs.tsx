@@ -19,10 +19,10 @@ import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { dummy, reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
-import { Props, TokenSettingsView } from './tokenSettingsView';
+import { Props, TrustedScsView } from './trustedScsView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  tokens: state.settings.tokens,
+  trustedScs: state.settings.trustedScs,
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
@@ -30,17 +30,17 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
     withProps(
       {
         handleAdd: () => {
-          props.history.push('/settings/token/add');
+          props.history.push('/settings/trusted/add');
         },
         handleBack: () => {
           props.history.replace('/settings');
         },
         handleDel: (contract: string) => {
-          props.history.push('/settings/token/del', { contract });
+          props.history.push('/settings/trusted/del', { contract });
         },
       },
-      (injectedProps) => <Component {...injectedProps} tokens={reduxProps.tokens} />,
+      (injectedProps) => <Component {...injectedProps} trusted={reduxProps.trustedScs} />,
     ),
   );
 
-export const TokenSettings = enhancer(TokenSettingsView);
+export const TrustedScs = enhancer(TrustedScsView);

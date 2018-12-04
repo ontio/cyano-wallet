@@ -38,19 +38,21 @@ export class RequestsManager {
 
         const requests = requestsState.requests;
 
-        requests.filter((request) => request.resolved).forEach((request) => {
-          const deferred = this.requestDeferreds.get(request.id);
+        requests
+          .filter((request) => request.resolved)
+          .forEach((request) => {
+            const deferred = this.requestDeferreds.get(request.id);
 
-          if (deferred !== undefined) {
-            if (request.error === undefined) {
-              deferred.resolve(request.result);
-            } else {
-              deferred.reject(request.result !== undefined ? request.result : request.error);
+            if (deferred !== undefined) {
+              if (request.error === undefined) {
+                deferred.resolve(request.result);
+              } else {
+                deferred.reject(request.result !== undefined ? request.result : request.error);
+              }
+
+              this.requestDeferreds.delete(request.id);
             }
-
-            this.requestDeferreds.delete(request.id);
-          }
-        });
+          });
       }
     });
   }
@@ -120,6 +122,35 @@ export class RequestsManager {
       }),
     );
 
+    const state = this.store.getState();
+    const password = state.password.password;
+    const trustedScs = state.settings.trustedScs;
+
+    if (password !== undefined) {
+      // check if we already have password stored
+
+      const trustedSc = trustedScs.find((t) => t.contract === args.contract);
+      if (trustedSc !== undefined) {
+        if (trustedSc.password === false && trustedSc.confirm === false) {
+          // check if password and confirm are not required
+
+          await this.store.dispatch(Actions.transactionRequests.submitRequest(requestId, password));
+          return deferred.promise;
+        } else if (trustedSc.confirm === false && trustedSc.password !== false) {
+          // check if confirm is not required and password is
+
+          await this.popupManager.show();
+          await this.popupManager.callMethod('history_push', '/confirm', {
+            redirectFail: '/sendFailed',
+            redirectSucess: '/dashboard',
+            requestId,
+          });
+
+          return deferred.promise;
+        }
+      }
+    }
+
     await this.popupManager.show();
     await this.popupManager.callMethod('history_push', '/call', {
       ...args,
@@ -151,15 +182,15 @@ export class RequestsManager {
   }
 
   public async initScDeploy(args: {
-    code: string,
-    name?: string,
-    version?: string,
-    author?: string,
-    email?: string,
-    description?: string,
-    needStorage?: boolean,
-    gasPrice?: number,
-    gasLimit?: number
+    code: string;
+    name?: string;
+    version?: string;
+    author?: string;
+    email?: string;
+    description?: string;
+    needStorage?: boolean;
+    gasPrice?: number;
+    gasLimit?: number;
   }) {
     const requestId = uuid();
 

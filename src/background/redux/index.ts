@@ -21,6 +21,7 @@ import thunk from 'redux-thunk';
 import { GlobalStore } from '../../redux/state';
 // import { composeWithDevTools } from 'remote-redux-devtools';
 import { loaderReducer } from './loaderReducer';
+import { passwordReducer } from './passwordReducer';
 import { routerReducer } from './routerReducer';
 import { runtimeReducer } from './runtimeReducer';
 import { settingsReducer } from './settingsReducer';
@@ -30,6 +31,7 @@ import { walletReducer } from './walletReducer';
 
 export const globalReducer = combineReducers({
   loader: loaderReducer,
+  password: passwordReducer,
   router: routerReducer,
   runtime: runtimeReducer,
   settings: settingsReducer,

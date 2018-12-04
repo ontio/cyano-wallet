@@ -17,6 +17,8 @@
  */
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 
+// tslint:disable:object-literal-sort-keys
+
 export interface TokenState {
   contract: string;
   name: string;
@@ -25,13 +27,21 @@ export interface TokenState {
   specification: 'OEP-4';
 }
 
+export interface TrustedSc {
+  contract: string;
+  name: string;
+  password: boolean;
+  confirm: boolean;
+}
+
 export interface SettingsState {
   net: NetValue;
   address: string;
   ssl: boolean;
 
   tokens: TokenState[];
-};
+  trustedScs: TrustedSc[];
+}
 
 export const SET_SETTINGS = 'SET_SETTINGS';
 
@@ -39,12 +49,45 @@ export const ADD_TOKEN = 'ADD_TOKEN';
 
 export const DEL_TOKEN = 'DEL_TOKEN';
 
-export const setSettings = (address: string, ssl: boolean, net: string | null, tokens: TokenState[]) => ({ type: SET_SETTINGS, address, ssl, net, tokens });
+export const ADD_TRUSTED_SC = 'ADD_TRUSTED_SC';
 
+export const DEL_TRUSTED_SC = 'DEL_TRUSTED_SC';
 
-export const addToken = (contract: string, name: string, symbol: string, decimals: number, specification: 'OEP-4') => ({ type: ADD_TOKEN, contract, name, symbol, decimals, specification });
+export const setSettings = (
+  address: string,
+  ssl: boolean,
+  net: string | null,
+  tokens: TokenState[],
+  trustedScs: TrustedSc[],
+) => ({
+  type: SET_SETTINGS,
+  address,
+  ssl,
+  net,
+  tokens,
+  trustedScs,
+});
+
+export const addToken = (contract: string, name: string, symbol: string, decimals: number, specification: 'OEP-4') => ({
+  type: ADD_TOKEN,
+  contract,
+  name,
+  symbol,
+  decimals,
+  specification,
+});
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });
+
+export const addTrustedSc = (contract: string, name: string, confirm: boolean, password: boolean) => ({
+  type: ADD_TRUSTED_SC,
+  contract,
+  name,
+  confirm,
+  password,
+});
+
+export const delTrustedSc = (contract: string) => ({ type: DEL_TRUSTED_SC, contract });
 
 export function compareSettings(a: SettingsState | null, b: SettingsState | null): boolean {
   if (a === b) {
@@ -55,4 +98,3 @@ export function compareSettings(a: SettingsState | null, b: SettingsState | null
     return a.net === b.net && a.ssl === b.ssl && a.address === b.address;
   }
 }
-

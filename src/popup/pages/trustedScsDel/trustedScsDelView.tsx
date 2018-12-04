@@ -16,34 +16,40 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { TokenState } from 'src/redux/settings';
-import { Filler, LogoHeader, Spacer, StatusBar, TokenList, View } from '../../components';
+import { Button, Message } from 'semantic-ui-react';
+import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 
 export interface Props {
-  tokens: TokenState[];
-  handleAdd: () => void;
-  handleDel: (contract: string) => void;
-  handleBack: () => void;
+  loading: boolean;
+  contract: string;
+  handleConfirm: () => Promise<void>;
+  handleCancel: () => void;
 }
 
-export const TokenSettingsView: React.SFC<Props> = (props) => (
+export const TrustedScsDelView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="OEP-4 Tokens" />
+      <AccountLogoHeader title="Remove contract" />
       <View content={true} className="spread-around">
-        <View>Manage OEP-4 tokens.</View>
+        <View>Confirm trusted contract removal.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
-      <View orientation="column" className="scrollView">
-        <TokenList tokens={props.tokens} onDel={props.handleDel} />
-      </View>
+    <View orientation="column" fluid={true} content={true}>
+      <label>Script hash</label>
+      <Message>{props.contract}</Message>
       <Spacer />
       <Filler />
       <View className="buttons">
-        <Button icon="add" content="Add" onClick={props.handleAdd} />
-        <Button content="Back" onClick={props.handleBack} />
+        <Button
+          icon="check"
+          disabled={props.loading}
+          loading={props.loading}
+          onClick={props.handleConfirm}
+          content="Confirm"
+        />
+        <Button disabled={props.loading} onClick={props.handleCancel}>
+          Cancel
+        </Button>
       </View>
     </View>
     <StatusBar />

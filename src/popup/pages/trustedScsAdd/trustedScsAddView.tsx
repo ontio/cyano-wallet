@@ -17,43 +17,41 @@
  */
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { gte, required } from '../../utils/validate';
+import { required } from '../../utils/validate';
 
 export interface InitialValues {
-  contract?: string;
-  method?: string;
-  gasPrice?: string;
-  gasLimit?: string;
+  confirm: boolean;
+  contract: string;
+  password: boolean;
 }
 
 export interface Props {
   initialValues: InitialValues;
   loading: boolean;
-  locked: boolean;
   handleConfirm: (values: object) => Promise<void>;
   handleCancel: () => void;
 }
 
-export const CallView: React.SFC<Props> = (props) => (
+export const TrustedScsAddView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="SC call" />
+      <AccountLogoHeader title="Add Contract" />
       <View content={true} className="spread-around">
-        <View>Call to a smart contract.</View>
+        <View>Enter contract script hash and required actions.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
       <Form
-        initialValues={props.initialValues}
         onSubmit={props.handleConfirm}
+        initialValues={props.initialValues}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
             <View className="scrollView">
               <View className="content">
                 <View orientation="column">
-                  <label>Contract</label>
+                  <label>Script hash</label>
                   <Field
                     name="contract"
                     validate={required}
@@ -62,41 +60,6 @@ export const CallView: React.SFC<Props> = (props) => (
                         onChange={t.input.onChange}
                         value={t.input.value}
                         error={t.meta.touched && t.meta.invalid}
-                        disabled={props.locked}
-                      />
-                    )}
-                  />
-                </View>
-                <Spacer />
-                <View orientation="column">
-                  <label>Method</label>
-                  <Field
-                    name="method"
-                    validate={required}
-                    render={(t) => (
-                      <SemanticForm.Input
-                        onChange={t.input.onChange}
-                        value={t.input.value}
-                        error={t.meta.touched && t.meta.invalid}
-                        disabled={props.locked}
-                      />
-                    )}
-                  />
-                </View>
-                <Spacer />
-                <View orientation="column">
-                  <label>Gas price</label>
-                  <Field
-                    name="gasPrice"
-                    validate={gte(0)}
-                    render={(t) => (
-                      <SemanticForm.Input
-                        type="number"
-                        placeholder={'500'}
-                        step={'0.00000000001'}
-                        onChange={t.input.onChange}
-                        input={{ ...t.input, value: t.input.value }}
-                        error={t.meta.touched && t.meta.invalid}
                         disabled={props.loading}
                       />
                     )}
@@ -104,29 +67,41 @@ export const CallView: React.SFC<Props> = (props) => (
                 </View>
                 <Spacer />
                 <View orientation="column">
-                  <label>Gas limit</label>
+                  <label>Require confirm</label>
                   <Field
-                    name="gasLimit"
-                    validate={gte(0)}
+                    name="confirm"
                     render={(t) => (
-                      <SemanticForm.Input
-                        type="number"
-                        placeholder={'30000'}
-                        step={'0.00000000001'}
-                        onChange={t.input.onChange}
-                        input={{ ...t.input, value: t.input.value }}
+                      <SemanticForm.Checkbox
+                        onChange={(e, d) => t.input.onChange(d.checked)}
+                        checked={Boolean(t.input.value)}
                         error={t.meta.touched && t.meta.invalid}
-                        disabled={props.loading}
                       />
                     )}
                   />
                 </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Require password</label>
+                  <Field
+                    name="password"
+                    render={(t) => (
+                      <SemanticForm.Checkbox
+                        onChange={(e, d) => t.input.onChange(d.checked)}
+                        checked={Boolean(t.input.value)}
+                        error={t.meta.touched && t.meta.invalid}
+                      />
+                    )}
+                  />
+                </View>
+                {!formProps.values.confirm && !formProps.values.password ? (
+                  <Message>Disabling both 'password' and 'confirm' is dangerous.</Message>
+                ) : null}
               </View>
             </View>
             <Filler />
             <Spacer />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading} icon="check" content="Confirm" />
+              <Button icon="check" content="Confirm" disabled={props.loading} loading={props.loading} />
               <Button disabled={props.loading} onClick={props.handleCancel}>
                 Cancel
               </Button>

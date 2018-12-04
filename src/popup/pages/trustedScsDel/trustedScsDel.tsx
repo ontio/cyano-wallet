@@ -15,49 +15,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { get } from 'lodash';
 import * as React from 'react';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { GlobalState } from 'src/redux/state';
 import { reduxConnect, withProps } from '../../compose';
-import { Actions, GlobalState } from '../../redux';
-import { ClearView, Props } from './clearView';
+import { Actions } from '../../redux';
+import { Props, TrustedScsDelView } from './trustedScsDelView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      clearPassword: Actions.password.clearPassword,
-      clearWallet: Actions.wallet.clearWallet,
+      delTrustedSc: Actions.settings.delTrustedSc,
       finishLoading: Actions.loader.finishLoading,
       startLoading: Actions.loader.startLoading,
     },
     dispatch,
   );
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
-    withProps(
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+    const contract: string = get(props.location, 'state.contract');
+
+    return withProps(
       {
-        handleCancel: () => {
+        contract,
+        handleCancel: async () => {
           props.history.goBack();
         },
-        handleClear: async () => {
+        handleConfirm: async () => {
           await actions.startLoading();
 
-          await actions.clearPassword();
-
-          await actions.clearWallet();
-
+          await actions.delTrustedSc(contract);
           await actions.finishLoading();
 
-          props.history.push('/');
+          props.history.push('/settings/trusted');
         },
+        loading: reduxProps.loading,
       },
-      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
-    ),
-  );
+      (injectedProps) => <Component {...injectedProps} />,
+    );
+  });
 
-export const Clear = enhancer(ClearView);
+export const TrustedScsDel = enhancer(TrustedScsDelView);

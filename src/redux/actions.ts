@@ -17,42 +17,49 @@
  */
 
 import { finishLoading, startLoading } from './loader';
+import { clearPassword, setPassword } from './password';
 import { setRouterState } from './router';
 import { setBalance, setTransfers } from './runtime';
-import { addToken, delToken, setSettings } from './settings';
+import { addToken, addTrustedSc, delToken, delTrustedSc, setSettings } from './settings';
 import { changeNetworkState } from './status';
 import { addRequest, resolveRequest, submitRequest, updateRequest } from './transactionRequests';
 import { clearIdentity, clearWallet, setWallet } from './wallet';
 
 export default {
-    loader: {
-        finishLoading,
-        startLoading
-    },
-    router: {
-        setRouterState
-    },
-    runtime: {
-        setBalance,
-        setTransfers,
-    },
-    settings: {
-        addToken,
-        delToken,
-        setSettings
-    },
-    status: {
-        changeNetworkState
-    },
-    transactionRequests: {
-        addRequest,
-        resolveRequest,
-        submitRequest,
-        updateRequest
-    },
-    wallet: {
-        clearIdentity,
-        clearWallet,
-        setWallet
-    }
+  loader: {
+    finishLoading,
+    startLoading,
+  },
+  password: {
+    clearPassword,
+    setPassword,
+  },
+  router: {
+    setRouterState,
+  },
+  runtime: {
+    setBalance,
+    setTransfers,
+  },
+  settings: {
+    addToken,
+    addTrustedSc,
+    delToken,
+    delTrustedSc,
+    setSettings,
+  },
+  status: {
+    changeNetworkState,
+  },
+  transactionRequests: {
+    addRequest,
+    resolveRequest,
+    submitRequest,
+    updateRequest,
+  },
+  wallet: {
+    clearIdentity,
+    clearWallet,
+    setWallet,
+  },
 };

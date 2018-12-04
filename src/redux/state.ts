@@ -18,6 +18,7 @@
 
 import { Store } from 'redux';
 import { LoaderState } from './loader';
+import { PasswordState } from './password';
 import { RouterState } from './router';
 import { RuntimeState } from './runtime';
 import { SettingsState } from './settings';
@@ -27,12 +28,13 @@ import { WalletState } from './wallet';
 
 export interface GlobalState {
   loader: LoaderState;
+  password: PasswordState;
   router: RouterState;
   runtime: RuntimeState;
   settings: SettingsState;
   status: StatusState;
   transactionRequests: TransactionRequestsState;
   wallet: WalletState;
-};
+}
 
 export type GlobalStore = Store<GlobalState>;

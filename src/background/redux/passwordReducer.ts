@@ -15,14 +15,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from './clickableText';
-export { Logo } from './logo/logo';
-export { LedgerLogo } from './ledgerLogo/ledgerLogo';
-export { IdentityLogo } from './identityLogo/identityLogo';
-export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
-export { Filler, Spacer, View } from './view';
-export { StatusBar } from './statusBar/statusBar';
-export { TrezorLogo } from './trezorLogo/trezorLogo';
-export { TokenList } from './tokenList';
-export { TrustedList } from './trustedList';
-export { TokenAmountList } from './tokenAmountList';
+import { Reducer } from 'redux';
+import { CLEAR_PASSWORD, PasswordState, SET_PASSWORD } from '../../redux/password';
+
+const defaultState: PasswordState = { password: undefined };
+
+export const passwordReducer: Reducer<PasswordState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case SET_PASSWORD:
+      return { ...state, password: action.password };
+    case CLEAR_PASSWORD:
+      return { ...state, password: undefined };
+    default:
+      return state;
+  }
+};

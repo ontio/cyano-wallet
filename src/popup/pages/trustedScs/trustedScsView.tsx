@@ -17,27 +17,27 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { TokenState } from 'src/redux/settings';
-import { Filler, LogoHeader, Spacer, StatusBar, TokenList, View } from '../../components';
+import { TrustedSc } from 'src/redux/settings';
+import { Filler, LogoHeader, Spacer, StatusBar, TrustedList, View } from '../../components';
 
 export interface Props {
-  tokens: TokenState[];
+  trusted: TrustedSc[];
   handleAdd: () => void;
   handleDel: (contract: string) => void;
   handleBack: () => void;
 }
 
-export const TokenSettingsView: React.SFC<Props> = (props) => (
+export const TrustedScsView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader title="OEP-4 Tokens" />
+      <LogoHeader title="Trusted contracts" />
       <View content={true} className="spread-around">
-        <View>Manage OEP-4 tokens.</View>
+        <View>Manage trusted smart contracts.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <View orientation="column" className="scrollView">
-        <TokenList tokens={props.tokens} onDel={props.handleDel} />
+        <TrustedList trusted={props.trusted} onDel={props.handleDel} />
       </View>
       <Spacer />
       <Filler />
