@@ -72,6 +72,7 @@ export interface ScCallRequest extends TransactionRequest {
   gasLimit?: number;
   requireIdentity?: boolean;
   parameters?: Parameter[];
+  paramsHash?: string;
 }
 
 export interface ScDeployRequest extends TransactionRequest {
