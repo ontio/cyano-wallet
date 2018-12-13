@@ -35,6 +35,7 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      addTrustedSc: Actions.settings.addTrustedSc,
       finishLoading: Actions.loader.finishLoading,
       resolveRequest: Actions.transactionRequests.resolveRequest,
       startLoading: Actions.loader.startLoading,
@@ -59,8 +60,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           const contract: string = get(values, 'contract');
           const method: string = get(values, 'method');
+          const paramsHash: string = get(values, 'paramsHash');
           const gasPrice = Number(get(values, 'gasPrice', '0'));
           const gasLimit = Number(get(values, 'gasLimit', '0'));
+          const whitelist: boolean = get(values, 'whitelist');
+
+          if (whitelist) {
+            const name = `${contract}_${method}_${paramsHash}`;
+            await actions.addTrustedSc(contract, name, false, false);
+          }
 
           // todo: no type check ScCallRequest
           await actions.updateRequest(requestId, {
@@ -73,7 +81,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           if (reduxProps.password !== undefined) {
             // check if we already have password stored
 
-            const trustedSc = reduxProps.trustedScs.find((t) => t.contract === contract);
+            const trustedSc = reduxProps.trustedScs.find(
+              (t) =>
+                t.contract === contract &&
+                (t.method === undefined || t.method === method) &&
+                (t.paramsHash === undefined || t.paramsHash === paramsHash),
+            );
             if (trustedSc !== undefined && trustedSc.password === false) {
               // check if password is not required
 
@@ -105,6 +118,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           gasLimit: String(get(props.location, 'state.gasLimit', 0)),
           gasPrice: String(get(props.location, 'state.gasPrice', 0)),
           method: get(props.location, 'state.method', ''),
+          paramsHash: get(props.location, 'state.paramsHash', ''),
         } as InitialValues,
         locked: get(props.location, 'state.locked', false),
       },

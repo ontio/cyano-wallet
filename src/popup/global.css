@@ -21,7 +21,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   margin: 0;
   padding: 0;
   width: 100%;
@@ -31,21 +31,21 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.ui.segment, 
-.ui.segments, 
-.ui.table, 
-.ui.button, 
+.ui.segment,
+.ui.segments,
+.ui.table,
+.ui.button,
 .ui.form input,
 .ui input,
-.ui.form textarea, 
-.ui.menu, 
+.ui.form textarea,
+.ui.menu,
 .ui.tabular.menu .active.item,
 .ui.dropdown,
 .ui.dropdown .menu,
-.ui.message { 
-  border-radius: 0 !important; 
-  -moz-border-radius: 0 !important; 
-  -webkit-border-radius: 0 !important; 
+.ui.message {
+  border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  -webkit-border-radius: 0 !important;
 }
 
 .ui.button {
@@ -55,7 +55,8 @@ body {
   text-transform: uppercase;
 }
 
-.ui.message .header, .ui.message .content {
+.ui.message .header,
+.ui.message .content {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 200;
 }
@@ -72,14 +73,16 @@ body {
   text-transform: uppercase;
 }
 
-.ui.list .list>.item .header, .ui.list>.item .header {
+.ui.list .list > .item .header,
+.ui.list > .item .header {
   color: #32a4be;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: normal;
 }
 
-
-.ui.button.basic, .ui.button.basic:hover, .ui.button.basic:focus {
+.ui.button.basic,
+.ui.button.basic:hover,
+.ui.button.basic:focus {
   box-shadow: 0 0 0 0 white inset;
 }
 
@@ -146,7 +149,10 @@ div.flex.error {
   color: white;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 200 !important;
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 0;
@@ -165,7 +171,8 @@ div.flex.content {
   margin: 10px;
 }
 
-.logo img, .logo .img {
+.logo img,
+.logo .img {
   align-self: center;
   margin-top: 20px;
 }
@@ -176,7 +183,8 @@ div.flex.content {
   margin: 10px;
 }
 
-.logoHeader .buttons, .logo .buttons {
+.logoHeader .buttons,
+.logo .buttons {
   justify-content: flex-end;
 }
 
@@ -201,24 +209,23 @@ div.flex.content {
   color: white;
 }
 
-.logo .ui.button:hover, 
-.logo .ui.button:focus, 
-.logo .ui.button:active, 
-.logoHeader .buttons .button:hover, 
-.logoHeader .buttons .button:focus, 
+.logo .ui.button:hover,
+.logo .ui.button:focus,
+.logo .ui.button:active,
+.logoHeader .buttons .button:hover,
+.logoHeader .buttons .button:focus,
 .logoHeader .buttons .button:active {
   background-color: transparent !important;
 }
 
-.logo .ui.button:hover .icon, 
-.logo .ui.button:focus .icon, 
-.logo .ui.button:active .icon, 
-.logoHeader .buttons .button:hover .icon, 
-.logoHeader .buttons .button:focus .icon, 
+.logo .ui.button:hover .icon,
+.logo .ui.button:focus .icon,
+.logo .ui.button:active .icon,
+.logoHeader .buttons .button:hover .icon,
+.logoHeader .buttons .button:focus .icon,
 .logoHeader .buttons .button:active .icon {
   color: #e0e1e2 !important;
 }
-
 
 .logoHeader h1 {
   margin-left: 10px;
@@ -241,14 +248,17 @@ h1.header {
   align-items: center;
 }
 
-.sendForm, .loginForm, .signupForm {
+.sendForm,
+.loginForm,
+.signupForm {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   align-self: stretch;
-} 
+}
 
-.mnemonics, .privateKey {
+.mnemonics,
+.privateKey {
   height: 200px;
   align-items: flex-start;
 }
@@ -262,7 +272,7 @@ h1.header {
 }
 
 .breakWords {
-  word-break:break-all;
+  word-break: break-all;
 }
 
 .clearAccount {
@@ -290,6 +300,10 @@ h1.header {
 
 div.flex.content.balance-wrapper {
   margin-top: 0px;
+}
+
+.wrap {
+  word-break: break-all;
 }
 
 .flex.balance {

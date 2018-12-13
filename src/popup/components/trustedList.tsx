@@ -34,10 +34,10 @@ export const TrustedList: React.SFC<Props> = (props) => (
             name="times circle outline"
             size="large"
             verticalAlign="middle"
-            onClick={() => props.onDel(sc.contract)}
+            onClick={() => props.onDel(sc.name)}
           />
           <List.Content>
-            <List.Header>{sc.contract}</List.Header>
+            <List.Header className="wrap">{sc.name}</List.Header>
             <List.Description>
               Confirm: <Icon name={sc.confirm ? 'check' : 'close'} />
               Password: <Icon name={sc.password ? 'check' : 'close'} />

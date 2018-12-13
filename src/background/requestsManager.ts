@@ -104,6 +104,7 @@ export class RequestsManager {
     contract: string;
     method: string;
     parameters?: Parameter[];
+    paramsHash?: string;
     gasPrice?: number;
     gasLimit?: number;
     requireIdentity?: boolean;

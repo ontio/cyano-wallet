@@ -24,6 +24,7 @@ import { gte, required } from '../../utils/validate';
 export interface InitialValues {
   contract?: string;
   method?: string;
+  paramsHash?: string;
   gasPrice?: string;
   gasLimit?: string;
 }
@@ -85,6 +86,21 @@ export const CallView: React.SFC<Props> = (props) => (
                 </View>
                 <Spacer />
                 <View orientation="column">
+                  <label>Parameters hash</label>
+                  <Field
+                    name="paramsHash"
+                    render={(t) => (
+                      <SemanticForm.Input
+                        onChange={t.input.onChange}
+                        value={t.input.value}
+                        error={t.meta.touched && t.meta.invalid}
+                        disabled={props.locked}
+                      />
+                    )}
+                  />
+                </View>
+                <Spacer />
+                <View orientation="column">
                   <label>Gas price</label>
                   <Field
                     name="gasPrice"
@@ -117,6 +133,20 @@ export const CallView: React.SFC<Props> = (props) => (
                         input={{ ...t.input, value: t.input.value }}
                         error={t.meta.touched && t.meta.invalid}
                         disabled={props.loading}
+                      />
+                    )}
+                  />
+                </View>
+                <Spacer />
+                <View orientation="column">
+                  <label>Whitelist this action ?</label>
+                  <Field
+                    name="whitelist"
+                    render={(t) => (
+                      <SemanticForm.Checkbox
+                        onChange={(e, d) => t.input.onChange(d.checked)}
+                        checked={Boolean(t.input.value)}
+                        error={t.meta.touched && t.meta.invalid}
                       />
                     )}
                   />

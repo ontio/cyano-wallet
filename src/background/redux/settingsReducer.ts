@@ -55,11 +55,13 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
       return {
         ...state,
         trustedScs: [
-          ...state.trustedScs.filter((sc) => sc.contract !== action.contract),
+          ...state.trustedScs.filter((sc) => sc.name !== action.name),
           {
             confirm: action.confirm,
             contract: action.contract,
+            method: action.method,
             name: action.name,
+            paramsHash: action.paramsHash,
             password: action.password,
           },
         ],
@@ -72,7 +74,7 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
     case DEL_TRUSTED_SC:
       return {
         ...state,
-        trustedScs: state.trustedScs.filter((sc) => sc.contract !== action.contract),
+        trustedScs: state.trustedScs.filter((sc) => sc.name !== action.name),
       };
     default:
       return state;

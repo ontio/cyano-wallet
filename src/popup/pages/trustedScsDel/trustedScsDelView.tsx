@@ -35,8 +35,8 @@ export const TrustedScsDelView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
-      <label>Script hash</label>
-      <Message>{props.contract}</Message>
+      <label>Contract</label>
+      <Message className="breakWords">{props.contract}</Message>
       <Spacer />
       <Filler />
       <View className="buttons">

@@ -29,6 +29,8 @@ export interface TokenState {
 
 export interface TrustedSc {
   contract: string;
+  method?: string;
+  paramsHash?: string;
   name: string;
   password: boolean;
   confirm: boolean;
@@ -79,15 +81,24 @@ export const addToken = (contract: string, name: string, symbol: string, decimal
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });
 
-export const addTrustedSc = (contract: string, name: string, confirm: boolean, password: boolean) => ({
+export const addTrustedSc = (
+  contract: string,
+  name: string,
+  confirm: boolean,
+  password: boolean,
+  method?: string,
+  paramsHash?: string,
+) => ({
   type: ADD_TRUSTED_SC,
   contract,
   name,
   confirm,
   password,
+  method,
+  paramsHash,
 });
 
-export const delTrustedSc = (contract: string) => ({ type: DEL_TRUSTED_SC, contract });
+export const delTrustedSc = (name: string) => ({ type: DEL_TRUSTED_SC, name });
 
 export function compareSettings(a: SettingsState | null, b: SettingsState | null): boolean {
   if (a === b) {

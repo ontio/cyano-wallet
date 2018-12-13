@@ -52,7 +52,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           await actions.startLoading();
 
-          await actions.addTrustedSc(contract, '', confirm, password);
+          await actions.addTrustedSc(contract, contract, confirm, password);
           await actions.finishLoading();
 
           props.history.push('/settings/trusted');
