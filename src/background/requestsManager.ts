@@ -130,7 +130,14 @@ export class RequestsManager {
     if (password !== undefined) {
       // check if we already have password stored
 
-      const trustedSc = trustedScs.find((t) => t.contract === args.contract);
+      const trustedSc = trustedScs.find(
+        (t) =>
+          t.contract === args.contract &&
+          (t.method === undefined || t.method === args.method) &&
+          (t.paramsHash === undefined || t.paramsHash === args.paramsHash),
+      );
+      console.log(trustedSc);
+
       if (trustedSc !== undefined) {
         if (trustedSc.password === false && trustedSc.confirm === false) {
           // check if password and confirm are not required

@@ -67,7 +67,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           if (whitelist) {
             const name = `${contract}_${method}_${paramsHash}`;
-            await actions.addTrustedSc(contract, name, false, false);
+            await actions.addTrustedSc(contract, name, false, false, method, paramsHash);
           }
 
           // todo: no type check ScCallRequest
