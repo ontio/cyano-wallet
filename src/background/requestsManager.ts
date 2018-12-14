@@ -136,7 +136,6 @@ export class RequestsManager {
           (t.method === undefined || t.method === args.method) &&
           (t.paramsHash === undefined || t.paramsHash === args.paramsHash),
       );
-      console.log(trustedSc);
 
       if (trustedSc !== undefined) {
         if (trustedSc.password === false && trustedSc.confirm === false) {
