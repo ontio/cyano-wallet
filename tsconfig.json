@@ -19,13 +19,6 @@
     "noUnusedLocals": true,
     "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+  "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"],
+  "include": ["./src/**/*", "./src/global.d.ts", "node_modules/@types"]
 }

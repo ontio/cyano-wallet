@@ -31,7 +31,7 @@ import { Props, SettingsView } from './settingsView';
 
 const mapStateToProps = (state: GlobalState) => ({
   settings: state.settings,
-  wallet: state.wallet.wallet
+  wallet: state.wallet.wallet,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter((routerProps) =>
-    reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) =>
       withProps(
         {
           enableClear: reduxProps.wallet !== null,
@@ -93,7 +93,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             const ssl: boolean = get(values, 'ssl', false);
 
             await actions.setSettings(address, ssl, net, reduxProps.settings.tokens, reduxProps.settings.trustedScs);
-            props.history.replace('/dashboard');
+
+            if (getReduxProps().wallet != null) {
+              props.history.replace('/dashboard');
+            } else {
+              props.history.goBack();
+            }
           },
           handleTokenSettings: () => {
             routerProps.history.push('/settings/token');
