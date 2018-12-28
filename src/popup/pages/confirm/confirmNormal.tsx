@@ -67,7 +67,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           await actions.submitRequest(requestId, password);
           await actions.finishLoading();
 
-          await actions.setPassword(password);
+          // await actions.setPassword(password);
 
           const requests = getReduxProps().requests;
           const request = requests.find((r) => r.id === requestId);
