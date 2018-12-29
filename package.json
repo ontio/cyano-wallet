@@ -1,6 +1,6 @@
 {
   "name": "cyano-wallet",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",

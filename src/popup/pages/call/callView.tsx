@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { Button, Form as SemanticForm, Icon, Popup } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { gte, required } from '../../utils/validate';
 
@@ -139,7 +139,14 @@ export const CallView: React.SFC<Props> = (props) => (
                 </View>
                 <Spacer />
                 <View orientation="column">
-                  <label>Whitelist this action ?</label>
+                  <div>
+                    <label>Whitelist this action</label>
+                    <Popup
+                      trigger={<Icon name="question circle outline" />}
+                      content="Be responsible when using this functionality"
+                    />
+                  </div>
+
                   <Field
                     name="whitelist"
                     render={(t) => (

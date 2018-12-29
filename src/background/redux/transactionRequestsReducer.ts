@@ -107,7 +107,7 @@ export const transactionRequestsAliases = {
             result = await submitRegisterOntId(request as RegisterOntIdRequest, password!, dispatch, state);
             break;
           case 'sc_call':
-            result = await submitScCall(request as ScCallRequest, password!);
+            result = await submitScCall(request as ScCallRequest, password!, dispatch, state);
             break;
           case 'sc_call_read':
             result = await submitScCallRead(request as ScCallReadRequest);
@@ -157,7 +157,7 @@ async function submitTransfer(request: TransferRequest, password: string) {
     throw new Error('OTHER');
   }
 
-  return response.Result.TxHash; 
+  return response.Result.TxHash;
 }
 
 function submitWithdrawOng(request: WithdrawOngRequest, password: string) {
@@ -185,19 +185,42 @@ async function submitRegisterOntId(
   await dispatch(Actions.wallet.setWallet(wallet.toJson()));
 }
 
-async function submitScCall(request: ScCallRequest, password: string) {
+function isTrustedSc(request: ScCallRequest, state: GlobalState) {
+  const trustedScs = state.settings.trustedScs;
+
+  const trustedSc = trustedScs.find(
+    (t) =>
+      t.contract === request.contract &&
+      (t.method === undefined || t.method === request.method) &&
+      (t.paramsHash === undefined || t.paramsHash === request.paramsHash),
+  );
+
+  if (trustedSc !== undefined) {
+    if (trustedSc.password === false) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+async function submitScCall(request: ScCallRequest, password: string, dispatch: Dispatch, state: GlobalState) {
+  if (isTrustedSc(request, state)) {
+    await dispatch(Actions.password.setPassword(password));
+  }
+
   const response = await timeout(scCall(request, password), 15000);
 
   if (response.Result.State === 0) {
     throw new Error('OTHER');
   }
 
-  const notify = response.Result.Notify
-                  .filter((element: any) => element.ContractAddress === request.contract)
-                  .map((element: any) => element.States);
+  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === request.contract).map(
+    (element: any) => element.States,
+  );
   return {
     result: notify,
-    transaction: response.Result.TxHash
+    transaction: response.Result.TxHash,
   };
 }
 

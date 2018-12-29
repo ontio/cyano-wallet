@@ -34,7 +34,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       finishLoading: Actions.loader.finishLoading,
-      setPassword: Actions.password.setPassword,
       startLoading: Actions.loader.startLoading,
       submitRequest: Actions.transactionRequests.submitRequest,
     },
@@ -66,8 +65,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           await actions.startLoading();
           await actions.submitRequest(requestId, password);
           await actions.finishLoading();
-
-          // await actions.setPassword(password);
 
           const requests = getReduxProps().requests;
           const request = requests.find((r) => r.id === requestId);
