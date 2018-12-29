@@ -25,9 +25,17 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 * Ontology dAPI support
 * NEO and ONT address support for normal and Ledger accounts
 
-## Installation
+## Security
 
-#### Please ensure you re-install the ontology ledger app via the ledger live manager even if it shows as the same version number you have installed.  Also, if you want to access your NEO based address, select NEO compatible mode when adding the ledger wallet.
+When using this extension be responsible. You can follow some of these security tips:
+
+* Divide your assets between **Cold** (little use) and **Hot** (active use) wallet
+* Regularly check your balances
+* Use hardware wallet for your **Cold** wallet
+* Do not use Smart contract whitelisting on your **Cold** wallet
+
+
+## Installation
 
 ### Download 
 
