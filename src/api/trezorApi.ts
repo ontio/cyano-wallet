@@ -18,6 +18,7 @@
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { get } from 'lodash';
 import { Wallet } from 'ontology-ts-sdk';
+import { getAccount } from './accountApi';
 
 export async function isTrezorSupported() {
   return false;
@@ -66,5 +67,5 @@ export async function importTrezorKey(index: number): Promise<{ wallet: string }
 }
 
 export function isTrezorKey(wallet: Wallet) {
-  return get(wallet.accounts[0].encryptedKey, 'type') === 'TREZOR';
+  return get(getAccount(wallet).encryptedKey, 'type') === 'TREZOR';
 }

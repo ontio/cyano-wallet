@@ -21,6 +21,7 @@ import * as React from 'react';
 import * as FileReaderInput from 'react-file-reader-input';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { getAddress } from 'src/api/accountApi';
 import { getWallet } from '../../../api/authApi';
 import { getIdentity } from '../../../api/identityApi';
 import Actions from '../../../redux/actions';
@@ -80,7 +81,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const wallet = getWallet(data);
               // sets default address for OWallet exports
               if (wallet.defaultAccountAddress == null || wallet.defaultAccountAddress === '') {
-                wallet.defaultAccountAddress = wallet.accounts[0].address.toBase58();
+                wallet.defaultAccountAddress = getAddress(wallet);
               }
 
               await actions.setWallet(wallet.toJson());

@@ -26,7 +26,7 @@ import CurveLabel = Crypto.CurveLabel;
 import { getWallet } from './authApi';
 
 export function decryptAccount(wallet: Wallet, password: string) {
-  const account = wallet.accounts[0];
+  const account = getAccount(wallet);
   const saltHex = Buffer.from(account.salt, 'base64').toString('hex');
   const encryptedKey = account.encryptedKey;
   const scrypt = wallet.scrypt;
@@ -87,9 +87,28 @@ export function accountImportPrivateKey(privateKeyStr: string, password: string)
   };
 }
 
-export function getAddress(walletEncoded: string) {
-  const wallet = getWallet(walletEncoded);
-  return wallet.defaultAccountAddress;
+export function getAccount(wallet: string | Wallet) {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
+  const defaultAddress = wallet.defaultAccountAddress;
+
+  if (defaultAddress != null) {
+    const account = wallet.accounts.find((a) => a.address.toBase58() === defaultAddress);
+
+    if (account === undefined) {
+      throw new Error('Default account not found in wallet');
+    }
+    return account;
+  } else {
+    return wallet.accounts[0];
+  }
+}
+
+export function getAddress(wallet: string | Wallet) {
+  const account = getAccount(wallet);
+  return account.address.toBase58();
 }
 
 export function getPublicKey(walletEncoded: string) {
@@ -104,7 +123,7 @@ export function getPublicKey(walletEncoded: string) {
 }
 
 export function isLedgerKey(wallet: Wallet) {
-  return get(wallet.accounts[0].encryptedKey, 'type') === 'LEDGER';
+  return get(getAccount(wallet).encryptedKey, 'type') === 'LEDGER';
 }
 
 function deserializePrivateKey(str: string): PrivateKey {

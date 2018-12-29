@@ -16,8 +16,16 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
-import { CONST, Crypto, Identity, OntAssetTxBuilder, OntidContract, TransactionBuilder, TxSignature } from 'ontology-ts-sdk';
-import { decryptAccount } from '../../api/accountApi';
+import {
+  CONST,
+  Crypto,
+  Identity,
+  OntAssetTxBuilder,
+  OntidContract,
+  TransactionBuilder,
+  TxSignature,
+} from 'ontology-ts-sdk';
+import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { decryptIdentity } from '../../api/identityApi';
 import { RegisterOntIdRequest, TransferRequest, WithdrawOngRequest } from '../../redux/transactionRequests';
@@ -27,25 +35,25 @@ import { getStore } from '../redux';
 
 export async function getBalance() {
   const state = getStore().getState();
-  const wallet = getWallet(state.wallet.wallet!);
+  const address = getAccount(state.wallet.wallet!).address;
 
   const client = getClient();
-  const response = await client.getBalance(wallet.accounts[0].address);
+  const response = await client.getBalance(address);
   const ont: number = Number(get(response, 'Result.ont'));
   const ong: number = Number(get(response, 'Result.ong'));
 
   return {
     ong,
-    ont
+    ont,
   };
 }
 
 export async function getUnboundOng() {
   const state = getStore().getState();
-  const wallet = getWallet(state.wallet.wallet!);
+  const address = getAccount(state.wallet.wallet!).address;
 
   const client = getClient();
-  const response = await client.getUnboundong(wallet.accounts[0].address);
+  const response = await client.getUnboundong(address);
   const unboundOng = Number(get(response, 'Result'));
   return unboundOng;
 }
@@ -54,20 +62,13 @@ export async function transfer(request: TransferRequest, password: string) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const from = wallet.accounts[0].address;
+  const from = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
   const to = new Address(request.recipient);
   const amount = String(request.amount);
 
-  const tx = OntAssetTxBuilder.makeTransferTx(
-    request.asset,
-    from,
-    to,
-    amount,
-    '500',
-    `${CONST.DEFAULT_GAS_LIMIT}`
-  );
+  const tx = OntAssetTxBuilder.makeTransferTx(request.asset, from, to, amount, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
@@ -79,19 +80,12 @@ export async function withdrawOng(request: WithdrawOngRequest, password: string)
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const from = wallet.accounts[0].address;
+  const from = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
   const amount = String(request.amount);
 
-  const tx = OntAssetTxBuilder.makeWithdrawOngTx(
-    from, 
-    from, 
-    amount, 
-    from, 
-    '500', 
-    `${CONST.DEFAULT_GAS_LIMIT}`
-  );
+  const tx = OntAssetTxBuilder.makeWithdrawOngTx(from, from, amount, from, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   const client = getClient();
@@ -102,22 +96,17 @@ export async function registerOntId(request: RegisterOntIdRequest, password: str
   const accountPassword: string = request.password;
   const identityEncoded: string = request.identity;
   const identity = Identity.parseJson(identityEncoded);
-  
+
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const from = wallet.accounts[0].address;
+  const from = getAccount(state.wallet.wallet!).address;
   const accountPrivateKey = decryptAccount(wallet, accountPassword);
   const identityPrivateKey = decryptIdentity(identity, password, wallet.scrypt);
 
   const identityPublicKey = identityPrivateKey.getPublicKey();
 
-  const tx = OntidContract.buildRegisterOntidTx(
-    identity.ontid, 
-    identityPublicKey, 
-    '500', 
-    `${CONST.DEFAULT_GAS_LIMIT}`
-  );
+  const tx = OntidContract.buildRegisterOntidTx(identity.ontid, identityPublicKey, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
   tx.payer = from;
   await TransactionBuilder.signTransactionAsync(tx, accountPrivateKey);
@@ -132,7 +121,7 @@ export async function registerOntId(request: RegisterOntIdRequest, password: str
 
 export async function checkOntId(identity: Identity, password: string) {
   const ontId = identity.ontid;
-  
+
   const tx = OntidContract.buildGetDDOTx(ontId);
 
   const client = getClient();
@@ -141,7 +130,7 @@ export async function checkOntId(identity: Identity, password: string) {
   if (result.Result.Result === '') {
     return false;
   }
-  
+
   // fixme: get DDO and check if public key of the identity is pressent
   return true;
 }

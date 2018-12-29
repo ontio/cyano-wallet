@@ -25,6 +25,7 @@ import { GlobalStore } from '../redux/state';
 import * as Ledger from './api/ledgerApi';
 import { checkOntId } from './api/runtimeApi';
 import { getOEP4Token } from './api/tokenApi';
+import { refreshBalance } from './balanceProvider';
 
 // size of the popup
 const width = 350;
@@ -56,6 +57,7 @@ export class PopupManager {
     this.rpc.register('get_oep4_token', this.getOEP4Token.bind(this));
     this.rpc.register('is_ledger_supported', this.isLedgerSupported.bind(this));
     this.rpc.register('import_ledger_key', this.importLedgerKey.bind(this));
+    this.rpc.register('refresh_balance', this.refreshBalance.bind(this));
   }
   public async show() {
     let popup = await this.findPopup();
@@ -135,6 +137,10 @@ export class PopupManager {
 
   private importLedgerKey(index: number, neo: boolean) {
     return Ledger.importLedgerKey(index, neo);
+  }
+
+  private refreshBalance() {
+    return refreshBalance(this.store);
   }
 }
 

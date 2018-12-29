@@ -15,15 +15,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Wallet } from 'ontology-ts-sdk';
+import * as React from 'react';
+import { List } from 'semantic-ui-react';
+import { View } from './view';
 
-export function getWallet(walletEncoded: string) {
-  if (walletEncoded == null) {
-    throw new Error('Missing wallet data.');
-  }
-  return Wallet.parseJson(walletEncoded);
+interface Props {
+  accounts: string[];
+  selectedAccount: string;
+  onAccountClick: (account: string) => void;
 }
 
-export function encodeWallet(wallet: Wallet) {
-  return wallet.toJson();
-}
+export const AccountList: React.SFC<Props> = (props) => (
+  <View>
+    <List className="accountList" divided={true}>
+      {props.accounts.map((account, i) => (
+        <List.Item key={i} onClick={() => props.onAccountClick(account)}>
+          <List.Icon name="user circle" size="large" verticalAlign="middle" />
+          <List.Content verticalAlign="middle">
+            {account === props.selectedAccount ? <List.Header>{account}</List.Header> : <span>{account}</span>}
+          </List.Content>
+        </List.Item>
+      ))}
+    </List>
+  </View>
+);

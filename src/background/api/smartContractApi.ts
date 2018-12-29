@@ -18,7 +18,7 @@
 import { Parameter } from 'ontology-dapi';
 import { Crypto, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { buildInvokePayload } from 'ontology-ts-test';
-import { decryptAccount } from '../../api/accountApi';
+import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
 import { getClient } from '../network';
@@ -34,7 +34,7 @@ export async function scCall(request: ScCallRequest, password: string) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const account = wallet.accounts[0].address;
+  const account = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
   // convert params
@@ -84,7 +84,7 @@ export async function scDeploy(request: ScDeployRequest, password: string) {
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const account = wallet.accounts[0].address;
+  const account = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
   const tx = TransactionBuilder.makeDeployCodeTransaction(

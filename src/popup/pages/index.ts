@@ -60,3 +60,4 @@ export { TokenSettingsDel } from './tokenSettingsDel/tokenSettingsDel';
 export { TrustedScs } from './trustedScs/trustedScs';
 export { TrustedScsAdd } from './trustedScsAdd/trustedScsAdd';
 export { TrustedScsDel } from './trustedScsDel/trustedScsDel';
+export { Accounts } from './accounts/accounts';

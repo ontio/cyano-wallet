@@ -26,10 +26,13 @@ export interface Props {
   handleIdentity: () => void;
 
   handleAccount: () => void;
-  
+
+  handleChange: () => void;
+
   showSettings: boolean;
   showIdentity: boolean;
   showAccount: boolean;
+  showChange: boolean;
 }
 
 export const LogoHeaderView: React.SFC<Props> = (props) => (
@@ -37,9 +40,32 @@ export const LogoHeaderView: React.SFC<Props> = (props) => (
     <img height="30" src={require('../../assets/gem2.svg')} />
     <h1>{props.title}</h1>
     <View orientation="row" fluid={true} className="buttons">
-      { props.showIdentity ? <Button onClick={props.handleIdentity} size="big" compact={true} basic={true} icon="user circle" title="Identity" /> : (null) }
-      { props.showAccount ? <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="dollar" title="Account" /> : (null) }
-      { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" title="Settings" /> : (null) }
+      {props.showChange ? (
+        <Button
+          onClick={props.handleChange}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="exchange"
+          title={`${props.showIdentity ? 'Account' : 'Identity'} switch`}
+        />
+      ) : null}
+      {props.showIdentity ? (
+        <Button
+          onClick={props.handleIdentity}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="id card outline"
+          title="Identity"
+        />
+      ) : null}
+      {props.showAccount ? (
+        <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="dollar" title="Account" />
+      ) : null}
+      {props.showSettings ? (
+        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" title="Settings" />
+      ) : null}
     </View>
   </View>
 );

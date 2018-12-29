@@ -1,6 +1,6 @@
 import * as Long from 'long';
 import { CONST, Crypto, Oep4, TransactionBuilder, utils } from 'ontology-ts-sdk';
-import { decryptAccount } from 'src/api/accountApi';
+import { decryptAccount, getAccount } from 'src/api/accountApi';
 import { encodeAmount } from 'src/popup/utils/number';
 import { TransferRequest } from 'src/redux/transactionRequests';
 import { getWallet } from '../../api/authApi';
@@ -11,35 +11,34 @@ import { getStore } from '../redux';
 import Address = Crypto.Address;
 import Oep4TxBuilder = Oep4.Oep4TxBuilder;
 
-
 export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   contract = utils.reverseHex(contract);
 
   const builder = new Oep4TxBuilder(new Address(contract));
-  
+
   const client = getClient();
   const nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
   const symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
   const decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
-  
-  return { 
+
+  return {
     decimals: extractNumberResponse(decimalsResponse),
     name: extractStringResponse(nameResponse),
-    symbol: extractStringResponse(symbolResponse)
+    symbol: extractStringResponse(symbolResponse),
   };
 }
 
 export async function getTokenBalanceOwn(contract: string) {
   const state = getStore().getState();
-  const wallet = getWallet(state.wallet.wallet!);
-  
-  return getTokenBalance(contract, wallet.accounts[0].address);
+  const address = getAccount(state.wallet.wallet!).address;
+
+  return getTokenBalance(contract, address);
 }
 
 export async function getTokenBalance(contract: string, address: Address) {
   const state = getStore().getState();
-  
-  const token = state.settings.tokens.find(t => t.contract === contract);
+
+  const token = state.settings.tokens.find((t) => t.contract === contract);
   if (token === undefined) {
     throw new Error('OEP-4 token not found.');
   }
@@ -59,7 +58,7 @@ export async function transferToken(request: TransferRequest, password: string) 
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const token = state.settings.tokens.find(t => t.symbol === request.asset);
+  const token = state.settings.tokens.find((t) => t.symbol === request.asset);
   if (token === undefined) {
     throw new Error('OEP-4 token not found.');
   }
@@ -67,7 +66,7 @@ export async function transferToken(request: TransferRequest, password: string) 
   const contract = utils.reverseHex(token.contract);
   const builder = new Oep4TxBuilder(new Address(contract));
 
-  const from = wallet.accounts[0].address;
+  const from = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
   const to = new Address(request.recipient);
@@ -79,7 +78,7 @@ export async function transferToken(request: TransferRequest, password: string) 
     encodeAmount(amount, token.decimals),
     '500',
     `${CONST.DEFAULT_GAS_LIMIT}`,
-    from
+    from,
   );
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);

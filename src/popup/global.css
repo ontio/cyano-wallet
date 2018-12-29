@@ -340,3 +340,7 @@ h4.unbound:hover {
 .flex.optionsButtons {
   flex-direction: column;
 }
+
+.accountList .item {
+  cursor: pointer;
+}

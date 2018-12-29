@@ -58,6 +58,10 @@ class BackgroundManager {
     return this.rpc.call<{ wallet: string }>('import_ledger_key', index, neo);
   }
 
+  public refreshBalance() {
+    return this.rpc.call<void>('refresh_balance');
+  }
+
   private historyPush(path: string, state: any) {
     this.history.push(path, state);
   }

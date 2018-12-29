@@ -26,7 +26,7 @@ export const assetApi: AssetApi = {
     return Promise.resolve(getPublicKey(wallet));
   },
 
-  async send({to, asset, amount}): Promise<string> {
-    return await getRequestsManager().initTransfer({recipient: to, asset, amount});
-  }
-}
+  async send({ to, asset, amount }): Promise<string> {
+    return await getRequestsManager().initTransfer({ recipient: to, asset, amount });
+  },
+};

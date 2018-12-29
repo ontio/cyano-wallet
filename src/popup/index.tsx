@@ -98,6 +98,8 @@ const unsubscribe = store.subscribe(() => {
 
           <Route path="/call" exact={true} component={Pages.Call} />
           <Route path="/deploy" exact={true} component={Pages.Deploy} />
+
+          <Route path="/account/change" exact={true} component={Pages.Accounts} />
         </>
       </Router>
     </Provider>

@@ -26,3 +26,4 @@ export { TrezorLogo } from './trezorLogo/trezorLogo';
 export { TokenList } from './tokenList';
 export { TrustedList } from './trustedList';
 export { TokenAmountList } from './tokenAmountList';
+export { AccountList } from './accountList';
