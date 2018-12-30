@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
+import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -25,38 +25,42 @@ import { Actions, GlobalState } from '../../redux';
 import { ImportView, Props } from './importView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
-  finishLoading: Actions.loader.finishLoading,
-  setWallet: Actions.wallet.setWallet,
-  startLoading: Actions.loader.startLoading
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      finishLoading: Actions.loader.finishLoading,
+      setWallet: Actions.wallet.setWallet,
+      startLoading: Actions.loader.startLoading,
+    },
+    dispatch,
+  );
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    withProps(
+      {
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleSubmit: async (values: object) => {
+          const password = get(values, 'password', '');
+          const privateKey = get(values, 'privateKey', '');
+
+          await actions.startLoading();
+
+          const { wallet } = accountImportPrivateKey(privateKey, password);
+          await actions.setWallet(wallet);
+
+          await actions.finishLoading();
+
+          props.history.push('/dashboard');
+        },
       },
-      handleSubmit: async (values: object) => {
-        const password = get(values, 'password', '');
-        const wif = get(values, 'privateKey', '');
-
-        await actions.startLoading();
-
-        const { wallet } = accountImportPrivateKey(wif, password);
-        await actions.setWallet(wallet);
-
-        await actions.finishLoading();
-
-        props.history.push('/dashboard');
-      },    
-    }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} />
-    ))
-  ))
-)
+      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
+    ),
+  );
 
 export const Import = enhancer(ImportView);

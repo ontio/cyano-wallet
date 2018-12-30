@@ -42,7 +42,7 @@ export const ImportView: React.SFC<Props> = (props) => (
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Private key (WIF format)</label>
+              <label>Private key (WIF or HEX format)</label>
               <Field
                 name="privateKey"
                 validate={required}
@@ -54,7 +54,8 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -71,7 +72,8 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -87,15 +89,21 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
-              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
+              <Button disabled={props.loading} loading={props.loading}>
+                Restore
+              </Button>
+              <Button disabled={props.loading} onClick={props.handleCancel}>
+                Cancel
+              </Button>
             </View>
           </SemanticForm>
-        )} />
+        )}
+      />
     </View>
     <StatusBar />
   </View>

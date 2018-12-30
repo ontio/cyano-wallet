@@ -16,9 +16,13 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
+import { Reader } from 'ontology-ts-crypto';
 import { Account, Crypto, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
+import KeyParameters = Crypto.KeyParameters;
+import KeyType = Crypto.KeyType;
+import CurveLabel = Crypto.CurveLabel;
 import { getWallet } from './authApi';
 
 export function decryptAccount(wallet: Wallet, password: string) {
@@ -31,7 +35,7 @@ export function decryptAccount(wallet: Wallet, password: string) {
     blockSize: scrypt.r,
     cost: scrypt.n,
     parallel: scrypt.p,
-    size: scrypt.dkLen
+    size: scrypt.dkLen,
   });
 }
 
@@ -49,21 +53,28 @@ export function accountImportMnemonics(mnemonics: string, password: string, neo:
 
   return {
     mnemonics,
-    ...result
+    ...result,
   };
 }
 
-export function accountImportPrivateKey(wif: string, password: string) {
+export function accountImportPrivateKey(privateKeyStr: string, password: string) {
   const wallet = Wallet.create(uuid());
   const scrypt = wallet.scrypt;
   const scryptParams = {
     blockSize: scrypt.r,
     cost: scrypt.n,
     parallel: scrypt.p,
-    size: scrypt.dkLen
+    size: scrypt.dkLen,
   };
 
-  const privateKey = PrivateKey.deserializeWIF(wif);
+  let privateKey: PrivateKey;
+
+  if (privateKeyStr.length === 52) {
+    privateKey = PrivateKey.deserializeWIF(privateKeyStr);
+  } else {
+    privateKey = deserializePrivateKey(privateKeyStr);
+  }
+
   const account = Account.create(privateKey, password, uuid(), scryptParams);
 
   wallet.addAccount(account);
@@ -72,7 +83,7 @@ export function accountImportPrivateKey(wif: string, password: string) {
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
     wallet: wallet.toJson(),
-    wif
+    wif: privateKey.serializeWIF(),
   };
 }
 
@@ -94,4 +105,27 @@ export function getPublicKey(walletEncoded: string) {
 
 export function isLedgerKey(wallet: Wallet) {
   return get(wallet.accounts[0].encryptedKey, 'type') === 'LEDGER';
+}
+
+function deserializePrivateKey(str: string): PrivateKey {
+  const b = new Buffer(str, 'hex');
+  const r = new Reader(b);
+
+  if (b.length === 32) {
+    // ECDSA
+    const algorithm = KeyType.ECDSA;
+    const curve = CurveLabel.SECP256R1;
+    const sk = r.readBytes(32);
+    return new PrivateKey(sk.toString('hex'), algorithm, new KeyParameters(curve));
+  } else {
+    const algorithmHex = r.readByte();
+    const curveHex = r.readByte();
+    const sk = r.readBytes(32);
+
+    return new PrivateKey(
+      sk.toString('hex'),
+      KeyType.fromHex(algorithmHex),
+      new KeyParameters(CurveLabel.fromHex(curveHex)),
+    );
+  }
 }
