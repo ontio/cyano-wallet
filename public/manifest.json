@@ -4,7 +4,7 @@
   "name": "Cyano wallet",
   "author": "Matus Zamborsky <zamborsky@gmail.com>",
   "description": "Cyano wallet - an Ontology wallet",
-  "version": "0.6.6",
+  "version": "0.6.7",
 
   "browser_action": {
     "default_title": "Open the wallet"
@@ -26,5 +26,7 @@
     "48": "favicon.png",
     "128": "logo.png"
   },
-  "permissions": ["storage", "http://127.0.0.1/*", "webRequest", "webRequestBlocking"]
+  "permissions": ["storage", "http://127.0.0.1/*", "webRequest", "webRequestBlocking"],
+
+  "externally_connectable": {}
 }
