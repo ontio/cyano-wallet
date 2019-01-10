@@ -27,6 +27,7 @@ import { AccountsView, Props } from './accountsView';
 const mapStateToProps = (state: GlobalState) => ({
   transfers: state.runtime.transfers,
   wallet: state.wallet.wallet,
+  loading: state.loader.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -53,17 +54,26 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           await actions.startLoading();
           await actions.setWallet(encodedWallet);
-          await actions.finishLoading();
 
           await getBackgroundManager().refreshBalance();
+
+          await actions.finishLoading();
+
+          props.history.push('/');
+        },
+        handleAccountDelClick: (account: string) => {
+          if (wallet.accounts.length > 1) {
+            props.history.push('/account/del', { account });
+          }
         },
         handleAdd: () => {
-          props.history.push('/dashboard');
+          props.history.push('/account/add');
         },
         handleBack: () => {
-          props.history.push('/dashboard');
+          props.history.push('/');
         },
         selectedAccount: wallet.defaultAccountAddress,
+        loading: reduxProps.loading,
       },
       (injectedProps) => <Component {...injectedProps} />,
     );

@@ -15,16 +15,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from './clickableText';
-export { Logo } from './logo/logo';
-export { LedgerLogo } from './ledgerLogo/ledgerLogo';
-export { IdentityLogo } from './identityLogo/identityLogo';
-export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
-export { Filler, Spacer, View } from './view';
-export { StatusBar } from './statusBar/statusBar';
-export { TrezorLogo } from './trezorLogo/trezorLogo';
-export { TokenList } from './tokenList';
-export { TrustedList } from './trustedList';
-export { TokenAmountList } from './tokenAmountList';
-export { AccountList } from './accountList';
-export { IdentityList } from './identityList';
+import * as React from 'react';
+import { RouterProps } from 'react-router';
+import { withProps } from '../../../compose';
+import { Props, IdentitiesAddView } from './identitiesAddView';
+
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  withProps(
+    {
+      handleBack: () => {
+        props.history.push('/identity/change');
+      },
+      handleCreate: () => {
+        props.history.push('/identity/create');
+      },
+      handleImport: () => {
+        props.history.push('/identity/import');
+      },
+      handleRestore: () => {
+        props.history.push('/identity/restore');
+      },
+    },
+    (injectedProps) => <Component {...injectedProps} />,
+  );
+
+export const IdentitiesAdd = enhancer(IdentitiesAddView);

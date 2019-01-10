@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Crypto, Identity, utils } from 'ontology-ts-sdk';
+import { Crypto, Identity, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import PrivateKey = Crypto.PrivateKey;
 import { getWallet } from './authApi';
@@ -24,12 +24,12 @@ export function decryptIdentity(identity: Identity, password: string, scrypt: an
   const control = identity.controls[0];
   const saltHex = Buffer.from(control.salt, 'base64').toString('hex');
   const encryptedKey = control.encryptedKey;
-  
+
   return encryptedKey.decrypt(password, control.address, saltHex, {
     blockSize: scrypt.r,
     cost: scrypt.n,
     parallel: scrypt.p,
-    size: scrypt.dkLen
+    size: scrypt.dkLen,
   });
 }
 
@@ -47,7 +47,7 @@ export function identityImportMnemonics(mnemonics: string, password: string, scr
 
   return {
     mnemonics,
-    ...result
+    ...result,
   };
 }
 
@@ -56,20 +56,40 @@ export function identityImportPrivateKey(wif: string, password: string, scrypt: 
     blockSize: scrypt.r,
     cost: scrypt.n,
     parallel: scrypt.p,
-    size: scrypt.dkLen
+    size: scrypt.dkLen,
   };
 
   const privateKey = PrivateKey.deserializeWIF(wif);
   const publicKey = privateKey.getPublicKey();
 
   const identity = Identity.create(privateKey, password, uuid(), scryptParams);
-  
+
   return {
     encryptedWif: identity.controls[0].encryptedKey.serializeWIF(),
     idPk: publicKey.serializeHex(),
     identity,
     ontId: identity.ontid,
-    wif
+    wif,
+  };
+}
+
+export function identityDelete(ontId: string, wallet: string | Wallet) {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
+  const identity = wallet.identities.find((i) => i.ontid === ontId);
+
+  if (identity !== undefined) {
+    wallet.identities = wallet.identities.filter((i) => i.ontid !== ontId);
+  }
+
+  if (wallet.defaultOntid === ontId) {
+    wallet.defaultOntid = wallet.identities.length > 0 ? wallet.identities[0].ontid : '';
+  }
+
+  return {
+    wallet: wallet.toJson(),
   };
 }
 

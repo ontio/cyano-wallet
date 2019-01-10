@@ -18,13 +18,19 @@
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
 import { Account, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
+import { getWallet } from '../../api/authApi';
 
 export async function isLedgerSupported() {
   return await Ledger.isLedgerSupported();
 }
 
-export async function importLedgerKey(index: number, neo: boolean) {
-  const wallet = Wallet.create(uuid());
+export async function importLedgerKey(index: number, neo: boolean, wallet: string | Wallet | null) {
+  if (wallet === null) {
+    wallet = Wallet.create(uuid());
+  } else if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
   const scrypt = wallet.scrypt;
   const scryptParams = {
     blockSize: scrypt.r,
@@ -34,7 +40,7 @@ export async function importLedgerKey(index: number, neo: boolean) {
   };
 
   const privateKey = await Ledger.create(index, neo);
-  
+
   const account = Account.create(privateKey, '', uuid(), scryptParams);
 
   wallet.addAccount(account);

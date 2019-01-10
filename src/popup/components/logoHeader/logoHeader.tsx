@@ -35,7 +35,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
           routerProps.history.push('/');
         },
         handleChange: () => {
-          routerProps.history.push('/account/change');
+          if (props.showIdentity) {
+            routerProps.history.push('/account/change');
+          } else if (props.showAccount) {
+            routerProps.history.push('/identity/change');
+          }
         },
         handleIdentity: () => {
           routerProps.history.push('/identity');
@@ -64,7 +68,7 @@ interface TitleOuterProps {
 }
 
 export const IdentityLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader showAccount={true} showSettings={true} title={props.title} />
+  <LogoHeader showAccount={true} showSettings={true} title={props.title} showChange={true} />
 );
 
 export const AccountLogoHeader = (props: TitleOuterProps) => (

@@ -17,36 +17,36 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { AccountList } from '../../components';
+import { Filler, Spacer, StatusBar, View, IdentityLogoHeader } from '../../../components';
+import { IdentityList } from '../../../components';
 
 export interface Props {
   loading: boolean;
-  accounts: string[];
-  selectedAccount: string;
+  identities: string[];
+  selectedIdentity: string;
 
   handleAdd: () => void;
   handleBack: () => void;
 
-  handleAccountClick: (account: string) => void;
-  handleAccountDelClick: (account: string) => void;
+  handleIdentityClick: (identity: string) => void;
+  handleIdentityDelClick: (identity: string) => void;
 }
 
-export const AccountsView: React.SFC<Props> = (props) => (
+export const IdentitiesView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="Accounts" />
+      <IdentityLogoHeader title="Identities" />
       <View content={true} className="spread-around">
-        <View>Select the account to switch to.</View>
+        <View>Select the identity to switch to.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <View orientation="column" className="scrollView">
-        <AccountList
-          accounts={props.accounts}
-          selectedAccount={props.selectedAccount}
-          onClick={props.handleAccountClick}
-          onDel={props.handleAccountDelClick}
+        <IdentityList
+          identities={props.identities}
+          selectedIdentity={props.selectedIdentity}
+          onClick={props.handleIdentityClick}
+          onDel={props.handleIdentityDelClick}
         />
       </View>
       <Spacer />

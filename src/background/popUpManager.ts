@@ -76,6 +76,8 @@ export class PopupManager {
       this.popupId = popup.id!;
 
       await this.initialized.promise;
+
+      await this.refreshBalance();
     }
   }
 
@@ -136,7 +138,7 @@ export class PopupManager {
   }
 
   private importLedgerKey(index: number, neo: boolean) {
-    return Ledger.importLedgerKey(index, neo);
+    return Ledger.importLedgerKey(index, neo, this.store.getState().wallet.wallet);
   }
 
   private refreshBalance() {

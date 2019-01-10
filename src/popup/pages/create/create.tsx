@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
+import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -23,40 +23,48 @@ import { accountSignUp } from '../../../api/accountApi';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { CreateView, Props } from './createView';
+import { getBackgroundManager } from 'src/popup/backgroundManager';
 
 const mapStateToProps = (state: GlobalState) => ({
-  loading: state.loader.loading
+  loading: state.loader.loading,
+  wallet: state.wallet.wallet,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ 
-  finishLoading: Actions.loader.finishLoading,
-  setWallet: Actions.wallet.setWallet,
-  startLoading: Actions.loader.startLoading
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      finishLoading: Actions.loader.finishLoading,
+      setWallet: Actions.wallet.setWallet,
+      startLoading: Actions.loader.startLoading,
+    },
+    dispatch,
+  );
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    withProps(
+      {
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleSubmit: async (values: object) => {
+          const password = get(values, 'password', '');
+          const neo: boolean = get(values, 'neo', false);
+
+          await actions.startLoading();
+
+          const { encryptedWif, mnemonics, wif, wallet } = accountSignUp(password, neo, reduxProps.wallet);
+          await actions.setWallet(wallet);
+
+          await getBackgroundManager().refreshBalance();
+
+          await actions.finishLoading();
+
+          props.history.push('/new', { encryptedWif, mnemonics, wif });
+        },
       },
-      handleSubmit: async (values: object) => {
-        const password = get(values, 'password', '');
-        const neo: boolean = get(values, 'neo', false);
-  
-        await actions.startLoading();
-        
-        const { encryptedWif, mnemonics, wif, wallet } = accountSignUp(password, neo);
-        await actions.setWallet(wallet);
-  
-        await actions.finishLoading();
-  
-        props.history.push('/new', { encryptedWif, mnemonics, wif });
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} />
-    ))
-  ))
-)
+      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
+    ),
+  );
 
 export const Create = enhancer(CreateView);

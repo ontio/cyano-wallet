@@ -61,3 +61,8 @@ export { TrustedScs } from './trustedScs/trustedScs';
 export { TrustedScsAdd } from './trustedScsAdd/trustedScsAdd';
 export { TrustedScsDel } from './trustedScsDel/trustedScsDel';
 export { Accounts } from './accounts/accounts';
+export { AccountsAdd } from './accountsAdd/accountsAdd';
+export { AccountsDel } from './accountsDel/accountsDel';
+export { Identities } from './identity/identities/identities';
+export { IdentitiesAdd } from './identity/identitiesAdd/identitiesAdd';
+export { IdentitiesDel } from './identity/identitiesDel/identitiesDel';

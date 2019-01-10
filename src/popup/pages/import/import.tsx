@@ -23,9 +23,11 @@ import { accountImportPrivateKey } from '../../../api/accountApi';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { ImportView, Props } from './importView';
+import { getBackgroundManager } from 'src/popup/backgroundManager';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
+  wallet: state.wallet.wallet,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -51,8 +53,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           await actions.startLoading();
 
-          const { wallet } = accountImportPrivateKey(privateKey, password);
+          const { wallet } = accountImportPrivateKey(privateKey, password, reduxProps.wallet);
           await actions.setWallet(wallet);
+
+          await getBackgroundManager().refreshBalance();
 
           await actions.finishLoading();
 

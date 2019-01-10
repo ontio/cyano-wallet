@@ -17,12 +17,13 @@
  */
 import { get } from 'lodash';
 import * as React from 'react';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { accountImportMnemonics } from '../../../api/accountApi';
+import { GlobalState } from 'src/redux/state';
 import { reduxConnect, withProps } from '../../compose';
-import { Actions, GlobalState } from '../../redux';
-import { Props, RestoreView } from './restoreView';
+import { Actions } from '../../redux';
+import { Props, AccountsDelView } from './accountsDelView';
+import { accountDelete } from 'src/api/accountApi';
 import { getBackgroundManager } from 'src/popup/backgroundManager';
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -33,6 +34,7 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      delToken: Actions.settings.delToken,
       finishLoading: Actions.loader.finishLoading,
       setWallet: Actions.wallet.setWallet,
       startLoading: Actions.loader.startLoading,
@@ -40,32 +42,33 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch,
   );
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
-    withProps(
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+    const account: string = get(props.location, 'state.account');
+
+    return withProps(
       {
-        handleCancel: () => {
+        account,
+        handleCancel: async () => {
           props.history.goBack();
         },
-        handleSubmit: async (values: object) => {
-          const password = get(values, 'password', '');
-          const mnemonics = get(values, 'mnemonics', '');
-          const neo: boolean = get(values, 'neo', false);
-
+        handleConfirm: async () => {
           await actions.startLoading();
 
-          const { encryptedWif, wif, wallet } = accountImportMnemonics(mnemonics, password, neo, reduxProps.wallet);
-          await actions.setWallet(wallet);
+          if (reduxProps.wallet != null) {
+            const { wallet } = accountDelete(account, reduxProps.wallet);
+            await actions.setWallet(wallet);
 
-          await getBackgroundManager().refreshBalance();
-
+            await getBackgroundManager().refreshBalance();
+          }
           await actions.finishLoading();
 
-          props.history.push('/new', { encryptedWif, mnemonics, wif });
+          props.history.push('/account/change');
         },
+        loading: reduxProps.loading,
       },
-      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
-    ),
-  );
+      (injectedProps) => <Component {...injectedProps} />,
+    );
+  });
 
-export const Restore = enhancer(RestoreView);
+export const AccountsDel = enhancer(AccountsDelView);

@@ -341,6 +341,7 @@ h4.unbound:hover {
   flex-direction: column;
 }
 
-.accountList .item {
+.accountList .item,
+.identityList .item {
   cursor: pointer;
 }

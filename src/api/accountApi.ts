@@ -39,17 +39,22 @@ export function decryptAccount(wallet: Wallet, password: string) {
   });
 }
 
-export function accountSignUp(password: string, neo: boolean) {
+export function accountSignUp(password: string, neo: boolean, wallet: string | Wallet | null) {
   const mnemonics = utils.generateMnemonic(32);
-  return accountImportMnemonics(mnemonics, password, neo);
+  return accountImportMnemonics(mnemonics, password, neo, wallet);
 }
 
-export function accountImportMnemonics(mnemonics: string, password: string, neo: boolean) {
+export function accountImportMnemonics(
+  mnemonics: string,
+  password: string,
+  neo: boolean,
+  wallet: string | Wallet | null,
+) {
   const bip32Path = neo ? "m/44'/888'/0'/0/0" : "m/44'/1024'/0'/0/0";
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, bip32Path);
   const wif = privateKey.serializeWIF();
 
-  const result = accountImportPrivateKey(wif, password);
+  const result = accountImportPrivateKey(wif, password, wallet);
 
   return {
     mnemonics,
@@ -57,8 +62,13 @@ export function accountImportMnemonics(mnemonics: string, password: string, neo:
   };
 }
 
-export function accountImportPrivateKey(privateKeyStr: string, password: string) {
-  const wallet = Wallet.create(uuid());
+export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
+  if (wallet === null) {
+    wallet = Wallet.create(uuid());
+  } else if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
   const scrypt = wallet.scrypt;
   const scryptParams = {
     blockSize: scrypt.r,
@@ -84,6 +94,26 @@ export function accountImportPrivateKey(privateKeyStr: string, password: string)
     encryptedWif: account.encryptedKey.serializeWIF(),
     wallet: wallet.toJson(),
     wif: privateKey.serializeWIF(),
+  };
+}
+
+export function accountDelete(address: string, wallet: string | Wallet) {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
+  const account = wallet.accounts.find((a) => a.address.toBase58() === address);
+
+  if (account !== undefined) {
+    wallet.accounts = wallet.accounts.filter((a) => a.address.toBase58() !== address);
+  }
+
+  if (wallet.defaultAccountAddress === address) {
+    wallet.defaultAccountAddress = wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : '';
+  }
+
+  return {
+    wallet: wallet.toJson(),
   };
 }
 

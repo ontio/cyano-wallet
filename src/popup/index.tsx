@@ -100,6 +100,12 @@ const unsubscribe = store.subscribe(() => {
           <Route path="/deploy" exact={true} component={Pages.Deploy} />
 
           <Route path="/account/change" exact={true} component={Pages.Accounts} />
+          <Route path="/account/add" exact={true} component={Pages.AccountsAdd} />
+          <Route path="/account/del" exact={true} component={Pages.AccountsDel} />
+
+          <Route path="/identity/change" exact={true} component={Pages.Identities} />
+          <Route path="/identity/add" exact={true} component={Pages.IdentitiesAdd} />
+          <Route path="/identity/del" exact={true} component={Pages.IdentitiesDel} />
         </>
       </Router>
     </Provider>

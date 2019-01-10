@@ -20,28 +20,28 @@ import { List } from 'semantic-ui-react';
 import { View } from './view';
 
 interface Props {
-  accounts: string[];
-  selectedAccount: string;
-  onClick: (account: string) => void;
-  onDel: (account: string) => void;
+  identities: string[];
+  selectedIdentity: string;
+  onClick: (identity: string) => void;
+  onDel: (identity: string) => void;
 }
 
-export const AccountList: React.SFC<Props> = (props) => (
+export const IdentityList: React.SFC<Props> = (props) => (
   <View>
-    <List className="accountList" divided={true}>
-      {props.accounts.map((account, i) => (
-        <List.Item key={i} onClick={(e) => props.onClick(account)}>
+    <List className="identityList" divided={true}>
+      {props.identities.map((identity, i) => (
+        <List.Item key={i} onClick={(e) => props.onClick(identity)}>
           <List.Icon
             name="times circle outline"
             size="large"
             verticalAlign="middle"
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              props.onDel(account);
+              props.onDel(identity);
             }}
           />
           <List.Content verticalAlign="middle">
-            {account === props.selectedAccount ? <List.Header>{account}</List.Header> : <span>{account}</span>}
+            {identity === props.selectedIdentity ? <List.Header>{identity}</List.Header> : <span>{identity}</span>}
           </List.Content>
         </List.Item>
       ))}
