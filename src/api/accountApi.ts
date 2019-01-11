@@ -156,7 +156,7 @@ export function isLedgerKey(wallet: Wallet) {
   return get(getAccount(wallet).encryptedKey, 'type') === 'LEDGER';
 }
 
-function deserializePrivateKey(str: string): PrivateKey {
+export function deserializePrivateKey(str: string): PrivateKey {
   const b = new Buffer(str, 'hex');
   const r = new Reader(b);
 

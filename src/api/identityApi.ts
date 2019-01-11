@@ -17,6 +17,7 @@
  */
 import { Crypto, Identity, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
+import { deserializePrivateKey } from './accountApi';
 import PrivateKey = Crypto.PrivateKey;
 import { getWallet } from './authApi';
 
@@ -51,7 +52,7 @@ export function identityImportMnemonics(mnemonics: string, password: string, scr
   };
 }
 
-export function identityImportPrivateKey(wif: string, password: string, scrypt: any) {
+export function identityImportPrivateKey(privateKeyStr: string, password: string, scrypt: any) {
   const scryptParams = {
     blockSize: scrypt.r,
     cost: scrypt.n,
@@ -59,7 +60,14 @@ export function identityImportPrivateKey(wif: string, password: string, scrypt: 
     size: scrypt.dkLen,
   };
 
-  const privateKey = PrivateKey.deserializeWIF(wif);
+  let privateKey: PrivateKey;
+
+  if (privateKeyStr.length === 52) {
+    privateKey = PrivateKey.deserializeWIF(privateKeyStr);
+  } else {
+    privateKey = deserializePrivateKey(privateKeyStr);
+  }
+
   const publicKey = privateKey.getPublicKey();
 
   const identity = Identity.create(privateKey, password, uuid(), scryptParams);
@@ -69,7 +77,7 @@ export function identityImportPrivateKey(wif: string, password: string, scrypt: 
     idPk: publicKey.serializeHex(),
     identity,
     ontId: identity.ontid,
-    wif,
+    wif: privateKey.serializeWIF(),
   };
 }
 
