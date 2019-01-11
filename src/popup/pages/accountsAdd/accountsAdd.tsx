@@ -18,7 +18,7 @@
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { withProps } from '../../compose';
-import { Props, AccountsAddView } from './accountsAddView';
+import { AccountsAddView, Props } from './accountsAddView';
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withProps(

@@ -25,9 +25,9 @@ import { Actions, GlobalState } from '../../redux';
 import { AccountsView, Props } from './accountsView';
 
 const mapStateToProps = (state: GlobalState) => ({
+  loading: state.loader.loading,
   transfers: state.runtime.transfers,
   wallet: state.wallet.wallet,
-  loading: state.loader.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -72,8 +72,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleBack: () => {
           props.history.push('/');
         },
-        selectedAccount: wallet.defaultAccountAddress,
         loading: reduxProps.loading,
+        selectedAccount: wallet.defaultAccountAddress,
       },
       (injectedProps) => <Component {...injectedProps} />,
     );

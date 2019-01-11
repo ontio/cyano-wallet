@@ -19,11 +19,11 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { getBackgroundManager } from 'src/popup/backgroundManager';
 import { accountImportMnemonics } from '../../../api/accountApi';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { Props, RestoreView } from './restoreView';
-import { getBackgroundManager } from 'src/popup/backgroundManager';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,

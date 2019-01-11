@@ -19,11 +19,11 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { identityDelete } from 'src/api/identityApi';
 import { GlobalState } from 'src/redux/state';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions } from '../../../redux';
-import { Props, IdentitiesDelView } from './identitiesDelView';
-import { identityDelete } from 'src/api/identityApi';
+import { IdentitiesDelView, Props } from './identitiesDelView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -47,7 +47,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
     return withProps(
       {
-        identity,
         handleCancel: async () => {
           props.history.goBack();
         },
@@ -62,6 +61,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           props.history.push('/identity/change');
         },
+        identity,
         loading: reduxProps.loading,
       },
       (injectedProps) => <Component {...injectedProps} />,

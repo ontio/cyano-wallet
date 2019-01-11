@@ -24,9 +24,9 @@ import { Actions, GlobalState } from '../../../redux';
 import { IdentitiesView, Props } from './identitiesView';
 
 const mapStateToProps = (state: GlobalState) => ({
+  loading: state.loader.loading,
   transfers: state.runtime.transfers,
   wallet: state.wallet.wallet,
-  loading: state.loader.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -46,7 +46,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
     return withProps(
       {
-        identities,
+        handleAdd: () => {
+          props.history.push('/identity/add');
+        },
+        handleBack: () => {
+          props.history.push('/identity');
+        },
         handleIdentityClick: async (identity: string) => {
           wallet.setDefaultIdentity(identity);
           const encodedWallet = encodeWallet(wallet);
@@ -61,14 +66,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleIdentityDelClick: (identity: string) => {
           props.history.push('/identity/del', { identity });
         },
-        handleAdd: () => {
-          props.history.push('/identity/add');
-        },
-        handleBack: () => {
-          props.history.push('/identity');
-        },
-        selectedIdentity: wallet.defaultOntid,
+        identities,
         loading: reduxProps.loading,
+        selectedIdentity: wallet.defaultOntid,
       },
       (injectedProps) => <Component {...injectedProps} />,
     );

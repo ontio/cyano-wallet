@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Spacer, StatusBar, View, IdentityLogoHeader } from '../../../components';
+import { IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
   handleCreate: () => void;

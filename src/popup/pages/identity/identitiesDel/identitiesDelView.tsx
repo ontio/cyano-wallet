@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { IdentityLogoHeader, Filler, Spacer, StatusBar, View } from '../../../components';
+import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
   loading: boolean;

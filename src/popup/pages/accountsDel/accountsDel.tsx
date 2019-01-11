@@ -19,12 +19,12 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { accountDelete } from 'src/api/accountApi';
+import { getBackgroundManager } from 'src/popup/backgroundManager';
 import { GlobalState } from 'src/redux/state';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions } from '../../redux';
-import { Props, AccountsDelView } from './accountsDelView';
-import { accountDelete } from 'src/api/accountApi';
-import { getBackgroundManager } from 'src/popup/backgroundManager';
+import { AccountsDelView, Props } from './accountsDelView';
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
