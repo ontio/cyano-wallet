@@ -54,7 +54,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
     withProps(
       {
         handleReceive: () => {
-          throw new Error('fail');
           props.history.push('/receive');
         },
         handleSend: async () => {
