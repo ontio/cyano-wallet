@@ -17,12 +17,15 @@
  */
 import 'babel-polyfill';
 
+import bugsnag from '@bugsnag/js';
+import bugsnagReact from '@bugsnag/plugin-react';
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
+import { browser } from 'webextension-polyfill-ts';
 import './global.css';
 
 import { Provider } from 'react-redux';
@@ -31,6 +34,27 @@ import { initBackgroundManager } from './backgroundManager';
 import { initHistory } from './history';
 import * as Pages from './pages';
 import { initStore } from './redux';
+
+const bugsnagClient = bugsnag({
+  apiKey: '162731d88707c7260689fba047f0a6a7',
+  appType: 'popup',
+  beforeSend: (report) => {
+    report.stacktrace = report.stacktrace.map((frame) => {
+      frame.file = frame.file.replace(/chrome-extension:/g, 'keepinghrome:');
+      return frame;
+    });
+  },
+  collectUserIp: false,
+  filters: [
+    /^password$/i, // case-insensitive: "password", "PASSWORD", "PaSsWoRd"
+  ],
+});
+
+bugsnagClient.use(bugsnagReact, React);
+
+browser.management.getSelf().then((info) => {
+  (bugsnagClient.app as any).version = info.version;
+});
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 // Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
@@ -112,5 +136,13 @@ const unsubscribe = store.subscribe(() => {
   );
 
   unsubscribe(); // make sure to only fire once
-  ReactDOM.render(<AppView />, document.getElementById('root') as HTMLElement);
+
+  const ErrorBoundary = bugsnagClient.getPlugin('react');
+
+  ReactDOM.render(
+    <ErrorBoundary>
+      <AppView />
+    </ErrorBoundary>,
+    document.getElementById('root') as HTMLElement,
+  );
 });

@@ -17,6 +17,7 @@
  */
 import 'babel-polyfill';
 
+import bugsnag from '@bugsnag/js';
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
@@ -30,6 +31,25 @@ import { initWalletProvider } from './persist/walletProvider';
 import { initPopupManager } from './popUpManager';
 import { initStore } from './redux';
 import { initRequestsManager } from './requestsManager';
+
+const bugsnagClient = bugsnag({
+  apiKey: '162731d88707c7260689fba047f0a6a7',
+  appType: 'background',
+  beforeSend: (report) => {
+    report.stacktrace = report.stacktrace.map((frame) => {
+      frame.file = frame.file.replace(/chrome-extension:/g, 'keepinghrome:');
+      return frame;
+    });
+  },
+  collectUserIp: false,
+  filters: [
+    /^password$/i, // case-insensitive: "password", "PASSWORD", "PaSsWoRd"
+  ],
+});
+
+browser.management.getSelf().then((info) => {
+  (bugsnagClient.app as any).version = info.version;
+});
 
 const store = initStore();
 const popupManager = initPopupManager(store);
