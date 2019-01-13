@@ -27,28 +27,31 @@ export function initNetwork(store: GlobalStore) {
   store.subscribe(() => {
     const state = store.getState();
     const newSettings = state.settings;
-  
+
     if (!compareSettings(settings, newSettings)) {
       settings = newSettings;
-  
-      const url = `${newSettings.ssl ? 'wss' : 'ws'}://${getNodeAddress()}:${CONST.HTTP_WS_PORT}`;
-      client = new WebsocketClient(url, false, false);
+
+      reconnect(newSettings);
     }
   });
 
   window.setInterval(async () => {
     try {
       await client.sendHeartBeat();
-      store.dispatch(
-        Actions.status.changeNetworkState('CONNECTED')
-      );
+      store.dispatch(Actions.status.changeNetworkState('CONNECTED'));
     } catch (e) {
-      store.dispatch(
-        Actions.status.changeNetworkState('DISCONNECTED')
-      );  
+      if (settings != null) {
+        reconnect(settings);
+      }
+
+      store.dispatch(Actions.status.changeNetworkState('DISCONNECTED'));
     }
   }, 5000);
-  
+}
+
+function reconnect(s: SettingsState) {
+  const url = `${s.ssl ? 'wss' : 'ws'}://${getNodeAddress()}:${CONST.HTTP_WS_PORT}`;
+  client = new WebsocketClient(url, false, false);
 }
 
 export function getClient(): WebsocketClient {
@@ -81,6 +84,6 @@ export function getNodeAddress(): string | null {
   }
 }
 
-export function getNeoNodeAddress() : string {
+export function getNeoNodeAddress(): string {
   return 'http://neonode1.ont.network:10332';
 }
