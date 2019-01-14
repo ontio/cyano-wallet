@@ -28,7 +28,7 @@ interface Props {
 
 export const IdentityList: React.SFC<Props> = (props) => (
   <View>
-    <List className="identityList" divided={true}>
+    <List className="identityList" divided={true} size="small">
       {props.identities.map((identity, i) => (
         <List.Item key={i} onClick={(e) => props.onClick(identity)}>
           <List.Icon
@@ -40,7 +40,7 @@ export const IdentityList: React.SFC<Props> = (props) => (
               props.onDel(identity);
             }}
           />
-          <List.Content verticalAlign="middle">
+          <List.Content verticalAlign="middle" className="wrap small">
             {identity === props.selectedIdentity ? <List.Header>{identity}</List.Header> : <span>{identity}</span>}
           </List.Content>
         </List.Item>

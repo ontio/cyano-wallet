@@ -29,28 +29,32 @@ export async function refreshBalance(store: GlobalStore) {
   const tokens = state.settings.tokens;
 
   if (walletEncoded !== null) {
-    const balance = await getBalance();
-    const unboundOng = await getUnboundOng();
+    try {
+      const balance = await getBalance();
+      const unboundOng = await getUnboundOng();
 
-    const tokenBalances: TokenAmountState[] = [];
+      const tokenBalances: TokenAmountState[] = [];
 
-    for (const token of tokens) {
-      try {
-        const amount = await getTokenBalanceOwn(token.contract);
-        tokenBalances.push({ contract: token.contract, amount });
-      } catch (e) {
-        // tslint:disable-next-line:no-console
-        console.warn('Failed to load balance of token: ', token.contract);
+      for (const token of tokens) {
+        try {
+          const amount = await getTokenBalanceOwn(token.contract);
+          tokenBalances.push({ contract: token.contract, amount });
+        } catch (e) {
+          // tslint:disable-next-line:no-console
+          console.warn('Failed to load balance of token: ', token.contract);
+        }
       }
+
+      store.dispatch(Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, 0, tokenBalances));
+
+      const address = getAddress(walletEncoded);
+
+      const transfers = await getTransferList(address);
+
+      store.dispatch(Actions.runtime.setTransfers(transfers));
+    } catch (e) {
+      // ignore
     }
-
-    store.dispatch(Actions.runtime.setBalance(balance.ong, balance.ont, unboundOng, 0, tokenBalances));
-
-    const address = getAddress(walletEncoded);
-
-    const transfers = await getTransferList(address);
-
-    store.dispatch(Actions.runtime.setTransfers(transfers));
   }
 }
 
