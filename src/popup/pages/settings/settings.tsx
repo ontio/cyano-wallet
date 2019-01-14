@@ -26,9 +26,13 @@ import { getWallet } from '../../../api/authApi';
 import { getIdentity } from '../../../api/identityApi';
 import Actions from '../../../redux/actions';
 import { NetValue } from '../../../redux/settings';
-import { reduxConnect, withProps, withRouter } from '../../compose';
+import { reduxConnect, withProps, withRouter, withState } from '../../compose';
 import { GlobalState } from '../../redux';
 import { Props, SettingsView } from './settingsView';
+
+interface State {
+  importError: boolean;
+}
 
 const mapStateToProps = (state: GlobalState) => ({
   settings: state.settings,
@@ -47,68 +51,85 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter((routerProps) =>
     reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) =>
-      withProps(
-        {
-          enableClear: reduxProps.wallet !== null,
-          enableClearIdentity: reduxProps.wallet !== null && getIdentity(reduxProps.wallet) !== null,
+      withState<State>({ importError: false }, (state, setState, getState) =>
+        withProps(
+          {
+            enableClear: reduxProps.wallet !== null,
+            enableClearIdentity: reduxProps.wallet !== null && getIdentity(reduxProps.wallet) !== null,
 
-          handleCancel: () => {
-            props.history.push('/');
-          },
-          handleClear: () => {
-            routerProps.history.push('/clear');
-          },
-          handleClearIdentity: () => {
-            routerProps.history.push('/identity/clear');
-          },
-          handleExport: () => {
-            const blob = new Blob([reduxProps.wallet!], { type: 'text/plain;charset=utf-8' });
-            FileSaver.saveAs(blob, 'wallet.dat');
-          },
-          handleImport: async (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => {
-            const [e] = results[0];
+            handleCancel: () => {
+              props.history.push('/');
+            },
+            handleClear: () => {
+              setState({ importError: false });
 
-            if (e !== null && e.target !== null) {
-              let data: string = get(e.target, 'result');
+              routerProps.history.push('/clear');
+            },
+            handleClearIdentity: () => {
+              setState({ importError: false });
 
-              // fix missing identities
-              const parsed = JSON.parse(data);
-              if (parsed.identities == null) {
-                parsed.identities = [];
-                data = JSON.stringify(parsed);
+              routerProps.history.push('/identity/clear');
+            },
+            handleExport: () => {
+              setState({ importError: false });
+
+              const blob = new Blob([reduxProps.wallet!], { type: 'text/plain;charset=utf-8' });
+              FileSaver.saveAs(blob, 'wallet.dat');
+            },
+            handleImport: async (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => {
+              setState({ importError: false });
+
+              const [e] = results[0];
+
+              if (e !== null && e.target !== null) {
+                let data: string = get(e.target, 'result');
+
+                // fix missing identities
+                try {
+                  const parsed = JSON.parse(data);
+                  if (parsed.identities == null) {
+                    parsed.identities = [];
+                    data = JSON.stringify(parsed);
+                  }
+
+                  const wallet = getWallet(data);
+                  // sets default address for OWallet exports
+                  if (wallet.defaultAccountAddress == null || wallet.defaultAccountAddress === '') {
+                    wallet.defaultAccountAddress = getAddress(wallet);
+                  }
+
+                  await actions.setWallet(wallet.toJson());
+                  routerProps.history.push('/');
+                } catch (e) {
+                  setState({ importError: true });
+                }
               }
+            },
+            handleSave: async (values: object) => {
+              setState({ importError: false });
 
-              const wallet = getWallet(data);
-              // sets default address for OWallet exports
-              if (wallet.defaultAccountAddress == null || wallet.defaultAccountAddress === '') {
-                wallet.defaultAccountAddress = getAddress(wallet);
+              const net: NetValue = get(values, 'net', 'TEST');
+              const address: string = get(values, 'address', '');
+              const ssl: boolean = get(values, 'ssl', false);
+
+              await actions.setSettings(address, ssl, net, reduxProps.settings.tokens, reduxProps.settings.trustedScs);
+
+              if (getReduxProps().wallet != null) {
+                props.history.replace('/dashboard');
+              } else {
+                props.history.goBack();
               }
-
-              await actions.setWallet(wallet.toJson());
-              routerProps.history.push('/');
-            }
+            },
+            handleTokenSettings: () => {
+              routerProps.history.push('/settings/token');
+            },
+            handleTrustedScs: () => {
+              routerProps.history.push('/settings/trusted');
+            },
+            importError: state.importError,
           },
-          handleSave: async (values: object) => {
-            const net: NetValue = get(values, 'net', 'TEST');
-            const address: string = get(values, 'address', '');
-            const ssl: boolean = get(values, 'ssl', false);
-
-            await actions.setSettings(address, ssl, net, reduxProps.settings.tokens, reduxProps.settings.trustedScs);
-
-            if (getReduxProps().wallet != null) {
-              props.history.replace('/dashboard');
-            } else {
-              props.history.goBack();
-            }
-          },
-          handleTokenSettings: () => {
-            routerProps.history.push('/settings/token');
-          },
-          handleTrustedScs: () => {
-            routerProps.history.push('/settings/trusted');
-          },
-        },
-        (injectedProps) => <Component {...injectedProps} settings={reduxProps.settings} />,
+          (injectedProps) => <Component {...injectedProps} settings={reduxProps.settings} />,
+        ),
       ),
     ),
   );

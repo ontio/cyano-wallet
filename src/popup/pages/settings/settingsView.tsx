@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import * as FileReaderInput from 'react-file-reader-input';
 import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
+import { Button, Form as SemanticForm, Message } from 'semantic-ui-react';
 import { NetValue, SettingsState } from '../../../redux/settings';
 import { Filler, LogoHeader, Spacer, StatusBar, View } from '../../components';
 import { required } from '../../utils/validate';
@@ -40,6 +40,7 @@ export interface Props {
   settings: SettingsState;
   enableClear: boolean;
   enableClearIdentity: boolean;
+  importError: boolean;
 }
 
 const netOptions: Array<{ text: string; value: NetValue }> = [
@@ -148,6 +149,7 @@ export const SettingsView: React.SFC<Props> = (props) => (
                   content="Export wallet"
                 />
                 <Spacer />
+                {props.importError ? <Message size="small">Failed to import wallet</Message> : null}
                 <FileReaderInput onChange={props.handleImport} as="text">
                   <Button type="button" fluid={true} content="Import wallet" />
                 </FileReaderInput>
