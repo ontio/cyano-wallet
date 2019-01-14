@@ -49,8 +49,40 @@ export function initNetwork(store: GlobalStore) {
   }, 5000);
 }
 
+function constructUrl(s: SettingsState) {
+  let url: URL;
+
+  const nodeAddress = getNodeAddress();
+  if (nodeAddress != null) {
+    let useScheme: boolean = true;
+
+    if (nodeAddress.startsWith('wss://') || nodeAddress.startsWith('ws://')) {
+      useScheme = false;
+    }
+
+    try {
+      if (useScheme) {
+        url = new URL(`${s.ssl ? 'wss' : 'ws'}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+      } else {
+        url = new URL(`${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+      }
+    } catch (e) {
+      // try without port if already specified
+      if (useScheme) {
+        url = new URL(`${s.ssl ? 'wss' : 'ws'}://${nodeAddress}`);
+      } else {
+        url = new URL(nodeAddress);
+      }
+    }
+  } else {
+    throw new Error('Can not construct address');
+  }
+
+  return url.href;
+}
+
 function reconnect(s: SettingsState) {
-  const url = `${s.ssl ? 'wss' : 'ws'}://${getNodeAddress()}:${CONST.HTTP_WS_PORT}`;
+  const url = constructUrl(s);
   client = new WebsocketClient(url, false, false);
 }
 
