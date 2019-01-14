@@ -1,6 +1,8 @@
+import { OntidContract, DDO } from 'ontology-ts-sdk';
 import { IdentityApi, OntIdDDO } from 'ontology-dapi';
 import { getIdentity } from '../../api/identityApi';
 import { getStore } from '../redux';
+import { getClient } from '../network';
 
 export const identityApi: IdentityApi = {
   getIdentity(): Promise<string> {
@@ -20,7 +22,12 @@ export const identityApi: IdentityApi = {
   },
 
   getDDO({ identity }): Promise<OntIdDDO> {
-    throw new Error('UNSUPPORTED');
+    const tx = OntidContract.buildGetDDOTx(identity)  
+    const rest = getClient();
+  
+    return rest.sendRawTransaction(tx.serialize(), true).then(res => {
+        return DDO.deserialize(res.Result.Result);
+    })
   },
 
   addAttributes({ attributes }): Promise<void> {
