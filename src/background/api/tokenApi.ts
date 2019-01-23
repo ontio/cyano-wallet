@@ -10,8 +10,12 @@ import { getStore } from '../redux';
 
 import Address = Crypto.Address;
 import Oep4TxBuilder = Oep4.Oep4TxBuilder;
+import { isHexadecimal } from 'src/api/utils';
 
 export async function getOEP4Token(contract: string): Promise<OEP4Token> {
+  if (!isHexadecimal(contract)) {
+    throw new Error('Contract is not hexadecimal string');
+  }
   contract = utils.reverseHex(contract);
 
   const builder = new Oep4TxBuilder(new Address(contract));

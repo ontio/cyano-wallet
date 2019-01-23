@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       addToken: Actions.settings.addToken,
       finishLoading: Actions.loader.finishLoading,
-      startLoading: Actions.loader.startLoading
+      startLoading: Actions.loader.startLoading,
     },
     dispatch,
   );
@@ -48,17 +48,28 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         },
         handleConfirm: async (values: object) => {
           const contract: string = get(values, 'contract');
-          
+
           await actions.startLoading();
 
-          const manager = getBackgroundManager();
-          const token = await manager.getOEP4Token(contract);
-          
-          // todo: proper spec
-          await actions.addToken(contract, token.name, token.symbol, token.decimals, 'OEP-4');
-          await actions.finishLoading();
+          try {
+            const manager = getBackgroundManager();
+            const token = await manager.getOEP4Token(contract);
 
-          props.history.push('/settings/token');
+            // todo: proper spec
+            await actions.addToken(contract, token.name, token.symbol, token.decimals, 'OEP-4');
+
+            await actions.finishLoading();
+
+            props.history.push('/settings/token');
+
+            return {};
+          } catch (e) {
+            await actions.finishLoading();
+
+            return {
+              contract: 'Invalid contract',
+            };
+          }
         },
         loading: reduxProps.loading,
       },

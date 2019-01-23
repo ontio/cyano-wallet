@@ -19,11 +19,11 @@ import * as React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
-import { required } from '../../utils/validate';
+import { tokenValid } from '../../utils/validate';
 
 export interface Props {
   loading: boolean;
-  handleConfirm: (values: object) => Promise<void>;
+  handleConfirm: (values: object) => Promise<object>;
   handleCancel: () => void;
 }
 
@@ -46,7 +46,7 @@ export const TokenSettingsAddView: React.SFC<Props> = (props) => (
                   <label>Script hash</label>
                   <Field
                     name="contract"
-                    validate={required}
+                    validate={tokenValid}
                     render={(t) => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -62,8 +62,10 @@ export const TokenSettingsAddView: React.SFC<Props> = (props) => (
             <Filler />
             <Spacer />
             <View className="buttons">
-              <Button icon="check" content="Confirm" disabled={props.loading} loading={props.loading}  />
-              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
+              <Button icon="check" content="Confirm" disabled={props.loading} loading={props.loading} />
+              <Button disabled={props.loading} onClick={props.handleCancel}>
+                Cancel
+              </Button>
             </View>
           </SemanticForm>
         )}

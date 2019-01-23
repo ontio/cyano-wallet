@@ -15,8 +15,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
+import { get } from 'lodash';
 import { utils } from 'ontology-ts-sdk';
+import { isHexadecimal } from 'src/api/utils';
 export function validMnemonics(value: string) {
   try {
     utils.parseMnemonic(value);
@@ -24,7 +25,7 @@ export function validMnemonics(value: string) {
   } catch (e) {
     return true;
   }
-};
+}
 
 export function samePassword(values: object) {
   const password = get(values, 'password', '');
@@ -32,46 +33,50 @@ export function samePassword(values: object) {
 
   if (password !== passwordAgain) {
     return {
-      passwordAgain: "Password does not match"
-    }
+      passwordAgain: 'Password does not match',
+    };
   }
 
   return {};
 }
 
-export function required(value: string){ 
-  return (value === undefined || value.trim().length === 0);
+export function tokenValid(value: string) {
+  return required(value) || !isHexadecimal(value) || value.length !== 40;
 }
 
-export function range(from: number, to: number){ 
-  return function rangeCheck(value: string){ 
-    if (value === undefined) {
-      return true;
-    } 
-
-    const val = Number(value);
-    return (val <= from || val > to);
-  }
+export function required(value: string) {
+  return value === undefined || value.trim().length === 0;
 }
 
-export function gt(than: number){ 
-  return function gtCheck(value: string){ 
+export function range(from: number, to: number) {
+  return function rangeCheck(value: string) {
     if (value === undefined) {
       return true;
-    } 
+    }
 
     const val = Number(value);
-    return (val <= than);
-  }
+    return val <= from || val > to;
+  };
 }
 
-export function gte(than: number){ 
-  return function gtCheck(value: string){ 
+export function gt(than: number) {
+  return function gtCheck(value: string) {
     if (value === undefined) {
       return true;
-    } 
+    }
 
     const val = Number(value);
-    return (val < than);
-  }
+    return val <= than;
+  };
+}
+
+export function gte(than: number) {
+  return function gtCheck(value: string) {
+    if (value === undefined) {
+      return true;
+    }
+
+    const val = Number(value);
+    return val < than;
+  };
 }
