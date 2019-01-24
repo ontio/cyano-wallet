@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CONST, WebsocketClient } from 'ontology-ts-sdk';
+import { prodOptions, testOptions } from 'src/api/constants';
 import Actions from '../redux/actions';
 import { compareSettings, SettingsState } from '../redux/settings';
 import { GlobalStore } from '../redux/state';
@@ -82,6 +83,14 @@ function constructUrl(s: SettingsState) {
 }
 
 function reconnect(s: SettingsState) {
+  if (client !== undefined) {
+    try {
+      client.close();
+    } catch (e) {
+      // ignored
+    }
+  }
+
   const url = constructUrl(s);
   client = new WebsocketClient(url, false, false);
 }
@@ -105,15 +114,37 @@ export function getExplorerAddress(): string | null {
 export function getNodeAddress(): string | null {
   if (settings == null) {
     return null;
-  } else if (settings.net === 'MAIN') {
+  }
+
+  const address = settings.address;
+
+  if (settings.net === 'MAIN') {
+    if (isProdAddress(address)) {
+      return address;
+    }
     return CONST.MAIN_NODE;
   } else if (settings.net === 'TEST') {
+    if (isTestAddress(address)) {
+      return address;
+    }
     return CONST.TEST_NODE;
   } else if (settings.net === 'PRIVATE') {
     return settings.address;
   } else {
     throw new Error('Wrong net');
   }
+}
+
+function isAddress(address: string) {
+  return address !== undefined && address.trim() !== '';
+}
+
+function isProdAddress(address: string) {
+  return isAddress(address) && prodOptions.map((o) => o.value).includes(address);
+}
+
+function isTestAddress(address: string) {
+  return isAddress(address) && testOptions.map((o) => o.value).includes(address);
 }
 
 export function getNeoNodeAddress(): string {

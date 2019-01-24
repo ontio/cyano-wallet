@@ -41,6 +41,8 @@ export interface Props {
   enableClear: boolean;
   enableClearIdentity: boolean;
   importError: boolean;
+  testOptions: Array<{ text: string; value: string }>;
+  prodOptions: Array<{ text: string; value: string }>;
 }
 
 const netOptions: Array<{ text: string; value: NetValue }> = [
@@ -84,16 +86,19 @@ export const SettingsView: React.SFC<Props> = (props) => (
                         fluid={true}
                         selection={true}
                         options={netOptions}
-                        onChange={(e, data) => t.input.onChange(data.value)}
+                        onChange={(e, data) => {
+                          formProps.form.change('address', undefined);
+                          return t.input.onChange(data.value);
+                        }}
                         value={t.input.value}
                         error={t.meta.touched && t.meta.invalid}
                       />
                     )}
                   />
                 </View>
+                <Spacer />
                 {get(formProps.values, 'net') === 'PRIVATE' ? (
                   <>
-                    <Spacer />
                     <View orientation="column">
                       <label>Private node ip/address</label>
                       <Field
@@ -124,7 +129,25 @@ export const SettingsView: React.SFC<Props> = (props) => (
                       />
                     </View>
                   </>
-                ) : null}
+                ) : (
+                  <View orientation="column">
+                    <label>Node address</label>
+                    <Field
+                      name="address"
+                      validate={required}
+                      render={(t) => (
+                        <SemanticForm.Dropdown
+                          fluid={true}
+                          selection={true}
+                          options={get(formProps.values, 'net') === 'TEST' ? props.testOptions : props.prodOptions}
+                          onChange={(e, data) => t.input.onChange(data.value)}
+                          value={t.input.value}
+                          error={t.meta.touched && t.meta.invalid}
+                        />
+                      )}
+                    />
+                  </View>
+                )}
                 <Spacer />
                 <Button
                   disabled={!props.enableClear}

@@ -23,6 +23,7 @@ import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getAddress } from 'src/api/accountApi';
 import { getWallet } from '../../../api/authApi';
+import { prodOptions, testOptions } from '../../../api/constants';
 import { getIdentity } from '../../../api/identityApi';
 import Actions from '../../../redux/actions';
 import { NetValue } from '../../../redux/settings';
@@ -127,6 +128,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               routerProps.history.push('/settings/trusted');
             },
             importError: state.importError,
+            prodOptions,
+            testOptions,
           },
           (injectedProps) => <Component {...injectedProps} settings={reduxProps.settings} />,
         ),
