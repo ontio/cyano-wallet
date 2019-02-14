@@ -45,7 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         },
         handleConfirm: async (values: object) => {
           const requestId: string = get(props.location, 'state.requestId');
-
+          const name: string = get(values, 'name');
           const author: string = get(values, 'author');
           const description: string = get(values, 'description');
           const gasPrice = Number(get(values, 'gasPrice', '0'));
