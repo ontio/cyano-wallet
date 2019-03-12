@@ -32,17 +32,17 @@ export interface Props {
 
 const assetOptions = [
   {
-    text: 'ONT',
-    value: 'ONT'
+    text: 'ONYX',
+    value: 'ONYX'
   },
   {
-    text: 'ONG',
-    value: 'ONG'
+    text: 'OXG',
+    value: 'OXG'
   },
 ];
 
 /**
- * todo: amount number step does not work for ONG, should be changed to custom validation
+ * todo: amount number step does not work for OXG, should be changed to custom validation
  */
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
@@ -90,12 +90,12 @@ export const SendView: React.SFC<Props> = (props) => (
             <label>Amount</label>
             <Field
               name="amount"
-              validate={range(0, get(formProps.values, 'asset') === 'ONG' ? props.ongAmount : props.ontAmount)}
+              validate={range(0, get(formProps.values, 'asset') === 'OXG' ? props.ongAmount : props.ontAmount)}
               render={(t) => (
                 <SemanticForm.Input
                   type="number"
-                  placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                  step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
+                  placeholder={get(formProps.values, 'asset') === 'OXG' ? '0.0000000000' : '0'}
+                  step={get(formProps.values, 'asset') === 'OXG' ? '0.00000000001' : '1'}
                   onChange={t.input.onChange}
                   input={{ ...t.input, value: t.input.value }}
                   error={t.meta.touched && t.meta.invalid}

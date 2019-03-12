@@ -40,7 +40,7 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
     // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
     // const ontId = identity.ontid;
   
-    // register the ONT ID on blockchain
+    // register the ONYX ID on blockchain
     // if (register) {
     //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
     //   tx.payer = identity.controls[0].address;

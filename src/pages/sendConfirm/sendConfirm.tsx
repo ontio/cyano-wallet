@@ -44,7 +44,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       },
       handleSubmit: async (values: object, formApi: FormApi) => {
         const recipient: string = get(props.location, 'state.recipient', '');
-        const asset: 'ONT' | 'ONG' = get(props.location, 'state.asset', '');
+        const asset: 'ONYX' | 'OXG' = get(props.location, 'state.asset', '');
         const amount: string = get(props.location, 'state.amount', '');
 
         const password: string = get(values, 'password', '');

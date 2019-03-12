@@ -33,7 +33,7 @@ export const WithdrawFailedView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Your withdrawal of {props.amount} ONG to your address has not completed in time. This does not mean it necessary failed. Check your balances.</Message>
+      <Message>Your withdrawal of {props.amount} OXG to your address has not completed in time. This does not mean it necessary failed. Check your balances.</Message>
       <Filler />
       <View className="buttons">
         <Button onClick={props.handleOk}>Ok</Button>

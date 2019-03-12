@@ -43,14 +43,6 @@
   dependencies:
     events "^2.0.0"
 
-"@ont-community/hdkey-secp256r1@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ont-community/hdkey-secp256r1/-/hdkey-secp256r1-1.0.0.tgz#2a4d8bdcb11fc99a254272dd1e0d1241306661a1"
-  dependencies:
-    coinstring "^2.0.0"
-    elliptic "^6.4.0"
-    safe-buffer "^5.1.1"
-
 "@ont-community/hdkey-secp256r1@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@ont-community/hdkey-secp256r1/-/hdkey-secp256r1-1.0.1.tgz#81840bd0ae3442baed490eac204646bb845e9f89"
@@ -1139,6 +1131,11 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base-58@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/base-58/-/base-58-0.0.1.tgz#85d3e70251075661933388f831d1eb8b8f6314e3"
+  integrity sha1-hdPnAlEHVmGTM4j4MdHri49jFOM=
+
 base-x@^3.0.2, base-x@^3.0.3:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.4.tgz#94c1788736da065edb1d68808869e357c977fa77"
@@ -1186,6 +1183,11 @@ bigi@^1.1.0, bigi@^1.2.1, bigi@^1.4.2:
 bignumber.js@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-6.0.0.tgz#bbfa047644609a5af093e9cbd83b0461fa3f6002"
+
+bignumber.js@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
+  integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
 
 binary-extensions@^1.0.0:
   version "1.11.0"
@@ -3484,12 +3486,6 @@ html-webpack-plugin@2.29.0:
     pretty-error "^2.0.2"
     toposort "^1.0.0"
 
-html5-websocket@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/html5-websocket/-/html5-websocket-2.0.3.tgz#d58e01dc4228452781b7863b359d8ce51d328e1c"
-  dependencies:
-    ws "^3.1.0"
-
 htmlparser2@~3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.3.0.tgz#cc70d05a59f6542e43f0e685c982e14c924a9efe"
@@ -4654,6 +4650,11 @@ loglevel@^1.4.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
 
+long@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+
 longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
@@ -5250,34 +5251,6 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-ts-sdk@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.1.tgz#632393f2fbd360a762260ad2baf4125a8f661fcf"
-  dependencies:
-    "@ont-community/hdkey-secp256r1" "^1.0.0"
-    axios "^0.17.1"
-    babel-polyfill "^6.26.0"
-    base-x "^3.0.3"
-    base64-url "^2.2.0"
-    bigi "^1.4.2"
-    bignumber.js "^6.0.0"
-    bip39 "^2.5.0"
-    bs58 "^4.0.1"
-    bs58check "^2.1.1"
-    crypto-js "^3.1.9-1"
-    ecdsa "^0.7.0"
-    ecurve "^1.0.6"
-    elliptic "^6.4.0"
-    html5-websocket "^2.0.2"
-    js-sha3 "^0.7.0"
-    promise-timeout "^1.3.0"
-    scrypt-async "^2.0.0"
-    secure-random "^1.1.1"
-    sm.js "0.1.7"
-    uuid "^3.2.1"
-    wif "^2.0.6"
-    ws "^4.1.0"
-
 ontology-ts-sdk@^0.9.4:
   version "0.9.9"
   resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-0.9.9.tgz#b0257fe53a198a852a4596af7aca9314f820dcbb"
@@ -5301,6 +5274,36 @@ ontology-ts-sdk@^0.9.4:
     elliptic "^6.4.0"
     js-sha3 "^0.7.0"
     milagro-crypto-js "^3.3.0"
+    promise-timeout "^1.3.0"
+    scrypt-async "^2.0.0"
+    secure-random "^1.1.1"
+    sm.js "0.1.7"
+    uuid "^3.2.1"
+    websocket-as-promised "^0.8.0"
+    wif "^2.0.6"
+    ws "^4.1.0"
+
+"ontology-ts-sdk@git+https://github.com/OnyxPay/ontology-ts-sdk.git":
+  version "1.0.10"
+  resolved "git+https://github.com/OnyxPay/ontology-ts-sdk.git#daa30dcd8c181865b5bb861fcde3021d2ec02fe9"
+  dependencies:
+    "@ont-community/hdkey-secp256r1" "^1.0.1"
+    "@ont-community/html5-websocket" "^2.0.2"
+    axios "^0.17.1"
+    babel-polyfill "^6.26.0"
+    base-58 "^0.0.1"
+    base64-url "^2.2.0"
+    bigi "^1.4.2"
+    bignumber.js "^7.2.1"
+    bip39 "^2.5.0"
+    crypto-js "^3.1.9-1"
+    ecdsa "^0.7.0"
+    ecurve "^1.0.6"
+    elliptic "^6.4.0"
+    js-sha3 "^0.7.0"
+    long "^4.0.0"
+    milagro-crypto-js "^3.3.0"
+    pkcs7 "^1.0.2"
     promise-timeout "^1.3.0"
     scrypt-async "^2.0.0"
     secure-random "^1.1.1"
@@ -5560,6 +5563,11 @@ pinkie-promise@^2.0.0:
 pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+
+pkcs7@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/pkcs7/-/pkcs7-1.0.2.tgz#b6dba527528c2942bfc122ce2dafcdb5e59074e7"
+  integrity sha1-ttulJ1KMKUK/wSLOLa/NteWQdOc=
 
 pkg-dir@^2.0.0:
   version "2.0.0"

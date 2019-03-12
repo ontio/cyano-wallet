@@ -40,11 +40,11 @@ export const DashboardView: React.SFC<Props> = (props) => (
       <LogoHeader showLogout={true} title="Balances" />
       <View content={true} className="spread-around">
         <View orientation="column" className="balance">
-          <label>ONT</label>
+          <label>ONYX</label>
           <h1>{props.ontAmount}</h1>
         </View>
         <View orientation="column" className="balance">
-          <label>ONG</label>
+          <label>OXG</label>
           <h3>{props.ongAmount}</h3>
           <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
         </View>

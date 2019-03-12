@@ -54,9 +54,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       handleMax: (formProps: FormRenderProps) => {
         const asset: string | undefined = get(formProps.values, 'asset');
 
-        if (asset === 'ONT') {
+        if (asset === 'ONYX') {
           formProps.form.change('amount', reduxProps.ontAmount);
-        } else if (asset === 'ONG') {
+        } else if (asset === 'OXG') {
           formProps.form.change('amount', reduxProps.ongAmount);
         }
         return true;

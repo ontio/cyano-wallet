@@ -18,7 +18,7 @@
 import axios from 'axios';
 import { flatMap, get } from 'lodash';
 
-type AssetType = 'ONT' | 'ONG';
+type AssetType = 'ONYX' | 'OXG';
 
 export interface Transfer {
   amount: string;
@@ -52,11 +52,11 @@ export async function getTransferList(address: string, explorerAddress: string) 
 }
 
 function translateAsset(asset: any): AssetType {
-  if (asset === 'ont') {
-    return 'ONT';
-  } else if (asset === 'ong') {
-    return 'ONG';
+  if (asset === 'onyx') {
+    return 'ONYX';
+  } else if (asset === 'oxg') {
+    return 'OXG';
   } else {
-    return 'ONT';
+    return 'ONYX';
   }
 }

@@ -27,21 +27,21 @@ export async function getBalance(nodeAddress: string, ssl: boolean, walletEncode
   const protocol = ssl ? 'https' : 'http';
   const restClient = new RestClient(`${protocol}://${nodeAddress}:${CONST.HTTP_REST_PORT}`);
   const response = await restClient.getBalance(wallet.accounts[0].address);
-  const ont: number = Number(get(response, 'Result.ont'));
-  const ong: number = Number(get(response, 'Result.ong'));
+  const onyx: number = Number(get(response, 'Result.onyx'));
+  const oxg: number = Number(get(response, 'Result.oxg'));
 
   return {
-    ong,
-    ont
+    onyx,
+    oxg
   };
 }
 
-export async function getUnboundOng(nodeAddress: string, ssl: boolean, walletEncoded: any) {
+export async function getUnboundOxg(nodeAddress: string, ssl: boolean, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
 
   const protocol = ssl ? 'https' : 'http';
   const baseUrl = `${protocol}://${nodeAddress}:${CONST.HTTP_REST_PORT}`;
-  const unboundOngUrl = '/api/v1/unboundong/';
+  const unboundOngUrl = '/api/v1/unboundoxg/';
   const address = wallet.accounts[0].address;
 
   const url = baseUrl + unboundOngUrl + address.toBase58();
@@ -53,7 +53,7 @@ export async function getUnboundOng(nodeAddress: string, ssl: boolean, walletEnc
   return unboundOng;
 }
 
-export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, recipient: string, asset: 'ONT' | 'ONG', amount: string) {
+export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded: any, password: string, recipient: string, asset: 'ONYX' | 'OXG', amount: string) {
   const wallet = getWallet(walletEncoded);
   const from = wallet.accounts[0].address;
   const privateKey = decryptWallet(wallet, password);
@@ -61,7 +61,7 @@ export async function transfer(nodeAddress: string, ssl: boolean, walletEncoded:
   console.log('private key', privateKey);
   const to = new Address(recipient);
 
-  if (asset === 'ONG') {
+  if (asset === 'OXG') {
     amount = String(Number(amount) * 1000000000);
   }
 

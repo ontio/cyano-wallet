@@ -18,8 +18,8 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 * Login with Mnemonics phrase, Private Key or a stored account.
 * Ledger support
 * View balance
-* Send ONG and ONT
-* Withdraw (claim) ONG
+* Send OXG and ONYX
+* Withdraw (claim) OXG
 * Switch networks (Test/Main/Private) with TLS support
 
 ## Installation

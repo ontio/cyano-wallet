@@ -92,7 +92,7 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   // const identity = Identity.create(privateKey, password, uuid(), scryptParams);
   // const ontId = identity.ontid;
 
-  // register the ONT ID on blockchain
+  // register the ONYX ID on blockchain
   // if (register) {
   //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
   //   tx.payer = identity.controls[0].address;
