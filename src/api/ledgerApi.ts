@@ -17,7 +17,6 @@
  */
 import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
 import { Account, Wallet } from 'ontology-ts-sdk';
-import LedgerKey = Ledger.LedgerKey;
 import { v4 as uuid } from 'uuid';
 import { storageSet } from './storageApi';
 
@@ -35,7 +34,7 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
       size: scrypt.dkLen
     };
   
-    const privateKey = await LedgerKey.create(index);
+    const privateKey = await Ledger.create(index, false);
     // const publicKey = privateKey.getPublicKey();
   
     // const identity = Identity.create(privateKey, '', uuid(), scryptParams);
@@ -68,6 +67,6 @@ export async function importLedgerKey(nodeAddress: string, ssl: boolean, index: 
   }
   
   export function isLedgerKey(wallet: Wallet) {
-    return wallet.accounts[0].encryptedKey instanceof LedgerKey;
+    return wallet.accounts[0].encryptedKey;
   }
   
