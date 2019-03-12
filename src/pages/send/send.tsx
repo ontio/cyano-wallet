@@ -20,8 +20,6 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { FormRenderProps } from 'react-final-form';
 import { RouterProps } from 'react-router';
-import { getWallet } from '../../api/authApi';
-import { isLedgerKey } from '../../api/ledgerApi';
 import { dummy, reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
 import { Props, SendView } from './sendView';
@@ -42,14 +40,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         const recipient = get(values, 'recipient', '');
         const asset = get(values, 'asset', '');
         const amount = get(values, 'amount', '');
-
-        const wallet = getWallet(reduxProps.walletEncoded);
-        
-        if (isLedgerKey(wallet)) {
-          props.history.push('/ledger/sendConfirm', { recipient, asset, amount });
-        } else {
-          props.history.push('/sendConfirm', { recipient, asset, amount });
-        }
+        props.history.push('/sendConfirm', { recipient, asset, amount });
       },
       handleMax: (formProps: FormRenderProps) => {
         const asset: string | undefined = get(formProps.values, 'asset');
