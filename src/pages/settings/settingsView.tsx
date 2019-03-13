@@ -27,7 +27,9 @@ export interface Props {
   ontAmount: number;
   ongAmount: number;
   handleSave: (values: object) => Promise<void>;
+  handleClear: () => void;
   handleCancel: () => void;
+  handleExport: () => void;
   settings: Settings;
 }
 
@@ -110,6 +112,20 @@ export const SettingsView: React.SFC<Props> = (props) => (
                 </View>
               </>) : (null)}
             <Filler />
+            <Spacer />
+          <Button
+            onClick={props.handleClear}
+            icon="delete"
+            title="Clear account and identity"
+            content="Clear wallet"
+          />
+          <Spacer />
+          <Button
+            type="button"
+            onClick={props.handleExport}
+            content="Export wallet"
+          />
+          <Spacer />
             <View className="buttons">
               <Button icon="check" content="Save" />
               <Button onClick={props.handleCancel}>Cancel</Button>

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import * as FileSaver from 'file-saver';
 import { get } from 'lodash';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
@@ -31,7 +32,8 @@ interface State {
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.wallet.ongAmount,
-  ontAmount: state.wallet.ontAmount
+  ontAmount: state.wallet.ontAmount,
+  wallet: state.auth.wallet
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
@@ -47,6 +49,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         withProps({
           handleCancel: () => {
             props.history.goBack();
+          },
+          handleClear: () => {
+            props.history.goBack();
+          },
+          handleExport: () => {
+            const blob = new Blob([JSON.stringify(reduxProps.wallet)!], { type: 'text/plain;charset=utf-8' });
+            FileSaver.saveAs(blob, 'wallet.dat');
           },
           handleSave: async (values: object) => {
             const net: NetValue = get(values, 'net', 'TEST');
@@ -65,7 +74,10 @@ console.log('ssl', ssl);
         }, (injectedProps) => {
           if (state.settings !== null) {
             return (
-              <Component {...injectedProps} settings={state.settings} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
+              <Component {...injectedProps} 
+              settings={state.settings} 
+              ontAmount={reduxProps.ontAmount} 
+              ongAmount={reduxProps.ongAmount}  />
             );
           } else {
           return <Nothing />;
