@@ -112,13 +112,6 @@ export const SettingsView: React.SFC<Props> = (props) => (
                 </View>
               </>) : (null)}
             <Filler />
-            <Spacer />
-          <Button
-            onClick={props.handleClear}
-            icon="delete"
-            title="Clear account and identity"
-            content="Clear wallet"
-          />
           <Spacer />
           <Button
             type="button"
