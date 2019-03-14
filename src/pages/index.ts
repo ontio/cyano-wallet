@@ -33,6 +33,7 @@ export { SendConfirm } from './sendConfirm/sendConfirm';
 export { SendComplete } from './sendComplete/sendComplete';
 export { SendFailed } from './sendFailed/sendFailed';
 export { SettingsPage } from './settings/settings';
+export { AccountsPage } from './accounts/accounts';
 export { Signup } from './signup/signup';
 export { Transfers } from './transfers/transfers';
 export { WithdrawConfirm } from './withdrawConfirm/withdrawConfirm';

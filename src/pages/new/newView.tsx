@@ -28,7 +28,7 @@ export interface Props {
 export const NewView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New account" />
+      <LogoHeader showLogout={false} showAccounts={false} title="New account" />
       <View content={true} className="spread-around">
         <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
       </View>

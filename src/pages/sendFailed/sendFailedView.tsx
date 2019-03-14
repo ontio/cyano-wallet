@@ -29,7 +29,7 @@ export interface Props {
 export const SendFailedView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Transaction failed" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Transaction failed" />
       <View content={true} className="spread-around">
         <View>The transaction timeouted.</View>
       </View>

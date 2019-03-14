@@ -47,7 +47,7 @@ const assetOptions = [
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Send" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Send" />
       <View content={true} className="spread-around">
         <View>Double check the address of the recipient.</View>
       </View>

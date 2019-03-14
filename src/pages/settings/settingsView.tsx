@@ -53,7 +53,7 @@ const netOptions: Array<{ text: string, value: NetValues }> = [
 export const SettingsView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} showSettings={false} title="Settings" />
+      <LogoHeader showLogout={false} showAccounts={false} showSettings={false} title="Settings" />
       <View content={true} className="spread-around">
         <View>Wallet needs to be restarted for changes to take effect.</View>
       </View>

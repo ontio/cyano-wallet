@@ -27,7 +27,7 @@ export interface Props {
 export const WithdrawFailedView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Withdrawal failed" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Withdrawal failed" />
       <View content={true} className="spread-around">
         <View>The withdrawal timeouted.</View>
       </View>

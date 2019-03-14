@@ -37,7 +37,7 @@ export interface Props {
 export const DashboardView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Balances" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Balances" />
       <View content={true} className="spread-around">
         <View orientation="column" className="balance">
           <label>ONYX</label>

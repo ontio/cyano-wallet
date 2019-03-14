@@ -29,7 +29,7 @@ export interface Props {
 export const SendCompleteView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Transaction finished" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Transaction finished" />
       <View content={true} className="spread-around">
         <View>It could take a while until the balances change.</View>
       </View>

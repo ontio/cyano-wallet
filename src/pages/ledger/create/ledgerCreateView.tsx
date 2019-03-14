@@ -30,7 +30,7 @@ export interface Props {
 export const LedgerCreateView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="New Ledger account" />
+      <LogoHeader showLogout={false} showAccounts={false} title="New Ledger account" />
       <View content={true} className="spread-around">
         <View>After clicking Sign up, confirm the transaction on your Ledger.</View>
       </View>

@@ -29,7 +29,7 @@ export interface Props {
 export const ClearView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} title="Clear" />
+      <LogoHeader showLogout={false} showAccounts={false} title="Clear" />
       <View content={true} className="spread-around">
         <View>Clearing will erase your wallet from this device.</View>
       </View>

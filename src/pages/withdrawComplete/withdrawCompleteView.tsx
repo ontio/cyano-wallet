@@ -27,7 +27,7 @@ export interface Props {
 export const WithdrawCompleteView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Withdrawal finished" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Withdrawal finished" />
       <View content={true} className="spread-around">
         <View>It could take a while until the balances change.</View>
       </View>

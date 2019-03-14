@@ -28,7 +28,7 @@ export interface Props {
 export const LedgerSendConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} title="Confirm transaction" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Confirm transaction" />
       <View content={true} className="spread-around">
         <View>Confirm the transaction by your Ledger.</View>
       </View>

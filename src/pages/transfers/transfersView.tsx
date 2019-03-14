@@ -30,7 +30,7 @@ export interface Props {
 export const TransfersView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="partSmall gradient">
-      <LogoHeader showLogout={true} title="Transfers" />
+      <LogoHeader showLogout={true} showAccounts={true} title="Transfers" />
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <View orientation="column" className="transfersView">

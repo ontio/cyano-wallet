@@ -28,6 +28,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { BalanceProvider, SettingsProvider } from './components';
 import { 
+  AccountsPage,
   Clear, 
   Create, 
   Dashboard, 
@@ -69,6 +70,8 @@ export const AppView: React.SFC<{}> = () => (
           <Route path="/sendComplete" exact={true} component={SendComplete} />
           <Route path="/sendFailed" exact={true} component={SendFailed} />
           <Route path="/settings" exact={true} component={SettingsPage} />
+          <Route path="/account/change" exact={true} component={AccountsPage} />
+          
           <Route path="/receive" exact={true} component={Receive} />
           <Route path="/transfers" exact={true} component={Transfers} />
           <Route path="/withdrawConfirm" exact={true} component={WithdrawConfirm} />

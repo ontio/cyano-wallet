@@ -15,37 +15,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as QRCode from 'qrcode.react';
 import * as React from 'react';
-import { Button, Message } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
+import { Button } from 'semantic-ui-react';
+import { Filler, Spacer, View } from '../../components';
+// import { AccountList } from '../../components';
 
 export interface Props {
-  address: string;
-  
-  handleReturn: () => void;
+  loading: boolean;
+  accounts: string[];
+  selectedAccount: string;
+
+  handleAdd: () => void;
+  handleBack: () => void;
+
+  handleAccountClick: (account: string) => void;
+  handleAccountDelClick: (account: string) => void;
 }
 
-export const ReceiveView: React.SFC<Props> = (props) => (
+export const AccountsView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={true} showAccounts={true} title="Receive funds" />
       <View content={true} className="spread-around">
-        <View>Use your public address to fund your wallet.</View>
+        <View>Select the account to switch to.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
-      <label>Public address</label>
-      <Message>{props.address}</Message>
+    <View orientation="column" fluid={true} content={true} className="spread-around">
+      <View orientation="column" className="scrollView" />
       <Spacer />
-      <View className="qrCode">
-        <QRCode value={props.address} fgColor="#595757" size={100} />
-      </View>
       <Filler />
       <View className="buttons">
-        <Button onClick={props.handleReturn}>Return</Button>
+        <Button icon="add" content="Add" onClick={props.handleAdd} loading={props.loading} disabled={props.loading} />
+        <Button content="Back" onClick={props.handleBack} disabled={props.loading} />
       </View>
     </View>
-    
   </View>
 );

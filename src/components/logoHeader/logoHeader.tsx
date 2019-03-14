@@ -23,6 +23,7 @@ import { LogoHeaderView, Props } from './logoHeaderView';
 interface OuterProps {
   showLogout: boolean;
   showSettings?: boolean;
+  showAccounts: boolean;
   title: string;
 }
 
@@ -30,6 +31,9 @@ interface OuterProps {
 const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) => (
   withRouter(routerProps => (
     withProps({
+      handleAccounts: () => {
+        routerProps.history.push('/account/change');
+      },
       handleClear: () => {
         routerProps.history.push('/clear');
       },
@@ -37,7 +41,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
         routerProps.history.push('/settings');
       }
     }, (injectedProps) => (
-      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showSettings={props.showSettings !== undefined ? props.showSettings : true} />
+      <Component {...injectedProps} title={props.title} showLogout={props.showLogout} showAccounts={props.showAccounts} showSettings={props.showSettings !== undefined ? props.showSettings : true}  />
     ))
   ))
 );
