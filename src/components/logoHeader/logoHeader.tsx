@@ -46,4 +46,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
   ))
 );
 
+interface TitleOuterProps {
+  title: string;
+}
+
 export const LogoHeader = enhancer(LogoHeaderView);
+
+export const AccountLogoHeader = (props: TitleOuterProps) => (
+  <LogoHeader showAccounts={true} showSettings={true} title={props.title} showLogout={true} />
+);

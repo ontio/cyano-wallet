@@ -34,6 +34,7 @@ export { SendComplete } from './sendComplete/sendComplete';
 export { SendFailed } from './sendFailed/sendFailed';
 export { SettingsPage } from './settings/settings';
 export { AccountsPage } from './accounts/accounts';
+export { AccountsAddPage } from './accountsAdd/accountsAdd';
 export { Signup } from './signup/signup';
 export { Transfers } from './transfers/transfers';
 export { WithdrawConfirm } from './withdrawConfirm/withdrawConfirm';
