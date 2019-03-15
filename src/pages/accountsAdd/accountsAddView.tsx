@@ -17,14 +17,12 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { AccountLogoHeader, Clickable, Spacer, View } from '../../components';
+import { AccountLogoHeader, Spacer, View } from '../../components';
 
 export interface Props {
   handleCreate: () => void;
   handleImport: () => void;
   handleRestore: () => void;
-  handleLedger: () => void;
-  handleTrezor: () => void;
   handleBack: () => void;
 }
 
@@ -54,11 +52,6 @@ export const AccountsAddView: React.SFC<Props> = (props) => (
         <Button size="small" onClick={props.handleBack}>
           Back
         </Button>
-      </View>
-      <View className="center ledgerText">
-        <Clickable onClick={() => props.handleLedger()}>Ledger</Clickable>
-        <View>&nbsp;or&nbsp;</View>
-        <Clickable onClick={() => props.handleTrezor()}>Trezor</Clickable>
       </View>
     </View>
   </View>

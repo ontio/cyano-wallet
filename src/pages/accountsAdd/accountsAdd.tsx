@@ -32,14 +32,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       handleImport: () => {
         props.history.push('/import');
       },
-      handleLedger: () => {
-        props.history.push('/ledger/signup');
-      },
       handleRestore: () => {
         props.history.push('/restore');
-      },
-      handleTrezor: () => {
-        props.history.push('/trezor/signup');
       },
     },
     (injectedProps) => <Component {...injectedProps} />,

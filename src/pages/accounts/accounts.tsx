@@ -18,9 +18,11 @@
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getWallet } from 'src/api/authApi';
+import { encodeWallet, getWallet } from 'src/api/authApi';
 import { reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
+import { setWallet } from '../../redux/auth/authActions';
+import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
 import { AccountsView, Props } from './accountsView';
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -32,9 +34,9 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      // finishLoading: Actions.loader.finishLoading,
-      // setWallet: Actions.wallet.setWallet,
-      // startLoading: Actions.loader.startLoading,
+      accountsFinishLoading: finishLoading,
+      accountsSetWallet: setWallet,
+      accountsStartLoading: startLoading,
     },
     dispatch,
   );
@@ -49,14 +51,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         accounts,
         handleAccountClick: async (account: string) => {
           wallet.setDefaultAccount(account);
-          /*const encodedWallet = encodeWallet(wallet);
+          const encodedWallet = encodeWallet(wallet);
 
-          await actions.startLoading();
-          await actions.setWallet(encodedWallet);
+          await actions.accountsStartLoading();
+          await actions.accountsSetWallet(encodedWallet);
 
-          await getBackgroundManager().refreshBalance();
+          // await getBackgroundManager().refreshBalance();
 
-          await actions.finishLoading();*/
+          await actions.accountsFinishLoading();
 
           props.history.push('/');
         },

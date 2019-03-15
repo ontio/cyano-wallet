@@ -30,7 +30,8 @@ import { Props, RestoreView } from './restoreView';
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
-  ssl: state.settings.ssl
+  ssl: state.settings.ssl,
+  wallet: state.auth.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
@@ -47,7 +48,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
         actions.startLoading();
 
-        const { encryptedWif, wif, wallet } = await importMnemonics(reduxProps.nodeAddress, reduxProps.ssl, mnemonics, password, true);
+        const { encryptedWif, wif, wallet } = await importMnemonics(reduxProps.nodeAddress, reduxProps.ssl, mnemonics, password, true, reduxProps.wallet);
         actions.setWallet(wallet);
 
         actions.finishLoading();

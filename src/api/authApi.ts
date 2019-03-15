@@ -57,17 +57,17 @@ export async function signIn(password: string) {
   return walletEncoded;
 }
 
-export async function signUp(nodeAddress: string, ssl: boolean, password: string) {
+export async function signUp(nodeAddress: string, ssl: boolean, password: string, wallet: object | null) {
   const mnemonics = utils.generateMnemonic(32);
-  return await importMnemonics(nodeAddress, ssl, mnemonics, password, true);
+  return await importMnemonics(nodeAddress, ssl, mnemonics, password, true, wallet);
 }
 
-export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean) {
+export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean, wallet: object | null) {
   // generate NEO address for now
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
 
-  const result = await importPrivateKey(nodeAddress, ssl, wif, password, register);
+  const result = await importPrivateKey(nodeAddress, ssl, wif, password, register, wallet);
 
   return {
     mnemonics,
@@ -75,9 +75,15 @@ export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemoni
   };
 }
 
-export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: string, password: string, register: boolean) {
-  const wallet = Wallet.create(uuid());
-  const scrypt = wallet.scrypt;
+export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: string, password: string, register: boolean, wallet: object | null) {
+  let currentWallet : Wallet;
+  if (wallet === null) {
+    currentWallet = Wallet.create(uuid());
+  } else {
+    currentWallet = Wallet.parseJsonObj(wallet);
+  }
+
+  const scrypt = currentWallet.scrypt;
   const scryptParams = {
     blockSize: scrypt.r,
     cost: scrypt.n,
@@ -106,15 +112,15 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   const account = Account.create(privateKey, password, uuid(), scryptParams);
 
   // wallet.addIdentity(identity);
-  wallet.addAccount(account);
+  currentWallet.addAccount(account);
   // wallet.setDefaultIdentity(identity.ontid);
-  wallet.setDefaultAccount(account.address.toBase58());
+  currentWallet.setDefaultAccount(account.address.toBase58());
 
-  await storageSet('wallet', wallet.toJson());
+  await storageSet('wallet', currentWallet.toJson());
 
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
-    wallet: wallet.toJson(),
+    wallet: currentWallet.toJson(),
     wif
   };
 }
@@ -135,4 +141,8 @@ export function getWallet(walletEncoded: any) {
 export function getAddress(walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
   return wallet.defaultAccountAddress;
+}
+
+export function encodeWallet(wallet: Wallet) {
+  return wallet.toJson();
 }
