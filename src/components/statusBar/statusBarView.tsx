@@ -15,10 +15,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from "./clickableText";
-export { Logo } from "./logo/logo";
-export { Nothing } from "./nothing";
-export { LogoHeader } from "./logoHeader/logoHeader";
-export { Filler, Spacer, View } from "./view";
-export { BalanceProvider } from "./balanceProvider";
-export { StatusBar } from "./statusBar/statusBar";
+import * as React from "react";
+import { NetworkState } from "../../redux/status/statusActions";
+import { Filler, View } from "../view";
+
+export interface Props {
+  netName: string;
+  status: NetworkState;
+}
+
+export const StatusBarView: React.SFC<Props> = props => (
+  <View className="statusBar gradient">
+    <View>{props.netName}</View>
+    <Filler />
+    {props.status === "CONNECTED" ? (
+      <img title="Connected" className="icon" height="18" src={require("../../assets/connectedIcon.svg")} />
+    ) : (
+      <img title="Disconnected" className="icon" height="18" src={require("../../assets/disconnectedIcon.svg")} />
+    )}
+  </View>
+);

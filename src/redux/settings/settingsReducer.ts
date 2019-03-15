@@ -15,23 +15,63 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { CONST } from 'ontology-ts-sdk';
-import { Reducer } from 'redux';
-import { SET_NODE_ADDRESS } from './settingsActions';
+import { CONST } from "ontology-ts-sdk";
+import { Reducer } from "redux";
+import { SET_SETTINGS } from "./settingsActions";
+
+export type NetValue = "TEST" | "MAIN" | "PRIVATE";
 
 export interface SettingsState {
-  explorerAddress: string | null;
   nodeAddress: string;
   ssl: boolean;
+  net: NetValue;
+}
+
+const settingsCash = localStorage.getItem("settings");
+
+const defaultState: SettingsState = (settingsCash &&
+  JSON.parse(settingsCash)) || {
+  nodeAddress: CONST.MAIN_NODE,
+  ssl: false,
+  net: "PRIVATE"
 };
 
-const defaultState: SettingsState = { explorerAddress: null, nodeAddress: CONST.MAIN_NODE, ssl: false };
-
-export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
+export const settingsReducer: Reducer<SettingsState> = (
+  state = defaultState,
+  action
+) => {
   switch (action.type) {
-    case SET_NODE_ADDRESS:
-      return { ...state, nodeAddress: action.nodeAddress, ssl: action.ssl, explorerAddress: action.explorerAddress };
+    case SET_SETTINGS:
+      localStorage.setItem(
+        "settings",
+        JSON.stringify({
+          nodeAddress: action.nodeAddress,
+          ssl: action.ssl,
+          net: action.net
+        })
+      );
+      return {
+        ...state,
+        nodeAddress: action.nodeAddress,
+        ssl: action.ssl,
+        net: action.net
+      };
     default:
       return state;
   }
 };
+
+export function compareSettings(
+  a: SettingsState | null,
+  b: SettingsState | null
+): boolean {
+  if (a === b) {
+    return true;
+  } else if (a == null || b == null) {
+    return false;
+  } else {
+    return (
+      a.net === b.net && a.ssl === b.ssl && a.nodeAddress === b.nodeAddress
+    );
+  }
+}

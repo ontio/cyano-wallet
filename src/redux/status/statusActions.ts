@@ -15,10 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from "./clickableText";
-export { Logo } from "./logo/logo";
-export { Nothing } from "./nothing";
-export { LogoHeader } from "./logoHeader/logoHeader";
-export { Filler, Spacer, View } from "./view";
-export { BalanceProvider } from "./balanceProvider";
-export { StatusBar } from "./statusBar/statusBar";
+
+export type NetworkState = 'CONNECTED' | 'DISCONNECTED';
+
+export interface StatusState {
+    networkState: NetworkState;
+};
+
+export const CHANGE_NETWORK_STATE = 'CHANGE_NETWORK_STATE';
+
+export const changeNetworkState = (networkState: NetworkState) => ({ type: CHANGE_NETWORK_STATE, networkState });

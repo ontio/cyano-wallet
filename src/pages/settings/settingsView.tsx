@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
-import * as React from 'react';
-import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Settings } from '../../api/settingsApi';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
-import { required } from '../../utils/validate';
+import { get } from "lodash";
+import * as React from "react";
+import { Field, Form } from "react-final-form";
+import { Button, Form as SemanticForm } from "semantic-ui-react";
+import { Settings } from "../../api/settingsApi";
+import { Filler, LogoHeader, Spacer, View } from "../../components";
+import { required } from "../../utils/validate";
 
 export interface Props {
   ontAmount: number;
@@ -33,24 +33,24 @@ export interface Props {
   settings: Settings;
 }
 
-export type NetValues = 'TEST' | 'MAIN' | 'PRIVATE';
+export type NetValues = "TEST" | "MAIN" | "PRIVATE";
 
-const netOptions: Array<{ text: string, value: NetValues }> = [
+const netOptions: Array<{ text: string; value: NetValues }> = [
   {
-    text: 'Test-Net',
-    value: 'TEST'
+    text: "Test-Net",
+    value: "TEST"
   },
   {
-    text: 'Main-Net',
-    value: 'MAIN'
+    text: "Main-Net",
+    value: "MAIN"
   },
   {
-    text: 'Private-Net',
-    value: 'PRIVATE'
-  },
+    text: "Private-Net",
+    value: "PRIVATE"
+  }
 ];
 
-export const SettingsView: React.SFC<Props> = (props) => (
+export const SettingsView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showSettings={false} title="Settings" />
@@ -62,14 +62,14 @@ export const SettingsView: React.SFC<Props> = (props) => (
       <Form
         initialValues={props.settings}
         onSubmit={props.handleSave}
-        render={(formProps) => (
+        render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
             <View orientation="column">
               <label>Net</label>
               <Field
                 name="net"
                 validate={required}
-                render={(t) => (
+                render={t => (
                   <SemanticForm.Dropdown
                     fluid={true}
                     selection={true}
@@ -78,53 +78,58 @@ export const SettingsView: React.SFC<Props> = (props) => (
                     value={t.input.value}
                     error={t.meta.touched && t.meta.invalid}
                   />
-                )} />
+                )}
+              />
             </View>
-            {get(formProps.values, 'net') === 'PRIVATE' ? (
+            {get(formProps.values, "net") === "PRIVATE" ? (
               <>
                 <Spacer />
                 <View orientation="column">
                   <label>Private node ip/address</label>
                   <Field
-                    name="address"
+                    name="nodeAddress"
                     validate={required}
-                    render={(t) => (
+                    render={t => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
                         value={t.input.value}
                         placeholder="polaris1.ont.io"
                         error={t.meta.touched && t.meta.invalid}
                       />
-                    )} />
+                    )}
+                  />
                 </View>
                 <Spacer />
                 <View orientation="column">
                   <label>Use SSL</label>
                   <Field
                     name="ssl"
-                    render={(t) => (
+                    render={t => (
                       <SemanticForm.Checkbox
-                        onChange={(e, d) => t.input.onChange(d.checked)}
+                        onChange={(e, d) => t.input.onChange(d.checked)}
                         checked={t.input.value}
                         error={t.meta.touched && t.meta.invalid}
                       />
-                    )} />
+                    )}
+                  />
                 </View>
-              </>) : (null)}
+              </>
+            ) : null}
             <Filler />
-          <Spacer />
-          <Button
-            type="button"
-            onClick={props.handleExport}
-            content="Export wallet"
-          />
-          <Spacer />
+            <Spacer />
+            <Button
+              type="button"
+              onClick={props.handleExport}
+              content="Export wallet"
+            />
+            <Spacer />
             <View className="buttons">
               <Button icon="check" content="Save" />
               <Button onClick={props.handleCancel}>Cancel</Button>
             </View>
           </SemanticForm>
-        )} />
+        )}
+      />
     </View>
   </View>
 );

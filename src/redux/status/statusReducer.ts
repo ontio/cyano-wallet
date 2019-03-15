@@ -15,10 +15,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { Clickable } from "./clickableText";
-export { Logo } from "./logo/logo";
-export { Nothing } from "./nothing";
-export { LogoHeader } from "./logoHeader/logoHeader";
-export { Filler, Spacer, View } from "./view";
-export { BalanceProvider } from "./balanceProvider";
-export { StatusBar } from "./statusBar/statusBar";
+import { Reducer } from "redux";
+import { CHANGE_NETWORK_STATE, StatusState } from "./statusActions";
+
+const defaultState: StatusState = { networkState: "DISCONNECTED" };
+export const statusReducer: Reducer<StatusState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case CHANGE_NETWORK_STATE:
+      return { ...state, networkState: action.networkState };
+    default:
+      return state;
+  }
+};
