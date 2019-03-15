@@ -24,7 +24,7 @@ import { accountDelete } from '../../api/authApi';
 // import { getBackgroundManager } from 'src/popup/backgroundManager';
 import { reduxConnect, withProps } from '../../compose';
 import { GlobalState } from '../../redux';
-import { setWallet } from '../../redux/auth/authActions';
+import { setWalletObject } from '../../redux/auth/authActions';
 import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
 import { AccountsDelView, Props } from './accountsDelView';
 
@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       accountsFinishLoading: finishLoading,
-      accountsSetWallet: setWallet,
+      accountsSetWallet: setWalletObject,
       accountsStartLoading: startLoading,
     },
     dispatch,

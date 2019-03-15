@@ -29,6 +29,7 @@ import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { BalanceProvider, SettingsProvider } from './components';
 import { 
   AccountsAddPage,
+  AccountsDelPage,
   AccountsPage,
   Clear, 
   Create, 
@@ -73,6 +74,7 @@ export const AppView: React.SFC<{}> = () => (
           <Route path="/settings" exact={true} component={SettingsPage} />
           <Route path="/account/change" exact={true} component={AccountsPage} />
           <Route path="/account/add" exact={true} component={AccountsAddPage} />
+          <Route path="/account/del" exact={true} component={AccountsDelPage} />
 
           <Route path="/receive" exact={true} component={Receive} />
           <Route path="/transfers" exact={true} component={Transfers} />

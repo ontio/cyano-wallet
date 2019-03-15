@@ -125,6 +125,29 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   };
 }
 
+export function accountDelete(address: string, wallet: string | Wallet) {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
+  const account = wallet.accounts.find((a) => {
+    const addr = a.address;
+    return addr.toBase58() === address
+  });
+
+  if (account !== undefined) {
+    wallet.accounts = wallet.accounts.filter((a) => a.address.toBase58() !== address);
+  }
+
+  if (wallet.defaultAccountAddress === address) {
+    wallet.defaultAccountAddress = wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : '';
+  }
+
+  return {
+    wallet: wallet.toJson(),
+  };
+}
+
 export async function getStoredWallet() {
   const walletEncoded = await storageGet('wallet');
 
