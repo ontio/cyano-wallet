@@ -130,10 +130,7 @@ export function accountDelete(address: string, wallet: string | Wallet) {
     wallet = getWallet(wallet);
   }
 
-  const account = wallet.accounts.find((a) => {
-    const addr = a.address;
-    return addr.toBase58() === address
-  });
+  const account = wallet.accounts.find((a) => a.address.toBase58() === address);
 
   if (account !== undefined) {
     wallet.accounts = wallet.accounts.filter((a) => a.address.toBase58() !== address);
