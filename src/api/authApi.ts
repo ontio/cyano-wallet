@@ -128,6 +128,8 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
 export function accountDelete(address: string, wallet: string | Wallet) {
   if (typeof wallet === 'string') {
     wallet = getWallet(wallet);
+  } else {
+    wallet = Wallet.parseJsonObj(wallet);
   }
 
   const account = wallet.accounts.find((a) => a.address.toBase58() === address);
