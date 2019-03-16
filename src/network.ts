@@ -4,7 +4,7 @@ import { changeNetworkState } from "./redux/status/statusActions";
 import { SettingsState, compareSettings } from "./redux/settings/settingsReducer";
 import { GlobalStore } from "./redux";
 
-let client: WebsocketClient;
+export let client: WebsocketClient;
 let settings: SettingsState | null = null;
 
 export function initNetwork(store: GlobalStore) {
@@ -38,7 +38,6 @@ function constructUrl(s: SettingsState) {
   let url: URL;
 
   const nodeAddress = getNodeAddress();
-  console.log("nodeAddress", nodeAddress);
 
   if (nodeAddress != null) {
     let useScheme: boolean = true;
