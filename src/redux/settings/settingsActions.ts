@@ -15,6 +15,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-export const SET_NODE_ADDRESS = 'SET_NODE_ADDRESS';
+export const SET_SETTINGS = "SET_SETTINGS";
 
-export const setNodeAddress = (nodeAddress: string, ssl: boolean, explorerAddress: string | null) => ({ type: SET_NODE_ADDRESS, nodeAddress, ssl, explorerAddress });
+export const setSettings = (
+  nodeAddress: string,
+  ssl: boolean,
+  net: string | null
+) => ({
+  type: SET_SETTINGS,
+  nodeAddress,
+  ssl,
+  net
+});

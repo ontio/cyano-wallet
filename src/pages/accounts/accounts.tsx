@@ -15,20 +15,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { bindActionCreators, Dispatch } from 'redux';
-import { encodeWallet, getWallet } from 'src/api/authApi';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { setWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { AccountsView, Props } from './accountsView';
+import * as React from "react";
+import { RouterProps } from "react-router";
+import { bindActionCreators, Dispatch } from "redux";
+import { encodeWallet, getWallet } from "src/api/authApi";
+import { reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import { setWallet } from "../../redux/auth/authActions";
+import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
+import { AccountsView, Props } from "./accountsView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-//  transfers: state.runtime.transfers,
-  wallet: state.auth.wallet,
+  //  transfers: state.runtime.transfers,
+  wallet: state.auth.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -36,15 +36,15 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       accountsFinishLoading: finishLoading,
       accountsSetWallet: setWallet,
-      accountsStartLoading: startLoading,
+      accountsStartLoading: startLoading
     },
-    dispatch,
+    dispatch
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
     const wallet = getWallet(reduxProps.wallet!);
-    const accounts = wallet.accounts.map((account) => account.address.toBase58());
+    const accounts = wallet.accounts.map(account => account.address.toBase58());
 
     return withProps(
       {
@@ -60,23 +60,24 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           await actions.accountsFinishLoading();
 
-          props.history.push('/');
+          props.history.push("/");
         },
         handleAccountDelClick: (account: string) => {
+          // TODO: fix delete
           if (wallet.accounts.length > 1) {
-            props.history.push('/account/del', { account });
+            props.history.push("/account/del", { account });
           }
         },
         handleAdd: () => {
-          props.history.push('/account/add');
+          props.history.push("/account/add");
         },
         handleBack: () => {
-          props.history.push('/');
+          props.history.push("/");
         },
         loading: reduxProps.loading,
-        selectedAccount: wallet.defaultAccountAddress,
+        selectedAccount: wallet.defaultAccountAddress
       },
-      (injectedProps) => <Component {...injectedProps} />,
+      injectedProps => <Component {...injectedProps} />
     );
   });
 

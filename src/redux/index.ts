@@ -15,26 +15,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { authReducer, AuthState } from './auth/authReducer';
-import { loaderReducer, LoaderState } from './loader/loaderReducer';
-import { settingsReducer, SettingsState } from './settings/settingsReducer';
-import { walletReducer, WalletState } from './wallet/walletReducer';
+import { applyMiddleware, combineReducers, createStore, Store } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import { authReducer, AuthState } from "./auth/authReducer";
+import { loaderReducer, LoaderState } from "./loader/loaderReducer";
+import { settingsReducer, SettingsState } from "./settings/settingsReducer";
+import { walletReducer, WalletState } from "./wallet/walletReducer";
+import { statusReducer } from "./status/statusReducer";
+import { StatusState } from "./status/statusActions";
 
 export const globalReducer = combineReducers({
-    auth: authReducer,
-    loader: loaderReducer,
-    settings: settingsReducer,
-    wallet: walletReducer
+  auth: authReducer,
+  loader: loaderReducer,
+  settings: settingsReducer,
+  wallet: walletReducer,
+  status: statusReducer
 });
 
 export interface GlobalState {
-    auth: AuthState;
-    loader: LoaderState;
-    settings: SettingsState;
-    wallet: WalletState;
-};
+  auth: AuthState;
+  loader: LoaderState;
+  settings: SettingsState;
+  wallet: WalletState;
+  status: StatusState;
+}
 
 export const reduxStore = createStore(globalReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+export type GlobalStore = Store<GlobalState>;
+
+export function getStore() {
+  return reduxStore;
+}

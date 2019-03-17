@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { Transfer } from '../../api/explorerApi';
-import { Clickable, Filler, LogoHeader, Spacer, View } from '../../components';
-import { TransferList } from '../../components/transferList';
+import * as React from "react";
+import { Button } from "semantic-ui-react";
+import { Transfer } from "../../api/explorerApi";
+import { /* Clickable, */ Filler, LogoHeader, /* Spacer, */ View } from "../../components";
+// import { TransferList } from "../../components/transferList";
 
 export interface Props {
   ontAmount: number;
@@ -31,10 +31,10 @@ export interface Props {
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
-  handleWithdraw: () => void;
+  handleWithdraw: () => void;
 }
 
-export const DashboardView: React.SFC<Props> = (props) => (
+export const DashboardView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Balances" />
@@ -46,18 +46,21 @@ export const DashboardView: React.SFC<Props> = (props) => (
         <View orientation="column" className="balance">
           <label>OXG</label>
           <h3>{props.ongAmount}</h3>
-          <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
+          <h4 onClick={props.handleWithdraw} className="unbound">
+            {" "}
+            {props.unboundAmount} (Claim)
+          </h4>
         </View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <h1>Last transfers</h1>
+      {/* <h1>Last transfers</h1>
       <Spacer />
       <TransferList ownAddress={props.ownAddress} transfers={props.transfers} />
       <Spacer />
       <View className="center">
         <Clickable onClick={props.handleTransfers}>more</Clickable>
-      </View>
+      </View> */}
       <Filler />
       <View className="buttons">
         <Button icon="send" content="Send" onClick={props.handleSend} />

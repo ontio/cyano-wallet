@@ -15,24 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Reducer } from "redux";
-import { CLEAR_WALLET, SET_WALLET } from "./authActions";
 
-export interface AuthState {
-  wallet: object | null;
-}
+export type NetworkState = 'CONNECTED' | 'DISCONNECTED';
 
-const walletCash = localStorage.getItem("wallet");
-// TODO: move seperate reducer
-const defaultState: AuthState = { wallet: (walletCash && JSON.parse(walletCash)) || null };
-
-export const authReducer: Reducer<AuthState> = (state = defaultState, action) => {
-  switch (action.type) {
-    case CLEAR_WALLET:
-      return { ...state, wallet: null };
-    case SET_WALLET:
-      return { ...state, wallet: action.wallet };
-    default:
-      return state;
-  }
+export interface StatusState {
+    networkState: NetworkState;
 };
+
+export const CHANGE_NETWORK_STATE = 'CHANGE_NETWORK_STATE';
+
+export const changeNetworkState = (networkState: NetworkState) => ({ type: CHANGE_NETWORK_STATE, networkState });
