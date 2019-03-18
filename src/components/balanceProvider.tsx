@@ -15,7 +15,8 @@ interface State {
 const mapStateToProps = (state: GlobalState) => ({
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  wallet: state.auth.wallet
+  wallet: state.auth.wallet,
+  netState: state.status.networkState 
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setBalance, setTransfers }, dispatch);
@@ -30,7 +31,7 @@ export const BalanceProvider: React.SFC<{}> = () =>
               const reduxProps = getReduxProps();
 
               const walletEncoded = reduxProps.wallet;
-              if (walletEncoded !== null) {
+              if (walletEncoded !== null && reduxProps.netState !== 'DISCONNECTED') {
                 const balance = await getBalance(walletEncoded);
                 const unboundOng = await getUnboundOxg(reduxProps.nodeAddress, reduxProps.ssl, walletEncoded);
 

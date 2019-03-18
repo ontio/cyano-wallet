@@ -78,9 +78,13 @@ function reconnect(s: SettingsState) {
       // ignored
     }
   }
-
-  const url = constructUrl(s);
-  client = new WebsocketClient(url, false, false);
+  try {
+    const url = constructUrl(s);
+    client = new WebsocketClient(url, false, false);
+  } catch (e) {
+    // handle excaption if testnet node address didn't set
+    console.log(e);
+  }
 }
 
 export function getClient(): WebsocketClient {
