@@ -25,7 +25,7 @@ import { dummy, lifecycle, reduxConnect } from "../../compose";
 
 // const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet }, dispatch);
 const mapStateToProps = (state: GlobalState) => ({
-  wallet: state
+  wallet: state.auth.wallet
 });
 
 const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
