@@ -23,12 +23,31 @@ body {
   justify-content: center;
 
   margin: 0;
-  padding: 0;
-  width: 350px;
-  height: 400px;
+  padding: 20px 0 0 0;
+  width: 50%;
+  min-width: 400px;
+  height: 60vh;
+  min-height: 500px;
+  margin: 0 auto;
 
   color: #595757;
   font-family: "Source Sans Pro", sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-grow: 1;
+  align-self: stretch;
+  background-color: #f4f4f4;
+  flex-direction: column;
+
+  /* background: url('https://onyxcoin.io/assets/images/banner_bg2.png');
+  background-color: #1e1f27;
+  background-size: contain; */
+}
+
+.space-betweem {
+  justify-content: space-between;
 }
 
 .ui.segment,
@@ -49,10 +68,17 @@ body {
 }
 
 .ui.button {
-  color: #32a4be;
+  color: #ffffff;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
+  background-image: linear-gradient(to right, #b7020b 0%,#f07141 51%,#b7020b);
+  background-size: 200% auto;
+  border-radius: 4px;
+}
+
+.ui.button:hover {
+  background-position: right center !important;
 }
 
 .ui.message .header,
@@ -86,13 +112,7 @@ body {
   box-shadow: 0 0 0 0 white inset;
 }
 
-#root {
-  display: flex;
-  flex-grow: 1;
-  align-self: stretch;
-  background-color: #f4f4f4;
-  flex-direction: column;
-}
+
 
 div.flex {
   display: flex;
@@ -146,7 +166,8 @@ div.flex.error {
 }
 
 .gradient {
-  background-image: linear-gradient(to top, #2c92a5 0%, #37b6d3 100%);
+  /* background-image: linear-gradient(to top, #2c92a5 0%, #37b6d3 100%); */
+  background-color: #0c0e27;
   color: white;
 }
 
@@ -198,27 +219,15 @@ div.flex.content {
   color: white;
 }
 
-.logo .ui.button:hover,
-.logo .ui.button:focus,
-.logo .ui.button:active,
-.logoHeader .buttons .button:hover,
-.logoHeader .buttons .button:focus,
-.logoHeader .buttons .button:active {
-  background-color: transparent !important;
-}
-
-.logo .ui.button:hover .icon,
-.logo .ui.button:focus .icon,
-.logo .ui.button:active .icon,
-.logoHeader .buttons .button:hover .icon,
-.logoHeader .buttons .button:focus .icon,
-.logoHeader .buttons .button:active .icon {
-  color: #e0e1e2 !important;
-}
-
 .logoHeader h1 {
   margin-left: 10px;
   line-height: 1;
+}
+
+.logoHeader span {
+  line-height: 30px;
+  margin-left: 10px;
+  font-size: 16px;
 }
 
 h1.header {
