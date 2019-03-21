@@ -93,7 +93,7 @@ export const SettingsView: React.SFC<Props> = props => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
                         value={t.input.value}
-                        placeholder="polaris1.ont.io"
+                        placeholder="http://35.178.63.10"
                         error={t.meta.touched && t.meta.invalid}
                       />
                     )}
