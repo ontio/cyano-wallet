@@ -1,4 +1,4 @@
-/* import { get } from "lodash";
+// import { get } from "lodash";
 import { Reader } from "ontology-ts-crypto";
 import { Account, Crypto, utils, Wallet } from "ontology-ts-sdk";
 import { v4 as uuid } from "uuid";
@@ -6,11 +6,9 @@ import PrivateKey = Crypto.PrivateKey;
 import KeyParameters = Crypto.KeyParameters;
 import KeyType = Crypto.KeyType;
 import CurveLabel = Crypto.CurveLabel;
-import { getWallet } from "./authApi"; */
 import { getWallet } from "./authApi";
-import { Wallet } from "ontology-ts-sdk";
 
-/* export function decryptAccount(wallet: Wallet, password: string) {
+export function decryptAccount(wallet: Wallet, password: string) {
   const account = getAccount(wallet);
   const saltHex = Buffer.from(account.salt, "base64").toString("hex");
   const encryptedKey = account.encryptedKey;
@@ -22,9 +20,9 @@ import { Wallet } from "ontology-ts-sdk";
     parallel: scrypt.p,
     size: scrypt.dkLen
   });
-} */
+}
 
-/* export function accountSignUp(password: string, neo: boolean, wallet: string | Wallet | null) {
+export function accountSignUp(password: string, neo: boolean, wallet: string | Wallet | null) {
   const mnemonics = utils.generateMnemonic(32);
   return accountImportMnemonics(mnemonics, password, neo, wallet);
 }
@@ -45,12 +43,12 @@ export function accountImportMnemonics(
     mnemonics,
     ...result
   };
-} */
+}
 
-/* export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
+export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
   if (wallet === null) {
     wallet = Wallet.create(uuid());
-  } else if (typeof wallet === "string") {
+  } else {
     wallet = getWallet(wallet);
   }
 
@@ -80,9 +78,9 @@ export function accountImportMnemonics(
     wallet: wallet.toJson(),
     wif: privateKey.serializeWIF()
   };
-} */
+}
 
-/* export function accountDelete(address: string, wallet: string | Wallet) {
+export function accountDelete(address: string, wallet: string | Wallet) {
   if (typeof wallet === "string") {
     wallet = getWallet(wallet);
   }
@@ -100,7 +98,7 @@ export function accountImportMnemonics(
   return {
     wallet: wallet.toJson()
   };
-} */
+}
 
 export function getAccount(wallet: string | Wallet) {
   if (typeof wallet === "string") {
@@ -121,7 +119,7 @@ export function getAccount(wallet: string | Wallet) {
   }
 }
 
-/* export function getAddress(wallet: string | Wallet) {
+export function getAddress(wallet: string | Wallet) {
   const account = getAccount(wallet);
   return account.address.toBase58();
 }
@@ -137,9 +135,9 @@ export function getPublicKey(walletEncoded: string) {
   }
 }
 
-export function isLedgerKey(wallet: Wallet) {
+/* export function isLedgerKey(wallet: Wallet) {
   return get(getAccount(wallet).encryptedKey, "type") === "LEDGER";
-}
+} */
 
 export function deserializePrivateKey(str: string): PrivateKey {
   const b = new Buffer(str, "hex");
@@ -163,4 +161,3 @@ export function deserializePrivateKey(str: string): PrivateKey {
     );
   }
 }
- */

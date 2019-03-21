@@ -19,6 +19,7 @@
     "file-saver": "^1.3.8",
     "final-form": "^4.8.1",
     "lodash": "^4.17.10",
+    "ontology-ts-crypto": "git+https://github.com/OnyxPay/ontology-ts-crypto.git",
     "ontology-ts-sdk": "git+https://github.com/OnyxPay/ontology-ts-sdk.git",
     "promise-timeout": "^1.3.0",
     "prop-types": "^15.6.1",

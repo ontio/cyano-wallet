@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { Field, Form } from 'react-final-form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
-import { required, samePassword } from '../../utils/validate';
+import * as React from "react";
+import { Field, Form } from "react-final-form";
+import { Button, Form as SemanticForm } from "semantic-ui-react";
+import { Filler, LogoHeader, Spacer, View } from "../../components";
+import { required, samePassword } from "../../utils/validate";
 
 export interface Props {
   handleSubmit: (values: object) => Promise<void>;
@@ -27,7 +27,7 @@ export interface Props {
   loading: boolean;
 }
 
-export const ImportView: React.SFC<Props> = (props) => (
+export const ImportView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="Import private key" />
@@ -39,14 +39,14 @@ export const ImportView: React.SFC<Props> = (props) => (
       <Form
         onSubmit={props.handleSubmit}
         validate={samePassword}
-        render={(formProps) => (
+        render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Private key (WIF format)</label>
+              <label>Private key (WIF or HEX format)</label>
               <Field
                 name="privateKey"
                 validate={required}
-                render={(t) => (
+                render={t => (
                   <SemanticForm.TextArea
                     rows={2}
                     onChange={t.input.onChange}
@@ -54,7 +54,8 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
@@ -62,7 +63,7 @@ export const ImportView: React.SFC<Props> = (props) => (
               <Field
                 name="password"
                 validate={required}
-                render={(t) => (
+                render={t => (
                   <SemanticForm.Input
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
@@ -71,14 +72,15 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Spacer />
             <View orientation="column">
               <label>Password again</label>
               <Field
                 name="passwordAgain"
-                render={(t) => (
+                render={t => (
                   <SemanticForm.Input
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
@@ -87,15 +89,21 @@ export const ImportView: React.SFC<Props> = (props) => (
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
-                )} />
+                )}
+              />
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>Restore</Button>
-              <Button disabled={props.loading} onClick={props.handleCancel}>Cancel</Button>
+              <Button disabled={props.loading} loading={props.loading}>
+                Restore
+              </Button>
+              <Button disabled={props.loading} onClick={props.handleCancel}>
+                Cancel
+              </Button>
             </View>
           </SemanticForm>
-        )} />
+        )}
+      />
     </View>
   </View>
 );

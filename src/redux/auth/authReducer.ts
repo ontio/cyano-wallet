@@ -17,9 +17,10 @@
  */
 import { Reducer } from "redux";
 import { CLEAR_WALLET, SET_WALLET } from "./authActions";
+import { Wallet } from "ontology-ts-sdk";
 
 export interface AuthState {
-  wallet: object | null;
+  wallet: Wallet | null;
 }
 
 const walletCash = localStorage.getItem("wallet");
@@ -31,6 +32,7 @@ export const authReducer: Reducer<AuthState> = (state = defaultState, action) =>
     case CLEAR_WALLET:
       return { ...state, wallet: null };
     case SET_WALLET:
+      localStorage.setItem("wallet", JSON.stringify(action.wallet));
       return { ...state, wallet: action.wallet };
     default:
       return state;
