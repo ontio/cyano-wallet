@@ -80,6 +80,8 @@ function reconnect(s: SettingsState) {
   }
   try {
     const url = constructUrl(s);
+    console.log("new url for reconnection", url);
+
     client = new WebsocketClient(url, false, false);
   } catch (e) {
     // handle excaption if testnet node address didn't set

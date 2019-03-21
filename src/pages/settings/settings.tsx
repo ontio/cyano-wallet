@@ -79,9 +79,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               },
               handleSave: async (values: object) => {
                 const net: NetValue = get(values, "net", "TEST");
-                const address: string = get(values, "nodeAddress", "");
                 const ssl: boolean = get(values, "ssl", false);
-
+                let address: string = get(values, "nodeAddress", "");
+                if (net === "MAIN") {
+                  address = "35.180.188.239";
+                } else if (net === "TEST") {
+                  address = "35.178.63.10";
+                }
+                console.log("values", { address, net, ssl });
                 actions.setSettings(address, ssl, net);
 
                 props.history.goBack();
