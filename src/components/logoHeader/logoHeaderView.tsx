@@ -30,10 +30,15 @@ export interface Props {
 }
 
 export const LogoHeaderView: React.SFC<Props> = (props) => (
-  <View className="logoHeader">
-    <img height="30" src={require('../../assets/ontsymbol.png')} />
-    <h1>{props.title}</h1>
-    <View orientation="row" fluid={true} className="buttons">
+  <View className="logoHeader space-betweem">
+    <View>
+      <img height="30" src={require('../../assets/logo-main.png')} />
+      <span>Onyx Wallet</span>
+    </View>
+    <View>
+      <h1>{props.title}</h1>
+    </View>
+    <View orientation="row" className="buttons">
       { props.showAccounts ? <Button onClick={props.handleAccounts} size="big" compact={true} basic={true} icon="exchange" /> : (null) }
       { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" /> : (null) }
       { props.showLogout ? <Button onClick={props.handleClear} size="big" compact={true} basic={true} icon="shutdown" /> : (null) }
