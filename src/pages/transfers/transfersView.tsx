@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { Button } from 'semantic-ui-react';
-import { Transfer } from '../../api/explorerApi';
-import { Filler, LogoHeader, Spacer, View } from '../../components';
-import { TransferList } from '../../components/transferList';
+import * as React from "react";
+import { Button } from "semantic-ui-react";
+import { Transfer } from "../../redux/runtime";
+import { Filler, LogoHeader, Spacer, View } from "../../components";
+import { TransferList } from "../../components/transferList";
 
 export interface Props {
   ownAddress: string;
@@ -27,7 +27,7 @@ export interface Props {
   handleBack: () => void;
 }
 
-export const TransfersView: React.SFC<Props> = (props) => (
+export const TransfersView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="partSmall gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Transfers" />

@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { getBalance, getUnboundOxg } from "../api/walletApi";
 import { lifecycle, reduxConnect, withState } from "../compose";
 import { GlobalState } from "../redux";
-import { setBalance, setTransfers } from "../redux/wallet/walletActions";
+import { setBalance, setTransfers, TokenAmountState } from "../redux/runtime";
 import { Nothing } from "./nothing";
 
 interface State {
@@ -16,7 +16,7 @@ const mapStateToProps = (state: GlobalState) => ({
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
   wallet: state.auth.wallet,
-  netState: state.status.networkState 
+  netState: state.status.networkState
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setBalance, setTransfers }, dispatch);
@@ -31,11 +31,12 @@ export const BalanceProvider: React.SFC<{}> = () =>
               const reduxProps = getReduxProps();
 
               const walletEncoded = reduxProps.wallet;
-              if (walletEncoded !== null && reduxProps.netState !== 'DISCONNECTED') {
+              if (walletEncoded !== null && reduxProps.netState !== "DISCONNECTED") {
+                const tokenBalances: TokenAmountState[] = [];
                 const balance = await getBalance(walletEncoded);
                 const unboundOng = await getUnboundOxg(reduxProps.nodeAddress, reduxProps.ssl, walletEncoded);
 
-                actions.setBalance(balance.oxg / 1000000000, balance.onyx, unboundOng / 1000000000);
+                actions.setBalance(balance.oxg / 1000000000, balance.onyx, unboundOng / 1000000000, tokenBalances);
 
                 /* const address = getAddress(walletEncoded);
 

@@ -15,48 +15,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import axios from 'axios';
-import { flatMap, get } from 'lodash';
-
-type AssetType = 'ONYX' | 'OXG';
-
-export interface Transfer {
-  amount: string;
-  asset: AssetType;
-  from: string;
-  to: string;
-  time: number;
-}
+import axios from "axios";
+import { flatMap, get } from "lodash";
+import { AssetType, Transfer } from "../redux/runtime";
 
 export async function getTransferList(address: string, explorerAddress: string) {
   const url = `https://${explorerAddress}/api/v1/explorer/address/${address}/100/1`;
 
   const response = await axios.get(url);
 
-  const txnList: any[] = get(response.data, 'Result.TxnList', []);
+  const txnList: any[] = get(response.data, "Result.TxnList", []);
 
   return flatMap(
     txnList.map(tx => {
-      const txnTime: number = get(tx, 'TxnTime', 0);
-      const transferList: any[] = get(tx, 'TransferList', []);
+      const txnTime: number = get(tx, "TxnTime", 0);
+      const transferList: any[] = get(tx, "TransferList", []);
 
-      return transferList.map(transfer => ({
-        amount: get(transfer, 'Amount', '0'),
-        asset: translateAsset(get(transfer, 'AssetName')),
-        from: get(transfer, 'FromAddress'),
-        time: txnTime,
-        to: get(transfer, 'ToAddress')
-      }) as Transfer);
+      return transferList.map(
+        transfer =>
+          ({
+            amount: get(transfer, "Amount", "0"),
+            asset: translateAsset(get(transfer, "AssetName")),
+            from: get(transfer, "FromAddress"),
+            time: txnTime,
+            to: get(transfer, "ToAddress")
+          } as Transfer)
+      );
     })
   );
 }
 
 function translateAsset(asset: any): AssetType {
-  if (asset === 'onyx') {
-    return 'ONYX';
-  } else if (asset === 'oxg') {
-    return 'OXG';
+  if (asset === "onyx") {
+    return "ONYX";
+  } else if (asset === "oxg") {
+    return "OXG";
   } else {
-    return 'ONYX';
+    return "ONYX";
   }
 }

@@ -15,64 +15,76 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormApi } from 'final-form';
-import { get } from 'lodash';
-import { timeout, TimeoutError } from 'promise-timeout';
-import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { bindActionCreators, Dispatch } from 'redux';
-import { withdrawOng } from '../../api/walletApi';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { clearWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { Props, WithdrawConfirmView } from './withdrawConfirmView';
+import { FormApi } from "final-form";
+import { get } from "lodash";
+import { timeout, TimeoutError } from "promise-timeout";
+import * as React from "react";
+import { RouterProps } from "react-router";
+import { bindActionCreators, Dispatch } from "redux";
+import { withdrawOng } from "../../api/walletApi";
+import { reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import { clearWallet } from "../../redux/auth/authActions";
+import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
+import { Props, WithdrawConfirmView } from "./withdrawConfirmView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  unboundAmount: state.wallet.unboundAmount,
+  unboundAmount: state.runtime.unboundAmount,
   wallet: state.auth.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ clearWallet, startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ clearWallet, startLoading, finishLoading }, dispatch);
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
-      },
-      handleSubmit: async (values: object, formApi: FormApi) => {
-        const password: string = get(values, 'password', '');
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    withProps(
+      {
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleSubmit: async (values: object, formApi: FormApi) => {
+          const password: string = get(values, "password", "");
 
-        actions.startLoading();
+          actions.startLoading();
 
-        try {
-          await timeout(withdrawOng(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, String(reduxProps.unboundAmount)), 15000);
+          try {
+            await timeout(
+              withdrawOng(
+                reduxProps.nodeAddress,
+                reduxProps.ssl,
+                reduxProps.wallet,
+                password,
+                String(reduxProps.unboundAmount)
+              ),
+              15000
+            );
 
-          props.history.push('/withdrawComplete', { amount: reduxProps.unboundAmount });
-        } catch (e) {
-          if (e instanceof TimeoutError) {
-            props.history.push('/withdrawFailed', { amount: reduxProps.unboundAmount });
-          } else {
-            formApi.change('password', '');
-            
-            return {
-              password: ''
-            };
+            props.history.push("/withdrawComplete", { amount: reduxProps.unboundAmount });
+          } catch (e) {
+            if (e instanceof TimeoutError) {
+              props.history.push("/withdrawFailed", { amount: reduxProps.unboundAmount });
+            } else {
+              formApi.change("password", "");
+
+              return {
+                password: ""
+              };
+            }
+          } finally {
+            actions.finishLoading();
           }
-        } finally {
-          actions.finishLoading();
-        }
 
-        return {};
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} unboundOng={reduxProps.unboundAmount} />
-    ))
-  ))
-);
+          return {};
+        }
+      },
+      injectedProps => (
+        <Component {...injectedProps} loading={reduxProps.loading} unboundOng={reduxProps.unboundAmount} />
+      )
+    )
+  );
 
 export const WithdrawConfirm = enhancer(WithdrawConfirmView);

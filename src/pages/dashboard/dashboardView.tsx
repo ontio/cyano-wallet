@@ -17,7 +17,7 @@
  */
 import * as React from "react";
 import { Button } from "semantic-ui-react";
-import { Transfer } from "../../api/explorerApi";
+import { Transfer } from "../../redux/runtime";
 import { /* Clickable, */ Filler, LogoHeader, /* Spacer, */ View } from "../../components";
 // import { TransferList } from "../../components/transferList";
 

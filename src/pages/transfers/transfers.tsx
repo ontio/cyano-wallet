@@ -15,29 +15,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { getAddress } from '../../api/authApi';
-import { dummy, reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { Props, TransfersView } from './transfersView';
+import * as React from "react";
+import { RouterProps } from "react-router";
+import { getAddress } from "../../api/authApi";
+import { dummy, reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import { Props, TransfersView } from "./transfersView";
 
 const mapStateToProps = (state: GlobalState) => ({
-  transfers: state.wallet.transfers,
+  transfers: state.runtime.transfers,
   wallet: state.auth.wallet
 });
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
-    withProps({
-      handleBack: () => {
-        props.history.push('/dashboard');
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, dummy, reduxProps =>
+    withProps(
+      {
+        handleBack: () => {
+          props.history.push("/dashboard");
+        },
+        ownAddress: getAddress(reduxProps.wallet)
       },
-      ownAddress: getAddress(reduxProps.wallet)
-    }, (injectedProps) => (
-      <Component {...injectedProps} transfers={reduxProps.transfers} />
-    ))
-  ))
-);
+      injectedProps => <Component {...injectedProps} transfers={reduxProps.transfers} />
+    )
+  );
 
 export const Transfers = enhancer(TransfersView);

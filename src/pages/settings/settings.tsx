@@ -46,8 +46,8 @@ interface State {
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings }, dispatch);
 
 const mapStateToProps = (state: GlobalState) => ({
-  ongAmount: state.wallet.ongAmount,
-  ontAmount: state.wallet.ontAmount,
+  ongAmount: state.runtime.ongAmount,
+  ontAmount: state.runtime.ontAmount,
   wallet: state.auth.wallet
 });
 

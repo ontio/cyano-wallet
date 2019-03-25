@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -16,46 +15,48 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
-import * as React from 'react';
-import { FormRenderProps } from 'react-final-form';
-import { RouterProps } from 'react-router';
-import { dummy, reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { Props, SendView } from './sendView';
+import { get } from "lodash";
+import * as React from "react";
+import { FormRenderProps } from "react-final-form";
+import { RouterProps } from "react-router";
+import { dummy, reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import { Props, SendView } from "./sendView";
 
 const mapStateToProps = (state: GlobalState) => ({
-  ongAmount: state.wallet.ongAmount,
-  ontAmount: state.wallet.ontAmount,
+  ongAmount: state.runtime.ongAmount,
+  ontAmount: state.runtime.ontAmount,
   walletEncoded: state.auth.wallet
 });
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, dummy, (reduxProps) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
-      },
-      handleConfirm: async (values: object) => {
-        const recipient = get(values, 'recipient', '');
-        const asset = get(values, 'asset', '');
-        const amount = get(values, 'amount', '');
-        props.history.push('/sendConfirm', { recipient, asset, amount });
-      },
-      handleMax: (formProps: FormRenderProps) => {
-        const asset: string | undefined = get(formProps.values, 'asset');
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, dummy, reduxProps =>
+    withProps(
+      {
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleConfirm: async (values: object) => {
+          const recipient = get(values, "recipient", "");
+          const asset = get(values, "asset", "");
+          const amount = get(values, "amount", "");
+          props.history.push("/sendConfirm", { recipient, asset, amount });
+        },
+        handleMax: (formProps: FormRenderProps) => {
+          const asset: string | undefined = get(formProps.values, "asset");
 
-        if (asset === 'ONYX') {
-          formProps.form.change('amount', reduxProps.ontAmount);
-        } else if (asset === 'OXG') {
-          formProps.form.change('amount', reduxProps.ongAmount);
+          if (asset === "ONYX") {
+            formProps.form.change("amount", reduxProps.ontAmount);
+          } else if (asset === "OXG") {
+            formProps.form.change("amount", reduxProps.ongAmount);
+          }
+          return true;
         }
-        return true;
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
-    ))
-  ))
-)
+      },
+      injectedProps => (
+        <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
+      )
+    )
+  );
 
 export const Send = enhancer(SendView);

@@ -21,24 +21,24 @@ import thunk from "redux-thunk";
 import { authReducer, AuthState } from "./auth/authReducer";
 import { loaderReducer, LoaderState } from "./loader/loaderReducer";
 import { settingsReducer, SettingsState } from "./settings/settingsReducer";
-import { walletReducer, WalletState } from "./wallet/walletReducer";
 import { statusReducer } from "./status/statusReducer";
 import { StatusState } from "./status/statusActions";
+import { runtimeReducer, RuntimeState } from "./runtime";
 
 export const globalReducer = combineReducers({
   auth: authReducer,
   loader: loaderReducer,
   settings: settingsReducer,
-  wallet: walletReducer,
-  status: statusReducer
+  status: statusReducer,
+  runtime: runtimeReducer
 });
 
 export interface GlobalState {
   auth: AuthState;
   loader: LoaderState;
   settings: SettingsState;
-  wallet: WalletState;
   status: StatusState;
+  runtime: RuntimeState;
 }
 
 export const reduxStore = createStore(globalReducer, composeWithDevTools(applyMiddleware(thunk)));
