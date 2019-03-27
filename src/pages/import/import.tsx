@@ -47,16 +47,23 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const password = get(values, "password", "");
           const privateKey = get(values, "privateKey", "");
 
-          actions.startLoading();
+          await actions.startLoading();
 
-          const { wallet } = accountImportPrivateKey(privateKey, password, reduxProps.wallet);
-          console.log("wallet", wallet);
+          try {
+            const { wallet } = accountImportPrivateKey(privateKey, password, reduxProps.wallet);
 
-          actions.setWallet(wallet);
+            await actions.setWallet(wallet);
 
-          actions.finishLoading();
+            await actions.finishLoading();
 
-          props.history.push("/dashboard");
+            props.history.push("/dashboard");
+            return {};
+          } catch (e) {
+            await actions.finishLoading();
+            return {
+              privateKey: "Invaid private key"
+            };
+          }
         }
       },
       injectedProps => <Component {...injectedProps} loading={reduxProps.loading} />

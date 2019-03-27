@@ -17,12 +17,12 @@
  */
 import * as React from "react";
 import { Field, Form } from "react-final-form";
-import { Button, Form as SemanticForm } from "semantic-ui-react";
+import { Button, Form as SemanticForm, Message } from "semantic-ui-react";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
 import { required, samePassword } from "../../utils/validate";
 
 export interface Props {
-  handleSubmit: (values: object) => Promise<void>;
+  handleSubmit: (values: object) => Promise<object>;
   handleCancel: () => void;
   loading: boolean;
 }
@@ -47,13 +47,18 @@ export const ImportView: React.SFC<Props> = props => (
                 name="privateKey"
                 validate={required}
                 render={t => (
-                  <SemanticForm.TextArea
-                    rows={2}
-                    onChange={t.input.onChange}
-                    input={{ ...t.input, value: t.input.value }}
-                    error={t.meta.touched && t.meta.invalid}
-                    disabled={props.loading}
-                  />
+                  <>
+                    <SemanticForm.TextArea
+                      rows={2}
+                      onChange={t.input.onChange}
+                      input={{ ...t.input, value: t.input.value }}
+                      error={t.meta.touched && t.meta.invalid}
+                      disabled={props.loading}
+                    />
+                    {t.meta.touched && t.meta.submitError != null ? (
+                      <Message size="small">{t.meta.submitError}</Message>
+                    ) : null}
+                  </>
                 )}
               />
             </View>
