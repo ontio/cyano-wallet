@@ -4,7 +4,7 @@ import { CONST, Crypto, OntAssetTxBuilder, TransactionBuilder, WebsocketClient }
 import { decryptWallet, getWallet } from "./authApi";
 import Address = Crypto.Address;
 import { getClient } from "../network";
-import { getAccount } from "./accountApi";
+import { getAccount, decryptAccount } from "./accountApi";
 
 export async function getBalance(walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
@@ -42,7 +42,6 @@ export async function getUnboundOxg(nodeAddress: string, ssl: boolean, walletEnc
   return unboundOng;
 }
 
-// TODO: use Ws
 export async function transfer(
   nodeAddress: string,
   ssl: boolean,
@@ -53,24 +52,19 @@ export async function transfer(
   amount: string
 ) {
   const wallet = getWallet(walletEncoded);
-  const from = wallet.accounts[0].address;
-  const privateKey = decryptWallet(wallet, password);
+  const from = getAccount(wallet).address;
+  const privateKey = decryptAccount(wallet, password);
   // tslint:disable-next-line:no-console
-  console.log("private key", privateKey);
+  console.log("private key: ", privateKey, "from: ", from);
   const to = new Address(recipient);
 
-  if (asset === "OXG") {
-    amount = String(Number(amount) * 1000000000);
-  }
-
-  const tx = OntAssetTxBuilder.makeTransferTx(asset, from, to, amount, "500", `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = OntAssetTxBuilder.makeTransferTx(asset, from, to, String(amount), "500", `${CONST.DEFAULT_GAS_LIMIT}`);
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   // tslint:disable-next-line:no-console
   console.log("tx", tx);
-  const protocol = ssl ? "wss" : "ws";
-  const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
-  await socketClient.sendRawTransaction(tx.serialize(), false, true);
+  const client = getClient();
+  await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
 export async function withdrawOng(

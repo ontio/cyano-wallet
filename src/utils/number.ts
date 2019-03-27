@@ -18,7 +18,7 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType) 
 
 export function convertAmountFromStr(amount: string, asset: AssetType) {
   let amountBN = new BigNumber(amount);
-  if (asset === "ONG") {
+  if (asset === "OXG") {
     amountBN = amountBN.times(new BigNumber("1000000000"));
   } else if (asset === "ONYX") {
     amountBN = amountBN.times(new BigNumber("100000000"));

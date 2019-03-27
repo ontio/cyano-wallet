@@ -47,6 +47,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const recipient: string = get(props.location, "state.recipient", "");
           const asset: "ONYX" | "OXG" = get(props.location, "state.asset", "");
           const amount: string = get(props.location, "state.amount", "");
+          console.log("##", amount);
 
           const password: string = get(values, "password", "");
 
