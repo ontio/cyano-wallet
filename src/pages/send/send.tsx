@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
- *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
- */
 import { get } from "lodash";
 import * as React from "react";
 import { FormRenderProps } from "react-final-form";
@@ -22,6 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
+import { convertAmountToBN, convertAmountFromStr } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -39,16 +23,20 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleConfirm: async (values: object) => {
           const recipient = get(values, "recipient", "");
           const asset = get(values, "asset", "");
-          const amount = get(values, "amount", "");
+          const amountStr = get(values, "amount", "0");
+          const amount = convertAmountFromStr(amountStr, asset);
+          console.log("amount", amount);
           props.history.push("/sendConfirm", { recipient, asset, amount });
         },
         handleMax: (formProps: FormRenderProps) => {
           const asset: string | undefined = get(formProps.values, "asset");
 
           if (asset === "ONYX") {
-            formProps.form.change("amount", reduxProps.ontAmount);
+            const amountBN = convertAmountToBN(reduxProps.ontAmount, "ONYX");
+            formProps.form.change("amount", amountBN.toString());
           } else if (asset === "OXG") {
-            formProps.form.change("amount", reduxProps.ongAmount);
+            const amountBN = convertAmountToBN(reduxProps.ongAmount, "OXG");
+            formProps.form.change("amount", amountBN.toString());
           }
           return true;
         }
