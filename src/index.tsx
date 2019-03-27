@@ -1,14 +1,11 @@
 import "babel-polyfill";
-
-import * as Ledger from "@ont-community/ontology-ts-sdk-ledger";
-import { Crypto } from "ontology-ts-sdk";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import "semantic-ui-css/semantic.min.css";
 import "./global.css";
 import { Provider } from "react-redux";
 import { MemoryRouter as Router, Route } from "react-router-dom";
-import { BalanceProvider, StatusBar } from "./components";
+import { StatusBar } from "./components";
 import {
   AccountsAddPage,
   AccountsDelPage,
@@ -18,11 +15,6 @@ import {
   Dashboard,
   Home,
   Import,
-  LedgerCreate,
-  LedgerImport,
-  LedgerNew,
-  LedgerSendConfirm,
-  LedgerSignup,
   New,
   Receive,
   Restore,
@@ -39,19 +31,15 @@ import {
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
+import { initBalanceProvider } from "./balanceProvider";
 
 initNetwork(reduxStore);
-
-Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
-Ledger.setLedgerTransport(
-  new Ledger.LedgerTransportIframe("https://drxwrxomfjdx5.cloudfront.net/forwarder.html", true)
-);
+initBalanceProvider(reduxStore);
 
 export const AppView: React.SFC<{}> = () => (
   <Provider store={reduxStore}>
     <Router>
       <>
-        <BalanceProvider />
         <Route path="/dashboard" exact={true} component={Dashboard} />
         <Route path="/send" exact={true} component={Send} />
         <Route path="/sendConfirm" exact={true} component={SendConfirm} />
@@ -76,11 +64,6 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/create" exact={true} component={Create} />
         <Route path="/sign-up" exact={true} component={Signup} />
 
-        <Route path="/ledger/create" exact={true} component={LedgerCreate} />
-        <Route path="/ledger/import" exact={true} component={LedgerImport} />
-        <Route path="/ledger/new" exact={true} component={LedgerNew} />
-        <Route path="/ledger/sendConfirm" exact={true} component={LedgerSendConfirm} />
-        <Route path="/ledger/signup" exact={true} component={LedgerSignup} />
         <StatusBar />
       </>
     </Router>

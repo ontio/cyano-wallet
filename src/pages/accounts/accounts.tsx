@@ -21,21 +21,21 @@ import { bindActionCreators, Dispatch } from "redux";
 import { encodeWallet, getWallet } from "src/api/authApi";
 import { reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
-import { setWallet } from "../../redux/auth/authActions";
+import Actions from "../../redux/actions";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { AccountsView, Props } from "./accountsView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   //  transfers: state.runtime.transfers,
-  wallet: state.auth.wallet
+  wallet: state.wallet.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       accountsFinishLoading: finishLoading,
-      accountsSetWallet: setWallet,
+      accountsSetWallet: Actions.wallet.setWallet,
       accountsStartLoading: startLoading
     },
     dispatch

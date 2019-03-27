@@ -15,37 +15,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
-import {  Wallet } from 'ontology-ts-sdk';
-import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { bindActionCreators, Dispatch } from 'redux';
-import { accountDelete } from '../../api/authApi';
+import { get } from "lodash";
+import { Wallet } from "ontology-ts-sdk";
+import * as React from "react";
+import { RouteComponentProps } from "react-router";
+import { bindActionCreators, Dispatch } from "redux";
+import { accountDelete } from "../../api/authApi";
 // import { getBackgroundManager } from 'src/popup/backgroundManager';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { setWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { AccountsDelView, Props } from './accountsDelView';
+import { reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import Actions from "../../redux/actions";
+import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
+import { AccountsDelView, Props } from "./accountsDelView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  wallet: state.auth.wallet,
+  wallet: state.wallet.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       accountsFinishLoading: finishLoading,
-      accountsSetWallet: setWallet,
-      accountsStartLoading: startLoading,
+      accountsSetWallet: Actions.wallet.setWallet,
+      accountsStartLoading: startLoading
     },
-    dispatch,
+    dispatch
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
-    const account: string = get(props.location, 'state.account');
+    const account: string = get(props.location, "state.account");
 
     return withProps(
       {
@@ -64,11 +64,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           }
           await actions.accountsFinishLoading();
 
-          props.history.push('/account/change');
+          props.history.push("/account/change");
         },
-        loading: reduxProps.loading,
+        loading: reduxProps.loading
       },
-      (injectedProps) => <Component {...injectedProps} />,
+      injectedProps => <Component {...injectedProps} />
     );
   });
 

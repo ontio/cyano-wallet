@@ -24,7 +24,7 @@ import { Props, TransfersView } from "./transfersView";
 
 const mapStateToProps = (state: GlobalState) => ({
   transfers: state.runtime.transfers,
-  wallet: state.auth.wallet
+  wallet: state.wallet.wallet
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>

@@ -15,48 +15,54 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { get } from 'lodash';
-import * as React from 'react';
-import { RouterProps } from 'react-router';
-import { bindActionCreators, Dispatch } from 'redux';
-import { signUp } from '../../api/authApi';
-import { reduxConnect, withProps } from '../../compose';
-import { GlobalState } from '../../redux';
-import { setWallet } from '../../redux/auth/authActions';
-import { finishLoading, startLoading } from '../../redux/loader/loaderActions';
-import { CreateView, Props } from './createView';
+import { get } from "lodash";
+import * as React from "react";
+import { RouterProps } from "react-router";
+import { bindActionCreators, Dispatch } from "redux";
+import { signUp } from "../../api/authApi";
+import { reduxConnect, withProps } from "../../compose";
+import { GlobalState } from "../../redux";
+import Actions from "../../redux/actions";
+import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
+import { CreateView, Props } from "./createView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  wallet: state.auth.wallet,
+  wallet: state.wallet.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ setWallet: Actions.wallet.setWallet, startLoading, finishLoading }, dispatch);
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
-    withProps({
-      handleCancel: () => {
-        props.history.goBack();
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+    withProps(
+      {
+        handleCancel: () => {
+          props.history.goBack();
+        },
+        handleSubmit: async (values: object) => {
+          const password = get(values, "password", "");
+
+          actions.startLoading();
+
+          const { encryptedWif, mnemonics, wif, wallet } = await signUp(
+            reduxProps.nodeAddress,
+            reduxProps.ssl,
+            password,
+            reduxProps.wallet
+          );
+          actions.setWallet(wallet);
+
+          actions.finishLoading();
+
+          props.history.push("/new", { encryptedWif, mnemonics, wif });
+        }
       },
-      handleSubmit: async (values: object) => {
-        const password = get(values, 'password', '');
-  
-        actions.startLoading();
-  
-        const { encryptedWif, mnemonics, wif, wallet } = await signUp(reduxProps.nodeAddress, reduxProps.ssl, password, reduxProps.wallet);
-        actions.setWallet(wallet);
-  
-        actions.finishLoading();
-  
-        props.history.push('/new', { encryptedWif, mnemonics, wif });
-      }
-    }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} />
-    ))
-  ))
-)
+      injectedProps => <Component {...injectedProps} loading={reduxProps.loading} />
+    )
+  );
 
 export const Create = enhancer(CreateView);

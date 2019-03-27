@@ -21,10 +21,10 @@ import { timeout, TimeoutError } from "promise-timeout";
 import * as React from "react";
 import { RouterProps } from "react-router";
 import { bindActionCreators, Dispatch } from "redux";
-import { withdrawOng } from "../../api/walletApi";
+import { withdrawOng } from "../../api/runtimeApi";
 import { reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
-import { clearWallet } from "../../redux/auth/authActions";
+import Actions from "../../redux/actions";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { Props, WithdrawConfirmView } from "./withdrawConfirmView";
 
@@ -33,11 +33,11 @@ const mapStateToProps = (state: GlobalState) => ({
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
   unboundAmount: state.runtime.unboundAmount,
-  wallet: state.auth.wallet
+  wallet: state.wallet.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ clearWallet, startLoading, finishLoading }, dispatch);
+  bindActionCreators({ clearWallet: Actions.wallet.clearWallet, startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>

@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSetti
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
-  wallet: state.auth.wallet
+  wallet: state.wallet.wallet
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>

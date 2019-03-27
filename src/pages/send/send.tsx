@@ -26,7 +26,7 @@ import { Props, SendView } from "./sendView";
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
-  walletEncoded: state.auth.wallet
+  walletEncoded: state.wallet.wallet
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>

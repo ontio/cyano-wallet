@@ -5,11 +5,9 @@ import { decryptWallet, getWallet } from "./authApi";
 import Address = Crypto.Address;
 import { getClient } from "../network";
 import { getAccount } from "./accountApi";
-// import { getStore } from "../redux";
 
 export async function getBalance(walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
-  // const state = getStore().getState();
   const address = getAccount(wallet).address;
   const client = getClient();
   const response = await client.getBalance(address);
@@ -23,14 +21,17 @@ export async function getBalance(walletEncoded: any) {
   };
 }
 
-// TODO: use Ws
+/* 
+  TODO:
+  fix getUnboundong in wsProvider
+  use Ws
+*/
 export async function getUnboundOxg(nodeAddress: string, ssl: boolean, walletEncoded: any) {
   const wallet = getWallet(walletEncoded);
-
+  const address = getAccount(wallet).address;
   const protocol = ssl ? "https" : "http";
   const baseUrl = `${protocol}://${nodeAddress}:${CONST.HTTP_REST_PORT}`;
   const unboundOngUrl = "/api/v1/unboundoxg/";
-  const address = wallet.accounts[0].address;
 
   const url = baseUrl + unboundOngUrl + address.toBase58();
   const response = await axios.get(url).then(res => {

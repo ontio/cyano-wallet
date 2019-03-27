@@ -22,10 +22,10 @@ import { /* Clickable, */ Filler, LogoHeader, /* Spacer, */ View } from "../../c
 // import { TransferList } from "../../components/transferList";
 
 export interface Props {
-  ontAmount: number;
-  ongAmount: number;
+  ontAmount: string;
+  ongAmount: string;
 
-  unboundAmount: number;
+  unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[] | null;
   handleSend: () => void;

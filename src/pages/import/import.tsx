@@ -22,7 +22,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { accountImportPrivateKey } from "../../api/accountApi";
 import { reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
-import { setWallet } from "../../redux/auth/authActions";
+import Actions from "../../redux/actions";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { ImportView, Props } from "./importView";
 
@@ -30,11 +30,11 @@ const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  wallet: state.auth.wallet
+  wallet: state.wallet.wallet
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ setWallet, startLoading, finishLoading }, dispatch);
+  bindActionCreators({ setWallet: Actions.wallet.setWallet, startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
