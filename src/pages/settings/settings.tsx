@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
- *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
- */
 import * as FileSaver from "file-saver";
 import { get } from "lodash";
 import * as React from "react";
@@ -31,19 +14,21 @@ import {
   lifecycle,
   reduxConnect,
   withProps,
-  withState
+  withState,
+  withRouter
 } from "../../compose";
 import { bindActionCreators, Dispatch } from "redux";
 import { GlobalState } from "../../redux";
 import { setSettings } from "../../redux/settings/settingsActions";
 
 import { Props, SettingsView } from "./settingsView";
+import { setWallet } from "src/redux/wallet";
 
 interface State {
   settings: Settings | null;
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings, setWallet }, dispatch);
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -52,6 +37,7 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
+withRouter((routerProps) =>
   withState<State>({ settings: null }, (state, setState) =>
     lifecycle(
       {
@@ -76,6 +62,33 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   type: "text/plain;charset=utf-8"
                 });
                 FileSaver.saveAs(blob, "wallet.dat");
+              },
+              handleImport: (event: any) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onloadend = async (evento: any) => {
+
+                  if (evento.target.result !== null) {
+                    let data: string = get(evento.target, 'result');
+
+                    try {
+                      const parsed = JSON.parse(data);
+
+                      if (parsed.identities == null) {
+                        parsed.identities = [];
+                        data = JSON.stringify(parsed);
+                      }
+
+                      const wallet = JSON.parse(data);
+
+                      await actions.setWallet(JSON.stringify(wallet));
+                      routerProps.history.push('/'); 
+                    } catch (e) {
+                      console.log('catch +> ', e);
+                    }
+                  }
+                };
+                reader.readAsText(file);
               },
               handleSave: async (values: object) => {
                 const net: NetValue = get(values, "net", "TEST");
@@ -109,6 +122,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           )
         )
     )
-  );
+  )
+);
 
 export const SettingsPage = enhancer(SettingsView);

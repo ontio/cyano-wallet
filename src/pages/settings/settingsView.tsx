@@ -1,27 +1,9 @@
-/*
- * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
- *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
- */
 import { get } from "lodash";
 import * as React from "react";
 import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
 import { Settings } from "../../api/settingsApi";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
-import { required } from "../../utils/validate";
 
 export interface Props {
   ontAmount: number;
@@ -30,6 +12,7 @@ export interface Props {
   handleClear: () => void;
   handleCancel: () => void;
   handleExport: () => void;
+  handleImport: (event: any) => void;
   settings: Settings;
 }
 
@@ -68,7 +51,6 @@ export const SettingsView: React.SFC<Props> = props => (
               <label>Net</label>
               <Field
                 name="net"
-                validate={required}
                 render={t => (
                   <SemanticForm.Dropdown
                     fluid={true}
@@ -88,7 +70,6 @@ export const SettingsView: React.SFC<Props> = props => (
                   <label>Private node ip/address</label>
                   <Field
                     name="nodeAddress"
-                    validate={required}
                     render={t => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -122,6 +103,18 @@ export const SettingsView: React.SFC<Props> = props => (
               onClick={props.handleExport}
               content="Export wallet"
             />
+            <Spacer />
+            
+            <span>
+              <label htmlFor="inputWallet" style={{width: "100%"}} className="ui icon button">
+                Import wallet
+              </label>
+              <input type="file" id="inputWallet"
+                style={{display: "none"}}
+                onChange={props.handleImport}
+              />
+            </span>
+ 
             <Spacer />
             <View className="buttons">
               <Button icon="check" content="Save" />
