@@ -55,7 +55,7 @@ withRouter((routerProps) =>
                 props.history.goBack();
               },
               handleClear: () => {
-                props.history.goBack();
+                routerProps.history.push('/clear');
               },
               handleExport: () => {
                 const blob = new Blob([JSON.stringify(reduxProps.wallet)!], {
