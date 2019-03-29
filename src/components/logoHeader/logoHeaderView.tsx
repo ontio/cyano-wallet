@@ -39,9 +39,36 @@ export const LogoHeaderView: React.SFC<Props> = (props) => (
       <h1>{props.title}</h1>
     </View>
     <View orientation="row" className="buttons">
-      { props.showAccounts ? <Button onClick={props.handleAccounts} size="big" compact={true} basic={true} icon="exchange" /> : (null) }
-      { props.showSettings ? <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" /> : (null) }
-      { props.showLogout ? <Button onClick={props.handleClear} size="big" compact={true} basic={true} icon="shutdown" /> : (null) }
+      { props.showAccounts ? 
+      <Button 
+        onClick={props.handleAccounts} 
+        size="big" 
+        compact={true}
+        basic={true} 
+        icon="exchange" 
+        data-tooltip="Change account" 
+        data-position="bottom right"/> 
+       : (null) }
+      { props.showSettings ? 
+      <Button 
+        onClick={props.handleSettings} 
+        size="big" 
+        compact={true} 
+        basic={true} 
+        icon="cog" 
+        data-tooltip="Settings" 
+        data-position="bottom right"/> 
+      : (null) }
+      { props.showLogout ? 
+      <Button 
+        onClick={props.handleClear} 
+        size="big" 
+        compact={true} 
+        basic={true} 
+        icon="shutdown" 
+        data-tooltip="Clear wallet" 
+        data-position="bottom right"/> 
+      : (null) }
     </View>
   </View>
 );
