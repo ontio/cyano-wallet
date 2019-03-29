@@ -27,7 +27,9 @@ import {
   Transfers,
   WithdrawComplete,
   WithdrawConfirm,
-  WithdrawFailed
+  WithdrawFailed,
+  TokenSettings,
+  TokenSettingsAdd
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -63,6 +65,10 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/import" exact={true} component={Import} />
         <Route path="/create" exact={true} component={Create} />
         <Route path="/sign-up" exact={true} component={Signup} />
+
+        <Route path="/settings/token" exact={true} component={TokenSettings} />
+        <Route path="/settings/token/add" exact={true} component={TokenSettingsAdd} />
+        {/* <Route path="/settings/token/del" exact={true} component={Pages.TokenSettingsDel} /> */}
 
         <StatusBar />
       </>

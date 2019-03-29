@@ -17,14 +17,22 @@
  */
 // import { CONST } from "ontology-ts-sdk";
 import { Reducer } from "redux";
-import { SET_SETTINGS } from "./settingsActions";
+import { SET_SETTINGS, ADD_TOKEN, DEL_TOKEN } from "./settingsActions";
 
 export type NetValue = "TEST" | "MAIN" | "PRIVATE";
 
+export interface TokenState {
+  contract: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  specification: "OEP-4";
+}
 export interface SettingsState {
   nodeAddress: string;
   ssl: boolean;
   net: NetValue;
+  tokens: TokenState[];
 }
 
 const settingsCash = localStorage.getItem("settings");
@@ -32,7 +40,8 @@ const settingsCash = localStorage.getItem("settings");
 const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) || {
   nodeAddress: "35.178.63.10", // TODO: get from consts
   ssl: false,
-  net: "TEST"
+  net: "TEST",
+  tokens: []
 };
 
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
@@ -43,14 +52,35 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
         JSON.stringify({
           nodeAddress: action.nodeAddress,
           ssl: action.ssl,
-          net: action.net
+          net: action.net,
+          tokens: action.tokens
         })
       );
       return {
         ...state,
         nodeAddress: action.nodeAddress,
         ssl: action.ssl,
-        net: action.net
+        net: action.net,
+        tokens: action.tokens
+      };
+    case ADD_TOKEN:
+      return {
+        ...state,
+        tokens: [
+          ...state.tokens.filter(token => token.contract !== action.contract),
+          {
+            contract: action.contract,
+            decimals: action.decimals,
+            name: action.name,
+            specification: action.specification,
+            symbol: action.symbol
+          }
+        ]
+      };
+    case DEL_TOKEN:
+      return {
+        ...state,
+        tokens: state.tokens.filter(token => token.contract !== action.contract)
       };
     default:
       return state;

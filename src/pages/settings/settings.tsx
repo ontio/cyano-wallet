@@ -33,92 +33,96 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSetti
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
-  wallet: state.wallet.wallet
+  wallet: state.wallet.wallet,
+  settings: state.settings
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-withRouter((routerProps) =>
-  withState<State>({ settings: null }, (state, setState) =>
-    lifecycle(
-      {
-        componentDidMount: async () => {
-          const settings = await loadSettings();
+  withRouter(routerProps =>
+    withState<State>({ settings: null }, (state, setState) =>
+      lifecycle(
+        {
+          componentDidMount: async () => {
+            const settings = await loadSettings();
 
-          setState({ ...state, settings });
-        }
-      },
-      () =>
-        reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
-          withProps(
-            {
-              handleCancel: () => {
-                props.history.goBack();
-              },
-              handleClear: () => {
-                props.history.goBack();
-              },
-              handleExport: () => {
-                const blob = new Blob([JSON.stringify(reduxProps.wallet)!], {
-                  type: "text/plain;charset=utf-8"
-                });
-                FileSaver.saveAs(blob, "wallet.dat");
-              },
-              handleImport: (event: any) => {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                reader.onloadend = async (e: any) => {
-                  if (e.target.result !== null) {
-                    let data: string = get(e.target, 'result');
-                    try {
-                      const parsed = JSON.parse(data);
-                      if (parsed.identities == null) {
-                        parsed.identities = [];
-                        data = JSON.stringify(parsed);
+            setState({ ...state, settings });
+          }
+        },
+        () =>
+          reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
+            withProps(
+              {
+                handleTokenSettings: () => {
+                  routerProps.history.push("/settings/token");
+                },
+                handleCancel: () => {
+                  props.history.goBack();
+                },
+                handleClear: () => {
+                  routerProps.history.push("/clear");
+                },
+                handleExport: () => {
+                  const blob = new Blob([JSON.stringify(reduxProps.wallet)!], {
+                    type: "text/plain;charset=utf-8"
+                  });
+                  FileSaver.saveAs(blob, "wallet.dat");
+                },
+                handleImport: (event: any) => {
+                  const file = event.target.files[0];
+                  const reader = new FileReader();
+                  reader.onloadend = async (e: any) => {
+                    if (e.target.result !== null) {
+                      let data: string = get(e.target, "result");
+                      try {
+                        const parsed = JSON.parse(data);
+                        if (parsed.identities == null) {
+                          parsed.identities = [];
+                          data = JSON.stringify(parsed);
+                        }
+
+                        const wallet = JSON.parse(data);
+                        await actions.setWallet(JSON.stringify(wallet));
+                        routerProps.history.push("/");
+                      } catch (e) {
+                        console.log("reader.onloadend error - ", e);
                       }
-
-                      const wallet = JSON.parse(data);
-                      await actions.setWallet(JSON.stringify(wallet));
-                      routerProps.history.push('/'); 
-                    } catch (e) {
-                      console.log('reader.onloadend error - ', e);
                     }
+                  };
+                  reader.readAsText(file);
+                },
+                handleSave: async (values: object) => {
+                  const net: NetValue = get(values, "net", "TEST");
+                  const ssl: boolean = get(values, "ssl", false);
+                  let address: string = get(values, "nodeAddress", "");
+                  if (net === "MAIN") {
+                    address = "35.180.188.239";
+                  } else if (net === "TEST") {
+                    address = "35.178.63.10";
                   }
-                };
-                reader.readAsText(file);
-              },
-              handleSave: async (values: object) => {
-                const net: NetValue = get(values, "net", "TEST");
-                const ssl: boolean = get(values, "ssl", false);
-                let address: string = get(values, "nodeAddress", "");
-                if (net === "MAIN") {
-                  address = "35.180.188.239";
-                } else if (net === "TEST") {
-                  address = "35.178.63.10";
-                }
-                console.log("values", { address, net, ssl });
-                actions.setSettings(address, ssl, net);
+                  console.log("values", { address, net, ssl });
+                  actions.setSettings(address, ssl, net, reduxProps.settings.tokens);
 
-                props.history.goBack();
+                  props.history.goBack();
+                }
+              },
+              injectedProps => {
+                if (state.settings !== null) {
+                  return (
+                    <Component
+                      {...injectedProps}
+                      settings={state.settings}
+                      ontAmount={reduxProps.ontAmount}
+                      ongAmount={reduxProps.ongAmount}
+                    />
+                  );
+                } else {
+                  return <Nothing />;
+                }
               }
-            },
-            injectedProps => {
-              if (state.settings !== null) {
-                return (
-                  <Component
-                    {...injectedProps}
-                    settings={state.settings}
-                    ontAmount={reduxProps.ontAmount}
-                    ongAmount={reduxProps.ongAmount}
-                  />
-                );
-              } else {
-                return <Nothing />;
-              }
-            }
+            )
           )
-        )
+      )
     )
-  )
-);
+  );
 
 export const SettingsPage = enhancer(SettingsView);

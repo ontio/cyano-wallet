@@ -14,6 +14,7 @@ export interface Props {
   handleCancel: () => void;
   handleExport: () => void;
   handleImport: (event: any) => void;
+  handleTokenSettings: () => void;
   settings: Settings;
 }
 
@@ -101,6 +102,10 @@ export const SettingsView: React.SFC<Props> = props => (
             ) : null}
             <Filler />
             <Spacer />
+            <Button type="button" onClick={props.handleClear} content="Clear wallet" icon="delete" />
+            <Spacer />
+            <Button type="button" onClick={props.handleExport} content="Export wallet" />
+            <Spacer />
             <View className="buttons">
               <Button
                 type="button"
@@ -118,6 +123,9 @@ export const SettingsView: React.SFC<Props> = props => (
               </span>
             </View>
             <Spacer />
+            <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" />
+            <Spacer />
+
             <View className="buttons">
               <Button icon="check" content="Save" />
               <Button onClick={props.handleCancel}>Cancel</Button>

@@ -19,3 +19,5 @@ export { Transfers } from "./transfers/transfers";
 export { WithdrawConfirm } from "./withdrawConfirm/withdrawConfirm";
 export { WithdrawComplete } from "./withdrawComplete/withdrawComplete";
 export { WithdrawFailed } from "./withdrawFailed/withdrawFailed";
+export { TokenSettings } from "./tokenSettings/tokenSettings";
+export { TokenSettingsAdd } from "./tokenSettingsAdd/tokenSettingsAdd";
