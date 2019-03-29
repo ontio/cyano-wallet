@@ -66,25 +66,21 @@ withRouter((routerProps) =>
               handleImport: (event: any) => {
                 const file = event.target.files[0];
                 const reader = new FileReader();
-                reader.onloadend = async (evento: any) => {
-
-                  if (evento.target.result !== null) {
-                    let data: string = get(evento.target, 'result');
-
+                reader.onloadend = async (e: any) => {
+                  if (e.target.result !== null) {
+                    let data: string = get(e.target, 'result');
                     try {
                       const parsed = JSON.parse(data);
-
                       if (parsed.identities == null) {
                         parsed.identities = [];
                         data = JSON.stringify(parsed);
                       }
 
                       const wallet = JSON.parse(data);
-
                       await actions.setWallet(JSON.stringify(wallet));
                       routerProps.history.push('/'); 
                     } catch (e) {
-                      console.log('catch +> ', e);
+                      console.log('reader.onloadend error - ', e);
                     }
                   }
                 };

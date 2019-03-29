@@ -4,6 +4,7 @@ import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
 import { Settings } from "../../api/settingsApi";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
+import { required } from "../../utils/validate";
 
 export interface Props {
   ontAmount: number;
@@ -51,6 +52,7 @@ export const SettingsView: React.SFC<Props> = props => (
               <label>Net</label>
               <Field
                 name="net"
+                validate={required}
                 render={t => (
                   <SemanticForm.Dropdown
                     fluid={true}
@@ -70,6 +72,7 @@ export const SettingsView: React.SFC<Props> = props => (
                   <label>Private node ip/address</label>
                   <Field
                     name="nodeAddress"
+                    validate={required}
                     render={t => (
                       <SemanticForm.Input
                         onChange={t.input.onChange}
@@ -104,9 +107,8 @@ export const SettingsView: React.SFC<Props> = props => (
               content="Export wallet"
             />
             <Spacer />
-            
             <span>
-              <label htmlFor="inputWallet" style={{width: "100%"}} className="ui icon button">
+              <label htmlFor="inputWallet" style={{width: "100%"}} className="ui button">
                 Import wallet
               </label>
               <input type="file" id="inputWallet"
@@ -114,7 +116,6 @@ export const SettingsView: React.SFC<Props> = props => (
                 onChange={props.handleImport}
               />
             </span>
- 
             <Spacer />
             <View className="buttons">
               <Button icon="check" content="Save" />
