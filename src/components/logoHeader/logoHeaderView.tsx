@@ -23,7 +23,6 @@ export interface Props {
   title: string;
   handleSettings: () => void;
   handleAccounts: () => void;
-  showLogout: boolean;
   showSettings: boolean;
   showAccounts: boolean;
 }

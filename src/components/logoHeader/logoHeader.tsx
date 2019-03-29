@@ -3,9 +3,9 @@ import { withProps, withRouter } from "../../compose";
 import { LogoHeaderView, Props } from "./logoHeaderView";
 
 interface OuterProps {
-  showLogout: boolean;
   showSettings?: boolean;
-  showAccounts: boolean;
+  showAccounts?: boolean;
+  showLogout?: boolean;
   title: string;
 }
 
@@ -24,8 +24,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
         <Component
           {...injectedProps}
           title={props.title}
-          showLogout={props.showLogout}
-          showAccounts={props.showAccounts}
+          showAccounts={props.showAccounts === true}
           showSettings={props.showSettings !== undefined ? props.showSettings : true}
         />
       )
@@ -39,5 +38,5 @@ interface TitleOuterProps {
 export const LogoHeader = enhancer(LogoHeaderView);
 
 export const AccountLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader showAccounts={true} showSettings={true} title={props.title} showLogout={true} />
+  <LogoHeader showAccounts={true} showSettings={true} title={props.title} />
 );
