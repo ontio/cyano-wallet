@@ -1,21 +1,4 @@
-/*
- * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
- *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
- */
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700");
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700");
 
 body {
   display: flex;
@@ -31,7 +14,7 @@ body {
   margin: 0 auto;
 
   color: #595757;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 #root {
@@ -40,7 +23,7 @@ body {
   align-self: stretch;
   background-color: #f4f4f4;
   flex-direction: column;
-
+ 
   /* background: url('https://onyxcoin.io/assets/images/banner_bg2.png');
   background-color: #1e1f27;
   background-size: contain; */
@@ -53,7 +36,6 @@ body {
 .ui.segment,
 .ui.segments,
 .ui.table,
-.ui.button,
 .ui.form input,
 .ui input,
 .ui.form textarea,
@@ -68,33 +50,41 @@ body {
 }
 
 .ui.button {
+  margin: 0 5px;
   color: #ffffff;
-  font-family: "Source Sans Pro", sans-serif;
-  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   background-image: linear-gradient(to right, #b7020b 0%,#f07141 51%,#b7020b);
   background-size: 200% auto;
   border-radius: 4px;
+  transition: all 0.5s ease 0s;
 }
 
 .ui.button:hover {
-  background-position: right center !important;
+  background-image: linear-gradient(to right, #b7020b 0%,#f07141 51%,#b7020b);
+  background-position: right center;
+  color: #ffffff;
+  box-sizing: inherit;
+  background-color: inherit;
 }
 
 .ui.message .header,
 .ui.message .content {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 200;
 }
 
 .ui.message .header {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
 }
 
 .ui.dropdown {
   color: #32a4be;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -102,7 +92,7 @@ body {
 .ui.list .list > .item .header,
 .ui.list > .item .header {
   color: #32a4be;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: normal;
 }
 
@@ -112,7 +102,14 @@ body {
   box-shadow: 0 0 0 0 white inset;
 }
 
-
+button.ui.basic.button:hover,
+button.ui.basic.button:focus {
+  background: transparent !important;
+}
+button.ui.basic.button:hover i {
+  color: #ffaa89 ;
+  transition: all 0.3s ease 0s;
+}
 
 div.flex {
   display: flex;
@@ -130,7 +127,7 @@ div.flex.full {
 }
 
 div.flex.part {
-  height: 120px;
+  height: 130px;
   flex-shrink: 0;
 }
 
@@ -176,7 +173,7 @@ h2,
 h3,
 h4 {
   font-weight: 200 !important;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -290,7 +287,7 @@ h1.header {
 }
 
 .flex.balance {
-  align-items: flex-end;
+  align-items: center;
 }
 
 .flex.balance label {
@@ -317,4 +314,15 @@ h4.unbound:hover {
 .statusBar {
   padding: 5px;
   flex-shrink: 0;
+}
+
+.ui.list.accountList .item {
+  cursor: pointer;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.ui.list.accountList .item:hover {
+  background-color: lightgrey;
 }
