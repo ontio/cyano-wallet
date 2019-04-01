@@ -21,3 +21,4 @@ export { WithdrawComplete } from "./withdrawComplete/withdrawComplete";
 export { WithdrawFailed } from "./withdrawFailed/withdrawFailed";
 export { TokenSettings } from "./tokenSettings/tokenSettings";
 export { TokenSettingsAdd } from "./tokenSettingsAdd/tokenSettingsAdd";
+export { TokenSettingsDel } from "./tokenSettingsDel/tokenSettingsDel";

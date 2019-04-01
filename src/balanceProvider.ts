@@ -29,6 +29,12 @@ export async function refreshBalance(store: GlobalStore) {
         }
       } */
 
+      // TODO: remove plug
+      tokenBalances.push({
+        amount: "183000000001",
+        contract: "25277b421a58cfc2ef5836767e54eb7abdd31afd"
+      });
+
       // TODO: fix rounding
       store.dispatch(Actions.runtime.setBalance(balance.oxg, balance.onyx, unboundOng, tokenBalances));
 

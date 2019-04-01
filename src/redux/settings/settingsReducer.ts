@@ -44,6 +44,7 @@ const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) |
   tokens: []
 };
 
+// TODO: refactor saving to ls to a single Provider
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_SETTINGS:
@@ -64,6 +65,23 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
         tokens: action.tokens
       };
     case ADD_TOKEN:
+      localStorage.setItem(
+        "settings",
+        JSON.stringify({
+          ...state,
+          tokens: [
+            ...state.tokens.filter(token => token.contract !== action.contract),
+            {
+              contract: action.contract,
+              decimals: action.decimals,
+              name: action.name,
+              specification: action.specification,
+              symbol: action.symbol
+            }
+          ]
+        })
+      );
+
       return {
         ...state,
         tokens: [
@@ -78,6 +96,13 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
         ]
       };
     case DEL_TOKEN:
+      localStorage.setItem(
+        "settings",
+        JSON.stringify({
+          ...state,
+          tokens: [...state.tokens.filter(token => token.contract !== action.contract)]
+        })
+      );
       return {
         ...state,
         tokens: state.tokens.filter(token => token.contract !== action.contract)

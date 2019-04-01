@@ -31,6 +31,7 @@ export const TokenList: React.SFC<Props> = props => (
       {props.tokens.map((token, i) => (
         <List.Item key={i}>
           <List.Icon
+            style={{ cursor: "pointer" }}
             name="times circle outline"
             size="large"
             verticalAlign="middle"
