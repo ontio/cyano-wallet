@@ -10,13 +10,27 @@ import { convertAmountToBN, convertAmountFromStr } from "../../utils/number";
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
-  walletEncoded: state.wallet.wallet
+  walletEncoded: state.wallet.wallet,
+  tokens: state.settings.tokens
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  reduxConnect(mapStateToProps, dummy, reduxProps =>
-    withProps(
+  reduxConnect(mapStateToProps, dummy, reduxProps => {
+    const tokenOptions = reduxProps.tokens.map(token => ({ text: token.symbol, value: token.symbol }));
+    const nativeOptions = [
       {
+        text: "ONYX",
+        value: "ONYX"
+      },
+      {
+        text: "OXG",
+        value: "OXG"
+      }
+    ];
+
+    return withProps(
+      {
+        assetOptions: [...nativeOptions, ...tokenOptions],
         handleCancel: () => {
           props.history.goBack();
         },
@@ -44,7 +58,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       injectedProps => (
         <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
       )
-    )
-  );
+    );
+  });
 
 export const Send = enhancer(SendView);
