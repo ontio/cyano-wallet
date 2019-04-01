@@ -1,7 +1,7 @@
 import axios from "axios";
 import { get } from "lodash";
-import { CONST, Crypto, OntAssetTxBuilder, TransactionBuilder, WebsocketClient } from "ontology-ts-sdk";
-import { decryptWallet, getWallet } from "./authApi";
+import { CONST, Crypto, OntAssetTxBuilder, TransactionBuilder } from "ontology-ts-sdk";
+import { getWallet } from "./authApi";
 import Address = Crypto.Address;
 import { getClient } from "../network";
 import { getAccount, decryptAccount } from "./accountApi";
@@ -62,7 +62,7 @@ export async function transfer(
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   // tslint:disable-next-line:no-console
-  console.log("tx", tx);
+  console.log("transfer tx", tx);
   const client = getClient();
   await client.sendRawTransaction(tx.serialize(), false, true);
 }
@@ -75,15 +75,11 @@ export async function withdrawOng(
   amount: string
 ) {
   const wallet = getWallet(walletEncoded);
-  const from = wallet.accounts[0].address;
-  const privateKey = decryptWallet(wallet, password);
-
-  amount = String(Number(amount) * 1000000000);
-
+  const from = getAccount(wallet).address;
+  const privateKey = decryptAccount(wallet, password);
   const tx = OntAssetTxBuilder.makeWithdrawOngTx(from, from, String(amount), from, "500", `${CONST.DEFAULT_GAS_LIMIT}`);
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
-
-  const protocol = ssl ? "wss" : "ws";
-  const socketClient = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
-  await socketClient.sendRawTransaction(tx.serialize(), false, true);
+  console.log("withdrawOng tx", tx);
+  const client = getClient();
+  await client.sendRawTransaction(tx.serialize(), false, true);
 }
