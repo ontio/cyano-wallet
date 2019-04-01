@@ -113,7 +113,7 @@ export const SettingsView: React.SFC<Props> = props => (
               <input type="file" id="inputWallet" style={{ display: "none" }} onChange={props.handleImport} />
             </span>
             <Spacer />
-            <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" />
+            {/* <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" /> */}
             <Spacer />
 
             <View className="buttons">
