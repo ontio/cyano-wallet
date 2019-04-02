@@ -177,9 +177,13 @@ div.flex.error {
   background-color: #1f2641;
   color: white;
   /* background-image: url(https://onyxpay.co/img/about-bg.png); */
-  background-image: url("./assets/bg.png");
+  background-image: url("./assets/bg-new-compressed.jpg");
   background-size: cover;
   background-position: center;
+}
+
+.part.gradient {
+  background-position: 0 -180px;
 }
 
 h1,
