@@ -29,7 +29,8 @@ import {
   WithdrawConfirm,
   WithdrawFailed,
   TokenSettings,
-  TokenSettingsAdd
+  TokenSettingsAdd,
+  SendError
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -47,6 +48,7 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/sendConfirm" exact={true} component={SendConfirm} />
         <Route path="/sendComplete" exact={true} component={SendComplete} />
         <Route path="/sendFailed" exact={true} component={SendFailed} />
+        <Route path="/sendError" exact={true} component={SendError} />
         <Route path="/settings" exact={true} component={SettingsPage} />
         <Route path="/account/change" exact={true} component={AccountsPage} />
         <Route path="/account/add" exact={true} component={AccountsAddPage} />

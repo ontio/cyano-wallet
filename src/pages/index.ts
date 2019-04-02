@@ -10,6 +10,7 @@ export { Send } from "./send/send";
 export { SendConfirm } from "./sendConfirm/sendConfirm";
 export { SendComplete } from "./sendComplete/sendComplete";
 export { SendFailed } from "./sendFailed/sendFailed";
+export { SendError } from "./sendError/sendError";
 export { SettingsPage } from "./settings/settings";
 export { AccountsPage } from "./accounts/accounts";
 export { AccountsAddPage } from "./accountsAdd/accountsAdd";

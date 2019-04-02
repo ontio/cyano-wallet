@@ -52,7 +52,7 @@ export const SendConfirmView: React.SFC<Props> = (props) => (
                     input={{ ...t.input, value: t.input.value }}
                     icon="key"
                     type="password"
-                    placeholder={formProps.submitFailed ? 'Wrong password' : 'Password'}
+                    placeholder={formProps.submitErrors ? 'Wrong password' : 'Password'}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />
