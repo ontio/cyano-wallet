@@ -38,10 +38,10 @@ export const DashboardView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Balances" />
-      <View content={true} className="spread-around">
-        <View orientation="column" className="balance">
+      <View content={true} className="spread-around balance-container">
+        <View orientation="column" className="balance onyx-balance-column">
           <label>ONYX</label>
-          <h1>{props.ontAmount}</h1>
+          <h1 className="onyx-balance-amount">{props.ontAmount}</h1>
         </View>
         <View orientation="column" className="balance">
           <label>OXG</label>

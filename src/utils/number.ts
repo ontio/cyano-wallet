@@ -9,9 +9,9 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType) 
   let amountBN = new BigNumber(amount);
 
   if (asset === "OXG") {
-    amountBN = amountBN.div(new BigNumber("1000000000"));
+    amountBN = amountBN.div(new BigNumber(Math.pow(10, 9)));
   } else if (asset === "ONYX") {
-    amountBN = amountBN.div(new BigNumber("100000000"));
+    amountBN = amountBN.div(new BigNumber(Math.pow(10, 8)));
   }
   return amountBN;
 }
@@ -19,9 +19,9 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType) 
 export function convertAmountFromStr(amount: string, asset: AssetType) {
   let amountBN = new BigNumber(amount);
   if (asset === "OXG") {
-    amountBN = amountBN.times(new BigNumber("1000000000"));
+    amountBN = amountBN.times(new BigNumber(Math.pow(10, 9)));
   } else if (asset === "ONYX") {
-    amountBN = amountBN.times(new BigNumber("100000000"));
+    amountBN = amountBN.times(new BigNumber(Math.pow(10, 8)));
   }
 
   return amountBN.toNumber();
