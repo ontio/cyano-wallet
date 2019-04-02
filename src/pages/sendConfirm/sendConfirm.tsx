@@ -40,18 +40,20 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
               transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, recipient, asset, amount),
               15000
             );
-
             props.history.push("/sendComplete", { recipient, asset, amount });
           } catch (e) {
+            
             if (e instanceof TimeoutError) {
+              console.log('(catch) TimeoutError');
               props.history.push("/sendFailed", { recipient, asset, amount });
-            } else {
+            } else if (e === 53000) {
+               // 53000 - Decrypto_ERROR (Decryption error)
               formApi.change("password", "");
-
-              return {
-                password: ""
-              };
+              return { password: "" };
+            } else {
+              props.history.push("/sendError", { e });
             }
+
           } finally {
             actions.finishLoading();
           }

@@ -239,6 +239,7 @@ div.flex.content {
   line-height: 30px;
   margin-left: 10px;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 h1.header {
@@ -336,7 +337,7 @@ h4.unbound:hover {
   height: 40px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding: 0 10px;
 }
 .ui.list.accountList .item:hover {
   background-color: lightgrey;
