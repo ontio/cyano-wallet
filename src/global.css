@@ -1,20 +1,23 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700");
 
+html {
+  background-color: #f4f4f4;
+}
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
 
   margin: 0;
-  padding: 20px 0 0 0;
-  width: 50%;
-  min-width: 400px;
+  max-width: 1000px;
+  /* min-width: 400px; */
   height: 60vh;
   min-height: 500px;
   margin: 0 auto;
 
   color: #595757;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 #root {
@@ -23,7 +26,9 @@ body {
   align-self: stretch;
   background-color: #f4f4f4;
   flex-direction: column;
- 
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  /* border: 1px solid #1f2641; */
+
   /* background: url('https://onyxcoin.io/assets/images/banner_bg2.png');
   background-color: #1e1f27;
   background-size: contain; */
@@ -52,19 +57,19 @@ body {
 .ui.button {
   margin: 0 5px;
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   line-height: 18px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background-image: linear-gradient(to right, #b7020b 0%,#f07141 51%,#b7020b);
+  background-image: linear-gradient(to right, #b7020b 0%, #f07141 51%, #b7020b);
   background-size: 200% auto;
   border-radius: 4px;
   transition: all 0.5s ease 0s;
 }
 
 .ui.button:hover {
-  background-image: linear-gradient(to right, #b7020b 0%,#f07141 51%,#b7020b);
+  background-image: linear-gradient(to right, #b7020b 0%, #f07141 51%, #b7020b);
   background-position: right center;
   color: #ffffff;
   box-sizing: inherit;
@@ -73,18 +78,18 @@ body {
 
 .ui.message .header,
 .ui.message .content {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 200;
 }
 
 .ui.message .header {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
 }
 
 .ui.dropdown {
   color: #32a4be;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -92,7 +97,7 @@ body {
 .ui.list .list > .item .header,
 .ui.list > .item .header {
   color: #32a4be;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
 
@@ -107,7 +112,7 @@ button.ui.basic.button:focus {
   background: transparent !important;
 }
 button.ui.basic.button:hover i {
-  color: #ffaa89 ;
+  color: #ffaa89;
   transition: all 0.3s ease 0s;
 }
 
@@ -127,7 +132,7 @@ div.flex.full {
 }
 
 div.flex.part {
-  height: 130px;
+  /* height: 130px; */
   flex-shrink: 0;
 }
 
@@ -156,6 +161,10 @@ div.flex.center {
   align-self: center;
 }
 
+div.flex.justify-center {
+  justify-content: center;
+}
+
 div.flex.error {
   color: #912d2b;
   font-weight: bold;
@@ -164,7 +173,8 @@ div.flex.error {
 
 .gradient {
   /* background-image: linear-gradient(to top, #2c92a5 0%, #37b6d3 100%); */
-  background-color: #0c0e27;
+  /* background-color: #0c0e27; */
+  background-color: #1f2641;
   color: white;
 }
 
@@ -173,7 +183,7 @@ h2,
 h3,
 h4 {
   font-weight: 200 !important;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -325,4 +335,22 @@ h4.unbound:hover {
 }
 .ui.list.accountList .item:hover {
   background-color: lightgrey;
+}
+
+@media (max-width: 550px) {
+  body {
+    height: 100vh;
+  }
+  .onyx-balance-amount {
+    font-size: 1.28571429rem;
+  }
+}
+
+@media (max-width: 400px) {
+  div.flex.balance-container {
+    flex-direction: column;
+  }
+  .onyx-balance-column {
+    margin-bottom: 15px;
+  }
 }
