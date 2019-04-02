@@ -2,7 +2,6 @@ import { get } from "lodash";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { bindActionCreators, Dispatch } from "redux";
-// import { getBackgroundManager } from "src/popup/backgroundManager";
 import { GlobalState } from "../../redux";
 import { reduxConnect, withProps } from "../../compose";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
@@ -37,7 +36,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           await actions.startLoading();
 
           try {
-            // const manager = getBackgroundManager();
             const token = await getOEP4Token(contract);
             console.log("token", token);
 
@@ -49,8 +47,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             //   symbol: "LCY"
             // };
 
-            // todo: proper spec
-            // await actions.addToken(contract, token.name, token.symbol, token.decimals, "OEP-4");
+            await actions.addToken(contract, token.name, token.symbol, token.decimals, "OEP-4");
 
             await actions.finishLoading();
 
