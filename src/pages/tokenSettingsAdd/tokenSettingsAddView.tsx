@@ -23,24 +23,20 @@ export const TokenSettingsAddView: React.SFC<Props> = props => (
         onSubmit={props.handleConfirm}
         render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
-            <View className="scrollView">
-              <View className="content">
-                <View orientation="column">
-                  <label>Script hash</label>
-                  <Field
-                    name="contract"
-                    validate={tokenValid}
-                    render={t => (
-                      <SemanticForm.Input
-                        onChange={t.input.onChange}
-                        value={t.input.value}
-                        error={t.meta.touched && t.meta.invalid}
-                        disabled={props.loading}
-                      />
-                    )}
+            <View className="column">
+              <label>Script hash</label>
+              <Field
+                name="contract"
+                validate={tokenValid}
+                render={t => (
+                  <SemanticForm.Input
+                    onChange={t.input.onChange}
+                    value={t.input.value}
+                    error={t.meta.touched && t.meta.invalid}
+                    disabled={props.loading}
                   />
-                </View>
-              </View>
+                )}
+              />
             </View>
             <Filler />
             <Spacer />

@@ -8,6 +8,7 @@ import { reduxConnect, withProps } from "../../compose";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { addToken } from "../../redux/settings/settingsActions";
 import { Props, TokenSettingsAddView } from "./tokenSettingsAddView";
+import { getOEP4Token } from "../../api/tokenApi";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading
@@ -37,17 +38,19 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           try {
             // const manager = getBackgroundManager();
-            // const token = await manager.getOEP4Token(contract);
-            const token = {
-              contract,
-              decimals: 9,
-              name: "LUCKY",
-              specification: "OEP-4",
-              symbol: "LCY"
-            };
+            const token = await getOEP4Token(contract);
+            console.log("token", token);
+
+            // const token = {
+            //   contract,
+            //   decimals: 9,
+            //   name: "LUCKY",
+            //   specification: "OEP-4",
+            //   symbol: "LCY"
+            // };
 
             // todo: proper spec
-            await actions.addToken(contract, token.name, token.symbol, token.decimals, "OEP-4");
+            // await actions.addToken(contract, token.name, token.symbol, token.decimals, "OEP-4");
 
             await actions.finishLoading();
 

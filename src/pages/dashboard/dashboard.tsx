@@ -21,8 +21,8 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  reduxConnect(mapStateToProps, dummy, reduxProps =>
-    withProps(
+  reduxConnect(mapStateToProps, dummy, reduxProps => {
+    return withProps(
       {
         handleReceive: () => {
           props.history.push("/receive");
@@ -47,11 +47,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           ontAmount={convertAmountToStr(reduxProps.ontAmount, "ONYX")}
           ongAmount={convertAmountToStr(reduxProps.ongAmount, "OXG")}
           unboundAmount={convertAmountToStr(reduxProps.unboundAmount, "OXG")}
-          tokens={prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts)}
+          tokens={
+            reduxProps.tokens.length && reduxProps.tokenAmounts
+              ? prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts)
+              : []
+          }
         />
       )
-    )
-  );
+    );
+  });
 
 function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[] = []): OEP4TokenAmount[] {
   return items.map(item => {
