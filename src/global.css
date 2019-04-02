@@ -176,6 +176,10 @@ div.flex.error {
   /* background-color: #0c0e27; */
   background-color: #1f2641;
   color: white;
+  /* background-image: url(https://onyxpay.co/img/about-bg.png); */
+  background-image: url("./assets/bg.png");
+  background-size: cover;
+  background-position: center;
 }
 
 h1,
@@ -305,7 +309,8 @@ h1.header {
 }
 
 h4.unbound {
-  color: #e0e1e2;
+  /* color: #e0e1e2; */
+  color: #959ca2;
   cursor: pointer;
 }
 
@@ -335,6 +340,12 @@ h4.unbound:hover {
 }
 .ui.list.accountList .item:hover {
   background-color: lightgrey;
+}
+
+label.balance-label {
+  color: #f07141;
+  font-size: 18px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 550px) {
