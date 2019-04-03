@@ -101,25 +101,27 @@ export const SettingsView: React.SFC<Props> = props => (
               </>
             ) : null}
             <Filler />
-            <Spacer />
-            <View className="buttons">
+            <View className="buttons" />
+
+            {/* <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" /> */}
+            <div className="settings__buttons-container">
               <Button type="button" onClick={props.handleExport} content="Export wallet" />
+              <Spacer />
               <span className="ui button">
-                <label htmlFor="inputWallet" style={{ width: "100%" }}>
+                <label htmlFor="inputWallet" style={{ cursor: "inherit" }}>
                   Import wallet
                 </label>
                 <input type="file" id="inputWallet" style={{ display: "none" }} onChange={props.handleImport} />
               </span>
-            </View>
-            <Spacer />
-            {/* <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" /> */}
-            <View className="buttons">
+              <Spacer />
               <Button type="button" onClick={props.handleClear} content="Clear wallet" icon="delete" />
-            </View>
-            <Spacer />
+            </div>
+
             <View className="buttons">
-              <Button icon="check" content="Save" />
-              <Button onClick={props.handleCancel}>Cancel</Button>
+              <Button style={{ width: "117.5px" }} icon="check" content="Save" />
+              <Button style={{ width: "117.5px" }} onClick={props.handleCancel}>
+                Cancel
+              </Button>
             </View>
           </SemanticForm>
         )}

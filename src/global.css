@@ -353,6 +353,17 @@ label.balance-label {
   margin-bottom: 5px;
 }
 
+.settings__buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.settings__buttons-container .ui.button {
+  width: 245px;
+}
+
 @media (max-width: 550px) {
   body {
     height: 100vh;
