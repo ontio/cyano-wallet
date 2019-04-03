@@ -8,7 +8,7 @@ import { convertAmountToStr } from "../../utils/number";
 import { TokenState } from "../../redux/settings/settingsReducer";
 import { TokenAmountState } from "../../redux/runtime";
 import { OEP4TokenAmount } from "../../api/tokenApi";
-// import { decodeAmount } from "../../utils/number";
+import { decodeAmount } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -48,7 +48,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           ongAmount={convertAmountToStr(reduxProps.ongAmount, "OXG")}
           unboundAmount={convertAmountToStr(reduxProps.unboundAmount, "OXG")}
           tokens={
-            reduxProps.tokens.length && reduxProps.tokenAmounts
+            reduxProps.tokens.length && reduxProps.tokenAmounts.length
               ? prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts)
               : []
           }
@@ -57,14 +57,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
     );
   });
 
-// TODO: FIX AMOUNTS
 function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[] = []): OEP4TokenAmount[] {
   return items.map(item => {
     const contract = item.contract;
     const token = tokens.find(t => t.contract === contract)!;
 
-    // const amount = decodeAmount(item.amount, token.decimals);
-    const amount = item.amount;
+    const amount = decodeAmount(item.amount, token.decimals);
 
     return {
       amount,

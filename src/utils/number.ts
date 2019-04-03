@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { AssetType } from "../redux/runtime";
 
-export function convertAmountToBN(amount: number | undefined, asset: AssetType) {
+export function convertAmountToBN(amount: number | undefined, asset: AssetType, decimals?) {
   if (amount === undefined) {
     return new BigNumber(0);
   }
@@ -12,6 +12,8 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType) 
     amountBN = amountBN.div(new BigNumber("1000000000"));
   } else if (asset === "ONYX") {
     amountBN = amountBN.div(new BigNumber("100000000"));
+  } else {
+    amountBN = amountBN.div(new BigNumber(Math.pow(10, decimals)));
   }
   return amountBN;
 }

@@ -22,19 +22,13 @@ export async function refreshBalance(store: GlobalStore) {
       for (const token of tokens) {
         try {
           const amount = await getTokenBalanceOwn(token.contract, walletEncoded);
-          tokenBalances.push({ contract: token.contract, amount });
+          tokenBalances.push({ contract: token.contract, amount, symbol: token.symbol });
         } catch (e) {
           // tslint:disable-next-line:no-console
           console.warn("Failed to load balance of token: ", token.contract);
         }
       }
       console.log("balance of tokens:", tokenBalances);
-
-      // TODO: remove plug
-      // tokenBalances.push({
-      //   amount: "183000000001",
-      //   contract: "25277b421a58cfc2ef5836767e54eb7abdd31afd"
-      // });
 
       store.dispatch(Actions.runtime.setBalance(balance.oxg, balance.onyx, unboundOng, tokenBalances));
 

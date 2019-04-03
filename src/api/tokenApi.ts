@@ -1,12 +1,15 @@
 import * as Long from "long";
-import { Crypto, Oep4, utils /* RestClient, TransactionBuilder , Parameter, ParameterType */ } from "ontology-ts-sdk";
+import { Crypto, Oep4, utils, TransactionBuilder, CONST /* Parameter, ParameterType */ } from "ontology-ts-sdk";
 import { isHexadecimal } from "../utils";
+import { encodeAmount } from "../utils/number";
 import { getClient } from "../network";
 import Address = Crypto.Address;
 import Oep4TxBuilder = Oep4.Oep4TxBuilder;
 import { getStore } from "../redux";
-import { getAccount /* decryptAccount */ } from "./accountApi";
+import { getAccount, decryptAccount } from "./accountApi";
 import { getWallet } from "./authApi";
+import { AssetType } from "../redux/runtime";
+
 export interface OEP4Token {
   name: string;
   symbol: string;
@@ -14,6 +17,25 @@ export interface OEP4Token {
 }
 export interface OEP4TokenAmount extends OEP4Token {
   amount: string;
+}
+
+export type TransactionType = "transfer" | "withdraw_ong";
+
+export type ErrorCode = "TIMEOUT" | "WRONG_PASSWORD" | "CANCELED" | "OTHER";
+
+export interface TransactionRequest {
+  id: string;
+  type: TransactionType;
+  resolved?: boolean;
+  error?: ErrorCode;
+  result?: any;
+}
+
+export interface TransferRequest extends TransactionRequest {
+  sender: string;
+  recipient: string;
+  amount: number;
+  asset: AssetType;
 }
 
 function extractStringResponse(response: any) {
@@ -43,7 +65,6 @@ export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   const symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
   const nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
   const decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
-  console.log(symbolResponse, nameResponse, decimalsResponse);
 
   return {
     decimals: extractNumberResponse(decimalsResponse),
@@ -75,28 +96,34 @@ export async function getTokenBalance(contract: string, address: Address) {
   const client = getClient();
   const tx = builder.queryBalanceOf(address);
   const response = await client.sendRawTransaction(tx.serialize(), true);
-  console.log("$$$$$", response);
 
   return Long.fromString(utils.reverseHex(response.Result.Result), true, 16).toString();
 }
 
-/* export async function transferToken(request: TransferRequest, password: string) {
-  const state = getStore().getState();
-  const wallet = getWallet(state.wallet.wallet!);
+export async function transferToken(
+  walletEncoded: any,
+  password: string,
+  recipient: string,
+  asset: string,
+  amount: string
+) {
+  console.log("in transferToken", password, walletEncoded, recipient, asset, amount);
 
-  const token = state.settings.tokens.find(t => t.symbol === request.asset);
+  const wallet = getWallet(walletEncoded);
+  const state = getStore().getState();
+  const from = getAccount(wallet).address;
+  const privateKey = decryptAccount(wallet, password);
+
+  const token = state.settings.tokens.find(t => t.symbol === asset);
   if (token === undefined) {
     throw new Error("OEP-4 token not found.");
   }
 
-  const contract = utils.reverseHex(token.contract);
+  const contract = token.contract;
   const builder = new Oep4TxBuilder(new Address(contract));
 
-  const from = getAccount(state.wallet.wallet!).address;
-  const privateKey = decryptAccount(wallet, password);
-
-  const to = new Address(request.recipient);
-  const amount = String(request.amount);
+  const to = new Address(recipient);
+  amount = String(amount);
 
   const tx = builder.makeTransferTx(
     from,
@@ -111,4 +138,4 @@ export async function getTokenBalance(contract: string, address: Address) {
 
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), false, true);
-} */
+}

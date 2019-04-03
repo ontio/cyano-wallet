@@ -13,6 +13,7 @@ export interface Transfer {
 export interface TokenAmountState {
   contract: string;
   amount: string;
+  symbol: string;
 }
 
 export interface RuntimeState {
