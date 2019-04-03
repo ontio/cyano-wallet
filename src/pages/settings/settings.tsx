@@ -67,29 +67,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   });
                   FileSaver.saveAs(blob, "wallet.dat");
                 },
-                handleImport: (event: any) => {
-                  const file = event.target.files[0];
-                  const reader = new FileReader();
-                  reader.onloadend = async (e: any) => {
-                    if (e.target.result !== null) {
-                      let data: string = get(e.target, "result");
-                      try {
-                        const parsed = JSON.parse(data);
-                        if (parsed.identities == null) {
-                          parsed.identities = [];
-                          data = JSON.stringify(parsed);
-                        }
-
-                        const wallet = JSON.parse(data);
-                        await actions.setWallet(JSON.stringify(wallet));
-                        routerProps.history.push("/");
-                      } catch (e) {
-                        console.log("reader.onloadend error - ", e);
-                      }
-                    }
-                  };
-                  reader.readAsText(file);
-                },
                 handleSave: async (values: object) => {
                   const net: NetValue = get(values, "net", "TEST");
                   const ssl: boolean = get(values, "ssl", false);
