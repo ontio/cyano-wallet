@@ -9,12 +9,14 @@ import { reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { Props, SendConfirmView } from "./sendConfirmView";
+import { transferToken } from "../../api/tokenApi";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
   nodeAddress: state.settings.nodeAddress,
   ssl: state.settings.ssl,
-  wallet: state.wallet.wallet
+  wallet: state.wallet.wallet,
+  tokens: state.settings.tokens
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
@@ -36,24 +38,33 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           actions.startLoading();
 
           try {
-            await timeout(
-              transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, recipient, asset, amount),
-              15000
-            );
-            props.history.push("/sendComplete", { recipient, asset, amount });
+            if (asset === "ONYX" || asset === "OXG") {
+              await timeout(
+                transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, recipient, asset, amount),
+                15000
+              );
+              props.history.push("/sendComplete", { recipient, asset, amount });
+            } else {
+              await timeout(transferToken(reduxProps.wallet, password, recipient, asset, amount), 15000);
+              const tokenDecimals = reduxProps.tokens.find(t => t.symbol === asset);
+              props.history.push("/sendComplete", {
+                recipient,
+                asset,
+                amount,
+                decimals: tokenDecimals && tokenDecimals.decimals
+              });
+            }
           } catch (e) {
-            
             if (e instanceof TimeoutError) {
-              console.log('(catch) TimeoutError');
+              console.log("(catch) TimeoutError");
               props.history.push("/sendFailed", { recipient, asset, amount });
             } else if (e === 53000) {
-               // 53000 - Decrypto_ERROR (Decryption error)
+              // 53000 - Decrypto_ERROR (Decryption error)
               formApi.change("password", "");
               return { password: "" };
             } else {
               props.history.push("/sendError", { e });
             }
-
           } finally {
             actions.finishLoading();
           }

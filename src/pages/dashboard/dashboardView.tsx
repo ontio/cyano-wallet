@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Button } from "semantic-ui-react";
 import { Transfer } from "../../redux/runtime";
-import { /* Clickable, */ Filler, LogoHeader, /* Spacer, */ View } from "../../components";
+import { /* Clickable, */ Filler, LogoHeader, Spacer, View } from "../../components";
 // import { TransferList } from "../../components/transferList";
+import { TokenAmountList } from "../../components";
+import { OEP4TokenAmount } from "src/api/tokenApi";
 
 export interface Props {
   ontAmount: string;
   ongAmount: string;
-
+  tokens: OEP4TokenAmount[];
   unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[] | null;
@@ -48,6 +50,9 @@ export const DashboardView: React.SFC<Props> = props => (
       <View className="center">
         <Clickable onClick={props.handleTransfers}>more</Clickable>
       </View> */}
+      <h1>OEP-4 tokens</h1>
+      <TokenAmountList tokens={props.tokens} />
+      <Spacer />
       <Filler />
       <View className="buttons">
         <Button icon="send" content="Send" onClick={props.handleSend} />

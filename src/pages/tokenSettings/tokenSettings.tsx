@@ -19,7 +19,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           props.history.replace("/settings");
         },
         handleDel: (contract: string) => {
-          // props.history.push("/settings/token/del", { contract });
+          props.history.push("/settings/token/del", { contract });
           console.log("ope-4 address to delete: ", contract);
         }
       },

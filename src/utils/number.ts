@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { AssetType } from "../redux/runtime";
 
-export function convertAmountToBN(amount: number | undefined, asset: AssetType) {
+export function convertAmountToBN(amount: number | undefined, asset: AssetType, decimals?) {
   if (amount === undefined) {
     return new BigNumber(0);
   }
@@ -12,6 +12,8 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType) 
     amountBN = amountBN.div(new BigNumber(Math.pow(10, 9)));
   } else if (asset === "ONYX") {
     amountBN = amountBN.div(new BigNumber(Math.pow(10, 8)));
+  } else {
+    amountBN = amountBN.div(new BigNumber(Math.pow(10, decimals)));
   }
   return amountBN;
 }
@@ -27,8 +29,8 @@ export function convertAmountFromStr(amount: string, asset: AssetType) {
   return amountBN.toNumber();
 }
 
-export function convertAmountToStr(amount: number | undefined, asset: AssetType) {
-  return convertAmountToBN(amount, asset).toString();
+export function convertAmountToStr(amount: number | undefined, asset: AssetType, decimals?) {
+  return convertAmountToBN(amount, asset, decimals).toString();
 }
 
 export function encodeAmount(amount: string, decimals: number) {
