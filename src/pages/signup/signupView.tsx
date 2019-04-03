@@ -4,7 +4,8 @@ import { Logo, Spacer, View } from "../../components";
 
 export interface Props {
   handleCreate: () => void;
-  handleImport: () => void;
+  handleKeyImport: () => void;
+  handleWalletImport: (event: any) => void;
   handleRestore: () => void;
 }
 
@@ -22,9 +23,16 @@ export const SignupView: React.SFC<Props> = props => (
           New account
         </Button>
         <Spacer />
-        <Button size="small" onClick={props.handleImport}>
+        <Button size="small" onClick={props.handleKeyImport}>
           Import private key
         </Button>
+        <Spacer />
+        <span className="ui button">
+          <label htmlFor="inputWallet" style={{ cursor: "inherit" }}>
+            Import wallet
+          </label>
+          <input type="file" id="inputWallet" style={{ display: "none" }} onChange={props.handleWalletImport} />
+        </span>
         <Spacer />
         <Button size="small" onClick={props.handleRestore}>
           Restore account
