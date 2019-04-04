@@ -17,9 +17,8 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouterProps) =>
       {
         componentDidMount: async () => {
           // const wallet = await getStoredWallet();
-          console.log("reduxProps", reduxProps);
+          console.log("HOME reduxProps", reduxProps);
           if (reduxProps.wallet != null) {
-            console.log("home");
             // actions.setWallet(wallet);
             props.history.push("/dashboard");
           } else {

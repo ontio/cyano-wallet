@@ -42,6 +42,7 @@ export async function refreshBalance(store: GlobalStore) {
 }
 
 export function initBalanceProvider(store: GlobalStore) {
+  refreshBalance(store);
   window.setInterval(async () => {
     refreshBalance(store);
   }, 15000);

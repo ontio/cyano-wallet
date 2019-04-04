@@ -19,6 +19,8 @@ export function initNetwork(store: GlobalStore) {
     }
   });
 
+  store.dispatch(changeNetworkState("DISCONNECTED"));
+
   window.setInterval(async () => {
     try {
       await client.sendHeartBeat();
