@@ -32,7 +32,7 @@ export const TransfersView: React.SFC<Props> = (props) => (
     <View orientation="column" className="partSmall gradient">
       <AccountLogoHeader title="Transfers" />
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <View orientation="column" className="scrollView">
         <TransferList ownAddress={props.ownAddress} transfers={props.transfers} />
       </View>

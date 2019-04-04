@@ -22,6 +22,7 @@ interface Props {
 
   content?: boolean;
   fluid?: boolean;
+  scroll?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -39,6 +40,10 @@ export const View: React.SFC<Props> = (props) => {
 
   if (props.content) {
     className += ' ' + 'content';
+  }
+
+  if (props.scroll) {
+    className += ' ' + 'scroll-y';
   }
 
   if (props.className) {

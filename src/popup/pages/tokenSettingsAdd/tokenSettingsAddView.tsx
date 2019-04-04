@@ -35,7 +35,7 @@ export const TokenSettingsAddView: React.SFC<Props> = (props) => (
         <View>Enter token script hash.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
+    <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
         onSubmit={props.handleConfirm}
         render={(formProps) => (

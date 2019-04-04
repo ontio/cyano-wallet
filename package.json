@@ -38,7 +38,7 @@
     "lodash": "^4.17.10",
     "long": "^4.0.0",
     "object-assign": "4.1.1",
-    "ontology-dapi": "^0.4.6",
+    "ontology-dapi": "^0.4.7",
     "ontology-ts-sdk": "^1.0.2",
     "ontology-ts-test": "^0.2.37",
     "postcss-flexbugs-fixes": "3.2.0",

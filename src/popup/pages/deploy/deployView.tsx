@@ -47,7 +47,7 @@ export const DeployView: React.SFC<Props> = (props) => (
         <View>Deploy a smart contract.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
+    <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
         initialValues={props.initialValues}
         onSubmit={props.handleConfirm}

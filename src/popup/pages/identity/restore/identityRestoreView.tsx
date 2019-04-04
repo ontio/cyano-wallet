@@ -35,7 +35,7 @@ export const IdentityRestoreView: React.SFC<Props> = (props) => (
         <View>Enter your mnemonics phrase and passphrase for identity encryption.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <Form
         onSubmit={props.handleSubmit}
         validate={samePassword}

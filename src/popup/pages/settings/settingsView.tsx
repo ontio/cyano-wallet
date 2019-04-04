@@ -68,7 +68,7 @@ export const SettingsView: React.SFC<Props> = (props) => (
         <View>Backup your wallet before clearing.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
+    <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
         initialValues={props.settings}
         onSubmit={props.handleSave}

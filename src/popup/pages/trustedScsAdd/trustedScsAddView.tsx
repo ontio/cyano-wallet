@@ -42,7 +42,7 @@ export const TrustedScsAddView: React.SFC<Props> = (props) => (
         <View>Enter contract script hash and required actions.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
+    <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
         onSubmit={props.handleConfirm}
         initialValues={props.initialValues}

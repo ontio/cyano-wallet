@@ -40,7 +40,7 @@ export const IdentitiesView: React.SFC<Props> = (props) => (
         <View>Select the identity to switch to.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <View orientation="column" className="scrollView">
         <IdentityList
           identities={props.identities}

@@ -35,7 +35,7 @@ export const ImportView: React.SFC<Props> = (props) => (
         <View>Enter your private key and passphrase for account encryption.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <View orientation="column" className="scrollView">
         <View className="content">
           <Form

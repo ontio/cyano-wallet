@@ -35,7 +35,7 @@ export const TokenSettingsView: React.SFC<Props> = (props) => (
         <View>Manage OEP-4 tokens.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <View orientation="column" className="scrollView">
         <TokenList tokens={props.tokens} onDel={props.handleDel} />
       </View>

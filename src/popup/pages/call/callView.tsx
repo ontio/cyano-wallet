@@ -45,7 +45,7 @@ export const CallView: React.SFC<Props> = (props) => (
         <View>Call to a smart contract.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true}>
+    <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
         initialValues={props.initialValues}
         onSubmit={props.handleConfirm}

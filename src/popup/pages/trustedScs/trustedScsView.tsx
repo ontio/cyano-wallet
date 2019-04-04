@@ -35,7 +35,7 @@ export const TrustedScsView: React.SFC<Props> = (props) => (
         <View>Manage trusted smart contracts.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
+    <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>
       <View orientation="column" className="scrollView">
         <TrustedList trusted={props.trusted} onDel={props.handleDel} />
       </View>
