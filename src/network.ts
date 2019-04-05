@@ -19,7 +19,7 @@ export function initNetwork(store: GlobalStore) {
     }
   });
 
-  store.dispatch(changeNetworkState("DISCONNECTED"));
+  store.dispatch(changeNetworkState("CONNECTED"));
 
   window.setInterval(async () => {
     try {
