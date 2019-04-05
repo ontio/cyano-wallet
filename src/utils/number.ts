@@ -15,7 +15,7 @@ export function convertAmountToBN(amount: number | undefined, asset: AssetType, 
   } else {
     amountBN = amountBN.div(new BigNumber(Math.pow(10, decimals)));
   }
-  return amountBN;
+  return amountBN.toFixed();
 }
 
 export function convertAmountFromStr(amount: string, asset: AssetType) {
