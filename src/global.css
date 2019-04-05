@@ -27,11 +27,6 @@ body {
   background-color: #f4f4f4;
   flex-direction: column;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  /* border: 1px solid #1f2641; */
-
-  /* background: url('https://onyxcoin.io/assets/images/banner_bg2.png');
-  background-color: #1e1f27;
-  background-size: contain; */
 }
 
 .space-betweem {
@@ -172,18 +167,15 @@ div.flex.error {
 }
 
 .gradient {
-  /* background-image: linear-gradient(to top, #2c92a5 0%, #37b6d3 100%); */
-  /* background-color: #0c0e27; */
   background-color: #1f2641;
   color: white;
-  /* background-image: url(https://onyxpay.co/img/about-bg.png); */
   background-image: url("./assets/bg-new-compressed.jpg");
   background-size: cover;
   background-position: center;
 }
 
 .part.gradient {
-  background-position: 0 -180px;
+  background-position: top;
 }
 
 h1,
@@ -334,6 +326,7 @@ h4.unbound:hover {
 .statusBar {
   padding: 5px;
   flex-shrink: 0;
+  background: #1f2641;
 }
 
 .ui.list.accountList .item {
