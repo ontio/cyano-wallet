@@ -1,4 +1,3 @@
-import * as FileSaver from "file-saver";
 import { get } from "lodash";
 import * as React from "react";
 import { RouterProps } from "react-router";
@@ -57,15 +56,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 },
                 handleCancel: () => {
                   props.history.goBack();
-                },
-                handleClear: () => {
-                  routerProps.history.push("/clear");
-                },
-                handleExport: () => {
-                  const blob = new Blob([JSON.stringify(reduxProps.wallet)!], {
-                    type: "text/plain;charset=utf-8"
-                  });
-                  FileSaver.saveAs(blob, "wallet.dat");
                 },
                 handleSave: async (values: object) => {
                   const net: NetValue = get(values, "net", "TEST");

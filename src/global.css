@@ -331,6 +331,7 @@ h4.unbound:hover {
 
 .ui.list.accountList{
   overflow-y: auto;
+  border: #595757 solid 1px;
 }
 .ui.list.accountList .item {
   cursor: pointer;
@@ -349,15 +350,50 @@ label.balance-label {
   margin-bottom: 5px;
 }
 
-.settings__buttons-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-}
 
-.settings__buttons-container .ui.button {
-  width: 245px;
+.list-header {
+  padding: 20px 0 0 20px;
+}
+.list-header span {
+  font-size: 14px;
+  line-height: 18px;
+}
+ 
+.list-btns-box > div {
+  width: 50%;
+  align-items: center;
+  padding: 20px 0 50px 0;
+}
+.list-btns-box > div.scrollView {
+  min-width: 380px;
+}
+.list-btns-box > div.buttons button:last-child {
+  margin-top: auto;
+}
+.list-btns-box > div.buttons button {
+  width: 200px;
+}
+@media (max-width: 700px) {
+  .list-btns-box > div {
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+  .list-btns-box > div.buttons button {
+    width: 120px;
+  }
+}
+@media (max-width: 550px) {
+  div.list-btns-box {
+    flex-direction: column;
+  }
+  .list-btns-box > div {
+    width: 100%;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .list-btns-box > div.buttons button {
+    width: 200px;
+  }
 }
 
 @media (max-width: 550px) {
