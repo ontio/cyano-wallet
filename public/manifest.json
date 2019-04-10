@@ -11,8 +11,8 @@
     "default_title": "Open the popup"
   },
   "icons": {
-    "32": "logo32.png",
-    "48": "favicon.png",
+    "32": "favicon-32x32.png",
+    "48": "favicon.icon",
     "128": "logo.png"
   },
   "permissions": [
