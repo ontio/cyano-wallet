@@ -329,6 +329,9 @@ h4.unbound:hover {
   background: #1f2641;
 }
 
+.ui.list.accountList{
+  overflow-y: auto;
+}
 .ui.list.accountList .item {
   cursor: pointer;
   height: 40px;
