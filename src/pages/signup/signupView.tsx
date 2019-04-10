@@ -14,7 +14,7 @@ export const SignupView: React.SFC<Props> = props => (
     <Logo />
     <View orientation="column" className="hint">
       <View>To start using wallet, please</View>
-      <View>create new account or import existing.</View>
+      <View>create new account or restore existing.</View>
     </View>
     <View orientation="column" fluid={true} content={true}>
       <View orientation="column" fluid={true} className="center signButtons">
