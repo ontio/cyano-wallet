@@ -30,7 +30,10 @@ export const NewView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="New account" />
       <View content={true} className="spread-around">
-        <View>Here you have your mnemonics phrase and private key. You can use either to restore your account.</View>
+        <View>
+          Here you have your mnemonics phrase and private key. You can use either to restore your account.<br/>
+          Make sure you write them down and keep them safe. The mnemonics phrase and private key cannot be restored.
+        </View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
