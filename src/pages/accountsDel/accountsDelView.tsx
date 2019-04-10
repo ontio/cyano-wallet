@@ -29,9 +29,12 @@ export interface Props {
 export const AccountsDelView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="Account remove" />
+      <AccountLogoHeader title="Account removal" />
       <View content={true} className="spread-around">
-        <View>Confirm account removal. Be sure to have backup.</View>
+        <View>
+          Confirm account removal.<br/>
+          Make sure you have the private key and mnemonics phrase backed up.
+        </View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
