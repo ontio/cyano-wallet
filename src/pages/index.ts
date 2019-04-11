@@ -1,3 +1,4 @@
+
 export { Clear } from "./clear/clear";
 export { Create } from "./create/create";
 export { Dashboard } from "./dashboard/dashboard";
@@ -5,7 +6,7 @@ export { Home } from "./home/home";
 export { Import } from "./import/import";
 export { New } from "./new/new";
 export { Receive } from "./receive/receive";
-export { Restore } from "./restore/restore";
+export { RestoreMnemonic } from "./restoreMnemonic/restoreMnemonic";
 export { Send } from "./send/send";
 export { SendConfirm } from "./sendConfirm/sendConfirm";
 export { SendComplete } from "./sendComplete/sendComplete";
@@ -23,3 +24,4 @@ export { WithdrawFailed } from "./withdrawFailed/withdrawFailed";
 export { TokenSettings } from "./tokenSettings/tokenSettings";
 export { TokenSettingsAdd } from "./tokenSettingsAdd/tokenSettingsAdd";
 export { TokenSettingsDel } from "./tokenSettingsDel/tokenSettingsDel";
+export { AccountsRestore } from "./accounts-restore/accounts-restore";

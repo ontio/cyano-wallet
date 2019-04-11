@@ -4,7 +4,6 @@ import { Logo, Spacer, View } from "../../components";
 
 export interface Props {
   handleCreate: () => void;
-  handleKeyImport: () => void;
   handleWalletImport: (event: any) => void;
   handleRestore: () => void;
 }
@@ -18,13 +17,12 @@ export const SignupView: React.SFC<Props> = props => (
     </View>
     <View orientation="column" fluid={true} content={true}>
       <View orientation="column" fluid={true} className="center signButtons">
-        <Spacer />
         <Button size="small" onClick={props.handleCreate}>
           New account
         </Button>
         <Spacer />
-        <Button size="small" onClick={props.handleKeyImport}>
-          Import private key
+        <Button size="small" onClick={props.handleRestore}>
+          Restore account
         </Button>
         <Spacer />
         <span className="ui button">
@@ -33,10 +31,6 @@ export const SignupView: React.SFC<Props> = props => (
           </label>
           <input type="file" id="inputWallet" style={{ display: "none" }} onChange={props.handleWalletImport} />
         </span>
-        <Spacer />
-        <Button size="small" onClick={props.handleRestore}>
-          Restore account
-        </Button>
       </View>
     </View>
   </View>

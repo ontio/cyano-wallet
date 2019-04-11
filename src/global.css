@@ -413,3 +413,13 @@ label.balance-label {
     margin-bottom: 15px;
   }
 }
+
+.buttons-container {
+  height: 60%;
+  width: 280px;
+  margin: 0 auto;
+  justify-content: space-between
+}
+.buttons-container button:last-child {
+  margin-top: auto;
+}

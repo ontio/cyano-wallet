@@ -27,10 +27,10 @@ export interface Props {
   loading: boolean;
 }
 
-export const RestoreView: React.SFC<Props> = (props) => (
+export const RestoreMnemonicView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <LogoHeader showLogout={false} showAccounts={false} title="Restore account" />
+      <LogoHeader showLogout={false} showAccounts={false} title="Import mnemonics phrase" />
       <View content={true} className="spread-around">
         <View>Enter your mnemonics phrase and passphrase for account encryption.</View>
       </View>

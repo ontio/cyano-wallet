@@ -17,7 +17,7 @@ import {
   Import,
   New,
   Receive,
-  Restore,
+  RestoreMnemonic,
   Send,
   SendComplete,
   SendConfirm,
@@ -31,7 +31,8 @@ import {
   TokenSettings,
   TokenSettingsAdd,
   SendError,
-  TokenSettingsDel
+  TokenSettingsDel,
+  AccountsRestore
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -64,7 +65,8 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/" exact={true} component={Home} />
         <Route path="/new" exact={true} component={New} />
         <Route path="/clear" exact={true} component={Clear} />
-        <Route path="/restore" exact={true} component={Restore} />
+        <Route path="/restore" exact={true} component={AccountsRestore} />
+        <Route path="/restore/mnemonic" exact={true} component={RestoreMnemonic} />
         <Route path="/import" exact={true} component={Import} />
         <Route path="/create" exact={true} component={Create} />
         <Route path="/sign-up" exact={true} component={Signup} />

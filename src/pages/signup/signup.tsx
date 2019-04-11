@@ -24,9 +24,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           handleCreate: () => {
             props.history.push("/create");
           },
-          handleKeyImport: () => {
-            props.history.push("/import");
-          },
           handleWalletImport: (event: any) => {
             const file = event.target.files[0];
             const reader = new FileReader();

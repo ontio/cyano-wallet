@@ -24,7 +24,7 @@ import { reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import Actions from "../../redux/actions";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
-import { Props, RestoreView } from "./restoreView";
+import { Props, RestoreMnemonicView } from "./restoreMnemonicView";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -68,4 +68,4 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
     )
   );
 
-export const Restore = enhancer(RestoreView);
+export const RestoreMnemonic = enhancer(RestoreMnemonicView);
