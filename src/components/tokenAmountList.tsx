@@ -23,7 +23,7 @@ export const TokenAmountList: React.SFC<Props> = props => (
           </List.Item>
         ))
       ) : (
-        <h3>No tokens are available for this account...</h3>
+        <h5>No tokens are available for this account...</h5>
       )}
     </List>
   </View>

@@ -50,6 +50,7 @@ body {
 }
 
 .ui.button {
+  width: 200px;
   margin: 0 5px;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
@@ -61,6 +62,10 @@ body {
   background-size: 200% auto;
   border-radius: 4px;
   transition: all 0.5s ease 0s;
+}
+
+.ui.button.icon {
+  width: auto;
 }
 
 .ui.button:hover {
@@ -127,8 +132,8 @@ div.flex.full {
 }
 
 div.flex.part {
-  /* height: 130px; */
   flex-shrink: 0;
+  padding-bottom: 20px;
 }
 
 div.flex.partSmall {
@@ -142,6 +147,9 @@ div.flex.spread {
 
 div.flex.spread-around {
   justify-content: space-around;
+}
+div.flex.align-items-center {
+  align-items: center;
 }
 
 div.flex.filler {
@@ -312,7 +320,7 @@ h4.unbound {
 }
 
 h4.unbound:hover {
-  color: white;
+  color: #595757;
 }
 
 .ledgerText {
@@ -391,9 +399,6 @@ label.balance-label {
     align-items: center;
     padding: 10px 0;
   }
-  .list-btns-box > div.buttons button {
-    width: 200px;
-  }
 }
 
 @media (max-width: 550px) {
@@ -405,6 +410,10 @@ label.balance-label {
   }
 }
 
+div.flex.balance-container {
+  border-bottom: #d1d1d1 solid 1px;
+  padding-bottom: 15px;
+}
 @media (max-width: 400px) {
   div.flex.balance-container {
     flex-direction: column;
@@ -419,6 +428,9 @@ label.balance-label {
   width: 280px;
   margin: 0 auto;
   justify-content: space-between
+}
+.buttons-container button.button {
+  width: 100%;
 }
 .buttons-container button:last-child {
   margin-top: auto;
