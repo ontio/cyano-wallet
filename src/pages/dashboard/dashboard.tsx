@@ -38,6 +38,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             props.history.push("/withdrawConfirm");
           }
         },
+        handleOpenTransfers: () => {
+          props.history.push("/withdrawConfirm");
+        },
         ownAddress: getAddress(reduxProps.wallet),
         transfers: reduxProps.transfers !== null ? reduxProps.transfers.slice(0, 2) : null
       },

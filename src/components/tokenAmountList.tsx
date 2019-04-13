@@ -9,7 +9,7 @@ interface Props {
 
 export const TokenAmountList: React.SFC<Props> = props => (
   <View>
-    <List className="transferList" divided={true}>
+    <List className="transferList oep-4" divided={true}>
       {props.tokens && props.tokens.length ? (
         props.tokens.map((token, i) => (
           <List.Item key={i}>
@@ -23,7 +23,7 @@ export const TokenAmountList: React.SFC<Props> = props => (
           </List.Item>
         ))
       ) : (
-        <h5>No tokens are available for this account...</h5>
+        <h5 className="no-tokens">No tokens are available for this account...</h5>
       )}
     </List>
   </View>

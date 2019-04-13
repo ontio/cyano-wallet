@@ -12,7 +12,7 @@ body {
   margin: 0;
   max-width: 1000px;
   /* min-width: 400px; */
-  height: 60vh;
+  height: 700px;
   min-height: 500px;
   margin: 0 auto;
 
@@ -96,7 +96,7 @@ body {
 
 .ui.list .list > .item .header,
 .ui.list > .item .header {
-  color: #32a4be;
+  color: #f07141;
   font-family: "Poppins", sans-serif;
   font-weight: normal;
 }
@@ -303,6 +303,19 @@ h1.header {
 
 .transferList {
   width: 100%;
+  overflow: auto;
+}
+
+.transferList.oep-4 .item {
+  padding: 10px 0;
+}
+.transferList.oep-4 .item .header {
+  margin-bottom: 4px;
+}
+
+.no-tokens {
+  position: absolute;
+  top: 280px;
 }
 
 .flex.balance {
@@ -413,6 +426,7 @@ label.balance-label {
 div.flex.balance-container {
   border-bottom: #d1d1d1 solid 1px;
   padding-bottom: 15px;
+  min-height: 82px;
 }
 @media (max-width: 400px) {
   div.flex.balance-container {
