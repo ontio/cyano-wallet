@@ -2,8 +2,6 @@ import { TokenAmountState } from "./redux/runtime";
 import Actions from "./redux/actions";
 import { GlobalStore } from "./redux";
 import { getBalance, getUnboundOxg } from "./api/runtimeApi";
-// import { getTransferList } from "./api/explorerApi";
-// import { getAddress } from "./api/authApi";
 import { getTokenBalanceOwn } from "./api/tokenApi";
 
 export async function refreshBalance(store: GlobalStore) {
@@ -32,9 +30,6 @@ export async function refreshBalance(store: GlobalStore) {
 
       store.dispatch(Actions.runtime.setBalance(balance.oxg, balance.onyx, unboundOng, tokenBalances));
 
-      /* const address = getAddress(walletEncoded);
-      const transfers = await getTransferList(address, settings.nodeAddress);
-      store.dispatch(Actions.runtime.setTransfers(transfers)); */
     } catch (e) {
       // ignore
     }

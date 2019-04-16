@@ -29,25 +29,20 @@ export interface Props {
 
 export const TransfersView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
-
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Transfers" />
     </View>
-
-
     <View orientation="column" fluid={true} content={true} className="spread-around">
-
       <View orientation="column" className="transfersView">
         <TransferList ownAddress={props.ownAddress} transfers={props.transfers} />
       </View>
       <Spacer />
-
- 
+      <Spacer />
+      <Spacer />
+      <Spacer />
       <View className="buttons">
         <Button content="Back" onClick={props.handleBack} />
       </View>
-
     </View>
-
   </View>
 );

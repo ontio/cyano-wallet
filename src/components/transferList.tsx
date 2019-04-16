@@ -31,7 +31,7 @@ export const TransferList: React.SFC<Props> = props => (
     {props.transfers === null ? (
       <Loader active={true} inline={true} />
     ) : (
-      <List className="transferList" divided={true}>
+      <List className="transferList transactions" divided={true}>
         {props.transfers.map((transfer, i) => (
           <List.Item key={i}>
             <List.Icon
@@ -45,8 +45,7 @@ export const TransferList: React.SFC<Props> = props => (
             />
             <List.Content>
               <List.Header>
-                {transfer.from === props.ownAddress ? "-" : ""}
-                {transfer.amount} {transfer.asset}
+                {transfer.amount} - {transfer.asset}
               </List.Header>
               <List.Description>{transfer.from === props.ownAddress ? transfer.to : transfer.from}</List.Description>
               <List.Description>{format(transfer.time * 1000, "MMM Do YYYY HH:mm:ss")}</List.Description>

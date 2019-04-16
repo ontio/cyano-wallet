@@ -312,10 +312,23 @@ h1.header {
 .transferList.oep-4 .item .header {
   margin-bottom: 4px;
 }
-
 .no-tokens {
   position: absolute;
   top: 280px;
+}
+
+.transferList.transactions .header {
+  font-size: 16px;
+}
+.transferList.transactions .content {
+  line-height: 20px;
+}
+.transferList.transactions .item {
+  padding: 10px 0;
+}
+.transferList.transactions .item .icon {
+  font-size: 32px;
+  color: #000;
 }
 
 .flex.balance {
