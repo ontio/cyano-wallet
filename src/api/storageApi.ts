@@ -19,7 +19,7 @@ let storageGet: (key: string) => Promise<string | null>;
 let storageSet: (key: string, value: string) => Promise<void>;
 let storageClear: (key: string) => Promise<void>;
 
-if (typeof browser === 'undefined') {
+if (typeof browser === 'undefined' || typeof browser.storage === 'undefined') {
   storageGet = (key) => {
     const value = localStorage.getItem(key);
     return Promise.resolve(value);
