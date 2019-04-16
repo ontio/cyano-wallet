@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Button } from "semantic-ui-react";
 import { Transfer } from "../../redux/runtime";
-import { /* Clickable, */ LogoHeader, Spacer, View } from "../../components";
-// import { TransferList } from "../../components/transferList";
+import { LogoHeader, Spacer, View } from "../../components";
 import { TokenAmountList } from "../../components";
 import { OEP4TokenAmount } from "src/api/tokenApi";
+import { Exchange } from "src/components/exchange";
 
 export interface Props {
   ontAmount: string;
@@ -13,11 +13,13 @@ export interface Props {
   unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[] | null;
+  showExchange: boolean;
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
+  handleShowExchange: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = props => (
@@ -32,6 +34,21 @@ export const DashboardView: React.SFC<Props> = props => (
         <label className="balance-label">ONYX</label>
         <h1 className="onyx-balance-amount">{props.ontAmount}</h1>
       </View>
+
+      <View orientation="column" className="exchange-box">
+        <Button
+          onClick={props.handleShowExchange}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="exchange"
+          data-tooltip="Exchange"
+          data-position="top center"
+          className={props.showExchange ? 'hidden' : ''}
+        />
+        {props.showExchange ? <Exchange amount={0}/> : null}
+      </View>
+
       <View orientation="column" className="balance">
         <label className="balance-label">OXG</label>
         <h3>{props.ongAmount}</h3>
