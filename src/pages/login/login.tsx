@@ -30,29 +30,17 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleSubmit: async (values: object, formApi: FormApi) => {
           const password = get(values, "password", "");
           const userName = get(values, "username", "");
-          console.log("submited", password, userName);
+          console.log("submited login form:", password, userName);
           try {
+            actions.startLoading();
             const response = await loginAsInvestor({ password, userName });
-            console.log("###", response);
+            props.history.push("/claim-onyx", { password, userName, auth: response });
             return {};
           } catch (e) {
-            console.log("###", e);
             return { [FORM_ERROR]: e };
+          } finally {
+            actions.finishLoading();
           }
-
-          // actions.startLoading();
-
-          // const { encryptedWif, mnemonics, wif, wallet } = await signUp(
-          //   reduxProps.nodeAddress,
-          //   reduxProps.ssl,
-          //   password,
-          //   reduxProps.wallet
-          // );
-          // actions.setWallet(wallet);
-
-          // actions.finishLoading();
-
-          // props.history.push("/new", { encryptedWif, mnemonics, wif });
         }
       },
       injectedProps => <Component {...injectedProps} loading={reduxProps.loading} />

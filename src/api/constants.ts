@@ -11,3 +11,8 @@ export const prodOptions: Array<{ text: string; value: string }> = [
     value: "35.180.188.239"
   }
 ];
+
+export const headAddress = {
+  test: "b93ade3f201bdc5ab0f9a07283ba4078ff00563e",
+  main: "?????"
+};

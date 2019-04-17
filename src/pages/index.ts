@@ -25,3 +25,4 @@ export { TokenSettingsAdd } from "./tokenSettingsAdd/tokenSettingsAdd";
 export { TokenSettingsDel } from "./tokenSettingsDel/tokenSettingsDel";
 export { AccountsRestore } from "./accounts-restore/accounts-restore";
 export { Login } from "./login/login";
+export { ClaimOnyx } from "./claim/claim";
