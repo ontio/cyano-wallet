@@ -171,9 +171,9 @@ div.flex.justify-center {
   justify-content: center;
 }
 
-div.flex.error {
+.error {
+  padding: 10px 0;
   color: #912d2b;
-  font-weight: bold;
   font-size: 16px;
 }
 
@@ -342,13 +342,15 @@ h1.header {
   align-self: center;
 }
 
-h4.unbound {
+h4.unbound,
+h4.claim-onyx {
   /* color: #e0e1e2; */
   color: #959ca2;
   cursor: pointer;
 }
 
-h4.unbound:hover {
+h4.unbound:hover,
+h4.claim-onyx:hover {
   color: #595757;
 }
 
@@ -366,7 +368,7 @@ h4.unbound:hover {
   background: #1f2641;
 }
 
-.ui.list.accountList{
+.ui.list.accountList {
   overflow-y: auto;
   border: #595757 solid 1px;
 }
@@ -387,7 +389,6 @@ label.balance-label {
   margin-bottom: 5px;
 }
 
-
 .list-header {
   padding: 20px 0 0 20px;
 }
@@ -395,7 +396,7 @@ label.balance-label {
   font-size: 14px;
   line-height: 18px;
 }
- 
+
 .list-btns-box > div {
   width: 50%;
   align-items: center;
@@ -460,7 +461,7 @@ div.flex.balance-container > div.flex  {
   height: 60%;
   width: 280px;
   margin: 0 auto;
-  justify-content: space-between
+  justify-content: space-between;
 }
 .buttons-container button.button {
   width: 100%;
@@ -482,4 +483,15 @@ div.flex.balance-container > div.flex  {
 .exchange-box input[type="number"] {
   width: 100px;
   padding: 2px 5px;
+}
+
+.settings__buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.settings__buttons-container .ui.button {
+  width: 245px;
 }

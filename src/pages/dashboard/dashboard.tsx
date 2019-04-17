@@ -48,6 +48,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           handleShowExchange: () => {
             setState({ showExchange: !state.showExchange });
           },
+          handleInvestorLogin: () => {
+            props.history.push("/investor-login");
+          },
           ownAddress: getAddress(reduxProps.wallet),
           transfers: reduxProps.transfers !== null ? reduxProps.transfers.slice(0, 2) : null
         },
