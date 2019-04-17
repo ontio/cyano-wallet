@@ -36,14 +36,13 @@ export const DashboardView: React.SFC<Props> = props => (
       </View>
 
       <View orientation="column" className="exchange-box">
+        <span>Exchnage ONYX to OXG</span>
         <Button
           onClick={props.handleShowExchange}
           size="big"
           compact={true}
           basic={true}
           icon="exchange"
-          data-tooltip="Exchange"
-          data-position="top center"
           className={props.showExchange ? 'hidden' : ''}
         />
         {props.showExchange ? <Exchange amount={0}/> : null}

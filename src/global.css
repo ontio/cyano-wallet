@@ -444,6 +444,9 @@ div.flex.balance-container {
   padding-bottom: 15px;
   min-height: 82px;
 }
+div.flex.balance-container > div.flex  {
+  width: 33.333%;
+}
 @media (max-width: 400px) {
   div.flex.balance-container {
     flex-direction: column;
@@ -468,4 +471,15 @@ div.flex.balance-container {
 
 .exchange-box {
   justify-content: center;
+  align-items: center;
+}
+.exchange-box .ui.button.basic {
+  padding: 0;
+}
+.exchange-box > span {
+  margin-bottom: 5px;
+}
+.exchange-box input[type="number"] {
+  width: 100px;
+  padding: 2px 5px;
 }
