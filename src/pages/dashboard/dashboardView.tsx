@@ -18,11 +18,11 @@ export interface Props {
   handleReceive: () => void;
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
+  handleInvestorLogin: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
-  
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Balances" />
     </View>
@@ -31,16 +31,19 @@ export const DashboardView: React.SFC<Props> = props => (
       <View orientation="column" className="balance onyx-balance-column">
         <label className="balance-label">ONYX</label>
         <h1 className="onyx-balance-amount">{props.ontAmount}</h1>
+        <h4
+          onClick={props.handleInvestorLogin}
+          className="claim-onyx"
+          data-tooltip="Claim your investments"
+          data-position="bottom center"
+        >
+          (Claim)
+        </h4>
       </View>
       <View orientation="column" className="balance">
         <label className="balance-label">OXG</label>
         <h3>{props.ongAmount}</h3>
-        <h4
-          onClick={props.handleWithdraw}
-          className="unbound"
-          data-tooltip="Unbound OXG"
-          data-position="bottom center"
-        >
+        <h4 onClick={props.handleWithdraw} className="unbound" data-tooltip="Unbound OXG" data-position="bottom center">
           {props.unboundAmount} (Claim)
         </h4>
       </View>
@@ -54,7 +57,7 @@ export const DashboardView: React.SFC<Props> = props => (
       <Spacer />
       <Spacer />
       <Spacer />
-      <View className="buttons align-items-center" orientation="column" >
+      <View className="buttons align-items-center" orientation="column">
         <Button icon="send" content="Send" onClick={props.handleSend} />
         <Spacer />
         <Button icon="inbox" content="Receive" onClick={props.handleReceive} />

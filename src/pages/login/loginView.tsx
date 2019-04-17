@@ -15,7 +15,7 @@ export const LoginView: React.SFC<Props> = props => (
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="Investor account" />
       <View content={true} className="spread-around">
-        <View>Enter your username and password to login as investor.</View>
+        <View>Enter your username and password from https://ico.onyxcoin.io site to log in as an investor.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
