@@ -54,6 +54,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 handleTokenSettings: () => {
                   routerProps.history.push("/settings/token");
                 },
+                handleInvestorLogin: () => {
+                  routerProps.history.push("/investor-login");
+                },
+                handleInvestorLogout: () => {
+                  console.log("logout");
+                },
                 handleCancel: () => {
                   props.history.goBack();
                 },
@@ -80,6 +86,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                       settings={state.settings}
                       ontAmount={reduxProps.ontAmount}
                       ongAmount={reduxProps.ongAmount}
+                      isAuthenticated={true}
                     />
                   );
                 } else {

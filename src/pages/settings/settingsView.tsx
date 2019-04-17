@@ -12,7 +12,10 @@ export interface Props {
   handleSave: (values: object) => Promise<void>;
   handleCancel: () => void;
   handleTokenSettings: () => void;
+  handleInvestorLogin: () => void;
+  handleInvestorLogout: () => void;
   settings: Settings;
+  isAuthenticated: boolean;
 }
 
 export type NetValues = "TEST" | "MAIN" | "PRIVATE";
@@ -98,13 +101,20 @@ export const SettingsView: React.SFC<Props> = props => (
               </>
             ) : null}
             <Filler />
-            <View className="buttons" />
 
-            {/* <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" /> */}
+            <div className="settings__buttons-container">
+              <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" />
+              <Spacer />
+              {props.isAuthenticated ? (
+                <Button type="button" onClick={props.handleInvestorLogin} content="Login as investor" />
+              ) : (
+                <Button type="button" onClick={props.handleInvestorLogout} content="Logout from investor account" />
+              )}
+            </div>
 
             <View className="buttons">
-              <Button icon="check" content="Save" />
-              <Button onClick={props.handleCancel}>
+              <Button style={{ width: "117.5px" }} icon="check" content="Save" />
+              <Button style={{ width: "117.5px" }} onClick={props.handleCancel}>
                 Cancel
               </Button>
             </View>

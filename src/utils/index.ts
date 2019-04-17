@@ -7,3 +7,9 @@ export function isHexadecimal(str: string) {
     return false;
   }
 }
+
+export const wait = (ms: number, resolveWith: any) => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(resolveWith), ms);
+  });
+};

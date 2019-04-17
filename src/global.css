@@ -449,3 +449,14 @@ div.flex.balance-container {
 .buttons-container button:last-child {
   margin-top: auto;
 }
+
+.settings__buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.settings__buttons-container .ui.button {
+  width: 245px;
+}
