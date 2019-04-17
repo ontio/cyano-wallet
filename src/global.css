@@ -168,9 +168,9 @@ div.flex.justify-center {
   justify-content: center;
 }
 
-div.flex.error {
+.error {
+  padding: 10px 0;
   color: #912d2b;
-  font-weight: bold;
   font-size: 16px;
 }
 

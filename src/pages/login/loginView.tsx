@@ -3,10 +3,11 @@ import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
 import { required } from "../../utils/validate";
+import { FormApi } from "final-form";
 
 export interface Props {
-  handleSubmit: (values: object) => Promise<void>;
-  handleCancel: () => void;
+  handleSubmit: (values: object, formApi: FormApi) => Promise<object>;
+  handleGoBack: () => void;
   loading: boolean;
 }
 
@@ -58,13 +59,14 @@ export const LoginView: React.SFC<Props> = props => (
                 )}
               />
             </View>
+            {formProps.submitError && <div className="error">{formProps.submitError}</div>}
             <Filler />
             <View className="buttons">
               <Button disabled={props.loading} loading={props.loading} role="submit" type="submit">
-                Log in
+                Next
               </Button>
-              <Button disabled={props.loading} onClick={props.handleCancel}>
-                Cancel
+              <Button disabled={props.loading} onClick={props.handleGoBack}>
+                Back
               </Button>
             </View>
           </SemanticForm>
