@@ -9,6 +9,7 @@ import { TokenState } from "../../redux/settings/settingsReducer";
 import { TokenAmountState } from "../../redux/runtime";
 import { OEP4TokenAmount } from "../../api/tokenApi";
 import { decodeAmount } from "../../utils/number";
+import { exchangeOperation } from "src/api/exchangeApi";
 
 interface State {
   showExchange: boolean;
@@ -47,6 +48,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           },
           handleShowExchange: () => {
             setState({ showExchange: !state.showExchange });
+          },
+          handleExchange: () => {
+            console.log('handleExchange :>>> ');
+            exchangeOperation(reduxProps.wallet, 1488);
           },
           handleInvestorLogin: () => {
             props.history.push("/investor-login");

@@ -20,6 +20,7 @@ export interface Props {
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
   handleShowExchange: () => void;
+  handleExchange: () => void;
   handleInvestorLogin: () => void;
 }
 
@@ -53,7 +54,7 @@ export const DashboardView: React.SFC<Props> = props => (
           icon="exchange"
           className={props.showExchange ? 'hidden' : ''}
         />
-        {props.showExchange ? <Exchange amount={0}/> : null}
+        {props.showExchange ? <Exchange amount={0} handleExchange={props.handleExchange}/> : null}
       </View>
 
       <View orientation="column" className="balance">
