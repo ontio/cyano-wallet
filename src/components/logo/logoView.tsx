@@ -7,11 +7,8 @@ export interface Props {
 }
 export const LogoView: React.SFC<Props> = props => (
   <View orientation="column" className="logo">
-    <View className="spread">
-      <Button size="big" compact={true} basic={true} icon="cog" className="hidden" />
-      <img src={require("../../assets/logo-main.png")} />
-      <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
-    </View>
+    <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
+    <img src={require("../../assets/logo-main.png")} />
     <h1 className="header">OnyxChain Web Wallet</h1>
   </View>
 );

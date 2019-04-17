@@ -50,7 +50,6 @@ body {
 }
 
 .ui.button {
-  width: 200px;
   margin: 0 5px;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
@@ -208,6 +207,12 @@ div.flex.content {
   margin-top: 20px;
 }
 
+.logo .button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 .logoHeader {
   align-items: flex-start;
   margin: 10px;
@@ -257,6 +262,10 @@ h1.header {
 .buttons {
   justify-content: center;
   flex-shrink: 0;
+}
+
+.buttons.column button {
+  width: 200px;
 }
 
 .hint {
@@ -309,16 +318,20 @@ h1.header {
   overflow: auto;
 }
 
+.tokens-list {
+  min-height: 130px;
+}
 .transferList.oep-4 .item {
   padding: 10px 0;
 }
 .transferList.oep-4 .item .header {
   margin-bottom: 4px;
 }
-.no-tokens {
+
+/* .no-tokens {
   position: absolute;
   top: 280px;
-}
+} */
 
 .transferList.transactions .header {
   font-size: 16px;
@@ -367,6 +380,8 @@ h4.unbound:hover {
 }
 
 .ui.list.accountList{
+  width: 100%;
+  max-width: 400px;
   overflow-y: auto;
   border: #595757 solid 1px;
 }
@@ -390,50 +405,69 @@ label.balance-label {
 
 .list-header {
   padding: 20px 0 0 20px;
+  flex-shrink: 0;
 }
 .list-header span {
   font-size: 14px;
   line-height: 18px;
 }
  
+.list-btns-box {
+  padding: 20px 10px 50px 10px;
+}
 .list-btns-box > div {
   width: 50%;
   align-items: center;
-  padding: 20px 0 50px 0;
 }
-.list-btns-box > div.scrollView {
-  min-width: 380px;
+.list-btns-box > div.list {
+  /* width: 300px; */
+  min-height: 200px;
 }
-.list-btns-box > div.buttons button:last-child {
+.list-btns-box > div.btns {
+  padding-left: 10px;
+  min-height: 200px;
+}
+.list-btns-box > div.btns button:last-child {
   margin-top: auto;
 }
-.list-btns-box > div.buttons button {
+.list-btns-box > div.btns button {
   width: 200px;
 }
+
+
+
 @media (max-width: 700px) {
   .list-btns-box > div {
     align-items: flex-start;
-    padding-left: 20px;
   }
-  .list-btns-box > div.buttons button {
-    width: 120px;
+  .list-btns-box > div.list {
+    width: 300px;
   }
 }
 @media (max-width: 550px) {
   div.list-btns-box {
     flex-direction: column;
   }
+  .list-btns-box > div.list {
+    margin-bottom: 20px;
+    width: 100%;
+  }
   .list-btns-box > div {
     width: 100%;
     align-items: center;
-    padding: 10px 0;
+  }
+  .list-btns-box > div.btns {
+    padding-left: 0;
+  }
+}
+@media (max-width: 400px) {
+  .list-btns-box > div.list {
+    width: 300px;
+    margin: 0 auto 20px auto;
   }
 }
 
 @media (max-width: 550px) {
-  body {
-    height: 100vh;
-  }
   .onyx-balance-amount {
     font-size: 1.28571429rem;
   }
@@ -442,17 +476,21 @@ label.balance-label {
 div.flex.balance-container {
   border-bottom: #d1d1d1 solid 1px;
   padding-bottom: 15px;
-  min-height: 82px;
+  min-height: auto;
 }
 div.flex.balance-container > div.flex  {
   width: 33.333%;
 }
-@media (max-width: 400px) {
+@media (max-width: 720px) {
   div.flex.balance-container {
     flex-direction: column;
+    align-items: center;
   }
-  .onyx-balance-column {
-    margin-bottom: 15px;
+  div.flex.balance-container > div.flex {
+    width: 100%;
+  }
+  .exchange-box {
+    margin: 15px 0;
   }
 }
 
@@ -482,4 +520,9 @@ div.flex.balance-container > div.flex  {
 .exchange-box input[type="number"] {
   width: 100px;
   padding: 2px 5px;
+}
+.receive-id-box {
+  background: #fff;
+  padding: 10px;
+  border: #000 solid 1px;
 }

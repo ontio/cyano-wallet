@@ -65,8 +65,10 @@ export const DashboardView: React.SFC<Props> = props => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <h3>OEP-4 tokens</h3>
       <Spacer />
-      <Spacer />
-      <TokenAmountList tokens={props.tokens} />
+      <Spacer /> 
+      <View className="tokens-list">
+        <TokenAmountList tokens={props.tokens} />
+      </View>
       <Spacer />
       <Spacer />
       <Spacer />

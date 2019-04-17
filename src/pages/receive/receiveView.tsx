@@ -17,7 +17,7 @@
  */
 import * as QRCode from 'qrcode.react';
 import * as React from 'react';
-import { Button, Message } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Filler, LogoHeader, Spacer, View } from '../../components';
 
 export interface Props {
@@ -36,7 +36,7 @@ export const ReceiveView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true}>
       <label>Public address</label>
-      <Message>{props.address}</Message>
+      <span className="receive-id-box">{props.address}</span>
       <Spacer />
       <View className="qrCode">
         <QRCode value={props.address} fgColor="#595757" size={100} />

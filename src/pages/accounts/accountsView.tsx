@@ -30,7 +30,7 @@ export const AccountsView: React.SFC<Props> = props => (
     <View className="list-header"><span>Accounts in my wallet</span></View>
 
     <View className="list-btns-box">
-      <View orientation="column" className="scrollView">
+      <View orientation="column" className="list">
         <AccountList
           accounts={props.accounts}
           selectedAccount={props.selectedAccount}
@@ -38,7 +38,7 @@ export const AccountsView: React.SFC<Props> = props => (
           onDel={props.handleAccountDelClick}
         />
       </View>
-      <View orientation="column" className="buttons">
+      <View orientation="column" className="btns">
         <Button icon="add" content="Add account" onClick={props.handleAdd} loading={props.loading} disabled={props.loading} />
         <Spacer/>
         <Button type="button" onClick={props.handleExport} content="Export wallet" />

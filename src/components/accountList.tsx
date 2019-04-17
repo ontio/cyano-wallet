@@ -1,6 +1,5 @@
 import * as React from "react";
 import { List } from "semantic-ui-react";
-import { View } from "./view";
 
 interface Props {
   accounts: string[];
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const AccountList: React.SFC<Props> = props => (
-  <View>
+  <>
     <List className="accountList" divided={true}>
       {props.accounts.map((account, i) => (
         <List.Item key={i} onClick={e => props.onClick(account)}>
@@ -30,5 +29,5 @@ export const AccountList: React.SFC<Props> = props => (
         </List.Item>
       ))}
     </List>
-  </View>
+  </>
 );

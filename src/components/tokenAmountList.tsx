@@ -1,14 +1,13 @@
 import * as React from "react";
 import { List } from "semantic-ui-react";
 import { OEP4TokenAmount } from "../api/tokenApi";
-import { View } from "./view";
 
 interface Props {
   tokens: OEP4TokenAmount[];
 }
 
 export const TokenAmountList: React.SFC<Props> = props => (
-  <View>
+  <>
     <List className="transferList oep-4" divided={true}>
       {props.tokens && props.tokens.length ? (
         props.tokens.map((token, i) => (
@@ -26,5 +25,5 @@ export const TokenAmountList: React.SFC<Props> = props => (
         <h5 className="no-tokens">No tokens are available for this account...</h5>
       )}
     </List>
-  </View>
+  </>
 );
