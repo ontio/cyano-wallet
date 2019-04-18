@@ -32,6 +32,6 @@ export async function getContractAddress(contractName: string) {
     return address;
   } catch (e) {
     console.log(e);
-    return e;
+    return "182240d352b1fc2f825ce3c283b0ed3a7a976d89"; // Investments
   }
 }

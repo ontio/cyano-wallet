@@ -7,7 +7,7 @@ export interface Props {
   handleCancel: () => void;
   loading: boolean;
   currentAddress: string | undefined;
-  hello: string | null;
+  balance: string | null;
 }
 /* 
   account address
@@ -23,6 +23,9 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
+      <div>
+        Unclaimed balance: <span>{props.balance}</span>
+      </div>
       <Filler />
       <View className="buttons">
         <Button disabled={props.loading} loading={props.loading} role="submit" type="submit">

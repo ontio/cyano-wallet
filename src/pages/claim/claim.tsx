@@ -7,9 +7,11 @@ import { GlobalState } from "../../redux";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { ClaimOnyxView, Props } from "./claimView";
 import { getContractAddress } from "../../api/contractsApi";
+import { createSecret } from "../../utils";
+import { getUnclaimedBalance } from "../../api/claimApi";
 
 interface State {
-  hello: string | null;
+  balance: string | null;
 }
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -22,21 +24,26 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoa
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter(routerProps =>
-    withState<State>({ hello: "World" }, (state, setState) =>
+    withState<State>({ balance: "0" }, (state, setState) =>
       lifecycle(
         {
           componentDidMount: async () => {
             const username: string = get(routerProps.location, "state.userName", "");
             const password: string = get(routerProps.location, "state.password", "");
-            const auth: string = get(routerProps.location, "state.auth", "");
-            console.log("Mounted!", username, password, auth);
-            const InvestmentsAddres = await getContractAddress("OnyxPay");
-            console.log("InvestmentsAddres", InvestmentsAddres);
+            // const userData: object = get(routerProps.location, "state.userData", "");
 
-            // get Investments address
-            // calc secret
+            const contract = await getContractAddress("Investments");
+            const secretHash = createSecret(username, password, true);
+            const balance = await getUnclaimedBalance(contract, secretHash);
+            if (balance) {
+              setState({ balance });
+            }
+            console.log("$$$", balance);
+
+            // get Investments address +
+            // calc secret +
             // check if investor is blocked (block-chain)
-            // call getUnclaimed
+            // call getUnclaimed +
             // show balance to claim
             // show text field for mnemonic
             // make claim trx
@@ -61,7 +68,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   {...injectedProps}
                   loading={reduxProps.loading}
                   currentAddress={currentAddress}
-                  hello={state.hello}
+                  balance={state.balance}
                 />
               )
             );

@@ -34,7 +34,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           try {
             actions.startLoading();
             const response = await loginAsInvestor({ password, userName });
-            props.history.push("/claim-onyx", { password, userName, auth: response });
+            // TODO: get password hash
+            props.history.push("/claim-onyx", { password, userName, userData: response });
             return {};
           } catch (e) {
             return { [FORM_ERROR]: e };
