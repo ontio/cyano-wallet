@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Button, Form as SemanticForm } from "semantic-ui-react";
+import { Button, Form as SemanticForm, Message, Segment } from "semantic-ui-react";
 import { Filler, LogoHeader, View } from "../../components";
 import { Field, Form } from "react-final-form";
-import { /* required,  */ samePassword, validMnemonics } from "../../utils/validate";
+import { samePassword, validMnemonics } from "../../utils/validate";
 import { FormApi } from "final-form";
 export interface Props {
   handleСonfirm: (values: object, formApi: FormApi) => Promise<object>;
@@ -21,23 +21,34 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="Claim your coins" />
       <View content={true} className="spread-around">
-        <View>Your Onyx coins will be claimed on address: {props.currentAddress}</View>
+        {/* <View>Your Onyx coins will be claimed on address: {props.currentAddress}</View> */}
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <h1>
-        User: <span>Gideon W</span>
-      </h1>
-      <h1>
-        Unclaimed balance: <span>{props.balance}</span>
-      </h1>
+      <Segment.Group compact={true}>
+        <Segment>
+          User: <span>Gideon W</span>
+        </Segment>
+        <Segment>
+          Unclaimed balance: <span className="unclaimed-onyx-balance">{props.balance}</span>
+          <span className="unclaimed-onyx-label">ONYX</span>
+        </Segment>
+      </Segment.Group>
+      <Message color="orange">
+        <p>
+          Your Onyx coins will be claimed on address: <strong>{props.currentAddress}</strong>
+        </p>
+        <p>Make sure you remember or have written down your mnemonics phrase and private key.</p>
+        <p>If you don't, you can possible loose access to your money.</p>
+      </Message>
+
       <Form
         onSubmit={props.handleСonfirm}
         validate={samePassword}
         render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Mnemonics phrase for current account</label>
+              <label>Please, eneter mnemonics phrase for current account</label>
               <Field
                 name="mnemonics"
                 validate={validMnemonics}

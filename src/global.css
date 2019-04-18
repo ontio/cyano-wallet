@@ -465,3 +465,17 @@ div.flex.balance-container {
 .ui.form textarea {
   resize: none !important;
 }
+
+.ui.message {
+  padding: 1em 1em !important;
+}
+
+.unclaimed-onyx-label {
+  color: #f07141;
+  font-size: 18px;
+}
+.unclaimed-onyx-balance {
+  font-size: 18px;
+  margin-right: 5px;
+  font-weight: 500;
+}
