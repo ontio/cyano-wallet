@@ -461,3 +461,7 @@ div.flex.balance-container {
 .settings__buttons-container .ui.button {
   width: 245px;
 }
+
+.ui.form textarea {
+  resize: none !important;
+}

@@ -1,32 +1,15 @@
-/*
- * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
- *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
- */
-import { Account, Crypto, utils, Wallet } from 'ontology-ts-sdk';
-import { v4 as uuid } from 'uuid';
+import { Account, Crypto, utils, Wallet } from "ontology-ts-sdk";
+import { v4 as uuid } from "uuid";
 import PrivateKey = Crypto.PrivateKey;
-import { storageClear, storageGet, storageSet } from './storageApi';
+import { storageClear, storageGet, storageSet } from "./storageApi";
 
 export async function clear() {
-  await storageClear('wallet');
+  await storageClear("wallet");
 }
 
 export function decryptWallet(wallet: Wallet, password: string) {
   const account = wallet.accounts[0];
-  const saltHex = Buffer.from(account.salt, 'base64').toString('hex');
+  const saltHex = Buffer.from(account.salt, "base64").toString("hex");
   const encryptedKey = account.encryptedKey;
   const scrypt = wallet.scrypt;
 
@@ -39,10 +22,10 @@ export function decryptWallet(wallet: Wallet, password: string) {
 }
 
 export async function signIn(password: string) {
-  const walletEncoded = await storageGet('wallet');
+  const walletEncoded = await storageGet("wallet");
 
   if (walletEncoded === null) {
-    throw new Error('Wallet data not found.');
+    throw new Error("Wallet data not found.");
   }
 
   try {
@@ -51,7 +34,7 @@ export async function signIn(password: string) {
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.log(e);
-    throw new Error('Error during wallet decryption.');
+    throw new Error("Error during wallet decryption.");
   }
 
   return walletEncoded;
@@ -62,7 +45,29 @@ export async function signUp(nodeAddress: string, ssl: boolean, password: string
   return await importMnemonics(nodeAddress, ssl, mnemonics, password, true, wallet);
 }
 
-export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemonics: string, password: string, register: boolean, wallet: object | null) {
+export function isCurrentUserMnemonics(mnemonics: string, wallet: object | null) {
+  let currentWallet: Wallet;
+  if (wallet === null) {
+    currentWallet = Wallet.create(uuid());
+  } else {
+    currentWallet = Wallet.parseJsonObj(wallet);
+  }
+  const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
+  const account = Account.create(privateKey, uuid(), uuid());
+  const pk = account.address.toBase58();
+  console.log(currentWallet.defaultAccountAddress, pk, currentWallet.defaultAccountAddress === pk);
+
+  return currentWallet.defaultAccountAddress === pk;
+}
+
+export async function importMnemonics(
+  nodeAddress: string,
+  ssl: boolean,
+  mnemonics: string,
+  password: string,
+  register: boolean,
+  wallet: object | null
+) {
   // generate NEO address for now
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
@@ -75,8 +80,15 @@ export async function importMnemonics(nodeAddress: string, ssl: boolean, mnemoni
   };
 }
 
-export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: string, password: string, register: boolean, wallet: object | null) {
-  let currentWallet : Wallet;
+export async function importPrivateKey(
+  nodeAddress: string,
+  ssl: boolean,
+  wif: string,
+  password: string,
+  register: boolean,
+  wallet: object | null
+) {
+  let currentWallet: Wallet;
   if (wallet === null) {
     currentWallet = Wallet.create(uuid());
   } else {
@@ -93,7 +105,6 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
 
   const privateKey = PrivateKey.deserializeWIF(wif);
   // const publicKey = privateKey.getPublicKey();
-
 
   // const identity = Identity.create(privateKey, password, uuid(), scryptParams);
   // const ontId = identity.ontid;
@@ -116,7 +127,7 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
   // wallet.setDefaultIdentity(identity.ontid);
   currentWallet.setDefaultAccount(account.address.toBase58());
 
-  await storageSet('wallet', currentWallet.toJson());
+  await storageSet("wallet", currentWallet.toJson());
 
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
@@ -126,36 +137,36 @@ export async function importPrivateKey(nodeAddress: string, ssl: boolean, wif: s
 }
 
 export function accountDelete(address: string, wallet: string | Wallet) {
-  if (typeof wallet === 'string') {
+  if (typeof wallet === "string") {
     wallet = getWallet(wallet);
   } else {
     wallet = Wallet.parseJsonObj(wallet);
   }
 
-  const account = wallet.accounts.find((a) => a.address.toBase58() === address);
+  const account = wallet.accounts.find(a => a.address.toBase58() === address);
 
   if (account !== undefined) {
-    wallet.accounts = wallet.accounts.filter((a) => a.address.toBase58() !== address);
+    wallet.accounts = wallet.accounts.filter(a => a.address.toBase58() !== address);
   }
 
   if (wallet.defaultAccountAddress === address) {
-    wallet.defaultAccountAddress = wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : '';
+    wallet.defaultAccountAddress = wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : "";
   }
 
   return {
-    wallet: wallet.toJson(),
+    wallet: wallet.toJson()
   };
 }
 
 export async function getStoredWallet() {
-  const walletEncoded = await storageGet('wallet');
+  const walletEncoded = await storageGet("wallet");
 
   return walletEncoded;
 }
 
 export function getWallet(walletEncoded: any) {
   if (walletEncoded == null) {
-    throw new Error('Missing wallet data.');
+    throw new Error("Missing wallet data.");
   }
   return Wallet.parseJsonObj(walletEncoded);
 }

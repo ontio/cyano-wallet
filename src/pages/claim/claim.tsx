@@ -9,6 +9,8 @@ import { ClaimOnyxView, Props } from "./claimView";
 import { getContractAddress } from "../../api/contractsApi";
 import { createSecret } from "../../utils";
 import { getUnclaimedBalance } from "../../api/claimApi";
+import { isCurrentUserMnemonics } from "../../api/authApi";
+import { FormApi, FORM_ERROR } from "final-form";
 
 interface State {
   balance: string | null;
@@ -44,7 +46,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             // calc secret +
             // check if investor is blocked (block-chain)
             // call getUnclaimed +
-            // show balance to claim
+            // show balance to claim +-
             // show text field for mnemonic
             // make claim trx
             // call rest api to decrement claimed amount
@@ -59,8 +61,17 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 handleCancel: () => {
                   props.history.push("/");
                 },
-                handleСonfirm: async () => {
-                  console.log("Confirmed");
+                handleСonfirm: async (values: object, formApi: FormApi) => {
+                  const mnemonics = get(values, "mnemonics", "");
+                  console.log("debug", isCurrentUserMnemonics(mnemonics, reduxProps.wallet));
+                  if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
+                    // actions.startLoading();
+                    console.log("!!!!!!!!!!");
+                    return {};
+                  } else {
+                    formApi.change("mnemonics", "");
+                    return { [FORM_ERROR]: "Mnemonics don't match current account!" };
+                  }
                 }
               },
               injectedProps => (
