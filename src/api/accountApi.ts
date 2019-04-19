@@ -8,6 +8,21 @@ import KeyType = Crypto.KeyType;
 import CurveLabel = Crypto.CurveLabel;
 import { getWallet } from "./authApi";
 
+export function checkAccountPassword(wallet: Wallet | null, password: string) {
+  if (wallet === null) {
+    throw new Error("NO_ACCOUNT");
+  }
+
+  try {
+    const decodedWallet = getWallet(wallet);
+    decryptAccount(decodedWallet, password);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export function decryptAccount(wallet: Wallet, password: string) {
   const account = getAccount(wallet);
   const saltHex = Buffer.from(account.salt, "base64").toString("hex");

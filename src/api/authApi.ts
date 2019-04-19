@@ -55,7 +55,6 @@ export function isCurrentUserMnemonics(mnemonics: string, wallet: object | null)
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const account = Account.create(privateKey, uuid(), uuid());
   const pk = account.address.toBase58();
-  console.log(currentWallet.defaultAccountAddress, pk, currentWallet.defaultAccountAddress === pk);
 
   return currentWallet.defaultAccountAddress === pk;
 }

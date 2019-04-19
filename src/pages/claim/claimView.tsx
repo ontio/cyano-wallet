@@ -11,11 +11,7 @@ export interface Props {
   currentAddress: string | undefined;
   balance: string | null;
 }
-/* 
-  account address
-  balance
-  mnemonic phrase
-*/
+
 export const ClaimOnyxView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
@@ -27,7 +23,7 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Segment.Group compact={true}>
         <Segment>
-          User: <span>Gideon W</span>
+          User: <span>Name</span>
         </Segment>
         <Segment>
           Unclaimed balance: <span className="unclaimed-onyx-balance">{props.balance}</span>
@@ -48,7 +44,7 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
         render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Please, eneter mnemonics phrase for current account</label>
+              <label>Please, enter mnemonics phrase for current account</label>
               <Field
                 name="mnemonics"
                 validate={validMnemonics}

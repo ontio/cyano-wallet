@@ -29,9 +29,10 @@ export async function getContractAddress(contractName: string) {
   try {
     const response = await client.sendRawTransaction(tx.serialize(), true);
     const address = utils.hexstr2str(get(response, "Result.Result"));
-    return address;
+    console.info("getContractAddress: ", address);
+    return "182240d352b1fc2f825ce3c283b0ed3a7a976d89";
   } catch (e) {
-    console.log(e);
-    return "182240d352b1fc2f825ce3c283b0ed3a7a976d89"; // Investments
+    console.error(e);
+    return null;
   }
 }

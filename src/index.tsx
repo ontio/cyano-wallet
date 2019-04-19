@@ -34,7 +34,8 @@ import {
   TokenSettingsDel,
   AccountsRestore,
   Login,
-  ClaimOnyx
+  ClaimOnyx,
+  ClaimConfirm
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -79,6 +80,7 @@ export const AppView: React.SFC<{}> = () => (
 
         <Route path="/investor-login" exact={true} component={Login} />
         <Route path="/claim-onyx" exact={true} component={ClaimOnyx} />
+        <Route path="/claim-onyx-confirm" exact={true} component={ClaimConfirm} />
 
         <StatusBar />
       </>

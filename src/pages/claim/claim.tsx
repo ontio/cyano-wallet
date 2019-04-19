@@ -14,6 +14,8 @@ import { FormApi, FORM_ERROR } from "final-form";
 
 interface State {
   balance: string | null;
+  contract: string | null;
+  secret: string;
 }
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -26,19 +28,27 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoa
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter(routerProps =>
-    withState<State>({ balance: "0" }, (state, setState) =>
+    withState<State>({ balance: "0", contract: "", secret: "" }, (state, setState) =>
       lifecycle(
         {
           componentDidMount: async () => {
             const username: string = get(routerProps.location, "state.userName", "");
-            const password: string = get(routerProps.location, "state.password", "");
+            const passwordHash: string = get(routerProps.location, "state.password", "");
             // const userData: object = get(routerProps.location, "state.userData", "");
-
+            let balance: string | null = null;
             const contract = await getContractAddress("Investments");
-            const secretHash = createSecret(username, password, true);
-            const balance = await getUnclaimedBalance(contract, secretHash);
+            const secretHash = createSecret(username, passwordHash, true);
+            const secret = createSecret(username, passwordHash);
+            if (contract) {
+              balance = await getUnclaimedBalance(contract, secretHash);
+            } else {
+              // show error message
+            }
+
             if (balance) {
-              setState({ balance });
+              setState({ balance, contract, secret });
+            } else {
+              // show error message
             }
             console.log("$$$", balance);
 
@@ -46,8 +56,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             // calc secret +
             // check if investor is blocked (block-chain)
             // call getUnclaimed +
-            // show balance to claim +-
-            // show text field for mnemonic
+            // show balance to claim +
+            // show text field for mnemonic +
             // make claim trx
             // call rest api to decrement claimed amount
           }
@@ -63,10 +73,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 },
                 handleСonfirm: async (values: object, formApi: FormApi) => {
                   const mnemonics = get(values, "mnemonics", "");
-                  console.log("debug", isCurrentUserMnemonics(mnemonics, reduxProps.wallet));
                   if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
                     // actions.startLoading();
-                    console.log("!!!!!!!!!!");
+                    const { contract, secret } = state;
+
+                    routerProps.history.push("/claim-onyx-confirm", { contract, secret });
                     return {};
                   } else {
                     formApi.change("mnemonics", "");
