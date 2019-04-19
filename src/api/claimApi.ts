@@ -4,18 +4,29 @@ import { get } from "lodash";
 import * as Long from "long";
 import { getWallet } from "./authApi";
 import { getAccount, decryptAccount } from "./accountApi";
-// import axios from "axios";
-// import { compensateGasIP } from "../api/constants";
+import axios from "axios";
+import { restEndpoint } from "../api/constants";
 
-export function loginAsInvestor({ password, userName }) {
-  if (password.length > 3) {
-    return new Promise(resolve => {
-      setTimeout(() => resolve({ cookie: "dfssdf342423nfdsfds" }), 500);
-    });
-  } else {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => reject("username or password is not correct"), 500);
-    });
+export async function loginAsInvestor(data: object) {
+  const url = `${restEndpoint}/login`;
+  const formData = new FormData();
+  for (const field in data) {
+    if (data.hasOwnProperty(field)) {
+      formData.append(field, data[field]);
+    }
+  }
+
+  try {
+    const response = await axios.post(url, formData);
+    return { data: response.data.data, status: response.status };
+  } catch (er) {
+    if (er.response) {
+      return { data: er.response.data.data, status: er.response.status };
+    } else {
+      // handle error
+      console.error(loginAsInvestor, er);
+      return {};
+    }
   }
 }
 
@@ -26,7 +37,7 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
     [p1],
-    new Crypto.Address(contract),
+    new Crypto.Address(utils.reverseHex(contract)),
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
@@ -53,7 +64,8 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
   const address = getAccount(wallet).address.toHexString();
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
-  console.table("claimOnyx", { secret, address, contract });
+  const pk = privateKey.getPublicKey();
+  console.log("claimOnyx", { address, pk, privateKey, secret, contract });
 
   // const params = [
   //   { label: "secret", value: secret, type: "ByteArray" },
@@ -87,17 +99,18 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
     }); */
 
   const p1 = new Parameter("secret", ParameterType.ByteArray, secret);
-  const p2 = new Parameter("address", ParameterType.ByteArray, address);
+  const p2 = new Parameter("address", ParameterType.ByteArray, utils.reverseHex(address));
 
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
     [p1, p2],
-    new Crypto.Address(contract),
+    new Crypto.Address(utils.reverseHex(contract)),
     "500",
-    `${CONST.DEFAULT_GAS_LIMIT}`
+    `${CONST.DEFAULT_GAS_LIMIT}`,
+    new Crypto.Address(utils.reverseHex(address))
   );
 
-  TransactionBuilder.signTransaction(tx, privateKey);
+  await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   try {
     const response = await client.sendRawTransaction(tx.serialize(), false, true);

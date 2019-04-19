@@ -17,4 +17,5 @@ export const headAddress = {
   main: "?????"
 };
 
-export const compensateGasIP = "http://3.120.190.178:5000";
+export const gasCompensatorEndpoint = "http://3.120.190.178:5000";
+export const restEndpoint = "http://34.244.79.17:600/api/v1";

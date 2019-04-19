@@ -16,6 +16,9 @@ interface State {
   balance: string | null;
   contract: string | null;
   secret: string;
+  firstName: string;
+  sureName: string;
+  balanceError: string | null;
 }
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -28,75 +31,81 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoa
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter(routerProps =>
-    withState<State>({ balance: "0", contract: "", secret: "" }, (state, setState) =>
-      lifecycle(
-        {
-          componentDidMount: async () => {
-            const username: string = get(routerProps.location, "state.userName", "");
-            const passwordHash: string = get(routerProps.location, "state.password", "");
-            // const userData: object = get(routerProps.location, "state.userData", "");
-            let balance: string | null = null;
-            const contract = await getContractAddress("Investments");
-            const secretHash = createSecret(username, passwordHash, true);
-            const secret = createSecret(username, passwordHash);
-            if (contract) {
-              balance = await getUnclaimedBalance(contract, secretHash);
-            } else {
-              // show error message
+    withState<State>(
+      { balance: "0", contract: "", secret: "", firstName: "", sureName: "", balanceError: null },
+      (state, setState) =>
+        lifecycle(
+          {
+            componentDidMount: async () => {
+              // const username: string = get(routerProps.location, "state.userName", "");
+              // const passwordHash: string = get(routerProps.location, "state.password", "");
+              const userData: any = get(routerProps.location, "state.userData", "");
+              const firstName = userData.field_afl_first_name.und[0].value;
+              const sureName = userData.field_afl_surname.und[0].value;
+
+              let balance: string | null = null;
+              const contract = await getContractAddress("Investments");
+              // const secretHash = createSecret(username, passwordHash, true);
+              // const secret = createSecret(username, passwordHash);
+              const secretHash = createSecret(
+                "A773697",
+                "$S$DDAVjw2FTnLzQ1u.hzA81F/sBZXPbMR5vHhz1gC3tAZCBEaNGoOI",
+                true
+              );
+              const secret = createSecret("A773697", "$S$DDAVjw2FTnLzQ1u.hzA81F/sBZXPbMR5vHhz1gC3tAZCBEaNGoOI");
+              if (contract) {
+                balance = await getUnclaimedBalance(contract, secretHash);
+              } else {
+                // show error message
+              }
+
+              if (balance === "0") {
+                setState({ balance, contract, secret, firstName, sureName, balanceError: "Nothing to claim!" });
+              } else if (Number(balance)) {
+                setState({ balance, contract, secret, firstName, sureName, balanceError: null });
+              } else {
+                // show error message
+              }
             }
+          },
+          () => {
+            return reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+              const currentAddress = get(reduxProps.wallet, "defaultAccountAddress", "");
 
-            if (balance) {
-              setState({ balance, contract, secret });
-            } else {
-              // show error message
-            }
-            console.log("$$$", balance);
+              return withProps(
+                {
+                  handleCancel: () => {
+                    props.history.push("/");
+                  },
+                  handleСonfirm: async (values: object, formApi: FormApi) => {
+                    const mnemonics = get(values, "mnemonics", "");
+                    if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
+                      // actions.startLoading();
+                      const { contract, secret } = state;
 
-            // get Investments address +
-            // calc secret +
-            // check if investor is blocked (block-chain)
-            // call getUnclaimed +
-            // show balance to claim +
-            // show text field for mnemonic +
-            // make claim trx
-            // call rest api to decrement claimed amount
-          }
-        },
-        () => {
-          return reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
-            const currentAddress = get(reduxProps.wallet, "defaultAccountAddress", "");
-
-            return withProps(
-              {
-                handleCancel: () => {
-                  props.history.push("/");
-                },
-                handleСonfirm: async (values: object, formApi: FormApi) => {
-                  const mnemonics = get(values, "mnemonics", "");
-                  if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
-                    // actions.startLoading();
-                    const { contract, secret } = state;
-
-                    routerProps.history.push("/claim-onyx-confirm", { contract, secret });
-                    return {};
-                  } else {
-                    formApi.change("mnemonics", "");
-                    return { [FORM_ERROR]: "Mnemonics don't match current account!" };
+                      routerProps.history.push("/claim-onyx-confirm", { contract, secret });
+                      return {};
+                    } else {
+                      formApi.change("mnemonics", "");
+                      return { [FORM_ERROR]: "Mnemonics don't match current account!" };
+                    }
                   }
-                }
-              },
-              injectedProps => (
-                <Component
-                  {...injectedProps}
-                  loading={reduxProps.loading}
-                  currentAddress={currentAddress}
-                  balance={state.balance}
-                />
-              )
-            );
-          });
-        }
-      )
+                },
+                injectedProps => (
+                  <Component
+                    {...injectedProps}
+                    loading={reduxProps.loading}
+                    currentAddress={currentAddress}
+                    balance={state.balance}
+                    firstName={state.firstName}
+                    sureName={state.sureName}
+                    balanceError={state.balanceError}
+                  />
+                )
+              );
+            });
+          }
+        )
     )
   );
 
