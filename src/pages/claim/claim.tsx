@@ -47,12 +47,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const contract = await getContractAddress("Investments");
               // const secretHash = createSecret(username, passwordHash, true);
               // const secret = createSecret(username, passwordHash);
-              const secretHash = createSecret(
-                "A773697",
-                "$S$DDAVjw2FTnLzQ1u.hzA81F/sBZXPbMR5vHhz1gC3tAZCBEaNGoOI",
-                true
-              );
-              const secret = createSecret("A773697", "$S$DDAVjw2FTnLzQ1u.hzA81F/sBZXPbMR5vHhz1gC3tAZCBEaNGoOI");
+              const secretHash = createSecret("A1111", "$S$DJ6vVI0rVaj7r9apnyujkPC/OQqllBLsVQnGbO9x2q.Ca30BbTPY", true);
+              const secret = createSecret("A1111", "$S$DJ6vVI0rVaj7r9apnyujkPC/OQqllBLsVQnGbO9x2q.Ca30BbTPY");
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {

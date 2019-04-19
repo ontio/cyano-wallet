@@ -44,11 +44,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           try {
             await timeout(claimOnyx(contract, secret, reduxProps.wallet, password), 15000);
+            props.history.push("/trx-complete", { type: "claim" });
           } catch (e) {
             if (e instanceof TimeoutError) {
-              console.log("(catch) TimeoutError");
+              props.history.push("/trx-timed-out", { type: "claim" });
             } else {
-              console.log(e);
+              props.history.push("/trx-error", { e });
             }
           } finally {
             actions.finishLoading();

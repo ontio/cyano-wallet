@@ -112,11 +112,5 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
-  try {
-    const response = await client.sendRawTransaction(tx.serialize(), false, true);
-    // const data = get(response, "Result.Result", "");
-    console.log("response:", response);
-  } catch (e) {
-    console.log(e);
-  }
+  await client.sendRawTransaction(tx.serialize(), false, true);
 }
