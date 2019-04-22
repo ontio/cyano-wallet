@@ -28,10 +28,11 @@ export async function getContractAddress(contractName: string) {
   );
   try {
     const response = await client.sendRawTransaction(tx.serialize(), true);
+    // contract address should be reversed in trx builder!
     const address = utils.hexstr2str(get(response, "Result.Result"));
     return address;
   } catch (e) {
-    console.log(e);
-    return e;
+    console.error(e);
+    return null;
   }
 }

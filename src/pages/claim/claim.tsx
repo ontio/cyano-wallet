@@ -7,9 +7,18 @@ import { GlobalState } from "../../redux";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { ClaimOnyxView, Props } from "./claimView";
 import { getContractAddress } from "../../api/contractsApi";
+import { createSecret } from "../../utils";
+import { getUnclaimedBalance } from "../../api/claimApi";
+import { isCurrentUserMnemonics } from "../../api/authApi";
+import { FormApi, FORM_ERROR } from "final-form";
 
 interface State {
-  hello: string | null;
+  balance: string | null;
+  contract: string | null;
+  secret: string;
+  firstName: string;
+  sureName: string;
+  balanceError: string | null;
 }
 
 const mapStateToProps = (state: GlobalState) => ({
@@ -22,52 +31,81 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoa
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter(routerProps =>
-    withState<State>({ hello: "World" }, (state, setState) =>
-      lifecycle(
-        {
-          componentDidMount: async () => {
-            const username: string = get(routerProps.location, "state.userName", "");
-            const password: string = get(routerProps.location, "state.password", "");
-            const auth: string = get(routerProps.location, "state.auth", "");
-            console.log("Mounted!", username, password, auth);
-            const InvestmentsAddres = await getContractAddress("OnyxPay");
-            console.log("InvestmentsAddres", InvestmentsAddres);
+    withState<State>(
+      { balance: "0", contract: "", secret: "", firstName: "", sureName: "", balanceError: null },
+      (state, setState) =>
+        lifecycle(
+          {
+            componentDidMount: async () => {
+              // const username: string = get(routerProps.location, "state.userName", "");
+              // const passwordHash: string = get(routerProps.location, "state.password", "");
+              const userData: any = get(routerProps.location, "state.userData", "");
+              const firstName = userData.field_afl_first_name.und[0].value;
+              const sureName = userData.field_afl_surname.und[0].value;
 
-            // get Investments address
-            // calc secret
-            // check if investor is blocked (block-chain)
-            // call getUnclaimed
-            // show balance to claim
-            // show text field for mnemonic
-            // make claim trx
-            // call rest api to decrement claimed amount
-          }
-        },
-        () => {
-          return reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
-            const currentAddress = get(reduxProps.wallet, "defaultAccountAddress", "");
+              let balance: string | null = null;
+              const contract = await getContractAddress("Investments");
+              // const secretHash = createSecret(username, passwordHash, true);
+              // const secret = createSecret(username, passwordHash);
+              const secretHash = createSecret(
+                "A833682",
+                "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T",
+                true
+              );
+              const secret = createSecret("A833682", "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T");
+              if (contract) {
+                balance = await getUnclaimedBalance(contract, secretHash);
+              } else {
+                // show error message
+              }
 
-            return withProps(
-              {
-                handleCancel: () => {
-                  props.history.push("/");
+              if (balance === "0") {
+                setState({ balance, contract, secret, firstName, sureName, balanceError: "Nothing to claim!" });
+              } else if (Number(balance)) {
+                setState({ balance, contract, secret, firstName, sureName, balanceError: null });
+              } else {
+                // show error message
+              }
+            }
+          },
+          () => {
+            return reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
+              const currentAddress = get(reduxProps.wallet, "defaultAccountAddress", "");
+
+              return withProps(
+                {
+                  handleCancel: () => {
+                    props.history.push("/");
+                  },
+                  handleСonfirm: async (values: object, formApi: FormApi) => {
+                    const mnemonics = get(values, "mnemonics", "");
+                    if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
+                      // actions.startLoading();
+                      const { contract, secret } = state;
+
+                      routerProps.history.push("/claim-onyx-confirm", { contract, secret, balance: state.balance });
+                      return {};
+                    } else {
+                      formApi.change("mnemonics", "");
+                      return { [FORM_ERROR]: "Mnemonics don't match current account!" };
+                    }
+                  }
                 },
-                handleСonfirm: async () => {
-                  console.log("Confirmed");
-                }
-              },
-              injectedProps => (
-                <Component
-                  {...injectedProps}
-                  loading={reduxProps.loading}
-                  currentAddress={currentAddress}
-                  hello={state.hello}
-                />
-              )
-            );
-          });
-        }
-      )
+                injectedProps => (
+                  <Component
+                    {...injectedProps}
+                    loading={reduxProps.loading}
+                    currentAddress={currentAddress}
+                    balance={state.balance}
+                    firstName={state.firstName}
+                    sureName={state.sureName}
+                    balanceError={state.balanceError}
+                  />
+                )
+              );
+            });
+          }
+        )
     )
   );
 

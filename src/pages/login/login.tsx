@@ -29,18 +29,21 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         },
         handleSubmit: async (values: object, formApi: FormApi) => {
           const password = get(values, "password", "");
-          const userName = get(values, "username", "");
-          console.log("submited login form:", password, userName);
+          const username = get(values, "username", "");
           try {
             actions.startLoading();
-            const response = await loginAsInvestor({ password, userName });
-            props.history.push("/claim-onyx", { password, userName, auth: response });
-            return {};
+            const response = await loginAsInvestor({ password, username });
+            if (response.status === 200) {
+              props.history.push("/claim-onyx", { password, username, userData: response.data });
+            } else {
+              return { [FORM_ERROR]: response.data };
+            }
           } catch (e) {
-            return { [FORM_ERROR]: e };
+            // do nothing
           } finally {
             actions.finishLoading();
           }
+          return {};
         }
       },
       injectedProps => <Component {...injectedProps} loading={reduxProps.loading} />

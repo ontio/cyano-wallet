@@ -55,7 +55,7 @@ export async function transfer(
   const from = getAccount(wallet).address;
   const privateKey = decryptAccount(wallet, password);
   // tslint:disable-next-line:no-console
-  console.log("private key: ", privateKey, "from: ", from);
+  console.log("from: ", from);
   const to = new Address(recipient);
 
   const tx = OntAssetTxBuilder.makeTransferTx(asset, from, to, String(amount), "500", `${CONST.DEFAULT_GAS_LIMIT}`);
