@@ -26,7 +26,6 @@ export async function refreshBalance(store: GlobalStore) {
           console.warn("Failed to load balance of token: ", token.contract);
         }
       }
-      console.log("balance of tokens:", tokenBalances);
 
       store.dispatch(Actions.runtime.setBalance(balance.oxg, balance.onyx, unboundOng, tokenBalances));
 

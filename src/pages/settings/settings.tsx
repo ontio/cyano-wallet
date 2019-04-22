@@ -66,7 +66,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   } else if (net === "TEST") {
                     address = "35.178.63.10";
                   }
-                  console.log("values", { address, net, ssl });
                   actions.setSettings(address, ssl, net, reduxProps.settings.tokens);
 
                   props.history.goBack();

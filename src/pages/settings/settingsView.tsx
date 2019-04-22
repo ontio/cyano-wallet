@@ -98,13 +98,14 @@ export const SettingsView: React.SFC<Props> = props => (
               </>
             ) : null}
             <Filler />
-            <View className="buttons" />
 
-            {/* <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" /> */}
+            <div className="settings__buttons-container">
+              <Button type="button" onClick={props.handleTokenSettings} content="OEP-4 Tokens" />
+            </div>
 
             <View className="buttons">
-              <Button icon="check" content="Save" />
-              <Button onClick={props.handleCancel}>
+              <Button style={{ width: "117.5px" }} icon="check" content="Save" />
+              <Button style={{ width: "117.5px" }} onClick={props.handleCancel}>
                 Cancel
               </Button>
             </View>
