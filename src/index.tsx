@@ -38,7 +38,9 @@ import {
   ClaimConfirm,
   TrxError,
   TrxTimedOut,
-  TrxComplete
+  TrxComplete,
+  Exchange,
+  ExchangeConfirm
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -88,6 +90,9 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/trx-error" exact={true} component={TrxError} />
         <Route path="/trx-timed-out" exact={true} component={TrxTimedOut} />
         <Route path="/trx-complete" exact={true} component={TrxComplete} />
+
+        <Route path="/exchange" exact={true} component={Exchange} />
+        <Route path="/exchange-confirm" exact={true} component={ExchangeConfirm} />
 
         <StatusBar />
       </>

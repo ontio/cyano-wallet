@@ -53,6 +53,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 true
               );
               const secret = createSecret("A833682", "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T");
+              console.log("secret", secret);
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {

@@ -46,3 +46,27 @@ export function decodeAmount(amount: string, decimals: number) {
 
   return amountBN.toString();
 }
+
+export function convertOnyxToOxg(onyx: number, rate: string | null) {
+  if (!rate) {
+    throw new Error("no rate");
+  }
+
+  let amountOxg = new BigNumber(onyx);
+  amountOxg = amountOxg.div(new BigNumber(Math.pow(10, 8)));
+  let exhangeRate = new BigNumber(rate);
+
+  exhangeRate = exhangeRate.shiftedBy(-8);
+
+  return amountOxg.div(exhangeRate).toString();
+}
+
+export function convertOxgToOnyx(amount: number, rate: string | null) {
+  if (!rate) {
+    throw new Error("no rate");
+  }
+  const amountOnyx = new BigNumber(amount);
+  const exhangeRate = new BigNumber(rate);
+
+  return amountOnyx.times(exhangeRate).toString();
+}

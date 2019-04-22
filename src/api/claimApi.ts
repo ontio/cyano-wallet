@@ -65,7 +65,6 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
   address = utils.reverseHex(address);
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
-  console.log("claimOnyx", { address, secret, contract });
 
   // const params = [
   //   { label: "secret", value: secret, type: "ByteArray" },

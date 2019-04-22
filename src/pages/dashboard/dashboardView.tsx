@@ -4,7 +4,6 @@ import { Transfer } from "../../redux/runtime";
 import { LogoHeader, Spacer, View } from "../../components";
 import { TokenAmountList } from "../../components";
 import { OEP4TokenAmount } from "src/api/tokenApi";
-import { Exchange } from "src/components/exchange";
 
 export interface Props {
   ontAmount: string;
@@ -13,13 +12,11 @@ export interface Props {
   unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[] | null;
-  showExchange: boolean;
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
-  handleShowExchange: () => void;
   handleExchange: () => void;
   handleInvestorLogin: () => void;
 }
@@ -46,15 +43,7 @@ export const DashboardView: React.SFC<Props> = props => (
 
       <View orientation="column" className="exchange-box">
         <span>Exchnage ONYX to OXG</span>
-        <Button
-          onClick={props.handleShowExchange}
-          size="big"
-          compact={true}
-          basic={true}
-          icon="exchange"
-          className={props.showExchange ? 'hidden' : ''}
-        />
-        {props.showExchange ? <Exchange amount={0} handleExchange={props.handleExchange}/> : null}
+        <Button onClick={props.handleExchange} size="big" compact={true} basic={true} icon="exchange" />
       </View>
 
       <View orientation="column" className="balance">
@@ -69,7 +58,7 @@ export const DashboardView: React.SFC<Props> = props => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <h3>OEP-4 tokens</h3>
       <Spacer />
-      <Spacer /> 
+      <Spacer />
       <View className="tokens-list">
         <TokenAmountList tokens={props.tokens} />
       </View>
