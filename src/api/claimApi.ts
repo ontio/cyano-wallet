@@ -61,11 +61,11 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
 export async function claimOnyx(contract: string, secret: string, walletEncoded: any, password: string) {
   const funcName = "Claim";
   const wallet = getWallet(walletEncoded);
-  const address = getAccount(wallet).address.toHexString();
+  let address = getAccount(wallet).address.toHexString();
+  address = utils.reverseHex(address);
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
-  const pk = privateKey.getPublicKey();
-  console.log("claimOnyx", { address, pk, privateKey, secret, contract });
+  console.log("claimOnyx", { address, secret, contract });
 
   // const params = [
   //   { label: "secret", value: secret, type: "ByteArray" },
@@ -99,7 +99,7 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
     }); */
 
   const p1 = new Parameter("secret", ParameterType.ByteArray, secret);
-  const p2 = new Parameter("address", ParameterType.ByteArray, utils.reverseHex(address));
+  const p2 = new Parameter("address", ParameterType.ByteArray, address);
 
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
@@ -107,7 +107,7 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
     new Crypto.Address(utils.reverseHex(contract)),
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`,
-    new Crypto.Address(utils.reverseHex(address))
+    new Crypto.Address(address)
   );
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);

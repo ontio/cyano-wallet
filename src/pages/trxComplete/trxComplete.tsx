@@ -12,14 +12,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
   return withProps(
     {
-      amount: convertAmountToStr(amount, asset, decimals),
-      asset,
       handleCancel: () => {
         props.history.goBack();
       },
       handleOk: () => {
         props.history.push("/dashboard");
       },
+      amount: convertAmountToStr(amount, asset, decimals),
+      asset,
       recipient: get(props.location, "state.recipient", ""),
       trxType: get(props.location, "state.type", "")
     },

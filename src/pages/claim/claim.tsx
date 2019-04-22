@@ -47,8 +47,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const contract = await getContractAddress("Investments");
               // const secretHash = createSecret(username, passwordHash, true);
               // const secret = createSecret(username, passwordHash);
-              const secretHash = createSecret("A1111", "$S$DJ6vVI0rVaj7r9apnyujkPC/OQqllBLsVQnGbO9x2q.Ca30BbTPY", true);
-              const secret = createSecret("A1111", "$S$DJ6vVI0rVaj7r9apnyujkPC/OQqllBLsVQnGbO9x2q.Ca30BbTPY");
+              const secretHash = createSecret(
+                "A833682",
+                "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T",
+                true
+              );
+              const secret = createSecret("A833682", "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T");
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {
@@ -79,7 +83,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                       // actions.startLoading();
                       const { contract, secret } = state;
 
-                      routerProps.history.push("/claim-onyx-confirm", { contract, secret });
+                      routerProps.history.push("/claim-onyx-confirm", { contract, secret, balance: state.balance });
                       return {};
                     } else {
                       formApi.change("mnemonics", "");

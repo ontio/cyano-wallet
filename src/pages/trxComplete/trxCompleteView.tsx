@@ -20,8 +20,8 @@ export const TrxCompleteView: React.SFC<Props> = props => (
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Message>
-        Your <strong>{props.trxType}</strong> transaction of has completed. This does not mean it succeeded. Check your
-        balances.
+        Your <strong>{props.trxType}</strong> transaction of <span>{props.amount}</span> <span>{props.asset}</span> has
+        completed. This does not mean it succeeded. Check your balances.
       </Message>
       <Filler />
       <View className="buttons">

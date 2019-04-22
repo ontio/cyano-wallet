@@ -10,6 +10,7 @@ import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { Props, ClaimConfirmView } from "./claimConfirmView";
 import { checkAccountPassword } from "../../api/accountApi";
 import { claimOnyx } from "../../api/claimApi";
+import { convertAmountFromStr } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -33,8 +34,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const password: string = get(values, "password", "");
           const contract: string = get(props.location, "state.contract", "");
           const secret: string = get(props.location, "state.secret", "");
+          const balance: string = get(props.location, "state.balance", "");
           if (checkAccountPassword(reduxProps.wallet, password)) {
-            console.log(password, contract, secret);
+            // do nothing
           } else {
             formApi.change("password", "");
             return { password: "" };
@@ -44,10 +46,18 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           try {
             await timeout(claimOnyx(contract, secret, reduxProps.wallet, password), 15000);
-            props.history.push("/trx-complete", { type: "claim" });
+            props.history.push("/trx-complete", {
+              type: "claim",
+              amount: convertAmountFromStr(balance, "ONYX"),
+              asset: "ONYX"
+            });
           } catch (e) {
             if (e instanceof TimeoutError) {
-              props.history.push("/trx-timed-out", { type: "claim" });
+              props.history.push("/trx-timed-out", {
+                type: "claim",
+                amount: convertAmountFromStr(balance, "ONYX"),
+                asset: "ONYX"
+              });
             } else {
               props.history.push("/trx-error", { e });
             }
