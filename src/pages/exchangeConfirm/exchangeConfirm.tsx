@@ -10,7 +10,6 @@ import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { Props, ExchangeConfirmView } from "./exchangeConfirmView";
 import { checkAccountPassword } from "../../api/accountApi";
 import { exchangeOnyx } from "../../api/exchangeApi";
-import { convertAmountToStr } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -47,14 +46,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             await timeout(exchangeOnyx(amount, contract, reduxProps.wallet, password), 15000);
             props.history.push("/trx-complete", {
               type: "exhange-onyx",
-              amount: convertAmountToStr(amount, "OXG"),
+              amount,
               asset: "OXG"
             });
           } catch (e) {
             if (e instanceof TimeoutError) {
               props.history.push("/trx-timed-out", {
                 type: "exhange-onyx",
-                amount: convertAmountToStr(amount, "OXG"),
+                amount,
                 asset: "OXG"
               });
             } else {
