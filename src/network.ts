@@ -136,11 +136,11 @@ function isAddress(address: string) {
 }
 
 function isProdAddress(address: string) {
-  return isAddress(address) && prodOptions.map(o => o.value).includes(address);
+  return isAddress(address) && prodOptions.value.includes(address);
 }
 
 function isTestAddress(address: string) {
-  return isAddress(address) && testOptions.map(o => o.value).includes(address);
+  return isAddress(address) && testOptions.value.includes(address);
 }
 
 export function getNeoNodeAddress(): string {
