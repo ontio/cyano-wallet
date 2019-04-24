@@ -38,28 +38,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         lifecycle(
           {
             componentDidMount: async () => {
-              const username: string = get(routerProps.location, "state.userName", "");
+              const username: string = get(routerProps.location, "state.username", "");
               const userData: any = get(routerProps.location, "state.userData", "");
-              console.log(userData);
-
-              const passwordHash = userData.pass;
+              const passwordHash = userData.pass_for_claim;
               const firstName = userData.field_afl_first_name.und[0].value;
               const sureName = userData.field_afl_surname.und[0].value;
-
               let balance: string | null = null;
               const contract = await getContractAddress("Investments");
               const secretHash = createSecret(username, passwordHash, true);
               const secret = createSecret(username, passwordHash);
-              /* const secretHash = createSecret(
-                "A833682",
-                "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T",
-                true
-              );
-              const secret = createSecret(
-                "A833682",
-                "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T"
-              ); */
-              console.log("secret", secret);
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {

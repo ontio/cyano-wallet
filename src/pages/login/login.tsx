@@ -36,7 +36,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const username = get(values, "username", "");
           try {
             actions.startLoading();
-            const response = await timeout(loginAsInvestor({ password, username }), 15000);
+            const response = await timeout(loginAsInvestor({ password, username }), 1500000);
             if (response.status === 200) {
               props.history.push("/claim-onyx", { password, username, userData: response.data });
             } else if (response.status === 404) {

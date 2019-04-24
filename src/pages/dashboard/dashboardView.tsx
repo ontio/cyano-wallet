@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button } from "semantic-ui-react";
 import { Transfer } from "../../redux/runtime";
-import { LogoHeader, Spacer, View } from "../../components";
+import { LogoHeader, Spacer, View, Filler } from "../../components";
 import { TokenAmountList } from "../../components";
 import { OEP4TokenAmount } from "src/api/tokenApi";
 
@@ -43,28 +43,34 @@ export const DashboardView: React.SFC<Props> = props => (
 
       <View orientation="column" className="exchange-box">
         <span>Exchnage ONYX to OXG</span>
-        <Button onClick={props.handleExchange} size="big" compact={true} basic={true} icon="exchange" />
+        <Button
+          onClick={props.handleExchange}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="exchange"
+        />
       </View>
 
       <View orientation="column" className="balance">
         <label className="balance-label">OXG</label>
         <h3>{props.ongAmount}</h3>
-        <h4 onClick={props.handleWithdraw} className="unbound" data-tooltip="Unbound OXG" data-position="bottom center">
+        <h4
+          onClick={props.handleWithdraw}
+          className="unbound"
+          data-tooltip="Unbound OXG"
+          data-position="bottom center"
+        >
           {props.unboundAmount} (Claim)
         </h4>
       </View>
     </View>
 
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <h3>OEP-4 tokens</h3>
-      <Spacer />
-      <Spacer />
-      <View className="tokens-list">
+      <View orientation="column" className="tokens-list">
         <TokenAmountList tokens={props.tokens} />
       </View>
-      <Spacer />
-      <Spacer />
-      <Spacer />
+      <Filler />
       <View className="buttons align-items-center" orientation="column">
         <Button icon="send" content="Send" onClick={props.handleSend} />
         <Spacer />

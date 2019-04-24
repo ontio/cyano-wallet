@@ -8,6 +8,7 @@ interface Props {
 
 export const TokenAmountList: React.SFC<Props> = props => (
   <>
+    <h3>OEP-4 tokens</h3>
     <List className="transferList oep-4" divided={true}>
       {props.tokens && props.tokens.length ? (
         props.tokens.map((token, i) => (

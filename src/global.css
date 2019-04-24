@@ -319,7 +319,10 @@ h1.header {
 }
 
 .tokens-list {
-  min-height: 130px;
+  flex-grow: 2;
+}
+.transferList.oep-4 {
+  flex-grow: 1;
 }
 .transferList.oep-4 .item {
   padding: 10px 0;
