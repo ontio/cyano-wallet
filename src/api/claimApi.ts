@@ -29,11 +29,21 @@ export async function loginAsInvestor(data: object) {
     return { data: response.data.data, status: response.status };
   } catch (er) {
     if (er.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      if (er.response.status === 404) {
+        return { data: "Authentication server does not respond", status: er.response.status };
+      }
       return { data: er.response.data.data, status: er.response.status };
+    } else if (er.request) {
+      // The request was made but no response was received
+      return { data: "Authentication server does not respond", status: null };
     } else {
-      // handle error
-      console.error(loginAsInvestor, er);
-      return {};
+      // Something happened in setting up the request that triggered an Error
+      return {
+        data: "Error happened in setting up the request, please, check internet connection",
+        status: null
+      };
     }
   }
 }

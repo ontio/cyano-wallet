@@ -9,6 +9,7 @@ import Actions from "../../redux/actions";
 import { finishLoading, startLoading } from "../../redux/loader/loaderActions";
 import { LoginView, Props } from "./loginView";
 import { FormApi, FORM_ERROR } from "final-form";
+import { timeout, TimeoutError } from "promise-timeout";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
@@ -18,7 +19,10 @@ const mapStateToProps = (state: GlobalState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ setWallet: Actions.wallet.setWallet, startLoading, finishLoading }, dispatch);
+  bindActionCreators(
+    { setWallet: Actions.wallet.setWallet, startLoading, finishLoading },
+    dispatch
+  );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
@@ -32,14 +36,20 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const username = get(values, "username", "");
           try {
             actions.startLoading();
-            const response = await loginAsInvestor({ password, username });
+            const response = await timeout(loginAsInvestor({ password, username }), 15000);
             if (response.status === 200) {
               props.history.push("/claim-onyx", { password, username, userData: response.data });
+            } else if (response.status === 404) {
+              return { [FORM_ERROR]: response.data };
+            } else if (response.status) {
+              return { [FORM_ERROR]: response.data };
             } else {
               return { [FORM_ERROR]: response.data };
             }
           } catch (e) {
-            // do nothing
+            if (e instanceof TimeoutError) {
+              return { [FORM_ERROR]: "Authentication server does not respond" };
+            }
           } finally {
             actions.finishLoading();
           }
