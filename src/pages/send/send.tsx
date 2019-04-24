@@ -40,6 +40,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const asset = get(values, "asset", "");
           const amountStr = get(values, "amount", "0");
           const amount = convertAmountFromStr(amountStr, asset);
+          console.log(amountStr, amount);
           props.history.push("/sendConfirm", { recipient, asset, amount });
         },
         handleMax: (formProps: FormRenderProps) => {

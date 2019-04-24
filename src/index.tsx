@@ -32,7 +32,15 @@ import {
   TokenSettingsAdd,
   SendError,
   TokenSettingsDel,
-  AccountsRestore
+  AccountsRestore,
+  Login,
+  ClaimOnyx,
+  ClaimConfirm,
+  TrxError,
+  TrxTimedOut,
+  TrxComplete,
+  Exchange,
+  ExchangeConfirm
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -74,6 +82,17 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/settings/token" exact={true} component={TokenSettings} />
         <Route path="/settings/token/add" exact={true} component={TokenSettingsAdd} />
         <Route path="/settings/token/del" exact={true} component={TokenSettingsDel} />
+
+        <Route path="/investor-login" exact={true} component={Login} />
+        <Route path="/claim-onyx" exact={true} component={ClaimOnyx} />
+        <Route path="/claim-onyx-confirm" exact={true} component={ClaimConfirm} />
+
+        <Route path="/trx-error" exact={true} component={TrxError} />
+        <Route path="/trx-timed-out" exact={true} component={TrxTimedOut} />
+        <Route path="/trx-complete" exact={true} component={TrxComplete} />
+
+        <Route path="/exchange" exact={true} component={Exchange} />
+        <Route path="/exchange-confirm" exact={true} component={ExchangeConfirm} />
 
         <StatusBar />
       </>

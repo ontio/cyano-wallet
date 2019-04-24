@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouterProps } from "react-router";
 import { getAddress } from "../../api/authApi";
-import { dummy, reduxConnect, withProps, withState } from "../../compose";
+import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { DashboardView, Props } from "./dashboardView";
 import { convertAmountToStr } from "../../utils/number";
@@ -10,9 +10,6 @@ import { TokenAmountState } from "../../redux/runtime";
 import { OEP4TokenAmount } from "../../api/tokenApi";
 import { decodeAmount } from "../../utils/number";
 
-interface State {
-  showExchange: boolean;
-}
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
@@ -20,53 +17,54 @@ const mapStateToProps = (state: GlobalState) => ({
   tokens: state.settings.tokens,
   transfers: state.runtime.transfers,
   unboundAmount: state.runtime.unboundAmount,
-  wallet: state.wallet.wallet,
+  wallet: state.wallet.wallet
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  withState<State>({ showExchange: false }, (state, setState) =>
-    reduxConnect(mapStateToProps, dummy, reduxProps => {
-      return withProps(
-        {
-          handleReceive: () => {
-            props.history.push("/receive");
-          },
-          handleSend: () => {
-            props.history.push("/send");
-          },
-          handleTransfers: () => {
-            props.history.push("/transfers");
-          },
-          handleWithdraw: () => {
-            if (reduxProps.unboundAmount > 0) {
-              props.history.push("/withdrawConfirm");
-            }
-          },
-          handleOpenTransfers: () => {
-            props.history.push("/withdrawConfirm");
-          },
-          handleShowExchange: () => {
-            setState({ showExchange: !state.showExchange });
-          },
-          ownAddress: getAddress(reduxProps.wallet),
-          transfers: reduxProps.transfers !== null ? reduxProps.transfers.slice(0, 2) : null
+  reduxConnect(mapStateToProps, dummy, reduxProps => {
+    return withProps(
+      {
+        handleReceive: () => {
+          props.history.push("/receive");
         },
-        injectedProps => (
-          <Component
-            {...injectedProps}
-            showExchange={state.showExchange}
-            ontAmount={convertAmountToStr(reduxProps.ontAmount, "ONYX")}
-            ongAmount={convertAmountToStr(reduxProps.ongAmount, "OXG")}
-            unboundAmount={convertAmountToStr(reduxProps.unboundAmount, "OXG")}
-            tokens={
-              reduxProps.tokens.length && reduxProps.tokenAmounts.length
-                ? prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts)
-                : []
-            }
-          />
-        )
-      );
-    }));
+        handleSend: () => {
+          props.history.push("/send");
+        },
+        handleTransfers: () => {
+          props.history.push("/transfers");
+        },
+        handleWithdraw: () => {
+          if (reduxProps.unboundAmount > 0) {
+            props.history.push("/withdrawConfirm");
+          }
+        },
+        handleOpenTransfers: () => {
+          props.history.push("/withdrawConfirm");
+        },
+        handleExchange: () => {
+          props.history.push("/exchange");
+        },
+        handleInvestorLogin: () => {
+          props.history.push("/investor-login");
+        },
+        ownAddress: getAddress(reduxProps.wallet),
+        transfers: reduxProps.transfers !== null ? reduxProps.transfers.slice(0, 2) : null
+      },
+      injectedProps => (
+        <Component
+          {...injectedProps}
+          ontAmount={convertAmountToStr(reduxProps.ontAmount, "ONYX")}
+          ongAmount={convertAmountToStr(reduxProps.ongAmount, "OXG")}
+          unboundAmount={convertAmountToStr(reduxProps.unboundAmount, "OXG")}
+          tokens={
+            reduxProps.tokens.length && reduxProps.tokenAmounts.length
+              ? prepareTokenAmounts(reduxProps.tokens, reduxProps.tokenAmounts)
+              : []
+          }
+        />
+      )
+    );
+  });
 
 function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[] = []): OEP4TokenAmount[] {
   return items.map(item => {

@@ -1,4 +1,3 @@
-
 export { Clear } from "./clear/clear";
 export { Create } from "./create/create";
 export { Dashboard } from "./dashboard/dashboard";
@@ -25,3 +24,11 @@ export { TokenSettings } from "./tokenSettings/tokenSettings";
 export { TokenSettingsAdd } from "./tokenSettingsAdd/tokenSettingsAdd";
 export { TokenSettingsDel } from "./tokenSettingsDel/tokenSettingsDel";
 export { AccountsRestore } from "./accounts-restore/accounts-restore";
+export { Login } from "./login/login";
+export { ClaimOnyx } from "./claim/claim";
+export { ClaimConfirm } from "./claimConfirm/claimConfirm";
+export { TrxError } from "./trxError/trxError";
+export { TrxTimedOut } from "./trxTimedOut/trxTimedOut";
+export { TrxComplete } from "./trxComplete/trxComplete";
+export { Exchange } from "./exchange/exchange";
+export { ExchangeConfirm } from "./exchangeConfirm/exchangeConfirm";

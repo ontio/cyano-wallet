@@ -4,7 +4,6 @@ import { Transfer } from "../../redux/runtime";
 import { LogoHeader, Spacer, View } from "../../components";
 import { TokenAmountList } from "../../components";
 import { OEP4TokenAmount } from "src/api/tokenApi";
-import { Exchange } from "src/components/exchange";
 
 export interface Props {
   ontAmount: string;
@@ -13,18 +12,17 @@ export interface Props {
   unboundAmount: string;
   ownAddress: string;
   transfers: Transfer[] | null;
-  showExchange: boolean;
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
-  handleShowExchange: () => void;
+  handleExchange: () => void;
+  handleInvestorLogin: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
-  
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={true} showAccounts={true} title="Balances" />
     </View>
@@ -33,30 +31,25 @@ export const DashboardView: React.SFC<Props> = props => (
       <View orientation="column" className="balance onyx-balance-column">
         <label className="balance-label">ONYX</label>
         <h1 className="onyx-balance-amount">{props.ontAmount}</h1>
+        <h4
+          onClick={props.handleInvestorLogin}
+          className="claim-onyx"
+          data-tooltip="Claim your investments"
+          data-position="bottom center"
+        >
+          (Claim)
+        </h4>
       </View>
 
       <View orientation="column" className="exchange-box">
         <span>Exchnage ONYX to OXG</span>
-        <Button
-          onClick={props.handleShowExchange}
-          size="big"
-          compact={true}
-          basic={true}
-          icon="exchange"
-          className={props.showExchange ? 'hidden' : ''}
-        />
-        {props.showExchange ? <Exchange amount={0}/> : null}
+        <Button onClick={props.handleExchange} size="big" compact={true} basic={true} icon="exchange" />
       </View>
 
       <View orientation="column" className="balance">
         <label className="balance-label">OXG</label>
         <h3>{props.ongAmount}</h3>
-        <h4
-          onClick={props.handleWithdraw}
-          className="unbound"
-          data-tooltip="Unbound OXG"
-          data-position="bottom center"
-        >
+        <h4 onClick={props.handleWithdraw} className="unbound" data-tooltip="Unbound OXG" data-position="bottom center">
           {props.unboundAmount} (Claim)
         </h4>
       </View>
@@ -65,14 +58,14 @@ export const DashboardView: React.SFC<Props> = props => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <h3>OEP-4 tokens</h3>
       <Spacer />
-      <Spacer /> 
+      <Spacer />
       <View className="tokens-list">
         <TokenAmountList tokens={props.tokens} />
       </View>
       <Spacer />
       <Spacer />
       <Spacer />
-      <View className="buttons align-items-center" orientation="column" >
+      <View className="buttons align-items-center" orientation="column">
         <Button icon="send" content="Send" onClick={props.handleSend} />
         <Spacer />
         <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
