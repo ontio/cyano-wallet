@@ -47,7 +47,8 @@ export async function exchangeOnyx(
     if (err.response) {
       console.error("exchangeOnyx", err.response.data);
     } else {
-      console.error("exchangeOnyx", err);
+      console.error("exchangeOnyx!!!!!!!", err);
+      throw new Error(err);
     }
   }
 }

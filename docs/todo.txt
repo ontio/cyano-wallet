@@ -8,10 +8,9 @@ https://scaddr.apriorit.com/jira/browse/ONXP-260
 Address without port number should be used for wallet
 https://scaddr.apriorit.com/jira/browse/ONXP-264
 
-"Import wallet" button is not work
+"Import wallet" button is not work +
 https://scaddr.apriorit.com/jira/browse/ONXP-261
 
 
 https://scaddr.apriorit.com/jira/browse/ONXP-214
 Position of confirm and cancel buttons on all pages should be swapped
-
