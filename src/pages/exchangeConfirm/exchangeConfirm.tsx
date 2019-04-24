@@ -18,7 +18,8 @@ const mapStateToProps = (state: GlobalState) => ({
   wallet: state.wallet.wallet
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
@@ -50,6 +51,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
               asset: "OXG"
             });
           } catch (e) {
+            // TODO: handle compensator errors
             if (e instanceof TimeoutError) {
               props.history.push("/trx-timed-out", {
                 type: "exhange-onyx",

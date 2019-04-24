@@ -1,11 +1,19 @@
-import { TransactionBuilder, /* Transaction, */ Parameter, ParameterType, utils, CONST, Crypto } from "ontology-ts-sdk";
+import {
+  TransactionBuilder,
+  Transaction,
+  Parameter,
+  ParameterType,
+  utils,
+  CONST,
+  Crypto
+} from "ontology-ts-sdk";
 import { getClient } from "../network";
 import { get } from "lodash";
 import * as Long from "long";
 import { getWallet } from "./authApi";
 import { getAccount, decryptAccount } from "./accountApi";
 import axios from "axios";
-import { restEndpoint } from "../api/constants";
+import { restEndpoint, gasCompensatorEndpoint } from "../api/constants";
 
 export async function loginAsInvestor(data: object) {
   const url = `${restEndpoint}/login`;
@@ -58,7 +66,13 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
   }
 }
 
-export async function claimOnyx(contract: string, secret: string, walletEncoded: any, password: string) {
+export async function claimOnyx(
+  contract: string,
+  secret: string,
+  walletEncoded: any,
+  password: string
+) {
+  const contractName = "Investments";
   const funcName = "Claim";
   const wallet = getWallet(walletEncoded);
   let address = getAccount(wallet).address.toHexString();
@@ -66,50 +80,26 @@ export async function claimOnyx(contract: string, secret: string, walletEncoded:
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
 
-  // const params = [
-  //   { label: "secret", value: secret, type: "ByteArray" },
-  //   { label: "address", value: address, type: "ByteArray" }
-  // ];
+  const params = [
+    { label: "secret", value: secret, type: ParameterType.ByteArray },
+    { label: "address", value: address, type: ParameterType.ByteArray }
+  ];
 
-  /* axios
-    .post(`${compensateGasIP}/api/compensate-gas`, { funcName, contractAdress: contract, params })
-    .then(async ({ data }) => {
-      console.log("trx from compensator", data);
-      const tx = Transaction.deserialize(data);
-      
-      TransactionBuilder.addSign(tx, privateKey);
-
-      await client.sendRawTransaction(tx.serialize(), false, true);
-    })
-    .catch(error => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-      }
-    }); */
-
-  const p1 = new Parameter("secret", ParameterType.ByteArray, secret);
-  const p2 = new Parameter("address", ParameterType.ByteArray, address);
-
-  const tx = TransactionBuilder.makeInvokeTransaction(
-    funcName,
-    [p1, p2],
-    new Crypto.Address(utils.reverseHex(contract)),
-    "500",
-    `${CONST.DEFAULT_GAS_LIMIT}`,
-    new Crypto.Address(address)
-  );
-
-  await TransactionBuilder.signTransactionAsync(tx, privateKey);
-
-  await client.sendRawTransaction(tx.serialize(), false, true);
+  try {
+    const res = await axios.post(`${gasCompensatorEndpoint}/api/compensate-gas`, {
+      contractName,
+      funcName,
+      params
+    });
+    const tx = Transaction.deserialize(res.data.data);
+    TransactionBuilder.addSign(tx, privateKey);
+    await client.sendRawTransaction(tx.serialize(), false, true);
+  } catch (err) {
+    // TODO: handle errors from compensator
+    if (err.response) {
+      console.error("exchangeOnyx", err.response.data);
+    } else {
+      console.error("exchangeOnyx", err);
+    }
+  }
 }

@@ -22,12 +22,14 @@ import { setSettings } from "../../redux/settings/settingsActions";
 
 import { Props, SettingsView } from "./settingsView";
 import { setWallet } from "src/redux/wallet";
+import { prodOptions, testOptions } from "../../api/constants";
 
 interface State {
   settings: Settings | null;
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ setSettings, setWallet }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ setSettings, setWallet }, dispatch);
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -62,9 +64,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   const ssl: boolean = get(values, "ssl", false);
                   let address: string = get(values, "nodeAddress", "");
                   if (net === "MAIN") {
-                    address = "35.180.188.239";
+                    address = prodOptions.value;
                   } else if (net === "TEST") {
-                    address = "35.178.63.10";
+                    address = testOptions.value;
                   }
                   actions.setSettings(address, ssl, net, reduxProps.settings.tokens);
 
