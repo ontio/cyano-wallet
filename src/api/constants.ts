@@ -24,4 +24,4 @@ export const headAddress = {
 };
 
 export const gasCompensatorEndpoint = "http://3.120.190.178:5001";
-export const restEndpoint = "http://34.244.79.17:600/api/v1";
+export const restEndpoint = "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1";

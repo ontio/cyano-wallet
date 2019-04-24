@@ -1,6 +1,3 @@
-Misprints are present in message on claim confirmation page
-https://scaddr.apriorit.com/jira/browse/ONXP-255
-Добавить обработку в случае rest api не отвечает при логине
 
 Address without port number should be used for wallet
 https://scaddr.apriorit.com/jira/browse/ONXP-264
