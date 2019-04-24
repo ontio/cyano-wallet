@@ -67,9 +67,12 @@ export const DashboardView: React.SFC<Props> = props => (
     </View>
 
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <View orientation="column" className="tokens-list">
-        <TokenAmountList tokens={props.tokens} />
-      </View>
+      {props.tokens && props.tokens.length ? (
+        <View orientation="column" className="tokens-list">
+          <TokenAmountList tokens={props.tokens} />
+        </View>
+      ) : null}
+
       <Filler />
       <View className="buttons align-items-center" orientation="column">
         <Button icon="send" content="Send" onClick={props.handleSend} />
