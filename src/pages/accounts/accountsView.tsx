@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "semantic-ui-react";
+import { Button, Dimmer, Loader } from "semantic-ui-react";
 import { AccountList, AccountLogoHeader, View, Spacer } from "../../components";
 
 export interface Props {
@@ -20,6 +20,10 @@ export interface Props {
 export const AccountsView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
 
+    <Dimmer active={props.loading}>
+      <Loader />
+    </Dimmer>
+
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Accounts" />
       <View content={true} className="spread-around">
@@ -39,13 +43,13 @@ export const AccountsView: React.SFC<Props> = props => (
         />
       </View>
       <View orientation="column" className="btns">
-        <Button icon="add" content="Add account" onClick={props.handleAdd} loading={props.loading} disabled={props.loading} />
+        <Button icon="add" content="Add account" onClick={props.handleAdd}/>
         <Spacer/>
         <Button type="button" onClick={props.handleExport} content="Export wallet" />
         <Spacer />
         <Button type="button" onClick={props.handleClear} content="Clear wallet" icon="delete" />
         <Spacer />
-        <Button content="Back" onClick={props.handleBack} disabled={props.loading} />
+        <Button content="Back" onClick={props.handleBack} />
       </View>
     </View>
   </View>

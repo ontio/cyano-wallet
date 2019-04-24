@@ -12,7 +12,6 @@ import { refreshBalance } from "../../balanceProvider";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  //  transfers: state.runtime.transfers,
   wallet: state.wallet.wallet
 });
 
