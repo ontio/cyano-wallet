@@ -5,7 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
-import { convertAmountToBN, convertAmountFromStr } from "../../utils/number";
+import { convertAmountToBN } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -38,9 +38,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleConfirm: async (values: object) => {
           const recipient = get(values, "recipient", "");
           const asset = get(values, "asset", "");
-          const amountStr = get(values, "amount", "0");
-          const amount = convertAmountFromStr(amountStr, asset);
-          console.log(amountStr, amount);
+          const amount = get(values, "amount", "0");
           props.history.push("/sendConfirm", { recipient, asset, amount });
         },
         handleMax: (formProps: FormRenderProps) => {

@@ -25,7 +25,7 @@ export const LogoHeaderView: React.SFC<Props> = props => (
             size="big"
             compact={true}
             basic={true}
-            icon="exchange"
+            icon="users"
             data-tooltip="Change account"
             data-position="bottom right"
           />

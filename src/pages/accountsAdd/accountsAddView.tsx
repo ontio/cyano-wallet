@@ -41,10 +41,6 @@ export const AccountsAddView: React.SFC<Props> = (props) => (
           New account
         </Button>
         <Spacer />
-        <Button size="small" onClick={props.handleImport}>
-          Import private key
-        </Button>
-        <Spacer />
         <Button size="small" onClick={props.handleRestore}>
           Restore account
         </Button>
