@@ -56,7 +56,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             }
           } catch (e) {
             if (e instanceof TimeoutError) {
-              console.log("(catch) TimeoutError");
               props.history.push("/sendFailed", { recipient, asset, amount });
             } else if (e === 53000) {
               // 53000 - Decrypto_ERROR (Decryption error)
