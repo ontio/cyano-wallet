@@ -1,6 +1,6 @@
 import { Reducer } from "redux";
 import { SET_SETTINGS, ADD_TOKEN, DEL_TOKEN } from "./settingsActions";
-import { testOpts } from "../../api/constants";
+// import { testOpts } from "../../api/constants";
 
 export type NetValue = "TEST" | "MAIN" | "PRIVATE";
 
@@ -21,9 +21,9 @@ export interface SettingsState {
 const settingsCash = localStorage.getItem("settings");
 
 const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) || {
-  nodeAddress: testOpts.node.address,
+  nodeAddress: "cepheus5.onyxpay.co",
   ssl: false,
-  net: testOpts.node.net,
+  net: "TEST",
   tokens: []
 };
 
