@@ -16,8 +16,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({ setSettings, setWallet }, dispatch);
 
 const mapStateToProps = (state: GlobalState) => ({
-  ongAmount: state.runtime.ongAmount,
-  ontAmount: state.runtime.ontAmount,
   wallet: state.wallet.wallet,
   settings: state.settings
 });
@@ -49,14 +47,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         },
         injectedProps => {
           if (reduxProps.settings !== null) {
-            return (
-              <Component
-                {...injectedProps}
-                settings={reduxProps.settings}
-                ontAmount={reduxProps.ontAmount}
-                ongAmount={reduxProps.ongAmount}
-              />
-            );
+            return <Component {...injectedProps} settings={reduxProps.settings} />;
           } else {
             return <Nothing />;
           }
