@@ -33,10 +33,11 @@ export async function loginAsInvestor(data: object) {
     if (er.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      if (er.response.status === 404) {
-        return { data: "Authentication server does not respond", status: er.response.status };
+      if (er.response.status === 400) {
+        // return { data: "Authentication server does not respond", status: er.response.status };
+        return { data: er.response.data.data, status: er.response.status };
       }
-      return { data: er.response.data.data, status: er.response.status };
+      return { data: "Authentication server does not respond", status: er.response.status };
     } else if (er.request) {
       // The request was made but no response was received
       return { data: "Authentication server does not respond", status: null };
@@ -73,7 +74,7 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
     */
     return balance;
   } catch (e) {
-    console.log(e);
+    console.log("getUnclaimedBalance", e);
     return null;
   }
 }

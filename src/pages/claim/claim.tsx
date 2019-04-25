@@ -45,12 +45,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const sureName = userData.field_afl_surname.und[0].value;
               let balance: string | null = null;
               const contract = await getContractAddress("Investments");
+              console.log("#contract", contract);
               const secretHash = createSecret(username, passwordHash, true);
               const secret = createSecret(username, passwordHash);
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {
-                // show error message
+                // show error message from bc
               }
 
               if (balance === "0") {
