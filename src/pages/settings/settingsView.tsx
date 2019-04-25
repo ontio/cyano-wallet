@@ -2,9 +2,9 @@ import { get } from "lodash";
 import * as React from "react";
 import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
-import { Settings } from "../../api/settingsApi";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
 import { required } from "../../utils/validate";
+import { SettingsState, NetValue } from "../../redux/settings/settingsReducer";
 
 export interface Props {
   ontAmount: number;
@@ -12,12 +12,10 @@ export interface Props {
   handleSave: (values: object) => Promise<void>;
   handleCancel: () => void;
   handleTokenSettings: () => void;
-  settings: Settings;
+  settings: SettingsState;
 }
 
-export type NetValues = "TEST" | "MAIN" | "PRIVATE";
-
-const netOptions: Array<{ text: string; value: NetValues }> = [
+const netOptions: Array<{ text: string; value: NetValue }> = [
   {
     text: "Test-Net",
     value: "TEST"

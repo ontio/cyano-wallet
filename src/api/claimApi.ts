@@ -13,10 +13,12 @@ import * as Long from "long";
 import { getWallet } from "./authApi";
 import { getAccount, decryptAccount } from "./accountApi";
 import axios from "axios";
-import { restEndpoint, gasCompensatorEndpoint } from "../api/constants";
+import { getOptions } from "../api/constants";
 
 export async function loginAsInvestor(data: object) {
-  const url = `${restEndpoint}/login`;
+  const options = getOptions();
+  const endpoint = options.authApi.address;
+  const url = `${endpoint}/login`;
   const formData = new FormData();
   for (const field in data) {
     if (data.hasOwnProperty(field)) {
@@ -76,12 +78,7 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
   }
 }
 
-export async function claimOnyx(
-  contract: string,
-  secret: string,
-  walletEncoded: any,
-  password: string
-) {
+export async function claimOnyx(secret: string, walletEncoded: any, password: string) {
   const contractName = "Investments";
   const funcName = "Claim";
   const wallet = getWallet(walletEncoded);
@@ -89,6 +86,8 @@ export async function claimOnyx(
   address = utils.reverseHex(address);
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
+  const options = getOptions();
+  const endpoint = options.gasCompensator.address;
 
   const params = [
     { label: "secret", value: secret, type: ParameterType.ByteArray },
@@ -96,7 +95,7 @@ export async function claimOnyx(
   ];
 
   try {
-    const res = await axios.post(`${gasCompensatorEndpoint}/api/compensate-gas`, {
+    const res = await axios.post(`${endpoint}/api/compensate-gas`, {
       contractName,
       funcName,
       params

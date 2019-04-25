@@ -1,5 +1,5 @@
 import { CONST, WebsocketClient } from "ontology-ts-sdk";
-import { prodOptions, testOptions } from "./api/constants";
+import { testOpts, propdOpts } from "./api/constants";
 import { changeNetworkState } from "./redux/status/statusActions";
 import { SettingsState, compareSettings } from "./redux/settings/settingsReducer";
 import { GlobalStore } from "./redux";
@@ -95,18 +95,6 @@ export function getClient(): WebsocketClient {
   return client;
 }
 
-export function getExplorerAddress(): string | null {
-  if (settings === null) {
-    return null;
-  } else if (settings.net === "MAIN") {
-    return "explorer.ont.io";
-  } else if (settings.net === "TEST") {
-    return "polarisexplorer.ont.io";
-  } else {
-    return null;
-  }
-}
-
 export function getNodeAddress(): string | null {
   if (settings == null) {
     return null;
@@ -136,13 +124,9 @@ function isAddress(address: string) {
 }
 
 function isProdAddress(address: string) {
-  return isAddress(address) && prodOptions.value.includes(address);
+  return isAddress(address) && propdOpts.node.address.includes(address);
 }
 
 function isTestAddress(address: string) {
-  return isAddress(address) && testOptions.value.includes(address);
-}
-
-export function getNeoNodeAddress(): string {
-  return "http://neonode1.ont.network:10332";
+  return isAddress(address) && testOpts.node.address.includes(address);
 }

@@ -2,9 +2,13 @@ import axios from "axios";
 import { flatMap, get } from "lodash";
 import { AssetType, Transfer } from "../redux/runtime";
 import { decodeAmount } from "src/utils/number";
+import { getOptions } from "../api/constants";
 
 export async function getTransferList(address: string) {
-  const url = `http://18.202.221.73/api/v1/explorer/address/time/${address}/ont/0`;
+  const options = getOptions();
+  const endpoint = options.blockExplorer.address;
+
+  const url = `${endpoint}/explorer/address/time/${address}/ont/0`;
 
   const response = await axios.get(url);
 
@@ -15,17 +19,15 @@ export async function getTransferList(address: string) {
       const txnTime: number = get(tx, "TxnTime", 0);
       const transferList: any[] = get(tx, "TransferList", []);
 
-      return transferList.map(
-        transfer => {
-          return ({
-            amount: decodeAmount(get(transfer, "Amount", "0"), 8),
-            asset: translateAsset(get(transfer, "AssetName")),
-            from: get(transfer, "FromAddress"),
-            time: txnTime,
-            to: get(transfer, "ToAddress")
-          } as Transfer)
-        }
-      );
+      return transferList.map(transfer => {
+        return {
+          amount: decodeAmount(get(transfer, "Amount", "0"), 8),
+          asset: translateAsset(get(transfer, "AssetName")),
+          from: get(transfer, "FromAddress"),
+          time: txnTime,
+          to: get(transfer, "ToAddress")
+        } as Transfer;
+      });
     })
   );
 }

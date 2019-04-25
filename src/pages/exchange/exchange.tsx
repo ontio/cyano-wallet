@@ -5,8 +5,12 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps, withState, withRouter, lifecycle } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, ExchangeView } from "./exchangeView";
-import { /* convertAmountToBN,  */ convertAmountFromStr, decodeAmount, convertOnyxToOxg } from "../../utils/number";
-import { getOxgExhangeRate } from "../../api/exchangeApi";
+import {
+  /* convertAmountToBN,  */ convertAmountFromStr,
+  decodeAmount,
+  convertOnyxToOxg
+} from "../../utils/number";
+import { getOxgExchangeRate } from "../../api/exchangeApi";
 import { getContractAddress } from "../../api/contractsApi";
 
 interface State {
@@ -27,7 +31,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           componentDidMount: async () => {
             const contract = await getContractAddress("OxgExchange");
             if (contract) {
-              const rate = await getOxgExhangeRate(contract);
+              const rate = await getOxgExchangeRate(contract);
               // handle error
               setState({ exhangeRate: rate, contract });
             }
@@ -48,8 +52,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                 handleConfirm: async (values: object) => {
                   const amountStr = get(values, "amount", "0");
                   const amount = convertAmountFromStr(amountStr, "OXG");
-                  console.log(amountStr, amount);
-                  props.history.push("/exchange-confirm", { amount, contract: state.contract });
+                  props.history.push("/exchange-confirm", { amount });
                 },
                 handleMax: (formProps: FormRenderProps) => {
                   formProps.form.change("amount", maxOxgAmount);

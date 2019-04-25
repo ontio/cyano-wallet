@@ -24,17 +24,18 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         store.dispatch(actions.runtime.setTransfers(transfers));
       }
     },
-    () => reduxConnect(mapStateToProps, dummy, reduxProps =>
-      withProps(
-        {
-          handleBack: () => {
-            props.history.push("/dashboard");
+    () =>
+      reduxConnect(mapStateToProps, dummy, reduxProps =>
+        withProps(
+          {
+            handleBack: () => {
+              props.history.push("/dashboard");
+            },
+            ownAddress: getAddress(reduxProps.wallet)
           },
-          ownAddress: getAddress(reduxProps.wallet)
-        },
-        injectedProps => <Component {...injectedProps} transfers={reduxProps.transfers} />
+          injectedProps => <Component {...injectedProps} transfers={reduxProps.transfers} />
+        )
       )
-    )
   );
 
 export const Transfers = enhancer(TransfersView);

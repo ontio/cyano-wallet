@@ -1,27 +1,50 @@
-// export const testOptions = {
-//   text: "TEST",
-//   value: "35.178.63.10"
-// };
+import { getStore } from "../redux";
 
-// export const prodOptions = {
-//   text: "MAIN",
-//   value: "35.180.188.239"
-// };
-
-export const testOptions = {
-  text: "TEST",
-  value: "cepheus5.onyxpay.co"
+export const testOpts = {
+  node: {
+    text: "OnyxChain Testnet",
+    net: "TEST",
+    address: "cepheus5.onyxpay.co"
+  },
+  head: { address: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41" },
+  gasCompensator: {
+    address: "http://3.120.190.178:5001"
+  },
+  authApi: {
+    address: "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1"
+  },
+  blockExplorer: {
+    address: "http://18.202.221.73/api/v1"
+  }
 };
 
-export const prodOptions = {
-  text: "MAIN",
-  value: "andromeda1.onyxpay.co"
+export const propdOpts = {
+  node: {
+    text: "OnyxChain Mainnet",
+    net: "MAIN",
+    address: "andromeda1.onyxpay.co"
+  },
+  head: { address: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41" },
+  gasCompensator: {
+    address: "http://3.120.190.178:5001"
+  },
+  authApi: {
+    address: "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1"
+  },
+  blockExplorer: {
+    address: "http://18.202.221.73/api/v1"
+  }
 };
 
-export const headAddress = {
-  test: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41",
-  main: ""
-};
+function getNet() {
+  const state = getStore().getState();
+  return state.settings.net;
+}
 
-export const gasCompensatorEndpoint = "http://3.120.190.178:5001";
-export const restEndpoint = "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1";
+export function getOptions(net: string = getNet()) {
+  if (net === "MAIN") {
+    return propdOpts;
+  } else {
+    return testOpts;
+  }
+}
