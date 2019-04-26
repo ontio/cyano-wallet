@@ -1,4 +1,6 @@
 import { Parameter } from 'ontology-dapi';
+import { getWallet } from 'src/api/authApi';
+import { hasIdentity } from 'src/api/identityApi';
 import { v4 as uuid } from 'uuid';
 import { Deferred } from '../deffered';
 import Actions from '../redux/actions';
@@ -109,6 +111,13 @@ export class RequestsManager {
     gasLimit?: number;
     requireIdentity?: boolean;
   }) {
+    const state = this.store.getState();
+    const wallet = getWallet(state.wallet.wallet!);
+    
+    if (args.requireIdentity && !hasIdentity(wallet)) {
+      return Promise.reject('NO_IDENTITY');
+    }
+
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved
@@ -123,12 +132,12 @@ export class RequestsManager {
       }),
     );
 
-    const state = this.store.getState();
     const password = state.password.password;
     const trustedScs = state.settings.trustedScs;
 
-    if (password !== undefined) {
+    if (password !== undefined && args.requireIdentity !== true) {
       // check if we already have password stored
+      // whitelisting is not supported for account+identity sign
 
       const trustedSc = trustedScs.find(
         (t) =>

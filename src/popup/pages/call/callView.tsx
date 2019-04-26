@@ -30,6 +30,7 @@ export interface InitialValues {
 }
 
 export interface Props {
+  allowWhitelist: boolean;
   initialValues: InitialValues;
   loading: boolean;
   locked: boolean;
@@ -138,26 +139,30 @@ export const CallView: React.SFC<Props> = (props) => (
                   />
                 </View>
                 <Spacer />
-                <View orientation="column">
-                  <div>
-                    <label>Whitelist this action</label>
-                    <Popup
-                      trigger={<Icon name="question circle outline" />}
-                      content="Be responsible when using this functionality"
-                    />
-                  </div>
-
-                  <Field
-                    name="whitelist"
-                    render={(t) => (
-                      <SemanticForm.Checkbox
-                        onChange={(e, d) => t.input.onChange(d.checked)}
-                        checked={Boolean(t.input.value)}
-                        error={t.meta.touched && t.meta.invalid}
+                {props.allowWhitelist ? (
+                  <View orientation="column">
+                    <div>
+                      <label>Whitelist this action</label>
+                      <Popup
+                        trigger={<Icon name="question circle outline" />}
+                        content="Be responsible when using this functionality"
                       />
-                    )}
-                  />
-                </View>
+                    </div>
+                    <Field
+                      name="whitelist"
+                      render={(t) => (
+                        <SemanticForm.Checkbox
+                          onChange={(e, d) => t.input.onChange(d.checked)}
+                          checked={Boolean(t.input.value)}
+                          error={t.meta.touched && t.meta.invalid}
+                        />
+                      )}
+                    />
+                  </View>
+                  ) : (
+                    <></>
+                  )
+                }
               </View>
             </View>
             <Filler />

@@ -19,6 +19,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { isScCallRequest } from 'src/redux/transactionRequests';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions, GlobalState } from '../../../redux';
 import { LedgerConfirmView, Props } from './ledgerConfirmView';
@@ -44,6 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         const requestId: string = get(props.location, 'state.requestId');
         const redirectSucess: string = get(props.location, 'state.redirectSucess');
         const redirectFail: string = get(props.location, 'state.redirectFail');
+        const identityConfirm: boolean = get(props.location, 'state.identityConfirm', false);
 
         
         await actions.startLoading();
@@ -60,11 +62,19 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         if (request.error !== undefined) {
           props.history.push(redirectFail, { requestId });
         } else {
-          props.history.push(redirectSucess, { requestId });
+          if (isScCallRequest(request) && request.requireIdentity && !identityConfirm) {
+            // if this is SC CALL request
+            // and it requires identity Confirm
+            // and this is account confirm
+            // go to identity confirm instead of success
+            props.history.push('/confirm', { ...props.location.state, identityConfirm: true });
+          } else {
+            props.history.push(redirectSucess, { ...props.location.state, request });
+          }
         }
       }
     }, (injectedProps) => (
-      <Component {...injectedProps} loading={reduxProps.loading} />
+      <Component {...injectedProps} loading={reduxProps.loading} identityConfirm={get(props.location, 'state.identityConfirm', false)} />
     ))
   ))
 )

@@ -23,6 +23,7 @@ import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 import { required } from '../../utils/validate';
 
 export interface Props {
+  identityConfirm: boolean;
   handleSubmit: (values: object, formApi: FormApi) => Promise<object>;
   handleCancel: () => void;
   loading: boolean;
@@ -33,7 +34,11 @@ export const ConfirmView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
-        <View>Confirm the transaction by unlocking the wallet with your password.</View>
+        {props.identityConfirm ? (
+          <View>Enter password to your identity.</View>
+        ) : (
+          <View>Enter password to your account.</View>
+        )}
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

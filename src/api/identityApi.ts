@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { get } from 'lodash';
 import { Crypto, Identity, utils, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import { deserializePrivateKey } from './accountApi';
@@ -33,6 +34,51 @@ export function decryptIdentity(identity: Identity, password: string, scrypt: an
     size: scrypt.dkLen,
   });
 }
+
+export function decryptDefaultIdentity(wallet: Wallet, password: string, scrypt: any) {
+  const ontId = wallet.defaultOntid !== '' ? wallet.defaultOntid : null;
+
+  if (ontId === null)  {
+    throw new Error('Default identity not found in wallet');
+  }
+
+  const identity = wallet.identities.find((i) => i.ontid === ontId);
+
+  if (identity === undefined) {
+    throw new Error(`Identity ${ontId} not found in the wallet.`);
+  }
+
+  return decryptIdentity(identity, password, scrypt);
+}
+
+export function hasIdentity(wallet: Wallet) {
+  return wallet.identities.length > 0;
+}
+
+export function getDefaultIdentity(wallet: Wallet) {
+  const ontId = wallet.defaultOntid !== '' ? wallet.defaultOntid : null;
+
+  if (ontId === null)  {
+    if (wallet.identities.length > 0) {
+      return wallet.identities[0];
+    } else {
+      throw new Error('No identities found.');
+    }
+  }
+
+  const identity = wallet.identities.find((i) => i.ontid === ontId);
+
+  if (identity === undefined) {
+    throw new Error(`Identity ${ontId} not found in the wallet.`);
+  }
+
+  return identity;
+}
+
+export function isIdentityLedgerKey(wallet: Wallet) {
+  return get(getDefaultIdentity(wallet).controls[0].encryptedKey, 'type') === 'LEDGER';
+}
+
 
 export function identitySignUp(password: string, scrypt: any, neo: boolean) {
   const mnemonics = utils.generateMnemonic(32);

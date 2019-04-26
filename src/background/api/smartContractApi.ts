@@ -16,7 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Parameter } from 'ontology-dapi';
-import { Crypto, TransactionBuilder, utils } from 'ontology-ts-sdk';
+import { Crypto, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { buildInvokePayload } from 'ontology-ts-test';
 import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
@@ -25,37 +25,77 @@ import { getClient } from '../network';
 import { getStore } from '../redux';
 
 import Address = Crypto.Address;
+import {decryptDefaultIdentity } from 'src/api/identityApi';
 
-export async function scCall(request: ScCallRequest, password: string) {
+/**
+ * Creates, signs and sends the transaction for Smart Contract call.
+ * 
+ * Can work in two modes:
+ * 1. simple account sign (requireIdentity = false)
+ *  - the transaction is created, signed and sent in one step
+ * 2. account + identity sign (requireIdentity = true)
+ *  - the transaction is created, signed by account and stored in first step (presignedTransaction = undefined)
+ *  - signed by identity and sent in second step (presignedTransaction = serialized transaction)
+ * 
+ * @param request request describing the SC call
+ * @param password password to decode the private key (account or identity)
+ */
+export async function scCall(request: ScCallRequest, password: string): Promise<string | any> {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
   request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
   request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
 
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
-
   const account = getAccount(state.wallet.wallet!).address;
-  const privateKey = decryptAccount(wallet, password);
+  
+  let tx: Transaction;
+  if (request.presignedTransaction) {
+    tx = Transaction.deserialize(request.presignedTransaction);
+  } else {
+    // convert params
+    const params = convertParams(request.parameters);
+    const payload = buildInvokePayload(request.contract, request.method, params);
+  
+    tx = TransactionBuilder.makeInvokeTransaction(
+      request.method,
+      [],
+      new Address(utils.reverseHex(request.contract)),
+      String(request.gasPrice),
+      String(request.gasLimit),
+      account,
+    );
 
-  // convert params
-  const params = convertParams(request.parameters);
-  const payload = buildInvokePayload(request.contract, request.method, params);
+    (tx.payload as any).code = payload.toString('hex');
+  }
 
-  const tx = TransactionBuilder.makeInvokeTransaction(
-    request.method,
-    [],
-    new Address(utils.reverseHex(request.contract)),
-    String(request.gasPrice),
-    String(request.gasLimit),
-    account,
-  );
+  let privateKey: Crypto.PrivateKey;
+  if (request.requireIdentity && request.presignedTransaction) {
+    // mode 2, step 2: 
+    // already signed by account
+    // do signature by identity
+    privateKey = decryptDefaultIdentity(wallet, password, wallet.scrypt);
 
-  (tx.payload as any).code = payload.toString('hex');
+    // fixme: add support for async sign
+    TransactionBuilder.addSign(tx, privateKey);
+  } else {
+    // mode 1 or mode 2, step 1:
+    // do signature by account
+    privateKey = decryptAccount(wallet, password);
+    await TransactionBuilder.signTransactionAsync(tx, privateKey);
+  }
 
-  await TransactionBuilder.signTransactionAsync(tx, privateKey);
+  if (request.requireIdentity && !request.presignedTransaction) {
+    // mode 2, step 1
+    // return the presigned transaction to be stored in request
+    // outside of this method
+    return tx.serialize();
 
-  const client = getClient();
-  return await client.sendRawTransaction(tx.serialize(), false, true);
+  } else {
+    // mode 1 or mode 2, step 2
+    const client = getClient();
+    return await client.sendRawTransaction(tx.serialize(), false, true);
+  }
 }
 
 export async function scCallRead(request: ScCallReadRequest) {

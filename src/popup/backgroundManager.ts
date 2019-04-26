@@ -42,6 +42,10 @@ class BackgroundManager {
     return this.rpc.call<boolean>('check_account_password', password);
   }
 
+  public checkIdentityPassword(password: string) {
+    return this.rpc.call<boolean>('check_identity_password', password);
+  }
+
   public checkOntId(encodedIdentity: string, password: string) {
     return this.rpc.call<boolean>('check_ont_id', encodedIdentity, password);
   }

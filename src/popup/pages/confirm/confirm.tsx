@@ -17,6 +17,7 @@
  */
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { isIdentityLedgerKey } from 'src/api/identityApi';
 import { isLedgerKey } from '../../../api/accountApi';
 import { getWallet } from '../../../api/authApi';
 import { isTrezorKey } from '../../../api/trezorApi';
@@ -35,13 +36,23 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouteComponentP
       componentDidMount: async () => {
         const wallet = getWallet(reduxProps.wallet!);
 
-        if (isLedgerKey(wallet)) {
-          props.history.replace('/ledger/confirm', props.location.state);
-        } else if (isTrezorKey(wallet)) {
-          props.history.replace('/trezor/confirm', props.location.state);
+        const identityConfirm = props.location.state.identityConfirm;
+
+        if (identityConfirm) {
+          if (isIdentityLedgerKey(wallet)) {
+            props.history.replace('/ledger/confirm', props.location.state);
+          } else {
+            props.history.replace('/confirm-normal', props.location.state);
+          }
         } else {
-          props.history.replace('/confirm-normal', props.location.state);
-        }
+          if (isLedgerKey(wallet)) {
+            props.history.replace('/ledger/confirm', props.location.state);
+          } else if (isTrezorKey(wallet)) {
+            props.history.replace('/trezor/confirm', props.location.state);
+          } else {
+            props.history.replace('/confirm-normal', props.location.state);
+          }
+        }    
       }
     }, () => (
       <Component />

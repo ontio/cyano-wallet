@@ -73,6 +73,7 @@ export interface ScCallRequest extends TransactionRequest {
   requireIdentity?: boolean;
   parameters?: Parameter[];
   paramsHash?: string;
+  presignedTransaction?: string;
 }
 
 export interface ScDeployRequest extends TransactionRequest {
@@ -126,3 +127,7 @@ export const submitRequest = (id: string, password?: string) => ({
   password,
   type: SUBMIT_REQUEST,
 });
+
+export function isScCallRequest(request: TransactionRequest): request is ScCallRequest {
+  return request.type === 'sc_call';
+}

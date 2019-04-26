@@ -20,6 +20,7 @@ import { Button } from 'semantic-ui-react';
 import { AccountLogoHeader, Filler, StatusBar, View } from '../../../components';
 
 export interface Props {
+  identityConfirm: boolean;
   handleSubmit: () => Promise<void>;
   handleCancel: () => void;
   loading: boolean;
@@ -30,7 +31,11 @@ export const LedgerConfirmView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Confirm transaction" />
       <View content={true} className="spread-around">
-        <View>Confirm the transaction on your Ledger.</View>
+      {props.identityConfirm ? (
+          <View>Confirm identity on Ledger.</View>
+        ) : (
+          <View>Confirm account on Ledger.</View>
+        )}
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

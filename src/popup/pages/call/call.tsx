@@ -49,6 +49,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) =>
     withProps(
       {
+        allowWhitelist: !get(reduxProps.requests.find((r) => r.id === get(props.location, 'state.requestId'))!, 'requireIdentity', false),
         handleCancel: async () => {
           props.history.goBack();
 
@@ -78,8 +79,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             method,
           } as Partial<ScCallRequest>);
 
-          if (reduxProps.password !== undefined) {
+          const requireIdentity = get(reduxProps.requests.find((r) => r.id === get(props.location, 'state.requestId'))!, 'requireIdentity', false)
+
+          if (reduxProps.password !== undefined && requireIdentity !== true) {
             // check if we already have password stored
+            // whitelisting is not supported for account+identity sign
 
             const trustedSc = reduxProps.trustedScs.find(
               (t) =>

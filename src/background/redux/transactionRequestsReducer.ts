@@ -108,6 +108,9 @@ export const transactionRequestsAliases = {
             break;
           case 'sc_call':
             result = await submitScCall(request as ScCallRequest, password!, dispatch, state);
+            if (result === undefined) {
+              return;
+            } 
             break;
           case 'sc_call_read':
             result = await submitScCallRead(request as ScCallReadRequest);
@@ -186,6 +189,10 @@ async function submitRegisterOntId(
 }
 
 function isTrustedSc(request: ScCallRequest, state: GlobalState) {
+  if (request.requireIdentity) {
+    return false;
+  }
+  
   const trustedScs = state.settings.trustedScs;
 
   const trustedSc = trustedScs.find(
@@ -206,22 +213,30 @@ function isTrustedSc(request: ScCallRequest, state: GlobalState) {
 
 async function submitScCall(request: ScCallRequest, password: string, dispatch: Dispatch, state: GlobalState) {
   if (isTrustedSc(request, state)) {
+    // fixme: add support for account+identity password
     await dispatch(Actions.password.setPassword(password));
   }
 
   const response = await timeout(scCall(request, password), 15000);
 
-  if (response.Result.State === 0) {
-    throw new Error('OTHER');
+  if (typeof response === 'string') {
+    dispatch(Actions.transactionRequests.updateRequest<ScCallRequest>(request.id, { presignedTransaction: response }));
+    return undefined;
+  } else {
+    if (response.Result.State === 0) {
+      throw new Error('OTHER');
+    }
+  
+    const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === request.contract).map(
+      (element: any) => element.States,
+    );
+    return {
+      result: notify,
+      transaction: response.Result.TxHash,
+    };
   }
 
-  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === request.contract).map(
-    (element: any) => element.States,
-  );
-  return {
-    result: notify,
-    transaction: response.Result.TxHash,
-  };
+  
 }
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {

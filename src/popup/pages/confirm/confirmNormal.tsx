@@ -20,6 +20,7 @@ import { get } from 'lodash';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { isScCallRequest } from 'src/redux/transactionRequests';
 import { getBackgroundManager } from '../../backgroundManager';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
@@ -51,15 +52,30 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const requestId: string = get(props.location, 'state.requestId');
           const redirectSucess: string = get(props.location, 'state.redirectSucess');
           const redirectFail: string = get(props.location, 'state.redirectFail');
+          const identityConfirm: boolean = get(props.location, 'state.identityConfirm', false);
           const password: string = get(values, 'password', '');
 
-          const passwordCorrect = await getBackgroundManager().checkAccountPassword(password);
-          if (!passwordCorrect) {
-            formApi.change('password', '');
+          // test if the password is correct
+          if (!identityConfirm) {
+            // in case of Identity sign, check password for default identity
+            const passwordCorrect = await getBackgroundManager().checkAccountPassword(password);
+            if (!passwordCorrect) {
+              formApi.change('password', '');
 
-            return {
-              password: '',
-            };
+              return {
+                password: '',
+              };
+            }
+          } else {
+            // in case of Account sign, check password for default account
+            const passwordCorrect = await getBackgroundManager().checkIdentityPassword(password);
+            if (!passwordCorrect) {
+              formApi.change('password', '');
+
+              return {
+                password: '',
+              };
+            }
           }
 
           await actions.startLoading();
@@ -76,13 +92,22 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           if (request.error !== undefined) {
             props.history.push(redirectFail, { ...props.location.state, request });
           } else {
-            props.history.push(redirectSucess, { ...props.location.state, request });
+
+            if (isScCallRequest(request) && request.requireIdentity && !identityConfirm) {
+              // if this is SC CALL request
+              // and it requires identity Confirm
+              // and this is account confirm
+              // go to identity confirm instead of success
+              props.history.push('/confirm', { ...props.location.state, identityConfirm: true });
+            } else {
+              props.history.push(redirectSucess, { ...props.location.state, request });
+            }
           }
 
           return {};
         },
       },
-      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
+      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} identityConfirm={get(props.location, 'state.identityConfirm', false)} />,
     ),
   );
 

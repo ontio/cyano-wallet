@@ -17,6 +17,7 @@
  */
 import { MethodType, Rpc } from 'ontology-dapi';
 import { Identity } from 'ontology-ts-sdk';
+import { decryptDefaultIdentity } from 'src/api/identityApi';
 import { browser } from 'webextension-polyfill-ts';
 import { decryptAccount } from '../api/accountApi';
 import { getWallet } from '../api/authApi';
@@ -53,6 +54,7 @@ export class PopupManager {
 
     this.rpc.register('popup_initialized', this.pupupInitialized.bind(this));
     this.rpc.register('check_account_password', this.checkAccountPassword.bind(this));
+    this.rpc.register('check_identity_password', this.checkIdentityPassword.bind(this));
     this.rpc.register('check_ont_id', this.checkOntId.bind(this));
     this.rpc.register('get_oep4_token', this.getOEP4Token.bind(this));
     this.rpc.register('is_ledger_supported', this.isLedgerSupported.bind(this));
@@ -117,6 +119,22 @@ export class PopupManager {
     try {
       const wallet = getWallet(encodedWallet);
       decryptAccount(wallet, password);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private checkIdentityPassword(password: string) {
+    const encodedWallet = this.store.getState().wallet.wallet;
+    if (encodedWallet === null) {
+      throw new Error('NO_IDENTITY');
+    }
+
+    try {
+      const wallet = getWallet(encodedWallet);
+      decryptDefaultIdentity(wallet, password, wallet.scrypt);
 
       return true;
     } catch (e) {
