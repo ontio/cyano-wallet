@@ -70,7 +70,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   setState({ balance, contract, secret, firstName, sureName, balanceError: null });
                 } else {
                   routerProps.history.push("/trx-error", {
-                    e: "User is not found in block-chain!"
+                    e:
+                      "User is not found in onyxChain! You cannot Claim your investments during one week after creating an account on onyxcoin.io. Try again later..."
                   });
                 }
               }
