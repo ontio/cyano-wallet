@@ -18,7 +18,6 @@ export interface Props {
   handleWithdraw: () => void;
   handleOpenTransfers: () => void;
   handleExchange: () => void;
-  handleInvestorLogin: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = props => (
@@ -31,14 +30,6 @@ export const DashboardView: React.SFC<Props> = props => (
       <View orientation="column" className="balance onyx-balance-column">
         <label className="balance-label">ONYX</label>
         <h1 className="onyx-balance-amount">{props.ontAmount}</h1>
-        <h4
-          onClick={props.handleInvestorLogin}
-          className="claim-onyx"
-          data-tooltip="Claim your investments"
-          data-position="bottom center"
-        >
-          (Claim)
-        </h4>
       </View>
 
       <View orientation="column" className="exchange-box">

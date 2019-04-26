@@ -355,15 +355,12 @@ h1.header {
   align-self: center;
 }
 
-h4.unbound,
-h4.claim-onyx {
-  /* color: #e0e1e2; */
+h4.unbound{
   color: #959ca2;
   cursor: pointer;
 }
 
-h4.unbound:hover,
-h4.claim-onyx:hover {
+h4.unbound:hover {
   color: #595757;
 }
 

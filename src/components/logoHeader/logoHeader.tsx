@@ -18,6 +18,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
         },
         handleSettings: () => {
           routerProps.history.push("/settings");
+        },
+        handleInvestorLogin: () => {
+          routerProps.history.push("/investor-login");
         }
       },
       injectedProps => (
