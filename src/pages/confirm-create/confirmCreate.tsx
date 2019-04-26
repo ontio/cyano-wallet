@@ -9,11 +9,12 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
   return (
     withProps({
       mnemonics,
-      handleContinue: () => {
-        props.history.push('/dashboard');
-      },
       handleConfirm: (data) => {
-          console.log('data :', data);
+        if (mnemonics === data.mnemonics) {
+          props.history.push('/dashboard');
+        } else {
+          console.log('WRONG Mnemonics');
+        }
       }
     }, (injectedProps) => (
       <Component {...injectedProps} />

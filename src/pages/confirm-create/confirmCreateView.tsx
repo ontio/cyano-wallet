@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { LogoHeader, View } from '../../components';
+import { LogoHeader, View, Spacer } from '../../components';
 import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
 import { required } from "../../utils/validate";
 
 export interface Props {
   mnemonics: string;
-  handleContinue: () => void;
   handleConfirm: (data) => void;
 }
 
@@ -16,9 +15,6 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
       <LogoHeader showLogout={false} showAccounts={false} title="Confirm mnemonics phrase" />
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-
-
-
 
     <Form
         onSubmit={props.handleConfirm}
@@ -38,6 +34,9 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
                 )}
               />
             </View>
+            <Spacer/>
+            <Spacer/>
+            <Spacer/>
             <View className="buttons">
               <Button icon="check" content="Confirm" />
               {/* <Button onClick={props.handleCancel}>Cancel</Button> */}
@@ -45,19 +44,7 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
           </SemanticForm>
         )}
       />
-
-
-
-
-
-
-
-
-
-      {/* <View className="buttons">
-        <Button onClick={props.handleContinue}>Confirm</Button>
-      </View> */}
-
+ 
     </View>
   </View>
 );
