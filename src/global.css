@@ -555,3 +555,9 @@ div.flex.balance-container > div.flex {
 .ui.dimmer {
   background-color: rgba(0, 0, 0, 0.8) !important;
 }
+
+.field-error {
+  margin-top: -20px;
+  color: #912d2b;
+  font-size: 14px;
+}

@@ -19,7 +19,8 @@ const mapStateToProps = (state: GlobalState) => ({
   tokens: state.settings.tokens
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
@@ -40,12 +41,23 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           try {
             if (asset === "ONYX" || asset === "OXG") {
               await timeout(
-                transfer(reduxProps.nodeAddress, reduxProps.ssl, reduxProps.wallet, password, recipient, asset, amount),
+                transfer(
+                  reduxProps.nodeAddress,
+                  reduxProps.ssl,
+                  reduxProps.wallet,
+                  password,
+                  recipient,
+                  asset,
+                  amount
+                ),
                 15000
               );
               props.history.push("/sendComplete", { recipient, asset, amount });
             } else {
-              await timeout(transferToken(reduxProps.wallet, password, recipient, asset, amount), 15000);
+              await timeout(
+                transferToken(reduxProps.wallet, password, recipient, asset, amount),
+                15000
+              );
               const tokenDecimals = reduxProps.tokens.find(t => t.symbol === asset);
               props.history.push("/sendComplete", {
                 recipient,
@@ -56,6 +68,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             }
           } catch (e) {
             if (e instanceof TimeoutError) {
+              console.log("eeeeee", e, e.message);
               props.history.push("/sendFailed", { recipient, asset, amount });
             } else if (e === 53000) {
               // 53000 - Decrypto_ERROR (Decryption error)
