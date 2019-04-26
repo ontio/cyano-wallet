@@ -319,7 +319,10 @@ h1.header {
 }
 
 .tokens-list {
-  min-height: 130px;
+  flex-grow: 2;
+}
+.transferList.oep-4 {
+  flex-grow: 1;
 }
 .transferList.oep-4 .item {
   padding: 10px 0;
@@ -327,11 +330,6 @@ h1.header {
 .transferList.oep-4 .item .header {
   margin-bottom: 4px;
 }
-
-/* .no-tokens {
-  position: absolute;
-  top: 280px;
-} */
 
 .transferList.transactions .header {
   font-size: 16px;
@@ -355,15 +353,12 @@ h1.header {
   align-self: center;
 }
 
-h4.unbound,
-h4.claim-onyx {
-  /* color: #e0e1e2; */
+h4.unbound {
   color: #959ca2;
   cursor: pointer;
 }
 
-h4.unbound:hover,
-h4.claim-onyx:hover {
+h4.unbound:hover {
   color: #595757;
 }
 
@@ -555,4 +550,8 @@ div.flex.balance-container > div.flex {
   font-size: 18px;
   margin-right: 5px;
   font-weight: 500;
+}
+
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }

@@ -6,6 +6,7 @@ export interface Props {
   title: string;
   handleSettings: () => void;
   handleAccounts: () => void;
+  handleInvestorLogin: () => void;
   showSettings: boolean;
   showAccounts: boolean;
 }
@@ -20,15 +21,26 @@ export const LogoHeaderView: React.SFC<Props> = props => (
 
       <View orientation="row" className="buttons">
         {props.showAccounts ? (
-          <Button
-            onClick={props.handleAccounts}
-            size="big"
-            compact={true}
-            basic={true}
-            icon="users"
-            data-tooltip="Change account"
-            data-position="bottom right"
-          />
+          <>
+            <Button
+              onClick={props.handleInvestorLogin}
+              size="big"
+              compact={true}
+              basic={true}
+              icon="angle double down"
+              data-tooltip="Claim your investments"
+              data-position="bottom right"
+            />
+            <Button
+              onClick={props.handleAccounts}
+              size="big"
+              compact={true}
+              basic={true}
+              icon="users"
+              data-tooltip="Change account"
+              data-position="bottom right"
+            />
+          </>
         ) : null}
         {props.showSettings ? (
           <Button

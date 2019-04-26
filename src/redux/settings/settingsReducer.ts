@@ -1,6 +1,7 @@
 import { Reducer } from "redux";
 import { SET_SETTINGS, ADD_TOKEN, DEL_TOKEN } from "./settingsActions";
-import { testOptions } from "../../api/constants";
+// import { testOpts } from "../../api/constants";
+
 export type NetValue = "TEST" | "MAIN" | "PRIVATE";
 
 export interface TokenState {
@@ -20,13 +21,12 @@ export interface SettingsState {
 const settingsCash = localStorage.getItem("settings");
 
 const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) || {
-  nodeAddress: testOptions.value,
+  nodeAddress: "andromeda1.onyxpay.co",
   ssl: false,
-  net: testOptions.text,
+  net: "MAIN",
   tokens: []
 };
 
-// TODO: refactor saving to ls to a single Provider
 export const settingsReducer: Reducer<SettingsState> = (state = defaultState, action) => {
   switch (action.type) {
     case SET_SETTINGS:

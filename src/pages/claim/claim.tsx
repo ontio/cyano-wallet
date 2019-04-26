@@ -27,7 +27,8 @@ const mapStateToProps = (state: GlobalState) => ({
   net: state.settings.net
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   withRouter(routerProps =>
@@ -37,31 +38,31 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         lifecycle(
           {
             componentDidMount: async () => {
-              // const username: string = get(routerProps.location, "state.userName", "");
-              // const passwordHash: string = get(routerProps.location, "state.password", "");
+              const username: string = get(routerProps.location, "state.username", "");
               const userData: any = get(routerProps.location, "state.userData", "");
+              const passwordHash = userData.pass_for_claim;
               const firstName = userData.field_afl_first_name.und[0].value;
               const sureName = userData.field_afl_surname.und[0].value;
-
               let balance: string | null = null;
               const contract = await getContractAddress("Investments");
-              // const secretHash = createSecret(username, passwordHash, true);
-              // const secret = createSecret(username, passwordHash);
-              const secretHash = createSecret(
-                "A833682",
-                "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T",
-                true
-              );
-              const secret = createSecret("A833682", "$S$D5qEwDIeGjNFVzIv6ngAADZNpFId4LbJTAGrU0YNZIxAMZXpLz6T");
-              console.log("secret", secret);
+              console.log("#contract", contract);
+              const secretHash = createSecret(username, passwordHash, true);
+              const secret = createSecret(username, passwordHash);
               if (contract) {
                 balance = await getUnclaimedBalance(contract, secretHash);
               } else {
-                // show error message
+                // show error message from bc
               }
 
               if (balance === "0") {
-                setState({ balance, contract, secret, firstName, sureName, balanceError: "Nothing to claim!" });
+                setState({
+                  balance,
+                  contract,
+                  secret,
+                  firstName,
+                  sureName,
+                  balanceError: "Nothing to claim!"
+                });
               } else if (Number(balance)) {
                 setState({ balance, contract, secret, firstName, sureName, balanceError: null });
               } else {
@@ -84,7 +85,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                       // actions.startLoading();
                       const { contract, secret } = state;
 
-                      routerProps.history.push("/claim-onyx-confirm", { contract, secret, balance: state.balance });
+                      routerProps.history.push("/claim-onyx-confirm", {
+                        contract,
+                        secret,
+                        balance: state.balance
+                      });
                       return {};
                     } else {
                       formApi.change("mnemonics", "");

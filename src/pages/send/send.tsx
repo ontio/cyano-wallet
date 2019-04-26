@@ -5,7 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
-import { convertAmountToBN } from "../../utils/number";
+import { convertAmountToBN, convertAmountFromStr } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -17,7 +17,10 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, dummy, reduxProps => {
-    const tokenOptions = reduxProps.tokens.map(token => ({ text: token.symbol, value: token.symbol }));
+    const tokenOptions = reduxProps.tokens.map(token => ({
+      text: token.symbol,
+      value: token.symbol
+    }));
     const nativeOptions = [
       {
         text: "ONYX",
@@ -38,7 +41,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         handleConfirm: async (values: object) => {
           const recipient = get(values, "recipient", "");
           const asset = get(values, "asset", "");
-          const amount = get(values, "amount", "0");
+          const amountStr = get(values, "amount", "0");
+          const amount = convertAmountFromStr(amountStr, asset);
           props.history.push("/sendConfirm", { recipient, asset, amount });
         },
         handleMax: (formProps: FormRenderProps) => {
@@ -64,7 +68,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         }
       },
       injectedProps => (
-        <Component {...injectedProps} ontAmount={reduxProps.ontAmount} ongAmount={reduxProps.ongAmount} />
+        <Component
+          {...injectedProps}
+          ontAmount={reduxProps.ontAmount}
+          ongAmount={reduxProps.ongAmount}
+        />
       )
     );
   });

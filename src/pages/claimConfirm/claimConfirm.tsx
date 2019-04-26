@@ -20,7 +20,8 @@ const mapStateToProps = (state: GlobalState) => ({
   tokens: state.settings.tokens
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ startLoading, finishLoading }, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({ startLoading, finishLoading }, dispatch);
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
@@ -32,7 +33,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
         handleSubmit: async (values: object, formApi: FormApi) => {
           const password: string = get(values, "password", "");
-          const contract: string = get(props.location, "state.contract", "");
           const secret: string = get(props.location, "state.secret", "");
           const balance: string = get(props.location, "state.balance", "");
           if (checkAccountPassword(reduxProps.wallet, password)) {
@@ -45,7 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           actions.startLoading();
 
           try {
-            await timeout(claimOnyx(contract, secret, reduxProps.wallet, password), 15000);
+            await timeout(claimOnyx(secret, reduxProps.wallet, password), 15000);
             props.history.push("/trx-complete", {
               type: "claim",
               amount: convertAmountFromStr(balance, "ONYX"),

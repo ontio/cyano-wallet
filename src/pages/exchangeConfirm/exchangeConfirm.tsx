@@ -13,8 +13,6 @@ import { exchangeOnyx } from "../../api/exchangeApi";
 
 const mapStateToProps = (state: GlobalState) => ({
   loading: state.loader.loading,
-  nodeAddress: state.settings.nodeAddress,
-  ssl: state.settings.ssl,
   wallet: state.wallet.wallet
 });
 
@@ -31,7 +29,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
         handleSubmit: async (values: object, formApi: FormApi) => {
           const password: string = get(values, "password", "");
-          const contract: string = get(props.location, "state.contract", "");
           const amount: number = get(props.location, "state.amount", 0);
 
           if (checkAccountPassword(reduxProps.wallet, password)) {
@@ -44,7 +41,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           actions.startLoading();
 
           try {
-            await timeout(exchangeOnyx(amount, contract, reduxProps.wallet, password), 15000);
+            await timeout(exchangeOnyx(amount, reduxProps.wallet, password), 15000);
             props.history.push("/trx-complete", {
               type: "exhange-onyx",
               amount,

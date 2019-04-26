@@ -39,7 +39,7 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
             Your Onyx coins will be claimed on address: <strong>{props.currentAddress}</strong>
           </p>
           <p>Make sure you remember or have written down your mnemonics phrase and private key.</p>
-          <p>If you don't, you can possible loose access to your money.</p>
+          <p>If you don't, you can possibly lose access to your money.</p>
         </Message>
       ) : null}
 

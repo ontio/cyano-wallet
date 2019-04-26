@@ -2,22 +2,18 @@ import { get } from "lodash";
 import * as React from "react";
 import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
-import { Settings } from "../../api/settingsApi";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
 import { required } from "../../utils/validate";
+import { SettingsState, NetValue } from "../../redux/settings/settingsReducer";
 
 export interface Props {
-  ontAmount: number;
-  ongAmount: number;
   handleSave: (values: object) => Promise<void>;
   handleCancel: () => void;
   handleTokenSettings: () => void;
-  settings: Settings;
+  settings: SettingsState;
 }
 
-export type NetValues = "TEST" | "MAIN" | "PRIVATE";
-
-const netOptions: Array<{ text: string; value: NetValues }> = [
+const netOptions: Array<{ text: string; value: NetValue }> = [
   {
     text: "Test-Net",
     value: "TEST"
@@ -25,20 +21,18 @@ const netOptions: Array<{ text: string; value: NetValues }> = [
   {
     text: "Main-Net",
     value: "MAIN"
-  },
-  {
-    text: "Private-Net",
-    value: "PRIVATE"
   }
+  // {
+  //   text: "Private-Net",
+  //   value: "PRIVATE"
+  // }
 ];
 
 export const SettingsView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} showSettings={false} title="Settings" />
-      <View content={true} className="spread-around">
-        <View>Wallet needs to be restarted for changes to take effect.</View>
-      </View>
+      <View content={true} className="spread-around" />
     </View>
     <View orientation="column" fluid={true} content={true}>
       <Form
