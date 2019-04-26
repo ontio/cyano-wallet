@@ -60,7 +60,11 @@ export function accountImportMnemonics(
   };
 }
 
-export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
+export function accountImportPrivateKey(
+  privateKeyStr: string,
+  password: string,
+  wallet: string | Wallet | null
+) {
   if (wallet === null) {
     wallet = Wallet.create(uuid());
   } else {
@@ -107,7 +111,8 @@ export function accountDelete(address: string, wallet: string | Wallet) {
   }
 
   if (wallet.defaultAccountAddress === address) {
-    wallet.defaultAccountAddress = wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : "";
+    wallet.defaultAccountAddress =
+      wallet.accounts.length > 0 ? wallet.accounts[0].address.toBase58() : "";
   }
 
   return {

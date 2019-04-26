@@ -29,7 +29,7 @@ export const propdOpts = {
     address: "http://andromeda-compensator.onyxpay.co:8001"
   },
   authApi: {
-    address: "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1" // change url
+    address: "https://ico.onyxcoin.io/api/v1"
   },
   blockExplorer: {
     address: "http://35.180.67.84/api/v1"
