@@ -29,17 +29,20 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       lifecycle(
         {
           componentDidMount: async () => {
-            const contract = await getContractAddress("OxgExchange");
-            if (contract) {
-              const rate = await getOxgExchangeRate(contract);
-              // handle error
-              setState({ exhangeRate: rate, contract });
+            try {
+              const contract = await getContractAddress("OxgExchange");
+              if (contract) {
+                const rate = await getOxgExchangeRate(contract);
+                setState({ exhangeRate: rate, contract });
+              }
+            } catch (error) {
+              props.history.push("/trx-error", { e: error });
             }
           }
         },
         () => {
           return reduxConnect(mapStateToProps, dummy, (reduxProps, actions) => {
-            const exhangeRate = state.exhangeRate ? decodeAmount(state.exhangeRate, 8) : "n/a";
+            const exhangeRate = state.exhangeRate ? decodeAmount(state.exhangeRate, 8) : null;
             let maxOxgAmount = "0";
             if (state.exhangeRate) {
               maxOxgAmount = convertOnyxToOxg(reduxProps.ontAmount, state.exhangeRate);

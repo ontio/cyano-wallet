@@ -30,24 +30,14 @@ export async function exchangeOnyx(amount: number, walletEncoded: any, password:
     { label: "address", value: address, type: ParameterType.ByteArray }
   ];
 
-  try {
-    const res = await axios.post(`${endpoint}/api/compensate-gas`, {
-      contractName,
-      funcName,
-      params
-    });
-    const tx = Transaction.deserialize(res.data.data);
-    TransactionBuilder.addSign(tx, privateKey);
-    await client.sendRawTransaction(tx.serialize(), false, true);
-  } catch (err) {
-    // TODO: handle errors from compensator
-    if (err.response) {
-      console.error("exchangeOnyx", err.response.data);
-    } else {
-      console.error("exchangeOnyx!!!!!!!", err);
-      throw new Error(err);
-    }
-  }
+  const res = await axios.post(`${endpoint}/api/compensate-gas`, {
+    contractName,
+    funcName,
+    params
+  });
+  const tx = Transaction.deserialize(res.data.data);
+  TransactionBuilder.addSign(tx, privateKey);
+  await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
 export async function getOxgExchangeRate(contract: string) {
@@ -62,15 +52,12 @@ export async function getOxgExchangeRate(contract: string) {
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
 
-  try {
-    const response = await client.sendRawTransaction(tx.serialize(), true);
-    const data = get(response, "Result.Result", "");
-    const rate = Long.fromString(utils.reverseHex(data), true, 16).toString();
-    console.log("response:", rate);
-
+  const response = await client.sendRawTransaction(tx.serialize(), true);
+  const data = get(response, "Result.Result");
+  const rate = Long.fromString(utils.reverseHex(data), true, 16).toString();
+  if (rate !== "0") {
     return rate;
-  } catch (e) {
-    console.log(e);
+  } else {
     return null;
   }
 }
