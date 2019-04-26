@@ -7,6 +7,7 @@ interface Props {
   fluid?: boolean;
   className?: string;
   children?: React.ReactNode;
+  style?: object;
 }
 
 export const View: React.SFC<Props> = props => {
@@ -28,7 +29,11 @@ export const View: React.SFC<Props> = props => {
     className += " " + props.className;
   }
 
-  return <div className={className}>{props.children}</div>;
+  return (
+    <div className={className} style={props.style}>
+      {props.children}
+    </div>
+  );
 };
 
 export const Spacer: React.SFC<{}> = () => <View className="spacer" />;

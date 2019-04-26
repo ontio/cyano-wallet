@@ -353,7 +353,7 @@ h1.header {
   align-self: center;
 }
 
-h4.unbound{
+h4.unbound {
   color: #959ca2;
   cursor: pointer;
 }
@@ -550,4 +550,8 @@ div.flex.balance-container > div.flex {
   font-size: 18px;
   margin-right: 5px;
   font-weight: 500;
+}
+
+.ui.dimmer {
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }

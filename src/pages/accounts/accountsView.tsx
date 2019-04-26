@@ -18,8 +18,7 @@ export interface Props {
 }
 
 export const AccountsView: React.SFC<Props> = props => (
-  <View orientation="column" fluid={true}>
-
+  <View orientation="column" fluid={true} style={{ position: "relative" }}>
     <Dimmer active={props.loading}>
       <Loader />
     </Dimmer>
@@ -31,7 +30,9 @@ export const AccountsView: React.SFC<Props> = props => (
       </View>
     </View>
 
-    <View className="list-header"><span>Accounts in my wallet</span></View>
+    <View className="list-header">
+      <span>Accounts in my wallet</span>
+    </View>
 
     <View className="list-btns-box">
       <View orientation="column" className="list">
@@ -43,8 +44,8 @@ export const AccountsView: React.SFC<Props> = props => (
         />
       </View>
       <View orientation="column" className="btns">
-        <Button icon="add" content="Add account" onClick={props.handleAdd}/>
-        <Spacer/>
+        <Button icon="add" content="Add account" onClick={props.handleAdd} />
+        <Spacer />
         <Button type="button" onClick={props.handleExport} content="Export wallet" />
         <Spacer />
         <Button type="button" onClick={props.handleClear} content="Clear wallet" icon="delete" />
