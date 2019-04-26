@@ -43,30 +43,36 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const passwordHash = userData.pass_for_claim;
               const firstName = userData.field_afl_first_name.und[0].value;
               const sureName = userData.field_afl_surname.und[0].value;
-              let balance: string | null = null;
-              const contract = await getContractAddress("Investments");
-              console.log("#contract", contract);
+              let contract;
+              let balance;
               const secretHash = createSecret(username, passwordHash, true);
               const secret = createSecret(username, passwordHash);
-              if (contract) {
-                balance = await getUnclaimedBalance(contract, secretHash);
-              } else {
-                // show error message from bc
+
+              try {
+                contract = await getContractAddress("Investments");
+              } catch (error) {
+                routerProps.history.push("/trx-error", { e: error });
               }
 
-              if (balance === "0") {
-                setState({
-                  balance,
-                  contract,
-                  secret,
-                  firstName,
-                  sureName,
-                  balanceError: "Nothing to claim!"
-                });
-              } else if (Number(balance)) {
-                setState({ balance, contract, secret, firstName, sureName, balanceError: null });
-              } else {
-                // show error message
+              if (contract) {
+                balance = await getUnclaimedBalance(contract, secretHash);
+
+                if (balance === "0") {
+                  setState({
+                    balance,
+                    contract,
+                    secret,
+                    firstName,
+                    sureName,
+                    balanceError: "Nothing to claim!"
+                  });
+                } else if (Number(balance)) {
+                  setState({ balance, contract, secret, firstName, sureName, balanceError: null });
+                } else {
+                  routerProps.history.push("/trx-error", {
+                    e: "User is not found in block-chain!"
+                  });
+                }
               }
             }
           },
@@ -82,7 +88,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   handleСonfirm: async (values: object, formApi: FormApi) => {
                     const mnemonics = get(values, "mnemonics", "");
                     if (isCurrentUserMnemonics(mnemonics, reduxProps.wallet)) {
-                      // actions.startLoading();
                       const { contract, secret } = state;
 
                       routerProps.history.push("/claim-onyx-confirm", {
