@@ -24,13 +24,9 @@ export async function getContractAddress(contractName: string) {
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
-  try {
-    const response = await client.sendRawTransaction(tx.serialize(), true);
-    // contract address should be reversed in trx builder!
-    const address = utils.hexstr2str(get(response, "Result.Result"));
-    return address;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+
+  const response = await client.sendRawTransaction(tx.serialize(), true);
+  // contract address should be reversed in trx builder!
+  const address = utils.hexstr2str(get(response, "Result.Result"));
+  return address;
 }

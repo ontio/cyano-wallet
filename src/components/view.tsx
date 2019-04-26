@@ -2,7 +2,6 @@ import * as React from "react";
 
 interface Props {
   orientation?: "row" | "column";
-
   content?: boolean;
   fluid?: boolean;
   className?: string;
