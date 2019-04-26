@@ -16,7 +16,10 @@ export const LoginView: React.SFC<Props> = props => (
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="Investor account" />
       <View content={true} className="spread-around">
-        <View>Enter your username and password from https://ico.onyxcoin.io site to log in as an investor.</View>
+        <View>
+          Enter your username and password from https://ico.onyxcoin.io site to log in as an
+          investor.
+        </View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
@@ -65,9 +68,7 @@ export const LoginView: React.SFC<Props> = props => (
               <Button disabled={props.loading} loading={props.loading} role="submit" type="submit">
                 Next
               </Button>
-              <Button disabled={props.loading} onClick={props.handleGoBack}>
-                Back
-              </Button>
+              <Button /* disabled={props.loading} */ onClick={props.handleGoBack}>Back</Button>
             </View>
           </SemanticForm>
         )}

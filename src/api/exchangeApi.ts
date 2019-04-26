@@ -11,15 +11,10 @@ import {
 import * as Long from "long";
 import { getWallet } from "./authApi";
 import { getAccount, decryptAccount } from "./accountApi";
-import { gasCompensatorEndpoint } from "../api/constants";
+import { getOptions } from "../api/constants";
 import axios from "axios";
 
-export async function exchangeOnyx(
-  amount: number,
-  contract: string,
-  walletEncoded: any,
-  password: string
-) {
+export async function exchangeOnyx(amount: number, walletEncoded: any, password: string) {
   const contractName = "OxgExchange";
   const funcName = "Buy";
   const wallet = getWallet(walletEncoded);
@@ -27,6 +22,8 @@ export async function exchangeOnyx(
   address = utils.reverseHex(address);
   const client = getClient();
   const privateKey = decryptAccount(wallet, password);
+  const options = getOptions();
+  const endpoint = options.gasCompensator.address;
 
   const params = [
     { label: "amount", value: amount, type: ParameterType.Int },
@@ -34,7 +31,7 @@ export async function exchangeOnyx(
   ];
 
   try {
-    const res = await axios.post(`${gasCompensatorEndpoint}/api/compensate-gas`, {
+    const res = await axios.post(`${endpoint}/api/compensate-gas`, {
       contractName,
       funcName,
       params
@@ -47,12 +44,13 @@ export async function exchangeOnyx(
     if (err.response) {
       console.error("exchangeOnyx", err.response.data);
     } else {
-      console.error("exchangeOnyx", err);
+      console.error("exchangeOnyx!!!!!!!", err);
+      throw new Error(err);
     }
   }
 }
 
-export async function getOxgExhangeRate(contract: string) {
+export async function getOxgExchangeRate(contract: string) {
   const client = getClient();
   const funcName = "GetBuyRate";
 

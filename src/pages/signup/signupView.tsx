@@ -25,12 +25,16 @@ export const SignupView: React.SFC<Props> = props => (
           Restore account
         </Button>
         <Spacer />
-        <span className="ui button">
-          <label htmlFor="inputWallet" style={{ cursor: "inherit" }}>
-            Import wallet
-          </label>
-          <input type="file" id="inputWallet" style={{ display: "none" }} onChange={props.handleWalletImport} />
-        </span>
+
+        <label className="ui button" htmlFor="inputWallet" style={{ cursor: "pointer" }}>
+          Import wallet
+          <input
+            type="file"
+            id="inputWallet"
+            style={{ display: "none" }}
+            onChange={props.handleWalletImport}
+          />
+        </label>
       </View>
     </View>
   </View>
