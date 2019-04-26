@@ -11,7 +11,7 @@ export const testOpts = {
     address: "http://cepheus-compensator.onyxpay.co:5001"
   },
   authApi: {
-    address: "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1"
+    address: "http://preprod.onyxcoin.io/api/v1/login"
   },
   blockExplorer: {
     address: "http://18.202.221.73/api/v1"
