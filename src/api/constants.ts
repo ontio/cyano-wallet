@@ -22,7 +22,7 @@ export const propdOpts = {
   node: {
     text: "OnyxChain Mainnet",
     net: "MAIN",
-    address: "https://andromeda-sync.onyxpay.co:8443"
+    address: "andromeda-sync.onyxpay.co:8443"
   },
   head: { address: "34bef74a6ba72e2fdcecf2b3c67be9b26c70dac8" },
   gasCompensator: {
