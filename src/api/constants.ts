@@ -14,7 +14,7 @@ export const testOpts = {
     address: "http://ec2-18-188-92-82.us-east-2.compute.amazonaws.com:7766/api/v1"
   },
   blockExplorer: {
-    address: "http://18.202.221.73/api/v1"
+    address: "http://cepheus-explorer.onyxpay.co/api/v1"
   }
 };
 
@@ -22,7 +22,7 @@ export const propdOpts = {
   node: {
     text: "OnyxChain Mainnet",
     net: "MAIN",
-    address: "andromeda1.onyxpay.co"
+    address: "andromeda-sync.onyxpay.co:8443"
   },
   head: { address: "34bef74a6ba72e2fdcecf2b3c67be9b26c70dac8" },
   gasCompensator: {
@@ -32,7 +32,7 @@ export const propdOpts = {
     address: "https://ico.onyxcoin.io/api/v1"
   },
   blockExplorer: {
-    address: "http://35.180.67.84/api/v1"
+    address: "http://andromeda-explorer.onyxpay.co/api/v1"
   }
 };
 
