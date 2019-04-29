@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "OnyxPay web wallet",
-  "author": "OnyxPay <mail@onyxpay.co>",
-  "description": "OnyxPay web wallet",
+  "name": "Ontology web wallet",
+  "author": "Matus Zamborsky <zamborsky@gmail.com>",
+  "description": "Chrome plugin for Ontology wallet",
   "version": "0.1.6",
 
   "browser_action": {
