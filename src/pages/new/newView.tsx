@@ -36,6 +36,11 @@ export const NewView: React.SFC<Props> = (props) => (
         </View>
       </View>
     </View>
+    <View className="red-text-on-create-new">
+      <p><strong>NOTE</strong>: To protect your privacy, Onyx Wallet does not store private keys externally. 
+      Private keys are stored <strong>only</strong> in your browser and encrypted with your password. 
+      Clearing local storage may result in <strong>permanent loss</strong> of private keys. Make sure to <strong>always backup your private key and mnemonics phrase</strong>.</p>
+    </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <label>Mnemonics phrase</label>
       <Message className="scroll">{props.mnemonics}</Message>

@@ -574,3 +574,14 @@ div.flex.balance-container > div.flex {
   color: #912d2b;
   font-size: 14px;
 }
+
+.red-text-on-create-new {
+  padding: 40px 40px 20px 40px;
+}
+.red-text-on-create-new p {
+  color: red;
+  background: #fff;
+  padding: 10px 16px;
+  line-height: 24px;
+  border: dotted rgba(0,0,0,.87) 1px;
+}
