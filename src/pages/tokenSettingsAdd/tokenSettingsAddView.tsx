@@ -41,10 +41,10 @@ export const TokenSettingsAddView: React.SFC<Props> = props => (
             <Filler />
             <Spacer />
             <View className="buttons">
-              <Button icon="check" content="Confirm" disabled={props.loading} loading={props.loading} />
               <Button disabled={props.loading} onClick={props.handleCancel}>
                 Cancel
               </Button>
+              <Button icon="check" content="Confirm" disabled={props.loading} loading={props.loading} />
             </View>
           </SemanticForm>
         )}

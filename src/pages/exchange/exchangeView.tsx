@@ -10,7 +10,7 @@ export interface Props {
   handleConfirm: (values: object) => Promise<void>;
   handleMax: (formProps: FormRenderProps) => void;
   handleCancel: () => void;
-  exhangeRate: string;
+  exhangeRate: string | null;
   maxOxgAmount: string;
 }
 
@@ -26,19 +26,41 @@ export const ExchangeView: React.SFC<Props> = props => (
       <Form
         onSubmit={props.handleConfirm}
         render={formProps => {
-          // console.log(formProps);
           return (
             <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
               <Segment.Group compact={true}>
                 <Segment>
-                  Exchange rate: 1 OXG = <span>{props.exhangeRate}</span> ONYX
+                  <div>
+                    Exchange rate:
+                    <span className="exch-container">
+                      {props.exhangeRate ? (
+                        <>
+                          <span className="exch-amount">1</span>
+                          <span className="exch-coin">OXG</span>
+                          <span style={{ marginRight: "3px" }}>=</span>
+                          <span className="exch-amount">{props.exhangeRate}</span>
+                          <span className="exch-coin">ONYX</span>
+                        </>
+                      ) : (
+                        <span>n/a</span>
+                      )}
+                    </span>
+                  </div>
                 </Segment>
                 <Segment>
-                  You will give:{" "}
-                  <span className="unclaimed-onyx-balance">
-                    {formProps.values.amount ? convertOxgToOnyx(formProps.values.amount, props.exhangeRate) : "n/a"}
+                  You will give:
+                  <span className="exch-container">
+                    {formProps.values.amount ? (
+                      <>
+                        <span className="exch-amount">
+                          {convertOxgToOnyx(formProps.values.amount, props.exhangeRate)}
+                        </span>
+                        <span className="exch-coin">ONYX</span>
+                      </>
+                    ) : (
+                      <span>n/a</span>
+                    )}
                   </span>
-                  <span className="unclaimed-onyx-label">ONYX</span>
                 </Segment>
               </Segment.Group>
               <View orientation="column">
@@ -54,8 +76,14 @@ export const ExchangeView: React.SFC<Props> = props => (
                       onChange={t.input.onChange}
                       input={{ ...t.input, value: t.input.value }}
                       error={t.meta.touched && t.meta.invalid}
-                      // disabled={get(formProps.values, "asset") === undefined}
-                      action={<Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" />}
+                      disabled={!props.exhangeRate}
+                      action={
+                        <Button
+                          type="button"
+                          onClick={() => props.handleMax(formProps)}
+                          content="MAX"
+                        />
+                      }
                     />
                   )}
                 />
@@ -63,8 +91,8 @@ export const ExchangeView: React.SFC<Props> = props => (
               <Spacer />
               <Filler />
               <View className="buttons">
-                <Button icon="check" content="Confirm" />
                 <Button onClick={props.handleCancel}>Cancel</Button>
+                <Button icon="check" content="Confirm" disabled={!props.exhangeRate} />
               </View>
             </SemanticForm>
           );

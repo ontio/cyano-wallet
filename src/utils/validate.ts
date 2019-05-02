@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { utils } from "ontology-ts-sdk";
+import { utils, Crypto } from "ontology-ts-sdk";
 
 export function validMnemonics(value: string) {
   try {
@@ -72,4 +72,13 @@ export function gte(than: number) {
     const val = Number(value);
     return val < than;
   };
+}
+
+export function testBase58Address(address: string) {
+  try {
+    new Crypto.Address(address).toHexString();
+    return undefined;
+  } catch (error) {
+    return "Recipient's address should be in base58 format";
+  }
 }
