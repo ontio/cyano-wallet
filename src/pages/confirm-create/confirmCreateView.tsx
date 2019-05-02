@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LogoHeader, View, Spacer } from '../../components';
 import { Field, Form } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
-import { required } from "../../utils/validate";
+import { required } from 'src/utils/validate';
 
 export interface Props {
   mnemonics: string;
@@ -28,8 +28,9 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
                 render={t => (
                   <SemanticForm.Input
                     onChange={t.input.onChange}
-                    value={t.input.value}
-                    error={t.meta.touched && t.meta.invalid}
+                    input={{ ...t.input, value: t.input.value }}
+                    type="text"
+                    error={formProps.submitError}
                   />
                 )}
               />
