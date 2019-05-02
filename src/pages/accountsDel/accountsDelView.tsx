@@ -43,6 +43,9 @@ export const AccountsDelView: React.SFC<Props> = (props) => (
       <Spacer />
       <Filler />
       <View className="buttons">
+        <Button disabled={props.loading} onClick={props.handleCancel}>
+          Cancel
+        </Button>
         <Button
           icon="check"
           disabled={props.loading}
@@ -50,9 +53,6 @@ export const AccountsDelView: React.SFC<Props> = (props) => (
           onClick={props.handleConfirm}
           content="Confirm"
         />
-        <Button disabled={props.loading} onClick={props.handleCancel}>
-          Cancel
-        </Button>
       </View>
     </View>
   </View>

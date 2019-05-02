@@ -48,7 +48,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
               asset: "OXG"
             });
           } catch (e) {
-            // TODO: handle compensator errors
             if (e instanceof TimeoutError) {
               props.history.push("/trx-timed-out", {
                 type: "exhange-onyx",

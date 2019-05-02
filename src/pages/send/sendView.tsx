@@ -3,7 +3,7 @@ import * as React from "react";
 import { Field, Form, FormRenderProps } from "react-final-form";
 import { Button, Form as SemanticForm } from "semantic-ui-react";
 import { Filler, LogoHeader, Spacer, View } from "../../components";
-import { range, required } from "../../utils/validate";
+import { range, required, testBase58Address } from "../../utils/validate";
 
 export interface AssetOption {
   text: string;
@@ -38,14 +38,21 @@ export const SendView: React.SFC<Props> = props => (
               <label>Recipient</label>
               <Field
                 name="recipient"
-                validate={required}
-                render={t => (
-                  <SemanticForm.Input
-                    onChange={t.input.onChange}
-                    value={t.input.value}
-                    error={t.meta.touched && t.meta.invalid}
-                  />
-                )}
+                validate={testBase58Address}
+                render={t => {
+                  return (
+                    <>
+                      <SemanticForm.Input
+                        onChange={t.input.onChange}
+                        value={t.input.value}
+                        error={t.meta.touched && t.meta.invalid}
+                      />
+                      {t.meta.touched && t.meta.invalid && t.input.value && (
+                        <div className="field-error">{t.meta.error}</div>
+                      )}
+                    </>
+                  );
+                }}
               />
             </View>
             <Spacer />
@@ -71,7 +78,10 @@ export const SendView: React.SFC<Props> = props => (
               <label>Amount</label>
               <Field
                 name="amount"
-                validate={range(0, get(formProps.values, "asset") === "OXG" ? props.ongAmount : props.ontAmount)}
+                validate={range(
+                  0,
+                  get(formProps.values, "asset") === "OXG" ? props.ongAmount : props.ontAmount
+                )}
                 render={t => (
                   <SemanticForm.Input
                     type="number"
@@ -93,15 +103,21 @@ export const SendView: React.SFC<Props> = props => (
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={get(formProps.values, "asset") === undefined}
-                    action={<Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" />}
+                    action={
+                      <Button
+                        type="button"
+                        onClick={() => props.handleMax(formProps)}
+                        content="MAX"
+                      />
+                    }
                   />
                 )}
               />
             </View>
             <Filler />
             <View className="buttons">
-              <Button icon="check" content="Confirm" />
               <Button onClick={props.handleCancel}>Cancel</Button>
+              <Button icon="check" content="Confirm" />
             </View>
           </SemanticForm>
         )}

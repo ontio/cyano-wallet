@@ -74,7 +74,6 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
     */
     return balance;
   } catch (e) {
-    console.log("getUnclaimedBalance", e);
     return null;
   }
 }
@@ -95,21 +94,12 @@ export async function claimOnyx(secret: string, walletEncoded: any, password: st
     { label: "address", value: address, type: ParameterType.ByteArray }
   ];
 
-  try {
-    const res = await axios.post(`${endpoint}/api/compensate-gas`, {
-      contractName,
-      funcName,
-      params
-    });
-    const tx = Transaction.deserialize(res.data.data);
-    TransactionBuilder.addSign(tx, privateKey);
-    await client.sendRawTransaction(tx.serialize(), false, true);
-  } catch (err) {
-    // TODO: handle errors from compensator
-    if (err.response) {
-      console.error("exchangeOnyx", err.response.data);
-    } else {
-      console.error("exchangeOnyx", err);
-    }
-  }
+  const res = await axios.post(`${endpoint}/api/compensate-gas`, {
+    contractName,
+    funcName,
+    params
+  });
+  const tx = Transaction.deserialize(res.data.data);
+  TransactionBuilder.addSign(tx, privateKey);
+  await client.sendRawTransaction(tx.serialize(), false, true);
 }

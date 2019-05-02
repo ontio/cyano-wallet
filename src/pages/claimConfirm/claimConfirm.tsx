@@ -45,7 +45,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           actions.startLoading();
 
           try {
-            await timeout(claimOnyx(secret, reduxProps.wallet, password), 15000);
+            await timeout(claimOnyx(secret, reduxProps.wallet, password), 30000);
             props.history.push("/trx-complete", {
               type: "claim",
               amount: convertAmountFromStr(balance, "ONYX"),
