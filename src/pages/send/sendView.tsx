@@ -116,8 +116,8 @@ export const SendView: React.SFC<Props> = props => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button icon="check" content="Confirm" />
               <Button onClick={props.handleCancel}>Cancel</Button>
+              <Button icon="check" content="Confirm" />
             </View>
           </SemanticForm>
         )}

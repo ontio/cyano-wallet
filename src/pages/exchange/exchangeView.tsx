@@ -91,8 +91,8 @@ export const ExchangeView: React.SFC<Props> = props => (
               <Spacer />
               <Filler />
               <View className="buttons">
-                <Button icon="check" content="Confirm" disabled={!props.exhangeRate} />
                 <Button onClick={props.handleCancel}>Cancel</Button>
+                <Button icon="check" content="Confirm" disabled={!props.exhangeRate} />
               </View>
             </SemanticForm>
           );
