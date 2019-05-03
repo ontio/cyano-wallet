@@ -7,6 +7,7 @@ import { required } from 'src/utils/validate';
 export interface Props {
   mnemonics: string;
   handleConfirm: (data) => void;
+  handleBack: (data) => void;
 }
 
 export const confirmCreateView: React.SFC<Props> = (props) => (
@@ -26,7 +27,7 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
                 name="mnemonics"
                 validate={required}
                 render={t => (
-                  <SemanticForm.Input
+                  <SemanticForm.TextArea
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     type="text"
@@ -38,9 +39,9 @@ export const confirmCreateView: React.SFC<Props> = (props) => (
             <Spacer/>
             <Spacer/>
             <Spacer/>
-            <View className="buttons">
+            <View className="buttons toBottom">
+              <Button onClick={props.handleBack}>Back</Button>
               <Button icon="check" content="Confirm" />
-              {/* <Button onClick={props.handleCancel}>Cancel</Button> */}
             </View>
           </SemanticForm>
         )}

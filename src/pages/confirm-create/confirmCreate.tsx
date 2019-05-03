@@ -26,6 +26,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       withProps({
         mnemonics,
         password,
+        handleBack: () => {
+          props.history.goBack();
+        },
         handleConfirm: async (data) => {
 
           if (mnemonics === data.mnemonics) {
