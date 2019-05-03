@@ -34,7 +34,7 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
       </Segment.Group>
 
       {props.balance && props.balance !== "0" ? (
-        <Message color="orange">
+        <Message className="warning-text">
           <p>
             Your Onyx coins will be claimed on address: <strong>{props.currentAddress}</strong>
           </p>

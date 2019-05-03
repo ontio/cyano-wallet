@@ -541,6 +541,16 @@ div.flex.balance-container > div.flex {
   border: dotted rgba(0, 0, 0, 0.87) 1px;
 }
 
+.warning-text {
+  background: #fff !important;
+  padding: 10px 16px;
+  line-height: 24px;
+  border: dotted rgba(0, 0, 0, 0.87) 1px;
+}
+.warning-text p {
+  color: red;
+}
+
 /*  Media  */
 @media (max-width: 720px) {
   div.flex.balance-container {
