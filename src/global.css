@@ -118,6 +118,10 @@ button.ui.basic.button:hover i {
   transition: all 0.3s ease 0s;
 }
 
+.toBottom {
+  margin-top: auto;
+}
+
 div.flex {
   display: flex;
   flex-direction: row;

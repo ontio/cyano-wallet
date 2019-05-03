@@ -47,18 +47,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const password = get(values, "password", "");
 
           actions.startLoading();
-
-          const { encryptedWif, mnemonics, wif, wallet } = await signUp(
-            reduxProps.nodeAddress,
-            reduxProps.ssl,
-            password,
-            reduxProps.wallet
-          );
-          actions.setWallet(wallet);
-
+          const { mnemonics, wif } = await signUp();
           actions.finishLoading();
-
-          props.history.push("/new", { encryptedWif, mnemonics, wif });
+          
+          props.history.push("/new", { mnemonics, wif, password });
         }
       },
       injectedProps => <Component {...injectedProps} loading={reduxProps.loading} />

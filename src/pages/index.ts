@@ -32,3 +32,4 @@ export { TrxTimedOut } from "./trxTimedOut/trxTimedOut";
 export { TrxComplete } from "./trxComplete/trxComplete";
 export { Exchange } from "./exchange/exchange";
 export { ExchangeConfirm } from "./exchangeConfirm/exchangeConfirm";
+export { ConfirmCreate } from "./confirm-create/confirmCreate";

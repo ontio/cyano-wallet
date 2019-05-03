@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Button, Message } from "semantic-ui-react";
-import { Filler, LogoHeader, View } from "../../components";
+import * as React from 'react';
+import { Button, Message } from 'semantic-ui-react';
+import { Filler, LogoHeader, View } from '../../components';
 
 export interface Props {
   mnemonics: string;
