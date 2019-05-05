@@ -5,3 +5,14 @@ services:
 script:
 - docker build -t onyxchain-wallet .
 
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key:
+    secure: "$SECRETACCESSKEY"
+  region: "us-east-2"  
+  app: "OnyxChain-wallet"
+  env: "OnyxChain-wallet-dev"
+  bucket_name: "elasticbeanstalk-us-east-2-866680356172"
+  on:
+    branch: dev
