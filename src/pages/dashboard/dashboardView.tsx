@@ -33,7 +33,7 @@ export const DashboardView: React.SFC<Props> = props => (
       </View>
 
       <View orientation="column" className="exchange-box">
-        <span>Exchnage ONYX to OXG</span>
+        <span>Exchange ONYX to OXG</span>
         <Button
           onClick={props.handleExchange}
           size="big"
