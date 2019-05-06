@@ -50,7 +50,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       injectedProps => (
         <Component
           {...injectedProps}
-          ontAmount={convertAmountToStr(reduxProps.ontAmount.toString(), "ONYX")}
+          ontAmount={convertAmountToStr(reduxProps.ontAmount, "ONYX")}
           ongAmount={convertAmountToStr(reduxProps.ongAmount, "OXG")}
           unboundAmount={convertAmountToStr(reduxProps.unboundAmount, "OXG")}
           tokens={
