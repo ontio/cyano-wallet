@@ -12,7 +12,7 @@ deploy:
     secure: "$SECRETACCESSKEY"
   region: "us-east-2"  
   app: "OnyxChain-wallet"
-  env: "OnyxChain-wallet-dev"
+  env: "OnyxchainWallet-env"
   bucket_name: "elasticbeanstalk-us-east-2-866680356172"
   on:
     branch: dev
