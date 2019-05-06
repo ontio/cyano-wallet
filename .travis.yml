@@ -6,10 +6,7 @@ script:
 - docker build -t onyxchain_wallet .
 
 deploy:
-- pip install --user awscli
-- export PATH=$PATH:$HOME/.local/bin
-- eval $(aws ecr get-login --region us-east-2)
-- docker tag onyxchain_wallet:dev 866680356172.dkr.ecr.us-east-2.amazonaws.com/onyxchain_wallet:dev
-- docker push 866680356172.dkr.ecr.us-east-2.amazonaws.com/onyxchain_wallet:dev
-- on:
+- provider: script
+  script: bash aws/deploy.sh dev  
+  on:
     branch: dev
