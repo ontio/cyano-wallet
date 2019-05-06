@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { AssetType } from "../redux/runtime";
 
-export function convertAmountToBN(amount: number | undefined, asset: AssetType, decimals?) {
+export function convertAmountToBN(amount: number | string | undefined, asset: AssetType, decimals?) {
   if (amount === undefined) {
     return new BigNumber(0);
   }
@@ -29,7 +29,7 @@ export function convertAmountFromStr(amount: string, asset: AssetType) {
   return amountBN.toNumber();
 }
 
-export function convertAmountToStr(amount: number | undefined, asset: AssetType, decimals?) {
+export function convertAmountToStr(amount: number | string | undefined, asset: AssetType, decimals?) {
   return convertAmountToBN(amount, asset, decimals).toString();
 }
 
