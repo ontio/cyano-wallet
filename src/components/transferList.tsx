@@ -33,12 +33,12 @@ export const TransferList: React.SFC<Props> = props => (
     ) : (
       <List className="transferList transactions" divided={true}>
         {props.transfers.map((transfer, i) => (
-          <List.Item key={i}>
+          <List.Item key={i} className={transfer.from === props.ownAddress ? 'red' : 'green'}>
             <List.Icon
               name={
                 transfer.from === props.ownAddress
-                  ? "arrow alternate circle down outline"
-                  : "arrow alternate circle up outline"
+                  ? "arrow alternate circle up outline"
+                  : "arrow alternate circle down outline"
               }
               size="large"
               verticalAlign="middle"
