@@ -68,5 +68,5 @@ export function convertOxgToOnyx(amount: number, rate: string | null) {
   const amountOnyx = new BigNumber(amount);
   const exhangeRate = new BigNumber(rate);
 
-  return amountOnyx.times(exhangeRate).toString();
+  return amountOnyx.times(exhangeRate).toFixed();
 }

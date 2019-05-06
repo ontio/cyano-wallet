@@ -1,0 +1,12 @@
+sudo: required
+services:
+- docker
+
+script:
+- docker build -t onyxchain_wallet .
+
+deploy:
+- provider: script
+  script: bash aws/deploy.sh dev  
+  on:
+    branch: dev

@@ -344,6 +344,12 @@ h1.header {
 .transferList.transactions .item {
   padding: 10px 0;
 }
+.transferList.transactions .item.red .header {
+  color: red;
+}
+.transferList.transactions .item.green .header {
+  color: green;
+}
 .transferList.transactions .item .icon {
   font-size: 32px;
   color: #000;
@@ -539,6 +545,16 @@ div.flex.balance-container > div.flex {
   padding: 10px 16px;
   line-height: 24px;
   border: dotted rgba(0, 0, 0, 0.87) 1px;
+}
+
+.warning-text {
+  background: #fff !important;
+  padding: 10px 16px;
+  line-height: 24px;
+  border: dotted rgba(0, 0, 0, 0.87) 1px;
+}
+.warning-text p {
+  color: red;
 }
 
 /*  Media  */
