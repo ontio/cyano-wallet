@@ -344,6 +344,12 @@ h1.header {
 .transferList.transactions .item {
   padding: 10px 0;
 }
+.transferList.transactions .item.red .header {
+  color: red;
+}
+.transferList.transactions .item.green .header {
+  color: green;
+}
 .transferList.transactions .item .icon {
   font-size: 32px;
   color: #000;
