@@ -93,7 +93,8 @@ export async function withdrawOng(request: WithdrawOngRequest, password: string)
 }
 
 export async function registerOntId(request: RegisterOntIdRequest, password: string) {
-  const accountPassword: string = request.password;
+  // const accountPassword: string = request.password;
+  const accountPassword: string = password;
   const identityEncoded: string = request.identity;
   const identity = Identity.parseJson(identityEncoded);
 
@@ -102,7 +103,7 @@ export async function registerOntId(request: RegisterOntIdRequest, password: str
 
   const from = getAccount(state.wallet.wallet!).address;
   const accountPrivateKey = decryptAccount(wallet, accountPassword);
-  const identityPrivateKey = decryptIdentity(identity, password, wallet.scrypt);
+  const identityPrivateKey = decryptIdentity(identity, request.password, wallet.scrypt);
 
   const identityPublicKey = identityPrivateKey.getPublicKey();
 
