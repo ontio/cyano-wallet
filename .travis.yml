@@ -1,12 +1,13 @@
 sudo: required
 services:
 - docker
+- docker-compose
 
 script:
-- docker build -t onyxchain_wallet .
+- docker-compose up --build ./deploy
 
 deploy:
 - provider: script
-  script: bash aws/deploy.sh dev  
+  script: bash deploy/aws/deploy.sh dev  
   on:
     branch: dev

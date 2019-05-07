@@ -10,4 +10,4 @@ apt install -y git
 RUN git clone https://github.com/OnyxPay/OnyxChain-wallet.git && \
 cd OnyxChain-wallet; yarn install; npm run build
 
-RUN npm install forever -g ; npm install http-server -g
+#RUN npm install forever -g ; npm install http-server -g

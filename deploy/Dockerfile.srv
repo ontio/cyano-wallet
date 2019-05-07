@@ -1,0 +1,6 @@
+FROM wallet:dev as wallet
+FROM nginx:latest
+MAINTAINER toktor <ak.toktor@gmail.com>
+
+COPY --from=wallet /OnyxChain-wallet/build /var/www
+COPY ./default.conf /etc/nginx/conf.d
