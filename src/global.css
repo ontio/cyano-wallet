@@ -12,8 +12,8 @@ body {
   margin: 0;
   max-width: 1000px;
   /* min-width: 400px; */
-  height: 700px;
-  min-height: 500px;
+  height: auto;
+  min-height: 700px;
   margin: 0 auto;
 
   color: #595757;
@@ -547,11 +547,21 @@ div.flex.balance-container > div.flex {
   border: dotted rgba(0, 0, 0, 0.87) 1px;
 }
 
+.continue-btn {
+  margin: auto auto 10px auto;
+}
+
+.new-account-contnet {
+  padding: 10px;
+}
+
 .warning-text {
   background: #fff !important;
   padding: 10px 16px;
   line-height: 24px;
   border: dotted rgba(0, 0, 0, 0.87) 1px;
+  max-width: 100%;
+  overflow: auto;
 }
 .warning-text p {
   color: red;
@@ -573,7 +583,7 @@ div.flex.balance-container > div.flex {
 
 @media (max-width: 768px) {
   body {
-    height: inherit;
+    min-height: 100%;
   }
   #root {
     box-shadow: none;
@@ -589,6 +599,9 @@ div.flex.balance-container > div.flex {
   }
   .list-btns-box > div.list {
     width: 300px;
+  }
+  .red-text-on-create-new {
+    padding: 20px 10px 20px 10px;
   }
 }
 @media (max-width: 550px) {
@@ -616,3 +629,4 @@ div.flex.balance-container > div.flex {
     margin: 0 auto 20px auto;
   }
 }
+
