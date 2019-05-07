@@ -9,6 +9,6 @@ script:
 
 deploy:
 - provider: script
-  script: bash deploy/aws/deploy.sh dev  
+  script: bash aws/deploy.sh dev  
   on:
     branch: dev
