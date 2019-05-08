@@ -12,3 +12,8 @@ deploy:
   script: bash aws/deploy.sh dev  
   on:
     branch: dev
+- provider: script
+  script: bash aws/deploy.sh master
+  on:
+    branch: master
+

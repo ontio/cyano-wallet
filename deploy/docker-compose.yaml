@@ -1,16 +1,18 @@
 version: '3.2'
 services:
     wallet:
-        image: wallet:dev
+        image: wallet:${branch}
         build: .
         volumes:
             - /src
 
     nginx:
-        image: onyxchain_wallet:dev
+        image: onyxchain_wallet:${branch}
         build: 
             context: .
             dockerfile: Dockerfile.srv
+            args:
+                BRANCH: ${branch}
         ports:
             - "80:80"
             - "443:443"

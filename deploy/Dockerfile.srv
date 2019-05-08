@@ -1,4 +1,6 @@
-FROM wallet:dev as wallet
+ARG BRANCH=unknown
+ARG SRC_FILE=wallet:${BRANCH}
+FROM ${SRC_FILE} as wallet
 FROM nginx:latest
 MAINTAINER toktor <ak.toktor@gmail.com>
 
