@@ -16,7 +16,7 @@ export const AccountsRestoreView: React.SFC<Props> = (props) => (
         <View>Restore an existing account.</View>
       </View>
     </View>
-    <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+    <View orientation="column" fluid={true}>
       <View orientation="column" className="buttons-container">
         <Button size="small" onClick={props.handlePrivateKeyRestore}>Use private key</Button>
         <Spacer />
@@ -24,6 +24,6 @@ export const AccountsRestoreView: React.SFC<Props> = (props) => (
         <Spacer />
         <Button size="small" onClick={props.handleBack}>Back</Button>
       </View>
-    </div>
+    </View>
   </View>
 );

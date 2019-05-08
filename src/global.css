@@ -8,14 +8,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin: 0;
-  max-width: 1000px;
+  /* max-width: 1000px;*/
   /* min-width: 400px; */
-  height: 700px;
-  min-height: 500px;
+  height: auto;
+  min-height: 100vh;
   margin: 0 auto;
-
   color: #595757;
   font-family: "Poppins", sans-serif;
 }
@@ -61,6 +58,7 @@ body {
   background-size: 200% auto;
   border-radius: 4px;
   transition: all 0.5s ease 0s;
+  cursor: pointer;
 }
 .ui.button.hidden {
   display: none;
@@ -131,6 +129,11 @@ div.flex.column {
 div.flex.full {
   flex-grow: 1;
   align-self: stretch;
+  justify-content: center;
+}
+
+div.flex.full.AccountsView {
+  justify-content: flex-start;
 }
 
 div.flex.part {
@@ -220,6 +223,7 @@ div.flex.content {
 
 .logoHeader .buttons {
   justify-content: flex-end;
+  margin: 0;
 }
 
 .logo .button {
@@ -560,15 +564,20 @@ div.flex.balance-container > div.flex {
   }
   div.flex {
     min-height: auto;
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 700px) {
-  .list-btns-box > div {
-    align-items: flex-start;
+  .list-btns-box {
+    justify-content: space-between;
+    box-sizing: border-box;
   }
-  .list-btns-box > div.list {
-    width: 300px;
+  .list-btns-box > div.btns {
+    padding-left: 0;
+  }
+  .buttons {
+    margin-top: 30px;
   }
 }
 @media (max-width: 550px) {
@@ -594,5 +603,8 @@ div.flex.balance-container > div.flex {
   .list-btns-box > div.list {
     width: 300px;
     margin: 0 auto 20px auto;
+  }
+  .ui.orange.message p strong{
+    word-break: break-all;
   }
 }

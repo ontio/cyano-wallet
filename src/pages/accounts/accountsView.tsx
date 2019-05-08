@@ -18,7 +18,7 @@ export interface Props {
 }
 
 export const AccountsView: React.SFC<Props> = props => (
-  <View orientation="column" fluid={true} style={{ position: "relative" }}>
+  <View orientation="column" fluid={true} className="AccountsView">
     <Dimmer active={props.loading}>
       <Loader />
     </Dimmer>
@@ -30,12 +30,11 @@ export const AccountsView: React.SFC<Props> = props => (
       </View>
     </View>
 
-    <View className="list-header">
-      <span>Accounts in my wallet</span>
-    </View>
-
     <View className="list-btns-box">
       <View orientation="column" className="list">
+        <View className="list-header">
+          <span>Accounts in my wallet</span>
+        </View>
         <AccountList
           accounts={props.accounts}
           selectedAccount={props.selectedAccount}
