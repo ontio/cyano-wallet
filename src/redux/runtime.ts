@@ -55,8 +55,8 @@ export const runtimeReducer: Reducer<RuntimeState> = (state = defaultState, acti
 };
 
 export const setBalance = (
-  ongAmount: number,
-  ontAmount: number,
+  ongAmount: string,
+  ontAmount: string,
   unboundAmount: number,
   tokenAmounts: TokenAmountState[]
 ) => ({ type: SET_BALANCE, ongAmount, ontAmount, unboundAmount, tokenAmounts });

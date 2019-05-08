@@ -27,7 +27,7 @@ export async function refreshBalance(store: GlobalStore) {
         }
       }
 
-      store.dispatch(Actions.runtime.setBalance(balance.oxg, balance.onyx, unboundOng, tokenBalances));
+      store.dispatch(Actions.runtime.setBalance(balance.oxg.toString(), balance.onyx.toString(), unboundOng, tokenBalances));
 
     } catch (e) {
       // ignore

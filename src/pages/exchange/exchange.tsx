@@ -6,7 +6,7 @@ import { dummy, reduxConnect, withProps, withState, withRouter, lifecycle } from
 import { GlobalState } from "../../redux";
 import { Props, ExchangeView } from "./exchangeView";
 import {
-  /* convertAmountToBN,  */ convertAmountFromStr,
+  convertAmountFromStr,
   decodeAmount,
   convertOnyxToOxg
 } from "../../utils/number";
