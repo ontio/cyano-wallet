@@ -3,9 +3,7 @@ services:
 - docker
 - docker-compose
 
-before_script: cd deploy
-script:
-- docker-compose build
+before_deploy : cd deploy
 
 deploy:
 - provider: script
