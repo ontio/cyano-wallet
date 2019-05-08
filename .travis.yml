@@ -3,7 +3,9 @@ services:
 - docker
 - docker-compose
 
-before_deploy : cd deploy
+before_script: cd deploy
+script:
+  branch=$TRAVIS_BRANCH docker-compose build
 
 deploy:
 - provider: script
