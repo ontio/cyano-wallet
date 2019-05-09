@@ -44,11 +44,11 @@ export const ClaimConfirmView: React.SFC<Props> = props => (
             </View>
             <Filler />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading}>
-                Confirm
-              </Button>
               <Button disabled={props.loading} onClick={props.handleCancel}>
                 Cancel
+              </Button>
+              <Button disabled={props.loading} loading={props.loading}>
+                Confirm
               </Button>
             </View>
           </SemanticForm>
