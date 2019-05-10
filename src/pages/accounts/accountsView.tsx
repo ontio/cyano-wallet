@@ -44,7 +44,7 @@ export const AccountsView: React.SFC<Props> = props => (
         />
       </View>
       <View orientation="column" className="btns">
-        <Button icon="add" content="Add account" onClick={props.handleAdd} />
+        <Button icon="add" content="Add account..." onClick={props.handleAdd} />
         <Spacer />
         <Button type="button" onClick={props.handleExport} content="Export wallet" />
         <Spacer />
