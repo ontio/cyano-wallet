@@ -6,3 +6,4 @@ MAINTAINER toktor <ak.toktor@gmail.com>
 
 COPY --from=wallet /OnyxChain-wallet/build /var/www
 COPY ./default.conf /etc/nginx/conf.d
+RUN if [ ${BRANCH} = "dev" ] ; then SUFFIX=preprod- ; fi ; sed -i 's/SERVERNAME/'"$SUFFIX"'wallet.onyxpay.co/g' /etc/nginx/conf.d/default.conf
