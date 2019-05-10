@@ -14,5 +14,5 @@ then
 	SERVICE=OnyxChainWalletProdSrv
 fi
 
-aws ecs describe-services --cluster $CLUSTER --region us-east-2 --service $SERVICE
+aws ecs update-service --cluster $CLUSTER --region us-east-2 --force-new-deployment  --service $SERVICE
 
