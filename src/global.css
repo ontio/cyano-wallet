@@ -8,8 +8,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* max-width: 1000px;*/
-  /* min-width: 400px; */
   height: auto;
   min-height: 100vh;
   margin: 0 auto;
@@ -531,7 +529,7 @@ div.flex.balance-container > div.flex {
 }
 
 .red-text-on-create-new {
-  padding: 40px 40px 20px 40px;
+  padding: 40px 10px ;
 }
 .red-text-on-create-new p {
   color: red;

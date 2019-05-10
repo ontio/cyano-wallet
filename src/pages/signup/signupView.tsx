@@ -27,7 +27,7 @@ export const SignupView: React.SFC<Props> = props => (
           </Button>
           <Spacer/>
 
-          <label className="ui button" htmlFor="inputWallet" style={{cursor: "pointer"}}>
+          <label className="ui button" htmlFor="inputWallet">
             Import wallet
             <input
               type="file"
