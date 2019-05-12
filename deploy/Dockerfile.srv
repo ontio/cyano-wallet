@@ -8,3 +8,4 @@ COPY --from=wallet /OnyxChain-wallet/build /var/www
 COPY ./default.conf /etc/nginx/conf.d
 ARG BRANCH=unknown
 RUN if [ "${BRANCH}" = "preprod" ] ; then SUFFIX=preprod- ; fi ; sed -i 's/SERVERNAME/'"$SUFFIX"'wallet.onyxpay.co/g' /etc/nginx/conf.d/default.conf
+
