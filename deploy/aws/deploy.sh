@@ -8,7 +8,7 @@ docker tag onyxchain_wallet:$TAG 866680356172.dkr.ecr.us-east-2.amazonaws.com/on
 docker push 866680356172.dkr.ecr.us-east-2.amazonaws.com/onyxchain_wallet:$TAG
 CLUSTER=OnyxChain-wallet
 SERVICE=WalletService-dev
-if [[ $TAG = "master" ]]
+if [[ $TAG = "prod" ]]
 then 
 	CLUSTER=OnyxChain-wallet-prod
 	SERVICE=OnyxChainWalletProdSrv

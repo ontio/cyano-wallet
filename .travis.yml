@@ -5,15 +5,10 @@ services:
 
 before_script: cd deploy
 script:
-  branch=$TRAVIS_BRANCH docker-compose build
+  tag=$TRAVIS_TAG docker-compose build
 
 deploy:
 - provider: script
-  script: bash aws/deploy.sh dev  
-  on:
-    branch: dev
-- provider: script
-  script: bash aws/deploy.sh master
-  on:
-    branch: master
-
+  script: bash aws/deploy.sh $TRAVIS_TAG
+  if:
+    tag IS prod OR tag IS preprod
