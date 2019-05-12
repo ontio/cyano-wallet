@@ -2,11 +2,13 @@ version: '3.2'
 services:
     wallet:
         image: wallet:${tag}
-        build: .
+        build: 
+            context: .
+            args:
+                BRANCH: ${tag}
+
         volumes:
             - /src
-        args:
-            BRANCH: ${tag}
 
     nginx:
         image: onyxchain_wallet:${tag}
