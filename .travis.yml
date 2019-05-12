@@ -3,7 +3,13 @@ services:
 - docker
 - docker-compose
 
-before_script: cd deploy
+before_script: 
+- cd deploy
+- echo commit = $TRAVIS_COMMIT
+- echo tag    = $TRAVIS_TAG
+- echo branch = $TRAVIS_BRANCH
+- echo build  = $TRAVIS_BUILD
+
 script:
   if [ -z $TRAVIS_TAG ]; then TRAVIS_TAG=dev;  fi; tag=$TRAVIS_TAG docker-compose build
 
