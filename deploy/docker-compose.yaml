@@ -5,6 +5,8 @@ services:
         build: .
         volumes:
             - /src
+        args:
+            BRANCH: ${tag}
 
     nginx:
         image: onyxchain_wallet:${tag}

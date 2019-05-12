@@ -7,6 +7,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 apt update && apt install -y yarn && \
 apt install -y git
 
-RUN git clone https://github.com/OnyxPay/OnyxChain-wallet.git && \
+ARG BRANCH
+RUN git clone --branch ${BRANCH} https://github.com/OnyxPay/OnyxChain-wallet.git && \
 cd OnyxChain-wallet; yarn install; npm run build
 
