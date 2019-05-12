@@ -8,7 +8,7 @@ script:
   tag=$TRAVIS_TAG docker-compose build
 
 deploy:
-  if: tag IN (prod, preprod)
 - provider: script
   script: bash aws/deploy.sh $TRAVIS_TAG
+  if: tag IN (prod, preprod)
 
