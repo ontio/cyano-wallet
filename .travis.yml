@@ -10,6 +10,6 @@ script:
 deploy:
 - provider: script
   script: bash aws/deploy.sh $TRAVIS_TAG
-  if: tag IN (prod, preprod)i
+  if: tag IN (prod, preprod)
   on:
      tags: true
