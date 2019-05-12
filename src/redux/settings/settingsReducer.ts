@@ -22,7 +22,7 @@ const settingsCash = localStorage.getItem("settings");
 
 const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) || {
   nodeAddress: "andromeda-sync.onyxpay.co",
-  ssl: false,
+  ssl: true,
   net: "MAIN",
   tokens: []
 };
