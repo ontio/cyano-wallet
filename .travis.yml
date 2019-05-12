@@ -5,6 +5,9 @@ services:
 
 before_script: cd deploy
 script:
+  if [ -z $TRAVIS_TAG ]; then
+       TRAVIS_TAG=dev
+  fi; \
   tag=$TRAVIS_TAG docker-compose build
 
 deploy:
