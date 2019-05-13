@@ -1,0 +1,30 @@
+version: '3.2'
+services:
+    wallet:
+        image: wallet:${tag}
+        build: 
+            context: .
+            args:
+                BRANCH: ${tag}
+
+        volumes:
+            - /src
+
+    nginx:
+        image: onyxchain_wallet:${tag}
+        build: 
+            context: .
+            dockerfile: Dockerfile.srv
+            args:
+                BRANCH: ${tag}
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - type: volume
+              source: .
+              target: /host
+              volume:
+                   noncopy: true
+        links:
+            - wallet 

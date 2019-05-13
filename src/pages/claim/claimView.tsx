@@ -30,11 +30,14 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
         <Segment>
           Unclaimed balance: <span className="unclaimed-onyx-balance">{props.balance}</span>
           <span className="unclaimed-onyx-label">ONYX</span>
+          <p style={{fontStyle: "italic", paddingTop: '5px'}}>
+            * It might be not a full amount of your investments. Recent investments become available to claim within one week.
+          </p>
         </Segment>
       </Segment.Group>
 
       {props.balance && props.balance !== "0" ? (
-        <Message color="orange">
+        <Message className="warning-text">
           <p>
             Your Onyx coins will be claimed on address: <p><strong>{props.currentAddress}</strong></p>
           </p>

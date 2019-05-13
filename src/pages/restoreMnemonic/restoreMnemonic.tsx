@@ -54,7 +54,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             reduxProps.ssl,
             mnemonics,
             password,
-            true,
             reduxProps.wallet
           );
           actions.setWallet(wallet);

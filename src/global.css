@@ -8,8 +8,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: auto;
   min-height: 100vh;
+  height: auto;
   margin: 0 auto;
   color: #595757;
   font-family: "Poppins", sans-serif;
@@ -112,6 +112,10 @@ button.ui.basic.button:focus {
 button.ui.basic.button:hover i {
   color: #ffaa89;
   transition: all 0.3s ease 0s;
+}
+
+.toBottom {
+  margin-top: auto;
 }
 
 div.flex {
@@ -342,6 +346,12 @@ h1.header {
 .transferList.transactions .item {
   padding: 10px 0;
 }
+.transferList.transactions .item.red .header {
+  color: red;
+}
+.transferList.transactions .item.green .header {
+  color: green;
+}
 .transferList.transactions .item .icon {
   font-size: 32px;
   color: #000;
@@ -539,6 +549,26 @@ div.flex.balance-container > div.flex {
   border: dotted rgba(0, 0, 0, 0.87) 1px;
 }
 
+.continue-btn {
+  margin: auto auto 10px auto;
+}
+
+.new-account-contnet {
+  padding: 10px;
+}
+
+.warning-text {
+  background: #fff !important;
+  padding: 10px 16px;
+  line-height: 24px;
+  border: dotted rgba(0, 0, 0, 0.87) 1px;
+  max-width: 100%;
+  overflow: auto;
+}
+.warning-text p {
+  color: red;
+}
+
 /*  Media  */
 @media (max-width: 720px) {
   div.flex.balance-container {
@@ -555,7 +585,7 @@ div.flex.balance-container > div.flex {
 
 @media (max-width: 768px) {
   body {
-    height: inherit;
+    min-height: 100%;
   }
   #root {
     box-shadow: none;
@@ -576,6 +606,9 @@ div.flex.balance-container > div.flex {
   }
   .buttons {
     margin-top: 30px;
+  }
+  .red-text-on-create-new {
+    padding: 20px 10px 20px 10px;
   }
 }
 @media (max-width: 550px) {
@@ -606,3 +639,4 @@ div.flex.balance-container > div.flex {
     word-break: break-all;
   }
 }
+

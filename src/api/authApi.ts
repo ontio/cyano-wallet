@@ -40,9 +40,14 @@ export async function signIn(password: string) {
   return walletEncoded;
 }
 
-export async function signUp(nodeAddress: string, ssl: boolean, password: string, wallet: object | null) {
+export async function signUp() {
   const mnemonics = utils.generateMnemonic(32);
-  return await importMnemonics(nodeAddress, ssl, mnemonics, password, true, wallet);
+  const wif = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0").serializeWIF();
+  return { mnemonics, wif };
+}
+
+export async function createAccount(nodeAddress, ssl, mnemonics, password, wallet) {
+  return importMnemonics(nodeAddress, ssl, mnemonics, password, wallet);
 }
 
 export function isCurrentUserMnemonics(mnemonics: string, wallet: object | null) {
@@ -64,14 +69,13 @@ export async function importMnemonics(
   ssl: boolean,
   mnemonics: string,
   password: string,
-  register: boolean,
   wallet: object | null
 ) {
-  // generate NEO address for now
+
   const privateKey = PrivateKey.generateFromMnemonic(mnemonics, "m/44'/888'/0'/0/0");
   const wif = privateKey.serializeWIF();
 
-  const result = await importPrivateKey(nodeAddress, ssl, wif, password, register, wallet);
+  const result = await importPrivateKey(nodeAddress, ssl, wif, password, wallet);
 
   return {
     mnemonics,
@@ -84,7 +88,6 @@ export async function importPrivateKey(
   ssl: boolean,
   wif: string,
   password: string,
-  register: boolean,
   wallet: object | null
 ) {
   let currentWallet: Wallet;
@@ -103,27 +106,10 @@ export async function importPrivateKey(
   };
 
   const privateKey = PrivateKey.deserializeWIF(wif);
-  // const publicKey = privateKey.getPublicKey();
-
-  // const identity = Identity.create(privateKey, password, uuid(), scryptParams);
-  // const ontId = identity.ontid;
-
-  // register the ONYX ID on blockchain
-  // if (register) {
-  //   const tx = OntidContract.buildRegisterOntidTx(ontId, publicKey, '0', '30000');
-  //   tx.payer = identity.controls[0].address;
-  //   await TransactionBuilder.signTransactionAsync(tx, privateKey);
-
-  //   const protocol = ssl ? 'wss' : 'ws';
-  //   const client = new WebsocketClient(`${protocol}://${nodeAddress}:${CONST.HTTP_WS_PORT}`, true);
-  //   await client.sendRawTransaction(tx.serialize(), false, true);
-  // }
 
   const account = Account.create(privateKey, password, uuid(), scryptParams);
 
-  // wallet.addIdentity(identity);
   currentWallet.addAccount(account);
-  // wallet.setDefaultIdentity(identity.ontid);
   currentWallet.setDefaultAccount(account.address.toBase58());
 
   await storageSet("wallet", currentWallet.toJson());
