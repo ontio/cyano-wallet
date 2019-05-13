@@ -3,17 +3,24 @@ services:
 - docker
 - docker-compose
 
-before_script: cd deploy
+branches:
+  only:
+  - prod
+  - preprod
+
+before_script: 
+- cd deploy
+- echo $TRAVIS_COMMIT
+- echo $TRAVIS_TAG
+- echo $TRAVIS_BRANCH
+- echo $TRAVIS_BUILD
+
 script:
-  branch=$TRAVIS_BRANCH docker-compose build
+  if [ -z $TRAVIS_TAG ]; then TRAVIS_TAG=dev;  fi; tag=$TRAVIS_TAG docker-compose build
 
 deploy:
 - provider: script
-  script: bash aws/deploy.sh dev  
+  script: bash aws/deploy.sh $TRAVIS_TAG
   on:
-    branch: dev
-- provider: script
-  script: bash aws/deploy.sh master
-  on:
-    branch: master
-
+    tags: true 
+    condition: $TRAVIS_TAG =~ ^prod|preprod$

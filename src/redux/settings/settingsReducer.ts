@@ -21,8 +21,8 @@ export interface SettingsState {
 const settingsCash = localStorage.getItem("settings");
 
 const defaultState: SettingsState = (settingsCash && JSON.parse(settingsCash)) || {
-  nodeAddress: "andromeda1.onyxpay.co",
-  ssl: false,
+  nodeAddress: "andromeda-sync.onyxpay.co",
+  ssl: true,
   net: "MAIN",
   tokens: []
 };
