@@ -1,0 +1,26 @@
+sudo: required
+services:
+- docker
+- docker-compose
+
+branches:
+  only:
+  - prod
+  - preprod
+
+before_script: 
+- cd deploy
+- echo $TRAVIS_COMMIT
+- echo $TRAVIS_TAG
+- echo $TRAVIS_BRANCH
+- echo $TRAVIS_BUILD
+
+script:
+  if [ -z $TRAVIS_TAG ]; then TRAVIS_TAG=dev;  fi; tag=$TRAVIS_TAG docker-compose build
+
+deploy:
+- provider: script
+  script: bash aws/deploy.sh $TRAVIS_TAG
+  on:
+    tags: true 
+    condition: $TRAVIS_TAG =~ ^prod|preprod$

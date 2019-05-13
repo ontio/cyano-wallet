@@ -40,7 +40,8 @@ import {
   TrxTimedOut,
   TrxComplete,
   Exchange,
-  ExchangeConfirm
+  ExchangeConfirm,
+  ConfirmCreate
 } from "./pages";
 import { initNetwork } from "./network";
 import { reduxStore } from "./redux";
@@ -77,6 +78,7 @@ export const AppView: React.SFC<{}> = () => (
         <Route path="/restore/mnemonic" exact={true} component={RestoreMnemonic} />
         <Route path="/import" exact={true} component={Import} />
         <Route path="/create" exact={true} component={Create} />
+        <Route path="/confirm-create" exact={true} component={ConfirmCreate} />
         <Route path="/sign-up" exact={true} component={Signup} />
 
         <Route path="/settings/token" exact={true} component={TokenSettings} />

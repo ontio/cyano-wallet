@@ -5,7 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
-import { convertAmountToBN, convertAmountFromStr } from "../../utils/number";
+import { convertAmountToStr, convertAmountFromStr } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -51,13 +51,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const tokenBalance = reduxProps.tokensBalance.find(t => t.symbol === asset);
 
           if (asset === "ONYX") {
-            const amountBN = convertAmountToBN(reduxProps.ontAmount, "ONYX");
+            const amountBN = convertAmountToStr(reduxProps.ontAmount, "ONYX");
             formProps.form.change("amount", amountBN.toString());
           } else if (asset === "OXG") {
-            const amountBN = convertAmountToBN(reduxProps.ongAmount, "OXG");
+            const amountBN = convertAmountToStr(reduxProps.ongAmount, "OXG");
             formProps.form.change("amount", amountBN.toString());
           } else {
-            const amountBN = convertAmountToBN(
+            const amountBN = convertAmountToStr(
               tokenBalance && Number(tokenBalance.amount),
               asset,
               tokenDecimals && tokenDecimals.decimals
