@@ -17,12 +17,12 @@ export const SignupView: React.SFC<Props> = props => (
         <View>create new account or restore existing.</View>
       </View>
       <View orientation="column" fluid={true} content={true}>
-        <View orientation="column" fluid={true} className="center signButtons">
-          <Button size="small" onClick={props.handleCreate}>
+        <View orientation="column" fluid={true} className="center signButtons buttons">
+          <Button onClick={props.handleCreate}>
             New account
           </Button>
           <Spacer/>
-          <Button size="small" onClick={props.handleRestore}>
+          <Button onClick={props.handleRestore}>
             Restore account
           </Button>
           <Spacer/>

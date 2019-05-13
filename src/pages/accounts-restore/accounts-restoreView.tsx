@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LogoHeader, View, Spacer } from '../../components';
+import {LogoHeader, View, Spacer} from '../../components';
 import { Button } from 'semantic-ui-react';
 
 export interface Props {
@@ -17,12 +17,15 @@ export const AccountsRestoreView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true}>
-      <View orientation="column" className="buttons-container">
-        <Button size="small" onClick={props.handlePrivateKeyRestore}>Use private key</Button>
-        <Spacer />
-        <Button size="small" onClick={props.handleMnemonicsPhraseRestore}>Use mnemonics phrase</Button>
-        <Spacer />
-        <Button size="small" onClick={props.handleBack}>Back</Button>
+      <View orientation="column" className="center buttons restoreButtons">
+        <View orientation="column" className="">
+          <Button onClick={props.handlePrivateKeyRestore}>Use private key</Button>
+          <Spacer />
+          <Button onClick={props.handleMnemonicsPhraseRestore}>Use mnemonics phrase</Button>
+        </View>
+        <View className="restoreButtonsBack">
+          <Button onClick={props.handleBack}>Back</Button>
+        </View>
       </View>
     </View>
   </View>
