@@ -3,7 +3,8 @@ services:
     wallet:
         image: wallet:${tag}
         build: 
-            context: .
+            context: ..
+            dockerfile: deploy/Dockerfile
             args:
                 BRANCH: ${tag}
 

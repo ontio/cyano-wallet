@@ -26,7 +26,7 @@ export const AccountsView: React.SFC<Props> = props => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Accounts" />
       <View content={true} className="spread-around">
-        <View>Select the account to switch to or manage your wallet!</View>
+        <View>Select the account to switch to or manage your wallet.</View>
       </View>
     </View>
 
