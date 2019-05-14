@@ -35,6 +35,7 @@ export const CreateView: React.SFC<Props> = (props) => (
         <View>Enter your passphrase for account encryption.</View>
       </View>
     </View>
+
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Form
         onSubmit={props.handleSubmit}
