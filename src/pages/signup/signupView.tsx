@@ -10,31 +10,33 @@ export interface Props {
 
 export const SignupView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true} className="gradient">
-    <Logo />
-    <View orientation="column" className="hint">
-      <View>To start using wallet, please</View>
-      <View>create new account or restore existing.</View>
-    </View>
-    <View orientation="column" fluid={true} content={true}>
-      <View orientation="column" fluid={true} className="center signButtons">
-        <Button size="small" onClick={props.handleCreate}>
-          New account
-        </Button>
-        <Spacer />
-        <Button size="small" onClick={props.handleRestore}>
-          Restore account
-        </Button>
-        <Spacer />
+    <View orientation="column" className="container">
+      <Logo/>
+      <View orientation="column" className="hint">
+        <View>To start using wallet, please</View>
+        <View>create new account or restore existing.</View>
+      </View>
+      <View orientation="column" fluid={true} content={true}>
+        <View orientation="column" fluid={true} className="center signButtons buttons">
+          <Button onClick={props.handleCreate}>
+            New account
+          </Button>
+          <Spacer/>
+          <Button onClick={props.handleRestore}>
+            Restore account
+          </Button>
+          <Spacer/>
 
-        <label className="ui button" htmlFor="inputWallet" style={{ cursor: "pointer" }}>
-          Import wallet
-          <input
-            type="file"
-            id="inputWallet"
-            style={{ display: "none" }}
-            onChange={props.handleWalletImport}
-          />
-        </label>
+          <label className="ui button" htmlFor="inputWallet">
+            Import wallet
+            <input
+              type="file"
+              id="inputWallet"
+              style={{display: "none"}}
+              onChange={props.handleWalletImport}
+            />
+          </label>
+        </View>
       </View>
     </View>
   </View>

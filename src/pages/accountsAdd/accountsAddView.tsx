@@ -35,17 +35,17 @@ export const AccountsAddView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
-      <View orientation="column" fluid={true} className="center signButtons">
+      <View orientation="column" fluid={true} className="center signButtons buttons">
         <Spacer />
-        <Button size="small" onClick={props.handleCreate}>
+        <Button onClick={props.handleCreate}>
           New account
         </Button>
         <Spacer />
-        <Button size="small" onClick={props.handleRestore}>
+        <Button onClick={props.handleRestore}>
           Restore account
         </Button>
         <Spacer />
-        <Button size="small" onClick={props.handleBack}>
+        <Button onClick={props.handleBack}>
           Back
         </Button>
       </View>
