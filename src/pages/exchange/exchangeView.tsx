@@ -80,6 +80,7 @@ export const ExchangeView: React.SFC<Props> = props => (
                       action={
                         <Button
                           type="button"
+                          className="maxBtn"
                           onClick={() => props.handleMax(formProps)}
                           content="MAX"
                         />

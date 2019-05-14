@@ -486,6 +486,11 @@ div.flex.balance-container > div.flex {
   margin: 150px auto 10px;
   justify-content: space-between;
 }
+
+.maxBtn {
+  padding: 11px 21px!important;
+}
+
 .buttons-container button.button {
   width: 100%;
 }
