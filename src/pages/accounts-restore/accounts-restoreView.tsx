@@ -18,7 +18,7 @@ export const AccountsRestoreView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true}>
       <View orientation="column" className="center buttons restoreButtons">
-        <View orientation="column" className="">
+        <View orientation="column">
           <Button onClick={props.handlePrivateKeyRestore}>Use private key</Button>
           <Spacer />
           <Button onClick={props.handleMnemonicsPhraseRestore}>Use mnemonics phrase</Button>
