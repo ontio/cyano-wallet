@@ -8,14 +8,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin: 0;
-  max-width: 1000px;
-  /* min-width: 400px; */
+  min-height: 100vh;
   height: auto;
-  min-height: 700px;
   margin: 0 auto;
-
   color: #595757;
   font-family: "Poppins", sans-serif;
 }
@@ -61,6 +56,8 @@ body {
   background-size: 200% auto;
   border-radius: 4px;
   transition: all 0.5s ease 0s;
+  cursor: pointer;
+  padding: 11px 0;
 }
 .ui.button.hidden {
   display: none;
@@ -103,6 +100,19 @@ body {
   font-weight: normal;
 }
 
+.transfersView .transferList .item .description {
+  word-break: break-all;
+}
+
+.transfersView {
+  margin-bottom: auto;
+  overflow-y: inherit!important;
+}
+
+.transfersView .transferList {
+  overflow: inherit;
+}
+
 .ui.button.basic,
 .ui.button.basic:hover,
 .ui.button.basic:focus {
@@ -135,6 +145,11 @@ div.flex.column {
 div.flex.full {
   flex-grow: 1;
   align-self: stretch;
+  justify-content: center;
+}
+
+div.flex.full.AccountsView {
+  justify-content: flex-start;
 }
 
 div.flex.part {
@@ -224,6 +239,7 @@ div.flex.content {
 
 .logoHeader .buttons {
   justify-content: flex-end;
+  margin: 0;
 }
 
 .logo .button {
@@ -268,7 +284,7 @@ h1.header {
   flex-shrink: 0;
 }
 
-.buttons.column button {
+.buttons button {
   width: 200px;
 }
 
@@ -450,13 +466,31 @@ div.flex.balance-container {
 div.flex.balance-container > div.flex {
   width: 33.333%;
 }
+.restoreButtons {
+  height: 100%;
+  flex-wrap: nowrap!important;
+}
+
+.restoreButtons div:first-child {
+  height: 100%;
+  justify-content: center;
+}
+
+.restoreButtons .restoreButtonsBack {
+  margin: 10px 0;
+}
 
 .buttons-container {
-  height: 60%;
-  width: 280px;
-  margin: 0 auto;
+  height: 100%;
+  width: 200px;
+  margin: 150px auto 10px;
   justify-content: space-between;
 }
+
+.maxBtn {
+  padding: 11px 21px!important;
+}
+
 .buttons-container button.button {
   width: 100%;
 }
@@ -537,7 +571,7 @@ div.flex.balance-container > div.flex {
 }
 
 .red-text-on-create-new {
-  padding: 40px 40px 20px 40px;
+  padding: 40px 10px ;
 }
 .red-text-on-create-new p {
   color: red;
@@ -590,15 +624,24 @@ div.flex.balance-container > div.flex {
   }
   div.flex {
     min-height: auto;
+    flex-wrap: wrap;
+  }
+  .buttons-container {
+    margin-top: 100px;
+    justify-content: flex-end;
   }
 }
 
 @media (max-width: 700px) {
-  .list-btns-box > div {
-    align-items: flex-start;
+  .list-btns-box {
+    justify-content: space-between;
+    box-sizing: border-box;
   }
-  .list-btns-box > div.list {
-    width: 300px;
+  .list-btns-box > div.btns {
+    padding-left: 0;
+  }
+  .buttons {
+    margin-top: 30px;
   }
   .red-text-on-create-new {
     padding: 20px 10px 20px 10px;
@@ -622,11 +665,16 @@ div.flex.balance-container > div.flex {
   .onyx-balance-amount {
     font-size: 1.28571429rem;
   }
+  .buttons button {
+    margin-bottom: 10px!important;
+  }
 }
 @media (max-width: 400px) {
   .list-btns-box > div.list {
     width: 300px;
     margin: 0 auto 20px auto;
   }
+  .ui.orange.message p strong{
+    word-break: break-all;
+  }
 }
-
