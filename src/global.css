@@ -267,6 +267,10 @@ div.flex.content {
   line-height: 1;
 }
 
+header h1 {
+  text-align: center;
+}
+
 .logoHeader span {
   line-height: 30px;
   margin-left: 10px;
@@ -286,6 +290,10 @@ h1.header {
 
 .buttons button {
   width: 200px;
+}
+
+.buttons .smallBtn {
+  width: 117.5px;
 }
 
 .hint {
@@ -642,6 +650,10 @@ div.flex.balance-container > div.flex {
   }
   .buttons {
     margin-top: 30px;
+  }
+
+  .settings__buttons-container {
+    margin-bottom: 0;
   }
   .red-text-on-create-new {
     padding: 20px 10px 20px 10px;
