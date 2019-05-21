@@ -9,10 +9,10 @@ export const testOpts = {
   },
   head: { address: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41" },
   gasCompensator: {
-    address: "http://cepheus-compensator.onyxpay.co:5001"
+    address: "https://cepheus-compensator.onyxpay.co"
   },
   authApi: {
-    address: "http://preprod.onyxcoin.io/api/v1/login"
+    address: "https://preprod.onyxcoin.io/api/v1/login"
   },
   blockExplorer: {
     address: "http://18.202.221.73/api/v1"
