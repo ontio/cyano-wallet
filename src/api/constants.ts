@@ -28,7 +28,7 @@ export const propdOpts = {
   },
   head: { address: "34bef74a6ba72e2fdcecf2b3c67be9b26c70dac8" },
   gasCompensator: {
-    address: "http://andromeda-compensator.onyxpay.co:8001"
+    address: "https://andromeda-compensator.onyxpay.co"
   },
   authApi: {
     address: "https://ico.onyxcoin.io/api/v1"
