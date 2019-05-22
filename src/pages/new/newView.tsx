@@ -35,21 +35,14 @@ export const NewView: React.SFC<Props> = props => (
     </div>
 
     <div className="new-account-contnet">
-
       <label>Mnemonics phrase</label>
-      <Message className="scroll">{props.mnemonics}</Message>
-
+      <Message className="scroll"><p>{props.mnemonics}</p></Message>
       <label>Private key (WIF format)</label>
-      <Message className="breakWords">{props.wif}</Message>
+      <Message className="breakWords"><p>{props.wif}</p></Message>
       <Filler />
-
-
-
     </div>
-
-    <div className="continue-btn">
+    <div className="continue-btn buttons">
       <Button onClick={props.handleContinue}>Continue</Button>
     </div>
-
   </View>
 );

@@ -9,10 +9,10 @@ export const testOpts = {
   },
   head: { address: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41" },
   gasCompensator: {
-    address: "http://cepheus-compensator.onyxpay.co:5001"
+    address: "https://cepheus-compensator.onyxpay.co"
   },
   authApi: {
-    address: "http://preprod.onyxcoin.io/api/v1/login"
+    address: "https://preprod.onyxcoin.io/api/v1/login"
   },
   blockExplorer: {
     address: "http://18.202.221.73/api/v1"
@@ -28,7 +28,7 @@ export const propdOpts = {
   },
   head: { address: "34bef74a6ba72e2fdcecf2b3c67be9b26c70dac8" },
   gasCompensator: {
-    address: "http://andromeda-compensator.onyxpay.co:8001"
+    address: "https://andromeda-compensator.onyxpay.co"
   },
   authApi: {
     address: "https://ico.onyxcoin.io/api/v1"
