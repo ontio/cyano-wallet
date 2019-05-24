@@ -15,7 +15,7 @@ export const testOpts = {
     address: "https://preprod.onyxcoin.io/api/v1/login"
   },
   blockExplorer: {
-    address: "http://18.202.221.73/api/v1"
+    address: "https://cepheus-explorer.onyxpay.co/api/v1"
   }
 };
 
@@ -34,7 +34,7 @@ export const propdOpts = {
     address: "https://ico.onyxcoin.io/api/v1"
   },
   blockExplorer: {
-    address: "http://35.180.67.84/api/v1"
+    address: "https://andromeda-explorer.onyxpay.co/api/v1"
   }
 };
 
