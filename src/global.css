@@ -106,7 +106,7 @@ body {
 
 .transfersView {
   margin-bottom: auto;
-  overflow-y: inherit!important;
+  overflow-y: inherit !important;
 }
 
 .transfersView .transferList {
@@ -474,19 +474,6 @@ div.flex.balance-container {
 div.flex.balance-container > div.flex {
   width: 33.333%;
 }
-.restoreButtons {
-  height: 100%;
-  flex-wrap: nowrap!important;
-}
-
-.restoreButtons div:first-child {
-  height: 100%;
-  justify-content: center;
-}
-
-.restoreButtons .restoreButtonsBack {
-  margin: 10px 0;
-}
 
 .buttons-container {
   height: 100%;
@@ -496,7 +483,7 @@ div.flex.balance-container > div.flex {
 }
 
 .maxBtn {
-  padding: 11px 21px!important;
+  padding: 11px 21px !important;
 }
 
 .buttons-container button.button {
@@ -579,7 +566,7 @@ div.flex.balance-container > div.flex {
 }
 
 .red-text-on-create-new {
-  padding: 40px 10px ;
+  padding: 40px 10px;
 }
 .red-text-on-create-new p {
   color: red;
@@ -678,7 +665,7 @@ div.flex.balance-container > div.flex {
     font-size: 1.28571429rem;
   }
   .buttons button {
-    margin-bottom: 10px!important;
+    margin-bottom: 10px !important;
   }
 }
 @media (max-width: 400px) {
@@ -686,7 +673,7 @@ div.flex.balance-container > div.flex {
     width: 300px;
     margin: 0 auto 20px auto;
   }
-  .ui.orange.message p strong{
+  .ui.orange.message p strong {
     word-break: break-all;
   }
 }
