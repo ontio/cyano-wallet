@@ -22,6 +22,7 @@ body {
   background-color: #f4f4f4;
   flex-direction: column;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  min-height: 100%;
 }
 
 .space-betweem {
@@ -126,6 +127,10 @@ button.ui.basic.button:focus {
 button.ui.basic.button:hover i {
   color: #ffaa89;
   transition: all 0.3s ease 0s;
+}
+
+.user-select {
+  user-select: all;
 }
 
 .toBottom {
@@ -690,3 +695,13 @@ div.flex.balance-container > div.flex {
     word-break: break-all;
   }
 }
+@media (max-width: 350px) {
+  .receive-id-box {
+    max-width: 300px;
+    overflow-x: scroll;
+  }
+  .receive-id-box span {
+    padding-right: 10px;
+  }
+}
+

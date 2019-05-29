@@ -36,7 +36,9 @@ export const ReceiveView: React.SFC<Props> = (props) => (
     </View>
     <View orientation="column" fluid={true} content={true}>
       <label>Public address</label>
-      <span className="receive-id-box">{props.address}</span>
+      <View className="receive-id-box">
+        <span >{props.address}</span>
+      </View>
       <Spacer />
       <View className="qrCode">
         <QRCode value={props.address} fgColor="#595757" size={100} />
