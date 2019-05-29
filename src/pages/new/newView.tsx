@@ -39,9 +39,6 @@ export const NewView: React.SFC<Props> = props => (
       <Message className="scroll user-select">{props.mnemonics}</Message>
       <label>Private key (WIF format)</label>
       <Message className="breakWords user-select">{props.wif}</Message>
-      <Message className="scroll"><p>{props.mnemonics}</p></Message>
-      <label>Private key (WIF format)</label>
-      <Message className="breakWords"><p>{props.wif}</p></Message>
       <Filler />
     </div>
     <div className="continue-btn buttons">

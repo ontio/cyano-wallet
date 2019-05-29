@@ -678,8 +678,8 @@ div.flex.balance-container > div.flex {
     width: 300px;
     margin: 0 auto 20px auto;
   }
-  .ui.orange.message p strong {
-    word-break: break-all;
+  .ui.message p strong {
+    word-break: break-word;
   }
 }
 @media (max-width: 350px) {
