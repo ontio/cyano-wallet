@@ -11,28 +11,24 @@ export interface Props {
 export const SignupView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true} className="gradient">
     <View orientation="column" className="container">
-      <Logo/>
+      <Logo />
       <View orientation="column" className="hint">
         <View>To start using wallet, please</View>
         <View>create new account or restore existing.</View>
       </View>
       <View orientation="column" fluid={true} content={true}>
-        <View orientation="column" fluid={true} className="center signButtons buttons">
-          <Button onClick={props.handleCreate}>
-            New account
-          </Button>
-          <Spacer/>
-          <Button onClick={props.handleRestore}>
-            Restore account
-          </Button>
-          <Spacer/>
+        <View className="buttons" orientation="column" style={{ alignItems: "center" }}>
+          <Button onClick={props.handleCreate}>New account</Button>
+          <Spacer />
+          <Button onClick={props.handleRestore}>Restore account</Button>
+          <Spacer />
 
-          <label className="ui button" htmlFor="inputWallet">
+          <label className="ui button" htmlFor="inputWallet" style={{ width: 200 }}>
             Import wallet
             <input
               type="file"
               id="inputWallet"
-              style={{display: "none"}}
+              style={{ display: "none" }}
               onChange={props.handleWalletImport}
             />
           </label>

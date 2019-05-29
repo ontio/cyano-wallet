@@ -46,7 +46,7 @@ export const LoginView: React.SFC<Props> = props => (
             </View>
             <Spacer />
             <View orientation="column">
-              <label>Wallet password</label>
+              <label>Password</label>
               <Field
                 name="password"
                 validate={required}

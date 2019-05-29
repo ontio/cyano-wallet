@@ -1,6 +1,6 @@
-import * as React from 'react';
-import {LogoHeader, View, Spacer} from '../../components';
-import { Button } from 'semantic-ui-react';
+import * as React from "react";
+import { LogoHeader, View, Spacer } from "../../components";
+import { Button } from "semantic-ui-react";
 
 export interface Props {
   handlePrivateKeyRestore: () => void;
@@ -8,7 +8,7 @@ export interface Props {
   handleBack: () => void;
 }
 
-export const AccountsRestoreView: React.SFC<Props> = (props) => (
+export const AccountsRestoreView: React.SFC<Props> = props => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <LogoHeader showLogout={false} showAccounts={false} title="Accounts" />
@@ -16,16 +16,13 @@ export const AccountsRestoreView: React.SFC<Props> = (props) => (
         <View>Restore an existing account.</View>
       </View>
     </View>
-    <View orientation="column" fluid={true}>
-      <View orientation="column" className="center buttons restoreButtons">
-        <View orientation="column">
-          <Button onClick={props.handlePrivateKeyRestore}>Use private key</Button>
-          <Spacer />
-          <Button onClick={props.handleMnemonicsPhraseRestore}>Use mnemonics phrase</Button>
-        </View>
-        <View className="restoreButtonsBack">
-          <Button onClick={props.handleBack}>Back</Button>
-        </View>
+    <View orientation="column" fluid={true} content={true}>
+      <View orientation="column" className="buttons" style={{ alignItems: "center" }}>
+        <Button onClick={props.handlePrivateKeyRestore}>Use private key</Button>
+        <Spacer />
+        <Button onClick={props.handleMnemonicsPhraseRestore}>Use mnemonics phrase</Button>
+        <Spacer />
+        <Button onClick={props.handleBack}>Back</Button>
       </View>
     </View>
   </View>
