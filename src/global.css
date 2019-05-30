@@ -101,13 +101,26 @@ body {
   font-weight: normal;
 }
 
+.spread-around.transfersContainer {
+  margin: 0!important;
+}
+
+.spread-around.transfersContainer .buttons {
+  padding: 5px 0;
+}
+
+.transfersView .transferList .item {
+  padding-left: 10px!important;
+}
+
 .transfersView .transferList .item .description {
   word-break: break-all;
 }
 
 .transfersView {
-  margin-bottom: auto;
-  overflow-y: inherit !important;
+  max-height: calc(100vh - 185px);
+  overflow: auto;
+  padding-top: 10px;
 }
 
 .transfersView .transferList {
@@ -174,6 +187,9 @@ div.flex.spread {
 div.flex.spread-around {
   justify-content: space-around;
 }
+
+
+
 div.flex.align-items-center {
   align-items: center;
 }
@@ -640,6 +656,9 @@ div.flex.balance-container > div.flex {
   .list-btns-box > div.btns {
     padding-left: 0;
   }
+  .spread-around.transfersContainer .buttons {
+    margin-top: 0;
+  }
   .buttons {
     margin-top: 30px;
   }
@@ -671,6 +690,15 @@ div.flex.balance-container > div.flex {
   }
   .buttons button {
     margin-bottom: 10px !important;
+  }
+  .spread-around.transfersContainer .buttons button {
+    margin-bottom: 0!important;
+  }
+  .logoHeader .buttons button {
+    margin-bottom: 0!important;
+  }
+  .transfersView .transferList .item  {
+    padding-right: 10px!important;
   }
 }
 @media (max-width: 400px) {
