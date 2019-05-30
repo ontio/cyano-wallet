@@ -41,8 +41,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
               const username: string = get(routerProps.location, "state.username", "");
               const userData: any = get(routerProps.location, "state.userData", "");
               const passwordHash = userData.pass_for_claim;
-              const firstName = userData.field_afl_first_name.und[0].value;
-              const sureName = userData.field_afl_surname.und[0].value;
+              const firstName =
+                userData.field_afl_first_name && userData.field_afl_first_name.und
+                  ? userData.field_afl_first_name.und[0].value
+                  : null;
+              const sureName =
+                userData.field_afl_surname && userData.field_afl_surname.und
+                  ? userData.field_afl_surname.und[0].value
+                  : null;
               let contract;
               let balance;
               const secretHash = createSecret(username, passwordHash, true);
