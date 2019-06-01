@@ -223,6 +223,13 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
     dispatch(Actions.transactionRequests.updateRequest<ScCallRequest>(request.id, { presignedTransaction: response }));
     return undefined;
   } else {
+    // Fixme: Log message cause Notify message to disappear
+    if (response.Action === 'Log') {
+      return {
+        transaction: response.Result.TxHash,
+      };
+    }
+
     if (response.Result.State === 0) {
       throw new Error('OTHER');
     }
