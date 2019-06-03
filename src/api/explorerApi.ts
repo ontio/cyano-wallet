@@ -1,6 +1,6 @@
 import axios from "axios";
 import { flatMap, get } from "lodash";
-import { AssetType, Transfer } from "../redux/runtime";
+import { AssetType, Transfer, AmountType } from "../redux/runtime";
 import { decodeAmount } from "src/utils/number";
 import { getOptions } from "../api/constants";
 
@@ -8,7 +8,7 @@ export async function getTransferList(address: string) {
   const options = getOptions();
   const endpoint = options.blockExplorer.address;
 
-  const url = `${endpoint}/explorer/address/time/${address}/ont/0`;
+  const url = `${endpoint}/explorer/address/${address}/30/1`;
 
   const response = await axios.get(url);
 
@@ -21,7 +21,7 @@ export async function getTransferList(address: string) {
 
       return transferList.map(transfer => {
         return {
-          amount: decodeAmount(get(transfer, "Amount", "0"), 8),
+          amount: translateAmount((get(transfer, "Amount")), (get(transfer, "AssetName"))),
           asset: translateAsset(get(transfer, "AssetName")),
           from: get(transfer, "FromAddress"),
           time: txnTime,
@@ -32,10 +32,18 @@ export async function getTransferList(address: string) {
   );
 }
 
+function translateAmount(amount: any, asset: any): AmountType  {
+  if (asset === "ont") {
+    return decodeAmount(amount, 8);
+  } else if (asset === "ong") {
+    return decodeAmount(amount, 0);
+  } 
+}
+
 function translateAsset(asset: any): AssetType {
-  if (asset === "onyx") {
+  if (asset === "ont") {
     return "ONYX";
-  } else if (asset === "oxg") {
+  } else if (asset === "ong") {
     return "OXG";
   } else {
     return "ONYX";

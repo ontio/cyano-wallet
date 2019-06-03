@@ -25,7 +25,7 @@ export const ClaimConfirmView: React.SFC<Props> = props => (
         render={formProps => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Password</label>
+              <label>Wallet password</label>
               <Field
                 name="password"
                 validate={required}
@@ -35,7 +35,7 @@ export const ClaimConfirmView: React.SFC<Props> = props => (
                     input={{ ...t.input, value: t.input.value }}
                     icon="key"
                     type="password"
-                    placeholder={formProps.submitErrors ? "Wrong password" : "Password"}
+                    placeholder={formProps.submitErrors ? "Wrong password" : "Wallet password"}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.loading}
                   />

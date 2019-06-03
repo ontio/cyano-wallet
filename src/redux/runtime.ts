@@ -2,8 +2,10 @@ import { Reducer } from "redux";
 
 export type AssetType = "ONYX" | "OXG" | string;
 
+export type AmountType =  any | any;
+
 export interface Transfer {
-  amount: string;
+  amount: AmountType;
   asset: AssetType;
   from: string;
   to: string;

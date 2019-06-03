@@ -22,6 +22,7 @@ body {
   background-color: #f4f4f4;
   flex-direction: column;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  min-height: 100%;
 }
 
 .space-betweem {
@@ -100,13 +101,27 @@ body {
   font-weight: normal;
 }
 
+.spread-around.transfersContainer {
+  margin: 0!important;
+}
+
+.spread-around.transfersContainer .buttons {
+  padding: 5px 0;
+}
+
+.transfersView .transferList .item {
+  padding-left: 10px!important;
+}
+
 .transfersView .transferList .item .description {
   word-break: break-all;
 }
 
 .transfersView {
-  margin-bottom: auto;
-  overflow-y: inherit !important;
+  height: calc(100vh - 185px);
+  overflow: auto;
+  padding-top: 10px;
+  box-shadow: inset 0 -10px 30px 0 rgba(83,125,167,.5);
 }
 
 .transfersView .transferList {
@@ -126,6 +141,10 @@ button.ui.basic.button:focus {
 button.ui.basic.button:hover i {
   color: #ffaa89;
   transition: all 0.3s ease 0s;
+}
+
+.user-select {
+  user-select: all;
 }
 
 .toBottom {
@@ -169,6 +188,7 @@ div.flex.spread {
 div.flex.spread-around {
   justify-content: space-around;
 }
+
 div.flex.align-items-center {
   align-items: center;
 }
@@ -635,6 +655,9 @@ div.flex.balance-container > div.flex {
   .list-btns-box > div.btns {
     padding-left: 0;
   }
+  .spread-around.transfersContainer .buttons {
+    margin-top: 0;
+  }
   .buttons {
     margin-top: 30px;
   }
@@ -667,13 +690,32 @@ div.flex.balance-container > div.flex {
   .buttons button {
     margin-bottom: 10px !important;
   }
+  .spread-around.transfersContainer .buttons button {
+    margin-bottom: 0!important;
+  }
+  .logoHeader .buttons button {
+    margin-bottom: 0!important;
+  }
+  .transfersView .transferList .item  {
+    padding-right: 10px!important;
+  }
 }
 @media (max-width: 400px) {
   .list-btns-box > div.list {
     width: 300px;
     margin: 0 auto 20px auto;
   }
-  .ui.orange.message p strong {
-    word-break: break-all;
+  .ui.message p strong {
+    word-break: break-word;
   }
 }
+@media (max-width: 350px) {
+  .receive-id-box {
+    max-width: 300px;
+    overflow-x: scroll;
+  }
+  .receive-id-box span {
+    padding-right: 10px;
+  }
+}
+
