@@ -10,8 +10,8 @@ export interface Props {
   loading: boolean;
   currentAddress: string | undefined;
   balance: string | null;
-  firstName: string;
-  sureName: string;
+  firstName: string | null;
+  sureName: string | null;
   balanceError: string | null;
 }
 
@@ -24,26 +24,37 @@ export const ClaimOnyxView: React.SFC<Props> = props => (
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Segment.Group compact={true}>
         <Segment>
-          User: <span>{props.firstName}</span>
-          <span style={{ paddingLeft: "5px" }}>{props.sureName}</span>
+          {props.firstName && props.sureName ? (
+            <>
+              User: <span>{props.firstName}</span>
+              <span style={{ paddingLeft: "5px" }}>{props.sureName}</span>
+            </>
+          ) : props.firstName || props.sureName ? (
+            <>
+              User: <span>{props.firstName || props.sureName}</span>
+            </>
+          ) : (
+            <span>No user name provided</span>
+          )}
         </Segment>
         <Segment>
           Unclaimed balance: <span className="unclaimed-onyx-balance">{props.balance}</span>
           <span className="unclaimed-onyx-label">ONYX</span>
-          <p style={{fontStyle: "italic", paddingTop: '5px'}}>
-            * The displayed unclaimed balance might differ from the full amount of your investments. Recent investments become available for claiming within a week of being made.
+          <p style={{ fontStyle: "italic", paddingTop: "5px" }}>
+            * The displayed unclaimed balance might differ from the full amount of your investments.
+            Recent investments become available for claiming within a week of being made.
           </p>
         </Segment>
       </Segment.Group>
 
       {props.balance && props.balance !== "0" ? (
-          <Message className="warning-text">
-            <p>
-              Your Onyx coins will be claimed on address: <strong>{props.currentAddress}</strong>
-            </p>
-            <p>Make sure you remember or have written down your mnemonics phrase and private key.</p>
-            <p>If you don't, you can possibly lose access to your money.</p>
-          </Message>
+        <Message className="warning-text">
+          <p>
+            Your Onyx coins will be claimed on address: <strong>{props.currentAddress}</strong>
+          </p>
+          <p>Make sure you remember or have written down your mnemonics phrase and private key.</p>
+          <p>If you don't, you can possibly lose access to your money.</p>
+        </Message>
       ) : null}
 
       <Form
