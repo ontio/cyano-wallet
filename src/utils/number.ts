@@ -67,3 +67,11 @@ export function convertOxgToOnyx(amount: number, rate: string | null) {
 
   return amountOnyx.times(exhangeRate).toFixed();
 }
+
+export function convertOxgMax (amount: number, commission: number) {
+  const amountOXG = new BigNumber(amount);
+  if (new BigNumber(0).eq(amountOXG)) {
+    return 0;
+  }
+  return(amountOXG.div(new BigNumber(Math.pow(10, 9))).minus(new BigNumber(commission))).toFixed() ;
+}

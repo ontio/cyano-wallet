@@ -5,7 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
-import { convertAmountToStr, convertAmountFromStr } from "../../utils/number";
+import { convertAmountToStr, convertAmountFromStr, convertOxgMax } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -54,7 +54,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             const amountBN = convertAmountToStr(reduxProps.ontAmount, "ONYX");
             formProps.form.change("amount", amountBN.toString());
           } else if (asset === "OXG") {
-            const amountBN = convertAmountToStr(reduxProps.ongAmount, "OXG");
+            const amountBN = convertOxgMax(reduxProps.ongAmount, 0.01);
             formProps.form.change("amount", amountBN.toString());
           } else {
             const amountBN = convertAmountToStr(
