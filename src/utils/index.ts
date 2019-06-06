@@ -10,10 +10,8 @@ export function isHexadecimal(str: string) {
   }
 }
 
-export function createSecret(userName: string, passwordHash: string, secretHash?: boolean) {
-  const hexStr = utils.str2hexstr(String.prototype.concat(userName, passwordHash));
-  if (secretHash) {
-    return utils.sha256(utils.sha256(hexStr));
-  }
-  return utils.sha256(hexStr);
+export function createSecret(passwordHash: string) {
+  const hexStr = utils.str2hexstr(passwordHash);
+  const secret = utils.sha256(hexStr);
+  return [secret, utils.sha256(secret)];
 }
