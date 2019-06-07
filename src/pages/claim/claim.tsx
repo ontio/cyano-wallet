@@ -38,7 +38,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
         lifecycle(
           {
             componentDidMount: async () => {
-              const username: string = get(routerProps.location, "state.username", "");
               const userData: any = get(routerProps.location, "state.userData", "");
               const passwordHash = userData.pass_for_claim;
               const firstName =
@@ -51,8 +50,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
                   : null;
               let contract;
               let balance;
-              const secretHash = createSecret(username, passwordHash, true);
-              const secret = createSecret(username, passwordHash);
+              const [secret, secretHash] = createSecret(passwordHash);
 
               try {
                 contract = await getContractAddress("Investments");
