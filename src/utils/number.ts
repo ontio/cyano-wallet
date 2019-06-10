@@ -68,10 +68,15 @@ export function convertOxgToOnyx(amount: number, rate: string | null) {
   return amountOnyx.times(exhangeRate).toFixed();
 }
 
-export function convertOxgMax (amount: number, commission: number) {
-  const amountOXG = new BigNumber(amount);
-  if (new BigNumber(0).eq(amountOXG)) {
+export function convertOxgMax (amount: number, commission: number): null | any {
+  const amountOxg = new BigNumber(amount);
+  if (new BigNumber(0).eq(amountOxg)) {
     return 0;
   }
-  return(amountOXG.div(new BigNumber(Math.pow(10, 9))).minus(new BigNumber(commission))).toFixed() ;
+  return(amountOxg.div(new BigNumber(Math.pow(10, 9))).minus(new BigNumber(commission))).toFixed() ;
+}
+
+export function convertOnyxToBigNumber (amount: number): any { 
+  const amountOnyx = new BigNumber(amount);
+  return amountOnyx;
 }
