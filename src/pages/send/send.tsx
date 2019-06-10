@@ -5,7 +5,7 @@ import { RouterProps } from "react-router";
 import { dummy, reduxConnect, withProps } from "../../compose";
 import { GlobalState } from "../../redux";
 import { Props, SendView } from "./sendView";
-import { convertAmountToStr, convertAmountFromStr, convertOxgMax, convertONYX } from "../../utils/number";
+import { convertAmountToStr, convertAmountFromStr, convertOxgMax, convertOnyxToBigNumber } from "../../utils/number";
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
@@ -32,7 +32,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       }
     ];
     const ong = convertOxgMax(reduxProps.ongAmount, 0.01);
-    const ont = convertONYX(reduxProps.ontAmount);
+    const ont = convertOnyxToBigNumber(reduxProps.ontAmount);
 
     return withProps(
       {
