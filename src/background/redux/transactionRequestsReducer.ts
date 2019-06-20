@@ -29,6 +29,7 @@ import {
   ScCallReadRequest,
   ScCallRequest,
   ScDeployRequest,
+  StateChannelLoginRequest,
   SUBMIT_REQUEST,
   SwapRequest,
   TransactionRequestsState,
@@ -40,6 +41,7 @@ import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
 import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
+import { stateChannelLogin } from '../api/stateChannelApi';
 import { transferToken } from '../api/tokenApi';
 
 const defaultState: TransactionRequestsState = { requests: [] };
@@ -121,6 +123,9 @@ export const transactionRequestsAliases = {
           case 'message_sign':
             result = await submitMessageSign(request as MessageSignRequest, password!);
             break;
+          case 'stateChannel_login':
+            result = await submitStateChannelLogin(request as StateChannelLoginRequest, password!);
+            break; 
         }
 
         // resolves request
@@ -238,7 +243,8 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
       (element: any) => element.States,
     );
     return {
-      result: notify,
+      // Fixme: The Response of smartContract.invoke is {results: Result[], transaction: string} https://github.com/ontio/ontology-dapi/blob/master/src/api/types.ts
+      results: notify,
       transaction: response.Result.TxHash,
     };
   }
@@ -248,6 +254,10 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {
   return timeout(messageSign(request, password), 15000);
+}
+
+async function submitStateChannelLogin(request: StateChannelLoginRequest, password: string) {
+  return timeout(stateChannelLogin(request, password), 15000);
 }
 
 async function submitScCallRead(request: ScCallReadRequest) {

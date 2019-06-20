@@ -12,6 +12,7 @@
   "dependencies": {
     "@bugsnag/js": "^5.1.0",
     "@bugsnag/plugin-react": "^5.1.0",
+    "@ont-community/hdkey-secp256r1": "^1.0.1",
     "@ont-community/ontology-ts-sdk-ledger": "^1.0.8",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",

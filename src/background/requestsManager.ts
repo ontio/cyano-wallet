@@ -11,6 +11,7 @@ import {
   ScCallReadRequest,
   ScCallRequest,
   ScDeployRequest,
+  StateChannelLoginRequest,
   TransactionRequestsState,
   TransferRequest,
 } from '../redux/transactionRequests';
@@ -98,6 +99,25 @@ export class RequestsManager {
 
     await this.popupManager.show();
     await this.popupManager.callMethod('history_push', '/message-sign', { ...args, requestId, locked: true });
+
+    return deferred.promise;
+  }
+
+  public async initStateChannelLogin() {
+    const requestId = uuid();
+    // stores deferred object to resolve when the transaction is resolved
+    const deferred = new Deferred<any>();
+    this.requestDeferreds.set(requestId, deferred);
+
+    await this.store.dispatch(
+      Actions.transactionRequests.addRequest<StateChannelLoginRequest>({
+        id: requestId,
+        type: 'stateChannel_login',
+      }),
+    );
+
+    await this.popupManager.show();
+    await this.popupManager.callMethod('history_push', '/stateChannel-login', { requestId, locked: true });
 
     return deferred.promise;
   }
@@ -232,6 +252,8 @@ export class RequestsManager {
     return deferred.promise;
   }
 }
+
+
 
 let requestsManager: RequestsManager;
 
