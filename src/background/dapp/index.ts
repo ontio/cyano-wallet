@@ -5,7 +5,7 @@ import { messageApi as message } from './message';
 import { networkApi as network } from './network';
 import { providerApi } from './provider';
 import { smartContractApi as smartContract } from './smartContract';
-import { stateChannelApi as stateChannel } from './state-channel';
+import { stateChannelApi as stateChannel } from './stateChannel';
 
 export function initDApiProvider() {
   provider.registerProvider({
@@ -18,7 +18,7 @@ export function initDApiProvider() {
       provider: providerApi,
       smartContract,
       stateChannel,
-      utils: client.api.utils,
+      utils: client.api.utils
     },
   });
 }

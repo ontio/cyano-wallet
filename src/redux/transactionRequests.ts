@@ -28,7 +28,8 @@ export type TransactionType =
   | 'sc_call'
   | 'sc_call_read'
   | 'sc_deploy'
-  | 'message_sign';
+  | 'message_sign'
+  | 'stateChannel_login';
 
 export interface TransactionRequest {
   id: string;
@@ -55,6 +56,11 @@ export interface SwapRequest extends TransactionRequest {
 
 export interface MessageSignRequest extends TransactionRequest {
   message: string;
+}
+
+// tslint:disable-next-line:no-empty-interface
+export interface StateChannelLoginRequest extends TransactionRequest {
+
 }
 
 export interface RegisterOntIdRequest extends TransactionRequest {
