@@ -58,7 +58,7 @@ export async function getUnclaimedBalance(contract: string, secretHash: string) 
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
     [p1],
-    new Crypto.Address(utils.reverseHex(contract)),
+    new Crypto.Address(contract),
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`
   );

@@ -7,7 +7,7 @@ export const testOpts = {
     address: "cepheus5.onyxpay.co",
     ssl: true
   },
-  head: { address: "9aa5af1bbb814daa6d8c48d7788ac75b3f389f41" },
+  head: { address: "87fd9b3718308de50fd639c9b9a411835936766a" },
   gasCompensator: {
     address: "https://cepheus-compensator.onyxpay.co"
   },
@@ -26,7 +26,7 @@ export const propdOpts = {
     address: "andromeda-sync.onyxpay.co",
     ssl: true
   },
-  head: { address: "34bef74a6ba72e2fdcecf2b3c67be9b26c70dac8" },
+  head: { address: "9a54f5d022fe964d32881a7ed8fe36795ec37c27" },
   gasCompensator: {
     address: "https://andromeda-compensator.onyxpay.co"
   },

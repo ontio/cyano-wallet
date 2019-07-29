@@ -47,7 +47,7 @@ export async function getOxgExchangeRate(contract: string) {
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
     [],
-    new Crypto.Address(utils.reverseHex(contract)),
+    new Crypto.Address(contract),
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
