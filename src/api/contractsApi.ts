@@ -2,7 +2,6 @@ import {
   TransactionBuilder,
   Parameter,
   ParameterType,
-  utils,
   CONST,
   Crypto
 } from "ontology-ts-sdk";
@@ -20,13 +19,13 @@ export async function getContractAddress(contractName: string) {
   const tx = TransactionBuilder.makeInvokeTransaction(
     funcName,
     [p1],
-    new Crypto.Address(utils.reverseHex(contract)),
+    new Crypto.Address(contract),
     "500",
     `${CONST.DEFAULT_GAS_LIMIT}`
   );
 
   const response = await client.sendRawTransaction(tx.serialize(), true);
   // contract address should be reversed in trx builder!
-  const address = utils.hexstr2str(get(response, "Result.Result"));
+  const address = get(response, "Result.Result");
   return address;
 }
