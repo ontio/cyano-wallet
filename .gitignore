@@ -24,3 +24,5 @@ build.crx
 build.pem
 
 upload-sourcemaps.sh
+
+*.zip
