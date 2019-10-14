@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Parameter } from 'ontology-dapi';
-import { Crypto, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
+import { Parameter } from '@ont-dev/ontology-dapi';
+import { Crypto, Parameter as Param, ParameterType, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { buildInvokePayload } from 'ontology-ts-test';
 import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
@@ -25,7 +25,7 @@ import { getClient } from '../network';
 import { getStore } from '../redux';
 
 import Address = Crypto.Address;
-import {decryptDefaultIdentity } from 'src/api/identityApi';
+import { decryptDefaultIdentity } from 'src/api/identityApi';
 
 /**
  * Creates, signs and sends the transaction for Smart Contract call.
@@ -48,15 +48,16 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
   const account = getAccount(state.wallet.wallet!).address;
-  
+
   let tx: Transaction;
   if (request.presignedTransaction) {
     tx = Transaction.deserialize(request.presignedTransaction);
   } else {
     // convert params
     const params = convertParams(request.parameters);
+    /* 
+    * we use ontology-ts-sdk to build the transaction
     const payload = buildInvokePayload(request.contract, request.method, params);
-  
     tx = TransactionBuilder.makeInvokeTransaction(
       request.method,
       [],
@@ -65,8 +66,27 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
       String(request.gasLimit),
       account,
     );
-
     (tx.payload as any).code = payload.toString('hex');
+     */
+     if (request.isWasmVm) {
+      tx = TransactionBuilder.makeWasmVmInvokeTransaction(
+        request.method,
+        params,
+        new Address(utils.reverseHex(request.contract)),
+        String(request.gasPrice),
+        String(request.gasLimit),
+        account,
+      )
+    } else {
+      tx = TransactionBuilder.makeInvokeTransaction(
+        request.method,
+        params,
+        new Address(utils.reverseHex(request.contract)),
+        String(request.gasPrice),
+        String(request.gasLimit),
+        account,
+      );
+    }
   }
 
   let privateKey: Crypto.PrivateKey;
@@ -100,19 +120,37 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
 
 export async function scCallRead(request: ScCallReadRequest) {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
-
+  const gasPrice = '500';
+  const gasLimit = '30000';
   // convert params
   const params = convertParams(request.parameters);
+  /* 
   const payload = buildInvokePayload(request.contract, request.method, params);
-
   const tx = TransactionBuilder.makeInvokeTransaction(
     request.method,
     [],
     new Address(utils.reverseHex(request.contract)),
   );
-
   (tx.payload as any).code = payload.toString('hex');
-
+   */
+  let tx: Transaction;
+  if (request.isWasmVm) {
+    tx = TransactionBuilder.makeWasmVmInvokeTransaction(
+      request.method,
+      params,
+      new Address(utils.reverseHex(request.contract)),
+      gasPrice,
+      gasLimit,
+    );
+  } else {
+    tx = TransactionBuilder.makeInvokeTransaction(
+      request.method,
+      params,
+      new Address(utils.reverseHex(request.contract)),
+      gasPrice,
+      gasLimit,   
+    )
+  }
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), true, false);
 }
@@ -134,7 +172,7 @@ export async function scDeploy(request: ScDeployRequest, password: string) {
     request.author,
     request.email,
     request.description,
-    request.needStorage,
+    request.vmType,
     String(request.gasPrice),
     String(request.gasLimit),
     account,
@@ -146,7 +184,7 @@ export async function scDeploy(request: ScDeployRequest, password: string) {
   return await client.sendRawTransaction(tx.serialize(), false, true);
 }
 
-function convertParams(parameters?: Parameter[]): any[] {
+function convertParams(parameters?: Parameter[]): Param[] {
   if (parameters === undefined) {
     return [];
   }
@@ -165,19 +203,24 @@ function convertMapParams(map: any) {
   return obj;
 }
 
-function convertParam(parameter: Parameter) {
+function convertParam(parameter: Parameter): Param {
   if (parameter.type === 'Boolean') {
-    return parameter.value === true || parameter.value === 'true';
+    return new Param('', ParameterType.Boolean, parameter.value === true || parameter.value === 'true')
   } else if (parameter.type === 'Integer') {
-    return Number(parameter.value);
+    return new Param('', ParameterType.Integer, Number(parameter.value))
   } else if (parameter.type === 'ByteArray') {
-    return new Buffer(parameter.value, 'hex');
+    // return new Buffer(parameter.value, 'hex');
+    // return parameter.value; 
+    // will use ontology-ts-sdk to build script code and it treats ByteArray as hex string;
+    return new Param('', ParameterType.ByteArray, parameter.value)
   } else if (parameter.type === 'String') {
-    return parameter.value;
+    return new Param('', ParameterType.String, parameter.value)
   } else if (parameter.type === 'Array') {
-    return convertParams(parameter.value);
+    return new Param('', ParameterType.Array, convertParams(parameter.value));
   } else if (parameter.type === 'Map') {
-    return convertMapParams(parameter.value);
+    return new Param('', ParameterType.Map, convertMapParams(parameter.value));
+  } else if (parameter.type === 'Address') {
+    return new Param('', ParameterType.Address, new Address(parameter.value));
   } else {
     // send as is, so underlying library can process it
     return parameter.value;

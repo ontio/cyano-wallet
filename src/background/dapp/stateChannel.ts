@@ -1,4 +1,4 @@
-import { Signature, StateChannelApi } from 'ontology-dapi';
+import { Signature, StateChannelApi } from '@ont-dev/ontology-dapi';
 import { getRequestsManager } from '../requestsManager';
 
 

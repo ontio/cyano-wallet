@@ -1,5 +1,5 @@
-import { Signature } from 'ontology-dapi';
-import { StateChannelApi } from 'ontology-dapi/lib/types/api/stateChannel';
+import { Signature } from '@ont-dev/ontology-dapi';
+import { StateChannelApi } from '@ont-dev/ontology-dapi';
 
 export const stateChannelApi: StateChannelApi = {
   async login(): Promise<string> {

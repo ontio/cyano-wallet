@@ -1,4 +1,4 @@
-import { AssetApi } from 'ontology-dapi';
+import { AssetApi } from '@ont-dev/ontology-dapi';
 import { getAddress, getPublicKey } from '../../api/accountApi';
 import { getStore } from '../redux';
 import { getRequestsManager } from '../requestsManager';

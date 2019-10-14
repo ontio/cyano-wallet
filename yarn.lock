@@ -398,6 +398,19 @@
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
 
+"@ont-dev/ontology-dapi@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.4.9.tgz#3ddde4e037f8820cf85fc885d2d1efb685937df9"
+  integrity sha512-9FJYzrLv1VzbS8vQZxnAOWtYJRx6kwzuNeY1USXWo6bIWGNt9i9UVYxKPJkhyVQj/hRn4YQz0q7W0Fpm6mjnPQ==
+  dependencies:
+    "@ont-community/window-post-message-proxy" "^0.2.14"
+    base-x "^3.0.5"
+    crypto-js "^3.1.9-1"
+    promise-timeout "^1.3.0"
+    typedarray-to-buffer "^3.1.5"
+    uuid "^3.3.2"
+    webextension-polyfill-ts "^0.8.7"
+
 "@types/babel__core@^7.1.0":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"
@@ -6667,19 +6680,6 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-ontology-dapi@^0.4.9:
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/ontology-dapi/-/ontology-dapi-0.4.9.tgz#39404b5706603b4de9901172f3be970ff8aa4ab8"
-  integrity sha512-ej/qBGGjYYZisnCfosoF4h2zB6BQ+7gr1Nd9LwySB1A2eSCPcglUVxoVqVKdXeQ+HIHsuZfVmqGyf4tlJCXiDQ==
-  dependencies:
-    "@ont-community/window-post-message-proxy" "^0.2.14"
-    base-x "^3.0.5"
-    crypto-js "^3.1.9-1"
-    promise-timeout "^1.3.0"
-    typedarray-to-buffer "^3.1.5"
-    uuid "^3.3.2"
-    webextension-polyfill-ts "^0.8.7"
-
 ontology-ts-crypto@^0.1.24:
   version "0.1.24"
   resolved "https://registry.yarnpkg.com/ontology-ts-crypto/-/ontology-ts-crypto-0.1.24.tgz#cf43785e42b23d7ec4552b674e5cd22284d2d4f6"
@@ -6728,10 +6728,10 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.0.22:
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.22.tgz#e70063e669ac47409e9f6c2982e5ce82b2af8b29"
-  integrity sha512-XSYwmWZLxe9e0wk0oWmo+vsIpl7wpfj+TNT9hwP2JvhZq1TrS2h28dL9xKBoGPD0+03TUeFi0+5qNnF/ydV4cA==
+ontology-ts-sdk@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.24.tgz#5fd403ef9aac3931d54a25e4a323c1e500c42fca"
+  integrity sha512-jk+B2QbbE3uYgBvCkdwcJodHJYkxfmb1Km6RsxK2yM6E6krp7h7y01WCvLuEk2bgWTayz/jIg7AizeUqeRVlyg==
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"

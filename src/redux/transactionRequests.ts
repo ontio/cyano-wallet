@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Parameter } from 'ontology-dapi';
+import { Parameter, VmType } from '@ont-dev/ontology-dapi';
 import { AssetType } from './runtime';
 
 export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED' | 'OTHER';
@@ -72,6 +72,7 @@ export interface RegisterOntIdRequest extends TransactionRequest {
 }
 
 export interface ScCallRequest extends TransactionRequest {
+    isWasmVm: boolean;
   contract: string;
   method: string;
   gasPrice?: number;
@@ -89,12 +90,13 @@ export interface ScDeployRequest extends TransactionRequest {
   author?: string;
   email?: string;
   description?: string;
-  needStorage?: boolean;
+  vmType: boolean | VmType;
   gasPrice?: number;
   gasLimit?: number;
 }
 
 export interface ScCallReadRequest extends TransactionRequest {
+    isWasmVm: boolean;
   contract: string;
   method: string;
   parameters?: Parameter[];
