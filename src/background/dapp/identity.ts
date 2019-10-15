@@ -1,4 +1,4 @@
-import { IdentityApi, OntIdDDO } from 'ontology-dapi';
+import { IdentityApi, OntIdDDO } from '@ont-dev/ontology-dapi';
 import { DDO, OntidContract } from 'ontology-ts-sdk';
 import { getIdentity } from '../../api/identityApi';
 import { getClient } from '../network';

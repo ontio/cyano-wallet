@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { MethodType, Rpc } from 'ontology-dapi';
+import { MethodType, Rpc } from '@ont-dev/ontology-dapi';
 import { Identity } from 'ontology-ts-sdk';
 import { decryptDefaultIdentity } from 'src/api/identityApi';
 import { browser } from 'webextension-polyfill-ts';

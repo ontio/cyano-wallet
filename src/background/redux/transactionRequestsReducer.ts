@@ -197,7 +197,7 @@ function isTrustedSc(request: ScCallRequest, state: GlobalState) {
   if (request.requireIdentity) {
     return false;
   }
-  
+
   const trustedScs = state.settings.trustedScs;
 
   const trustedSc = trustedScs.find(
@@ -249,7 +249,7 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
     };
   }
 
-  
+
 }
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {

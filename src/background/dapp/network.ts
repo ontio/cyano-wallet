@@ -1,5 +1,5 @@
 import Address = Crypto.Address;
-import { Balance, Block, MerkleProof, Network, NetworkApi, Transaction } from 'ontology-dapi';
+import { Balance, Block, MerkleProof, Network, NetworkApi, Transaction } from '@ont-dev/ontology-dapi';
 import { Crypto } from 'ontology-ts-sdk';
 import { decodeAmount } from 'src/popup/utils/number';
 import { getTokenBalance } from '../api/tokenApi';

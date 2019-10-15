@@ -1,4 +1,4 @@
-import { Parameter } from 'ontology-dapi';
+import { Parameter, VmType } from '@ont-dev/ontology-dapi';
 import { getWallet } from 'src/api/authApi';
 import { hasIdentity } from 'src/api/identityApi';
 import { v4 as uuid } from 'uuid';
@@ -122,7 +122,8 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-  public async initScCall(args: {
+    public async initScCall(args: {
+    isWasmVm: boolean,
     contract: string;
     method: string;
     parameters?: Parameter[];
@@ -197,7 +198,7 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-  public async initScCallRead(args: { contract: string; method: string; parameters?: Parameter[] }) {
+    public async initScCallRead(args: { isWasmVm: boolean; contract: string; method: string; parameters?: Parameter[] }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved
@@ -224,7 +225,7 @@ export class RequestsManager {
     author?: string;
     email?: string;
     description?: string;
-    needStorage?: boolean;
+    vmType?: VmType | boolean;
     gasPrice?: number;
     gasLimit?: number;
   }) {

@@ -1,4 +1,4 @@
-import { Signature } from 'ontology-dapi';
+import { Signature } from '@ont-dev/ontology-dapi';
 import { Crypto, utils } from 'ontology-ts-sdk';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';

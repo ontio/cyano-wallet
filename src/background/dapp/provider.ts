@@ -1,4 +1,4 @@
-import { Provider, ProviderApi } from 'ontology-dapi';
+import { Provider, ProviderApi } from '@ont-dev/ontology-dapi';
 import { browser } from 'webextension-polyfill-ts';
 
 export const providerApi: ProviderApi = {
