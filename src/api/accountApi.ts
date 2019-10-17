@@ -124,7 +124,7 @@ export function getAccount(wallet: string | Wallet) {
 
   const defaultAddress = wallet.defaultAccountAddress;
 
-  if (defaultAddress != null) {
+  if (defaultAddress != null || defaultAddress !== '') {
     const account = wallet.accounts.find((a) => a.address.toBase58() === defaultAddress);
 
     if (account === undefined) {

@@ -15,6 +15,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+import { VmType } from '@ont-dev/ontology-dapi';
+
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 
 // tslint:disable:object-literal-sort-keys
@@ -76,7 +79,8 @@ export const addToken = (contract: string, name: string, symbol: string, decimal
   name,
   symbol,
   decimals,
-  specification,
+    specification,
+  vmType:
 });
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });

@@ -18,6 +18,7 @@ export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   }
   contract = utils.reverseHex(contract);
 
+// TODO 需要支持wasm vm的oep4；转账也要分NEO和wasm；
   const builder = new Oep4TxBuilder(new Address(contract));
 
   const client = getClient();

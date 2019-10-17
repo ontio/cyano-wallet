@@ -212,7 +212,9 @@ function convertParam(parameter: Parameter): Param {
     // will use ontology-ts-sdk to build script code and it treats ByteArray as hex string;
     return new Param('', ParameterType.ByteArray, parameter.value);
   } else if (parameter.type === 'String') {
-    return new Param('', ParameterType.String, parameter.value);
+    return new Param('', ParameterType.String, parameter.value)
+  } else if (parameter.type === 'Long') {
+    return new Param('', ParameterType.Long, parameter.value)
   } else if (parameter.type === 'Array') {
     return new Param('', ParameterType.Array, convertParams(parameter.value));
   } else if (parameter.type === 'Map') {
