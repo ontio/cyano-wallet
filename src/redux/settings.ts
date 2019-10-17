@@ -79,7 +79,8 @@ export const addToken = (contract: string, name: string, symbol: string, decimal
   name,
   symbol,
   decimals,
-    specification
+    specification,
+  vmType:
 });
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });
