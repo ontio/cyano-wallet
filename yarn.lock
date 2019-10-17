@@ -6728,10 +6728,10 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.0.24:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.24.tgz#5fd403ef9aac3931d54a25e4a323c1e500c42fca"
-  integrity sha512-jk+B2QbbE3uYgBvCkdwcJodHJYkxfmb1Km6RsxK2yM6E6krp7h7y01WCvLuEk2bgWTayz/jIg7AizeUqeRVlyg==
+ontology-ts-sdk@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.25.tgz#6b46ea7b626707fa833694b063ad9d22b43fb770"
+  integrity sha512-R80Y0Eapzm5klHdwCC/g+dvnnXo7C29/FgpSamLOUMVsQvSE/GVbVtHQtnVxrjKCyIDhtn4L2RxIMovFo+dSVQ==
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"
