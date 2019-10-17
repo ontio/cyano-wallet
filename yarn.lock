@@ -398,10 +398,10 @@
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
 
-"@ont-dev/ontology-dapi@^0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.4.9.tgz#3ddde4e037f8820cf85fc885d2d1efb685937df9"
-  integrity sha512-9FJYzrLv1VzbS8vQZxnAOWtYJRx6kwzuNeY1USXWo6bIWGNt9i9UVYxKPJkhyVQj/hRn4YQz0q7W0Fpm6mjnPQ==
+"@ont-dev/ontology-dapi@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.0.tgz#12007ac71daa63da8822f763f7dfda44cab7328d"
+  integrity sha512-KgTzElwnwkLjfCW+cX3nWeB7sC+KhJye5ogJONRXr84mFpdgq+y28chcks80yopr5zSN28yAM/cIgIx6HocSJA==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"
