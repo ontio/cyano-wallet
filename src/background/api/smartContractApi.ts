@@ -17,7 +17,6 @@
  */
 import { Parameter } from '@ont-dev/ontology-dapi';
 import { Crypto, Parameter as Param, ParameterType, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
-import { buildInvokePayload } from 'ontology-ts-test';
 import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
@@ -29,14 +28,14 @@ import { decryptDefaultIdentity } from 'src/api/identityApi';
 
 /**
  * Creates, signs and sends the transaction for Smart Contract call.
- * 
+ *
  * Can work in two modes:
  * 1. simple account sign (requireIdentity = false)
  *  - the transaction is created, signed and sent in one step
  * 2. account + identity sign (requireIdentity = true)
  *  - the transaction is created, signed by account and stored in first step (presignedTransaction = undefined)
  *  - signed by identity and sent in second step (presignedTransaction = serialized transaction)
- * 
+ *
  * @param request request describing the SC call
  * @param password password to decode the private key (account or identity)
  */
@@ -68,7 +67,7 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
     );
     (tx.payload as any).code = payload.toString('hex');
      */
-     if (request.isWasmVm) {
+    if (request.isWasmVm) {
       tx = TransactionBuilder.makeWasmVmInvokeTransaction(
         request.method,
         params,
@@ -76,7 +75,7 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
         String(request.gasPrice),
         String(request.gasLimit),
         account,
-      )
+      );
     } else {
       tx = TransactionBuilder.makeInvokeTransaction(
         request.method,
@@ -91,7 +90,7 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
 
   let privateKey: Crypto.PrivateKey;
   if (request.requireIdentity && request.presignedTransaction) {
-    // mode 2, step 2: 
+    // mode 2, step 2:
     // already signed by account
     // do signature by identity
     privateKey = decryptDefaultIdentity(wallet, password, wallet.scrypt);
@@ -110,7 +109,6 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
     // return the presigned transaction to be stored in request
     // outside of this method
     return tx.serialize();
-
   } else {
     // mode 1 or mode 2, step 2
     const client = getClient();
@@ -148,8 +146,8 @@ export async function scCallRead(request: ScCallReadRequest) {
       params,
       new Address(utils.reverseHex(request.contract)),
       gasPrice,
-      gasLimit,   
-    )
+      gasLimit,
+    );
   }
   const client = getClient();
   return await client.sendRawTransaction(tx.serialize(), true, false);
@@ -205,14 +203,14 @@ function convertMapParams(map: any) {
 
 function convertParam(parameter: Parameter): Param {
   if (parameter.type === 'Boolean') {
-    return new Param('', ParameterType.Boolean, parameter.value === true || parameter.value === 'true')
+    return new Param('', ParameterType.Boolean, parameter.value === true || parameter.value === 'true');
   } else if (parameter.type === 'Integer') {
-    return new Param('', ParameterType.Integer, Number(parameter.value))
+    return new Param('', ParameterType.Integer, Number(parameter.value));
   } else if (parameter.type === 'ByteArray') {
     // return new Buffer(parameter.value, 'hex');
-    // return parameter.value; 
+    // return parameter.value;
     // will use ontology-ts-sdk to build script code and it treats ByteArray as hex string;
-    return new Param('', ParameterType.ByteArray, parameter.value)
+    return new Param('', ParameterType.ByteArray, parameter.value);
   } else if (parameter.type === 'String') {
     return new Param('', ParameterType.String, parameter.value)
   } else if (parameter.type === 'Long') {

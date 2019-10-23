@@ -122,8 +122,8 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-    public async initScCall(args: {
-    isWasmVm: boolean,
+  public async initScCall(args: {
+    isWasmVm: boolean;
     contract: string;
     method: string;
     parameters?: Parameter[];
@@ -134,7 +134,7 @@ export class RequestsManager {
   }) {
     const state = this.store.getState();
     const wallet = getWallet(state.wallet.wallet!);
-    
+
     if (args.requireIdentity && !hasIdentity(wallet)) {
       return Promise.reject('NO_IDENTITY');
     }
@@ -198,7 +198,7 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-    public async initScCallRead(args: { isWasmVm: boolean; contract: string; method: string; parameters?: Parameter[] }) {
+  public async initScCallRead(args: { isWasmVm: boolean; contract: string; method: string; parameters?: Parameter[] }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved
@@ -240,6 +240,7 @@ export class RequestsManager {
         ...args,
         id: requestId,
         type: 'sc_deploy',
+        vmType: args.vmType!,
       }),
     );
 
@@ -253,8 +254,6 @@ export class RequestsManager {
     return deferred.promise;
   }
 }
-
-
 
 let requestsManager: RequestsManager;
 
