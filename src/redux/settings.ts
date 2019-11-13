@@ -1,3 +1,4 @@
+import { VmType } from './../api/tokenApi';
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -16,8 +17,6 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { VmType } from '@ont-dev/ontology-dapi';
-
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 
 // tslint:disable:object-literal-sort-keys
@@ -27,7 +26,8 @@ export interface TokenState {
   name: string;
   symbol: string;
   decimals: number;
-  specification: 'OEP-4';
+    specification: 'OEP-4';
+    vmType: VmType
 }
 
 export interface TrustedSc {

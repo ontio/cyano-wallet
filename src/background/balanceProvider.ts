@@ -37,7 +37,7 @@ export async function refreshBalance(store: GlobalStore) {
 
       for (const token of tokens) {
         try {
-          const amount = await getTokenBalanceOwn(token.contract);
+          const amount = await getTokenBalanceOwn(token.contract, token.vmType);
           tokenBalances.push({ contract: token.contract, amount });
         } catch (e) {
           // tslint:disable-next-line:no-console
