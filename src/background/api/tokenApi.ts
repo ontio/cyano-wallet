@@ -35,12 +35,7 @@ export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   let nameResponse;
   let symbolResponse;
   let decimalsResponse;
-  if (vmType === 'NEOVM') {
-    nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
-    symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
-    decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
-  } else if (vmType === 'WASMVM') {
-      debugger
+  if (vmType === 'WASMVM') {
     const tx1 = TransactionBuilder.makeWasmVmInvokeTransaction(
       'name',
       [],
@@ -58,13 +53,17 @@ export async function getOEP4Token(contract: string): Promise<OEP4Token> {
     );
     symbolResponse = await client.sendRawTransaction(tx2.serialize(), true);
     const tx3 = TransactionBuilder.makeWasmVmInvokeTransaction(
-      'decimal',
+      'decimals',
       [],
       new Address(contractAddr),
       gasPrice,
       gasLimit,
     );
     decimalsResponse = await client.sendRawTransaction(tx3.serialize(), true);
+  } else {
+    nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
+    symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
+    decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
   }
 
   return {
@@ -93,11 +92,7 @@ export async function getTokenBalance(contract: string, address: Address, vmType
   contract = utils.reverseHex(contract);
   const client = getClient();
   let response;
-  if (vmType === 'NEOVM') {
-    const builder = new Oep4TxBuilder(new Address(contract));
-    const tx = builder.queryBalanceOf(address);
-    response = await client.sendRawTransaction(tx.serialize(), true);
-  } else {
+  if (vmType === 'WASMVM') {
     const params = [new Parameter('param1', ParameterType.Address, address)];
     const tx = TransactionBuilder.makeWasmVmInvokeTransaction(
       'balanceOf',
@@ -106,6 +101,10 @@ export async function getTokenBalance(contract: string, address: Address, vmType
       gasPrice,
       gasLimit,
     );
+    response = await client.sendRawTransaction(tx.serialize(), true);
+  } else {
+    const builder = new Oep4TxBuilder(new Address(contract));
+    const tx = builder.queryBalanceOf(address);
     response = await client.sendRawTransaction(tx.serialize(), true);
   }
 
@@ -120,7 +119,6 @@ export async function transferToken(request: TransferRequest, password: string) 
   if (token === undefined) {
     throw new Error('OEP-4 token not found.');
   }
-
   const contract = utils.reverseHex(token.contract);
   const builder = new Oep4TxBuilder(new Address(contract));
 
@@ -129,15 +127,31 @@ export async function transferToken(request: TransferRequest, password: string) 
 
   const to = new Address(request.recipient);
   const amount = String(request.amount);
-
-  const tx = builder.makeTransferTx(
-    from,
-    to,
-    encodeAmount(amount, token.decimals),
-    '500',
-    `${CONST.DEFAULT_GAS_LIMIT}`,
-    from,
-  );
+    let tx;
+    if (token.vmType === 'WASMVM') {
+        const params = [
+            new Parameter('from', ParameterType.Address, from),
+            new Parameter('to', ParameterType.Address, to),
+            new Parameter('amount', ParameterType.Long, encodeAmount(amount, token.decimals))
+        ];
+         tx = TransactionBuilder.makeWasmVmInvokeTransaction(
+        'transfer',
+        params,
+        new Address(contract),
+        gasPrice,
+             `${CONST.DEFAULT_GAS_LIMIT}`,
+        from
+        );
+    } else {
+        tx = builder.makeTransferTx(
+            from,
+            to,
+            encodeAmount(amount, token.decimals),
+            '500',
+            `${CONST.DEFAULT_GAS_LIMIT}`,
+            from,
+          );
+    }
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 

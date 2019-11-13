@@ -26,8 +26,8 @@ export interface TokenState {
   name: string;
   symbol: string;
   decimals: number;
-    specification: 'OEP-4';
-    vmType: VmType
+  specification: 'OEP-4';
+  vmType: VmType;
 }
 
 export interface TrustedSc {
@@ -73,13 +73,21 @@ export const setSettings = (
   trustedScs,
 });
 
-export const addToken = (contract: string, name: string, symbol: string, decimals: number, specification: 'OEP-4') => ({
+export const addToken = (
+  contract: string,
+  name: string,
+  symbol: string,
+  decimals: number,
+  specification: 'OEP-4',
+  vmType: VmType,
+) => ({
   type: ADD_TOKEN,
   contract,
   name,
   symbol,
   decimals,
-    specification
+  specification,
+  vmType,
 });
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });

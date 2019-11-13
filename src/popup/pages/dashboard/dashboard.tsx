@@ -121,6 +121,7 @@ function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[
       decimals: token.decimals,
       name: token.name,
       symbol: token.symbol,
+      vmType: token.vmType,
     };
   });
 }

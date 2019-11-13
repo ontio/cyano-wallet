@@ -56,7 +56,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             const token = await manager.getOEP4Token(contract);
 
             // todo: proper spec
-            await actions.addToken(contract, token.name, token.symbol, token.decimals, 'OEP-4');
+            await actions.addToken(contract, token.name, token.symbol, token.decimals, 'OEP-4', token.vmType);
 
             await actions.finishLoading();
 

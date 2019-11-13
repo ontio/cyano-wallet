@@ -48,6 +48,7 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
             name: action.name,
             specification: action.specification,
             symbol: action.symbol,
+            vmType: action.vmType
           },
         ],
       };
