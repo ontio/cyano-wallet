@@ -1,10 +1,10 @@
 import * as Long from 'long';
-import { CONST, Crypto, Oep4, TransactionBuilder, utils } from 'ontology-ts-sdk';
+import { CONST, Crypto, Oep4, Parameter, ParameterType, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { decryptAccount, getAccount } from 'src/api/accountApi';
 import { encodeAmount } from 'src/popup/utils/number';
 import { TransferRequest } from 'src/redux/transactionRequests';
 import { getWallet } from '../../api/authApi';
-import { OEP4Token } from '../../api/tokenApi';
+import { OEP4Token, VmType } from '../../api/tokenApi';
 import { getClient } from '../network';
 import { getStore } from '../redux';
 
@@ -12,35 +12,77 @@ import Address = Crypto.Address;
 import Oep4TxBuilder = Oep4.Oep4TxBuilder;
 import { isHexadecimal } from 'src/api/utils';
 
+const gasPrice = '500';
+const gasLimit = '20000';
 export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   if (!isHexadecimal(contract)) {
     throw new Error('Contract is not hexadecimal string');
   }
-  contract = utils.reverseHex(contract);
+  // TODO 需要支持wasm vm的oep4；转账也要分NEO和wasm；
 
-// TODO 需要支持wasm vm的oep4；转账也要分NEO和wasm；
-  const builder = new Oep4TxBuilder(new Address(contract));
+  const contractAddr = utils.reverseHex(contract);
+  const builder = new Oep4TxBuilder(new Address(contractAddr));
 
   const client = getClient();
-  const nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
-  const symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
-  const decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
+  // first get contract json to decide the vmType
+  const contractJson = await client.getContractJson(contract);
+  let vmType: VmType = 'NEOVM';
+  if (contractJson && contractJson.Error === 0) {
+    if (contractJson.Result && contractJson.Result.VmType === 3) {
+      vmType = 'WASMVM';
+    }
+  }
+  let nameResponse;
+  let symbolResponse;
+  let decimalsResponse;
+  if (vmType === 'NEOVM') {
+    nameResponse = await client.sendRawTransaction(builder.queryName().serialize(), true);
+    symbolResponse = await client.sendRawTransaction(builder.querySymbol().serialize(), true);
+    decimalsResponse = await client.sendRawTransaction(builder.queryDecimals().serialize(), true);
+  } else if (vmType === 'WASMVM') {
+      debugger
+    const tx1 = TransactionBuilder.makeWasmVmInvokeTransaction(
+      'name',
+      [],
+      new Address(contractAddr),
+      gasPrice,
+      gasLimit,
+    );
+    nameResponse = await client.sendRawTransaction(tx1.serialize(), true);
+    const tx2 = TransactionBuilder.makeWasmVmInvokeTransaction(
+      'symbol',
+      [],
+      new Address(contractAddr),
+      gasPrice,
+      gasLimit,
+    );
+    symbolResponse = await client.sendRawTransaction(tx2.serialize(), true);
+    const tx3 = TransactionBuilder.makeWasmVmInvokeTransaction(
+      'decimal',
+      [],
+      new Address(contractAddr),
+      gasPrice,
+      gasLimit,
+    );
+    decimalsResponse = await client.sendRawTransaction(tx3.serialize(), true);
+  }
 
   return {
     decimals: extractNumberResponse(decimalsResponse),
     name: extractStringResponse(nameResponse),
     symbol: extractStringResponse(symbolResponse),
+    vmType,
   };
 }
 
-export async function getTokenBalanceOwn(contract: string) {
+export async function getTokenBalanceOwn(contract: string, vmType: VmType) {
   const state = getStore().getState();
   const address = getAccount(state.wallet.wallet!).address;
 
-  return getTokenBalance(contract, address);
+  return getTokenBalance(contract, address, vmType);
 }
 
-export async function getTokenBalance(contract: string, address: Address) {
+export async function getTokenBalance(contract: string, address: Address, vmType: VmType) {
   const state = getStore().getState();
 
   const token = state.settings.tokens.find((t) => t.contract === contract);
@@ -49,12 +91,23 @@ export async function getTokenBalance(contract: string, address: Address) {
   }
 
   contract = utils.reverseHex(contract);
-
-  const builder = new Oep4TxBuilder(new Address(contract));
-
   const client = getClient();
-  const tx = builder.queryBalanceOf(address);
-  const response = await client.sendRawTransaction(tx.serialize(), true);
+  let response;
+  if (vmType === 'NEOVM') {
+    const builder = new Oep4TxBuilder(new Address(contract));
+    const tx = builder.queryBalanceOf(address);
+    response = await client.sendRawTransaction(tx.serialize(), true);
+  } else {
+    const params = [new Parameter('param1', ParameterType.Address, address)];
+    const tx = TransactionBuilder.makeWasmVmInvokeTransaction(
+      'balanceOf',
+      params,
+      new Address(contract),
+      gasPrice,
+      gasLimit,
+    );
+    response = await client.sendRawTransaction(tx.serialize(), true);
+  }
 
   return Long.fromString(utils.reverseHex(response.Result.Result), true, 16).toString();
 }
