@@ -1,3 +1,4 @@
+import { VmType } from './../api/tokenApi';
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of The Ontology Wallet&ID.
@@ -15,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 
 // tslint:disable:object-literal-sort-keys
@@ -25,6 +27,7 @@ export interface TokenState {
   symbol: string;
   decimals: number;
   specification: 'OEP-4';
+  vmType: VmType;
 }
 
 export interface TrustedSc {
@@ -70,13 +73,21 @@ export const setSettings = (
   trustedScs,
 });
 
-export const addToken = (contract: string, name: string, symbol: string, decimals: number, specification: 'OEP-4') => ({
+export const addToken = (
+  contract: string,
+  name: string,
+  symbol: string,
+  decimals: number,
+  specification: 'OEP-4',
+  vmType: VmType,
+) => ({
   type: ADD_TOKEN,
   contract,
   name,
   symbol,
   decimals,
   specification,
+  vmType,
 });
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });
