@@ -22,7 +22,7 @@ import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../compon
 
 export interface Props {
   address: string;
-  
+
   handleReturn: () => void;
 }
 

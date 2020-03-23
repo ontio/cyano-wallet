@@ -51,8 +51,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) =>
-    withProps(
-      {
+    withProps({
         handleReceive: () => {
           props.history.push('/receive');
         },
