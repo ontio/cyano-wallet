@@ -29,9 +29,14 @@ export const TokenAmountList: React.SFC<Props> = (props) => (
     <List className="transferList" divided={true}>
       {props.tokens.map((token, i) => (
         <List.Item key={i}>
-          <List.Icon name="money bill alternate outline" size="large" verticalAlign="middle" />
+          <List.Content floated='right'>
+            <List.Description className="asset-amount">
+              {token.amount}
+            </List.Description>
+          </List.Content>
+            <List.Icon name="gem outline" size="large" verticalAlign="middle" />
           <List.Content>
-            <List.Header>{token.amount} - {token.symbol}</List.Header>
+            <List.Header>{token.symbol}</List.Header>
             <List.Description>{token.name}</List.Description>
           </List.Content>
         </List.Item>

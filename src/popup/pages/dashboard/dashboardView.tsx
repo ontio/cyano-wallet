@@ -74,7 +74,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
           </List.Item>
       </List>
       <Spacer />
-      <h1>OEP-4 Tokens</h1>
+      <h1 class="margin-bottom-custom">OEP-4 Tokens</h1>
       <TokenAmountList tokens={props.tokens} />
       <Spacer />
       <Filler />

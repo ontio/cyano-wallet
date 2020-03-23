@@ -155,7 +155,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 200 !important;
+  font-weight: 200;
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 0;
   margin-bottom: 0;
@@ -325,6 +325,7 @@ div.flex.content.balance-wrapper {
 h4.unbound {
 /*  color: #e0e1e2; */
   color: #48a3ff;
+  font-weight: 400;
   cursor: pointer;
 }
 
@@ -366,5 +367,9 @@ h4.unbound:hover {
 .asset-amount {
   font-size: 1.25em;
   line-height: 1.7;
-  text-align:right;
+  text-align: right;
+}
+
+.margin-bottom-custom {
+  margin-bottom: 0.2em;
 }
