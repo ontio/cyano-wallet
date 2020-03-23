@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Cyano wallet",
+  "name": "Cyano Wallet",
   "author": "Matus Zamborsky <zamborsky@gmail.com>",
-  "description": "Cyano wallet - an Ontology wallet",
+  "description": "Cyano Wallet - an Ontology wallet",
   "version": "0.7.19",
 
   "browser_action": {
