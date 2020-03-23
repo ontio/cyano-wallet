@@ -16,6 +16,7 @@
  * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
+import { List } from 'semantic-ui-react';
 import { Button } from 'semantic-ui-react';
 import { OEP4TokenAmount } from 'src/api/tokenApi';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, TokenAmountList, View } from '../../components';

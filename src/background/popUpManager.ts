@@ -30,7 +30,7 @@ import { refreshBalance } from './balanceProvider';
 
 // size of the popup
 const width = 350;
-const height = 452;
+const height = 580;
 
 export class PopupManager {
   private rpc: Rpc;
