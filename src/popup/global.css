@@ -323,12 +323,14 @@ div.flex.content.balance-wrapper {
 }
 
 h4.unbound {
-  color: #e0e1e2;
+/*  color: #e0e1e2; */
+  color: #48a3ff;
   cursor: pointer;
 }
 
 h4.unbound:hover {
-  color: white;
+/*  color: white; */
+  color: black;
 }
 
 .ledgerText {
@@ -364,4 +366,5 @@ h4.unbound:hover {
 .asset-amount {
   font-size: 1.25em;
   line-height: 1.7;
+  text-align:right;
 }

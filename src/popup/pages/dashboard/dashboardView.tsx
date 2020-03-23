@@ -49,7 +49,9 @@ export const DashboardView: React.SFC<Props> = (props) => (
       <List className="transferList" divided={true}>
           <List.Item key="0">
             <List.Content floated='right'>
-              <List.Description><span class="asset-amount">{props.ontAmount}</span></List.Description>
+              <List.Description className="asset-amount">
+                {props.ontAmount}
+              </List.Description>
             </List.Content>
             <Image avatar src={require('../../assets/ontology.png')} />
             <List.Content>
@@ -59,7 +61,10 @@ export const DashboardView: React.SFC<Props> = (props) => (
           </List.Item>
           <List.Item key="0">
             <List.Content floated='right'>
-              <List.Description><span class="asset-amount">{props.ongAmount}</span></List.Description>
+              <List.Description className="asset-amount">
+                {props.ongAmount}
+              </List.Description>
+              <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
             </List.Content>
             <Image avatar src={require('../../assets/ontology-gas.png')} />
             <List.Content>
