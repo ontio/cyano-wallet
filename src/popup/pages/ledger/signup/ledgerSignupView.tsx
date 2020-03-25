@@ -48,7 +48,7 @@ export const LedgerSignupView: React.SFC<Props> = (props) => (
       <>
         <View orientation="column" className="hint">
           <View>Connect your Ledger</View>
-          <View>and open ONT app</View>
+          <View>and open the ONT app</View>
         </View>
         <View orientation="column" fluid={true} content={true}>
           <View orientation="column" fluid={true} className="center signButtons">

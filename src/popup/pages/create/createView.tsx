@@ -32,7 +32,7 @@ export const CreateView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="New account" />
       <View content={true} className="spread-around">
-        <View>Enter your passphrase for account encryption.</View>
+        <View>Enter a passphrase for account encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

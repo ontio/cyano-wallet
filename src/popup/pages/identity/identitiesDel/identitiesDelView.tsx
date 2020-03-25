@@ -31,7 +31,7 @@ export const IdentitiesDelView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <IdentityLogoHeader title="Identity remove" />
       <View content={true} className="spread-around">
-        <View>Confirm identity removal. Be sure to have backup.</View>
+        <View>Confirm identity removal. Be sure to have a backup.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>

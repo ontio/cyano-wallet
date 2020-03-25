@@ -33,7 +33,7 @@ export const IdentityCreateView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="New identity" />
       <View content={true} className="spread-around">
-        <View>Enter your passphrase for identity encryption. Registration will cost you 0.01 ONG.</View>
+        <View>Enter a passphrase for identity encryption. Registration will cost you 0.01 ONG.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

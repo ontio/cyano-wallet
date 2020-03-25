@@ -32,7 +32,7 @@ export const IdentitySignupView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true} className="gradient">
     <IdentityLogo />
     <View orientation="column" className="hint">
-      <View>You don't have registered your identity yet.</View>
+      <View>You don't have a registered identity yet.</View>
       <View>Create new identity or import existing.</View>
     </View>
     <View orientation="column" fluid={true} content={true}>

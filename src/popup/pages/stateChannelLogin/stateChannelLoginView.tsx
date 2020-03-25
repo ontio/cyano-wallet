@@ -31,7 +31,7 @@ export const StateChannelLoginView: React.SFC<Props> = (props) => (
         <View orientation="column" className="part gradient">
             <AccountLogoHeader title="Login State Channel Client" />
             <View content={true} className="spread-around">
-                <View>You are about to login a state channel client.</View>
+                <View>You are about to log in to a state channel client.</View>
             </View>
         </View>
         <View orientation="column" fluid={true} content={true}>

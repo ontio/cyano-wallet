@@ -32,7 +32,7 @@ export const IdentityImportView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="Import private key" />
       <View content={true} className="spread-around">
-        <View>Enter your private key and passphrase for identity encryption.</View>
+        <View>Enter your private key and a new passphrase for identity encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>

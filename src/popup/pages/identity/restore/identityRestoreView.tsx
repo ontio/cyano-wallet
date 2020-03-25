@@ -32,7 +32,7 @@ export const IdentityRestoreView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="Restore identity" />
       <View content={true} className="spread-around">
-        <View>Enter your mnemonics phrase and passphrase for identity encryption.</View>
+        <View>Enter your mnemonics phrase and a new passphrase for identity encryption.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around" scroll={true}>

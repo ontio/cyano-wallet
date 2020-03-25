@@ -30,7 +30,7 @@ export const TrezorNewView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="New Trezor account" />
       <View content={true} className="spread-around">
-        <View>You have successfully registered new account.</View>
+        <View>You have successfully registered a new account.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">

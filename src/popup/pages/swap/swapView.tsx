@@ -38,11 +38,11 @@ export const SwapView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Swap NEP-5 ONT tokens" />
       <View content={true} className="spread-around">
-        <View>Only whole number of ONT is possible to swap.</View>
+        <View>Only whole numbers of ONT are possible to swap.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
-      <Message>Swap can take upto 24h. Try with small amount first.</Message>
+      <Message>Swap can take upto 24h. Try with a small amount first.</Message>
       <Form
         initialValues={props.initialValues}
         onSubmit={props.handleConfirm}

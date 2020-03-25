@@ -31,7 +31,7 @@ export const AccountsDelView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Account remove" />
       <View content={true} className="spread-around">
-        <View>Confirm account removal. Be sure to have backup.</View>
+        <View>Confirm account removal. Be sure to have a backup.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
