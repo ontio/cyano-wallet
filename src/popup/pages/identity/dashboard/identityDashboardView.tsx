@@ -25,7 +25,7 @@ export interface Props {
 export const IdentityDashboardView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <IdentityLogoHeader title="My identity" />
+      <IdentityLogoHeader title="My Identity" />
       <View content={true}>
         <View orientation="column">
           <h4>Registered ONT ID</h4>

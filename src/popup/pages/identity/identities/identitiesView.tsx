@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
+import { Filler, IdentitiesLogoHeader, Spacer, StatusBar, View } from '../../../components';
 import { IdentityList } from '../../../components';
 
 export interface Props {
@@ -35,7 +35,7 @@ export interface Props {
 export const IdentitiesView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <IdentityLogoHeader title="Identities" />
+      <IdentitiesLogoHeader title="Identities" />
       <View content={true} className="spread-around">
         <View>Select the identity to switch to.</View>
       </View>
