@@ -327,6 +327,7 @@ h4.unbound {
   color: #48a3ff;
   font-weight: 400;
   cursor: pointer;
+  text-align: right;
 }
 
 h4.unbound:hover {
