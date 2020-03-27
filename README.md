@@ -1,7 +1,7 @@
 # Cyano Wallet - an Ontology wallet
 
 <p>
-  <img width="300px" src="/wallet3.png">
+  <img width="300px" src="/wallet4.png">
 </p>
 
 ## Overview
