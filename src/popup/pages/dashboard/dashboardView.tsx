@@ -33,6 +33,7 @@ export interface Props {
   handleReceive: () => void;
   handleWithdraw: () => void;
   handleSwap: () => void;
+
 }
 
 export const DashboardView: React.SFC<Props> = (props) => (
@@ -40,14 +41,18 @@ export const DashboardView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Balances" />
       <View content={true} className="spread-around">
-        <View>{props.ownAddress}</View>
+        <View>
+          <div>
+            {props.ownAddress}
+          </div>
+        </View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Spacer />
       <h1>ONT/ONG</h1>
       <List className="transferList" divided={true}>
-          <List.Item key="0">
+          <List.Item key="ont">
             <List.Content floated='right'>
               <List.Description className="asset-amount">
                 {props.ontAmount}
@@ -59,7 +64,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
               <List.Description>Ontology</List.Description>
             </List.Content>
           </List.Item>
-          <List.Item key="0">
+          <List.Item key="ong">
             <List.Content floated='right'>
               <List.Description className="asset-amount">
                 {props.ongAmount}
@@ -74,7 +79,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
           </List.Item>
       </List>
       <Spacer />
-      <h1 class="margin-bottom-custom">OEP-4 Tokens</h1>
+      <h1 className="margin-bottom-custom">OEP-4 Tokens</h1>
       <TokenAmountList tokens={props.tokens} />
       <Spacer />
       <Filler />
