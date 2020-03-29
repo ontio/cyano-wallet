@@ -1,19 +1,19 @@
 /*
  * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
+ * This file is part of Cyano Wallet.
  *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
+ * Cyano Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
+ * Cyano Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700');
 
@@ -49,7 +49,7 @@ body {
 }
 
 .ui.button {
-  color: #32a4be;
+  color: #48a3ff;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: bold;
   text-transform: uppercase;
@@ -67,7 +67,7 @@ body {
 }
 
 .ui.dropdown {
-  color: #32a4be;
+  color: #48a3ff;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: bold;
   text-transform: uppercase;
@@ -75,7 +75,7 @@ body {
 
 .ui.list .list > .item .header,
 .ui.list > .item .header {
-  color: #32a4be;
+  color: #48a3ff;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: normal;
 }
@@ -90,7 +90,8 @@ body {
   display: flex;
   flex-grow: 1;
   align-self: stretch;
-  background-color: #f4f4f4;
+/*  background-color: #f4f4f4;*/
+  background-color: #ffffff;
 }
 
 div.flex {
@@ -145,7 +146,8 @@ div.flex.error {
 }
 
 .gradient {
-  background-color: #32b4d2;
+/*  background-color: #32b4d2; */
+  background-color: #48a3ff;
   color: white;
 }
 
@@ -153,7 +155,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 200 !important;
+  font-weight: 200;
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 0;
   margin-bottom: 0;
@@ -321,12 +323,16 @@ div.flex.content.balance-wrapper {
 }
 
 h4.unbound {
-  color: #e0e1e2;
+/*  color: #e0e1e2; */
+  color: #48a3ff;
+  font-weight: 400;
   cursor: pointer;
+  text-align: right;
 }
 
 h4.unbound:hover {
-  color: white;
+/*  color: white; */
+  color: black;
 }
 
 .ledgerText {
@@ -349,4 +355,22 @@ h4.unbound:hover {
 .accountList .item,
 .identityList .item {
   cursor: pointer;
+}
+
+.asset-icon {
+  height: 48px;
+  width: 48px;
+  border-radius: 25px;
+  border: 1px solid #dedede;
+  background: #fff;
+}
+
+.asset-amount {
+  font-size: 1.25em;
+  line-height: 1.7;
+  text-align: right;
+}
+
+.margin-bottom-custom {
+  margin-bottom: 0.2em;
 }

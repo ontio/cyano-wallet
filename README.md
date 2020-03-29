@@ -1,8 +1,7 @@
-# Cyano wallet - an Ontology wallet
+# Cyano Wallet - an Ontology wallet
 
 <p>
-  <img width="300px" src="/wallet.png">
-  <img width="300px" src="/wallet2.png">
+  <img width="300px" src="/wallet4.png">
 </p>
 
 ## Overview
@@ -93,13 +92,13 @@ Ledger support is provided by the Ontology TS SDK extension https://github.com/O
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
 ```
 
-To use your Ledger, you also needs Official Ontology Ledger App installed on your Ledger.
+To use your Ledger, you also need the Official Ontology Ledger App installed on your Ledger.
 
 #### Trezor support
 
 Trezor support is provided by the Ontology TS SDK extension https://github.com/OntologyCommunityDevelopers/ontology-ts-sdk-trezor. Trezor allows communication with the Trezor Bridge v2 only from https://*.trezor.io page and Node environment, therefore it is not usable from web pages. But it is usable from Web extensions using WebRequest API.
 
-To use your Trezor, you also needs custom firmware located at https://github.com/backslash47/trezor-core . Ontology support is is not yet in official firmware.
+To use your Trezor, you also needs custom firmware located at https://github.com/backslash47/trezor-core . Ontology support is not yet in official firmware.
 
 ## Built With
 

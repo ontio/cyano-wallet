@@ -1,19 +1,19 @@
 /*
  * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
+ * This file is part of Cyano Wallet.
  *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
+ * Cyano Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
+ * Cyano Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
 import { List } from 'semantic-ui-react';
@@ -29,9 +29,14 @@ export const TokenAmountList: React.SFC<Props> = (props) => (
     <List className="transferList" divided={true}>
       {props.tokens.map((token, i) => (
         <List.Item key={i}>
-          <List.Icon name="money bill alternate outline" size="large" verticalAlign="middle" />
+          <List.Content floated='right'>
+            <List.Description className="asset-amount">
+              {token.amount}
+            </List.Description>
+          </List.Content>
+            <List.Icon name="gem outline" size="large" verticalAlign="middle" />
           <List.Content>
-            <List.Header>{token.amount} - {token.symbol}</List.Header>
+            <List.Header>{token.symbol}</List.Header>
             <List.Description>{token.name}</List.Description>
           </List.Content>
         </List.Item>
