@@ -4,7 +4,7 @@
   "name": "Cyano Wallet",
   "author": "Matus Zamborsky <zamborsky@gmail.com>",
   "description": "Cyano Wallet - an Ontology wallet",
-  "version": "0.7.19",
+  "version": "0.8.0",
 
   "browser_action": {
     "default_title": "Cyano Wallet"
