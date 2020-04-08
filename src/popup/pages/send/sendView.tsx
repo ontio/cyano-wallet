@@ -109,7 +109,7 @@ export const SendView: React.SFC<Props> = (props) => (
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.locked || get(formProps.values, 'asset') === undefined}
-                    action={get(formProps.values, 'asset') === 'ONG' || get(formProps.values, 'asset') === 'ONT'? <Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" /> : undefined}
+                    action={<Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" />}
                   />
                 )}
               />

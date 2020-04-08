@@ -25,12 +25,13 @@ import { AssetType } from '../../../redux/runtime';
 import { TransferRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
-import { convertAmountFromStr, convertAmountToBN, convertAmountToStr } from '../../utils/number';
+import { convertAmountFromStr, convertAmountToBN, convertAmountToStr, decodeAmount } from '../../utils/number';
 import { InitialValues, Props, SendView } from './sendView';
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
+  tokenAmounts: state.runtime.tokenAmounts,
   tokens: state.settings.tokens
 });
 
@@ -106,6 +107,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             amountBN = amountBN.isNegative() ? new BigNumber(0) : amountBN;
 
             formProps.form.change('amount', amountBN.toString());
+          } else {
+              const token = reduxProps.tokens.find(item => item.symbol === asset);
+              if (token) {
+                  const tokenAmount = reduxProps.tokenAmounts.find(item => item.contract === token.contract)!
+                  const amount = decodeAmount(tokenAmount.amount, token.decimals);
+                  formProps.form.change('amount', amount )
+              }
           }
           return true;
         },

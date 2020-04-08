@@ -108,7 +108,7 @@ export async function getTokenBalance(contract: string, address: Address, vmType
     response = await client.sendRawTransaction(tx.serialize(), true);
   }
     const resultValue = utils.reverseHex(response.Result.Result);
-  return resultValue ? Long.fromString(resultValue, true, 16).toString() : 0;
+  return resultValue ? Long.fromString(resultValue, true, 16).toString() : '0';
 }
 
 export async function transferToken(request: TransferRequest, password: string) {
