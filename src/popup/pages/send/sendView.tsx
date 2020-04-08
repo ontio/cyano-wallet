@@ -104,7 +104,7 @@ export const SendView: React.SFC<Props> = (props) => (
                   <SemanticForm.Input
                     type="number"
                     placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                    step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
+                    step={get(formProps.values, 'asset') === 'ONG' ? '0.000000001' : '1'}
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
