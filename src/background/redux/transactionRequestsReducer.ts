@@ -23,6 +23,8 @@ import Actions from '../../redux/actions';
 import { GlobalState } from '../../redux/state';
 import {
   ADD_TRANSACTION_REQUEST,
+  FsCallRequest,
+  isScCallRequest,
   MessageSignRequest,
   RegisterOntIdRequest,
   RESOLVE_TRANSACTION_REQUEST,
@@ -40,7 +42,7 @@ import {
 import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
-import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
+import { fsCall, scCall, scCallRead, scDeploy } from '../api/smartContractApi';
 import { stateChannelLogin } from '../api/stateChannelApi';
 import { transferToken } from '../api/tokenApi';
 
@@ -126,6 +128,9 @@ export const transactionRequestsAliases = {
           case 'stateChannel_login':
             result = await submitStateChannelLogin(request as StateChannelLoginRequest, password!);
             break; 
+          case 'fs_call':
+            result = await submitFsCall(request as FsCallRequest, password!, dispatch, state);
+            break;
         }
 
         // resolves request
@@ -193,16 +198,20 @@ async function submitRegisterOntId(
   await dispatch(Actions.wallet.setWallet(wallet.toJson()));
 }
 
-function isTrustedSc(request: ScCallRequest, state: GlobalState) {
-  if (request.requireIdentity) {
-    return false;
+function isTrustedSc(request: ScCallRequest | FsCallRequest, state: GlobalState) {
+  let contract = 'fs';
+  if (isScCallRequest(request)) {
+    if (request.requireIdentity) {
+      return false;
+    }
+    contract = request.contract;
   }
 
   const trustedScs = state.settings.trustedScs;
 
   const trustedSc = trustedScs.find(
     (t) =>
-      t.contract === request.contract &&
+      t.contract === contract &&
       (t.method === undefined || t.method === request.method) &&
       (t.paramsHash === undefined || t.paramsHash === request.paramsHash),
   );
@@ -250,6 +259,40 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
   }
 
 
+}
+
+async function submitFsCall(request: FsCallRequest, password: string, dispatch: Dispatch, state: GlobalState) {
+  if (isTrustedSc(request, state)) {
+    // fixme: add support for account+identity password
+    await dispatch(Actions.password.setPassword(password));
+  }
+
+  const response = await timeout(fsCall(request, password), 15000);
+
+  if (typeof response === 'string') {
+    dispatch(Actions.transactionRequests.updateRequest<FsCallRequest>(request.id, { presignedTransaction: response }));
+    return undefined;
+  } else {
+    // Fixme: Log message cause Notify message to disappear
+    if (response.Action === 'Log') {
+      return {
+        transaction: response.Result.TxHash,
+      };
+    }
+
+    if (response.Result.State === 0) {
+      throw new Error('OTHER');
+    }
+  
+    const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === 'fs').map(
+      (element: any) => element.States,
+    );
+    return {
+      // Fixme: The Response of smartContract.invoke is {results: Result[], transaction: string} https://github.com/ontio/ontology-dapi/blob/master/src/api/types.ts
+      results: notify,
+      transaction: response.Result.TxHash,
+    };
+  }
 }
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {

@@ -1,4 +1,6 @@
 import { VmType } from './../api/tokenApi';
+import { FsMethod } from "./transactionRequests";
+
 /*
  * Copyright (C) 2018 Matus Zamborsky
  * This file is part of Cyano Wallet.
@@ -31,8 +33,8 @@ export interface TokenState {
 }
 
 export interface TrustedSc {
-  contract: string;
-  method?: string;
+  contract: string | 'fs';
+  method?: string | FsMethod;
   paramsHash?: string;
   name: string;
   password: boolean;

@@ -16,15 +16,124 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Parameter } from '@ont-dev/ontology-dapi';
-import { Crypto, Parameter as Param, ParameterType, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
+import { Crypto, OntfsContractTxBuilder, Parameter as Param, ParameterType, Transaction, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { decryptAccount, getAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
-import { ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
+import { FsCallRequest, ScCallReadRequest, ScCallRequest, ScDeployRequest } from '../../redux/transactionRequests';
 import { getClient } from '../network';
 import { getStore } from '../redux';
 
 import Address = Crypto.Address;
 import { decryptDefaultIdentity } from 'src/api/identityApi';
+
+export async function fsCall(request: FsCallRequest, password: string): Promise<string | any> {
+  const { parameters = [], gasPrice = 500, gasLimit = 30000, method, paramsHash } = request;
+
+  const state = getStore().getState();
+  const wallet = getWallet(state.wallet.wallet!);
+  const account = getAccount(state.wallet.wallet!).address;
+
+  let tx: Transaction;
+  if (request.presignedTransaction) {
+    tx = Transaction.deserialize(request.presignedTransaction);
+  } else if (paramsHash) {
+    tx = OntfsContractTxBuilder.buildTxByParamsHash(
+      method,
+      paramsHash,
+      String(gasPrice),
+      String(gasLimit),
+      account
+    );
+  } else {
+    switch(method) {
+      case 'fsStoreFiles': {
+        tx = OntfsContractTxBuilder.buildStoreFilesTx(
+          parameters.filesInfo,
+          parameters.fileOwner,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsChallenge': {
+        tx = OntfsContractTxBuilder.buildChallengeTx(
+          parameters.fileHash,
+          parameters.fileOnwer,
+          parameters.nodeAddr,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsTransferFiles': {
+        tx = OntfsContractTxBuilder.buildTransferFilesTx(
+          parameters.fileTransfers,
+          parameters.originOwner,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsRenewFiles': {
+        tx = OntfsContractTxBuilder.buildRenewFilesTx(
+          parameters.filesRenew,
+          parameters.newFileOwner,
+          parameters.newPayer,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsDeleteFiles': {
+        tx = OntfsContractTxBuilder.buildDeleteFilesTx(
+          parameters.fileHashes,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsReadFilePledge': {
+        tx = OntfsContractTxBuilder.buildFileReadPledgeTx(
+          parameters.fileHash,
+          parameters.readPlans,
+          parameters.downloader,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      case 'fsCancelFileRead': {
+        tx = OntfsContractTxBuilder.buildCancelFileReadTx(
+          parameters.fileHash,
+          parameters.downloader,
+          String(gasPrice),
+          String(gasLimit),
+          account
+        );
+        break;
+      }
+      default: {
+        throw new Error(`Fs method ${method} not supported.`);
+      }
+    }
+  }
+
+  const privateKey = decryptAccount(wallet, password);
+  await TransactionBuilder.signTransactionAsync(tx, privateKey);
+
+  if (!request.presignedTransaction) {
+    return tx.serialize();
+  } else {
+    const client = getClient();
+    return await client.sendRawTransaction(tx.serialize(), false, true);
+  }
+}
 
 /**
  * Creates, signs and sends the transaction for Smart Contract call.

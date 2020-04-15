@@ -1,12 +1,15 @@
 import { Parameter, VmType } from '@ont-dev/ontology-dapi';
 import { getWallet } from 'src/api/authApi';
 import { hasIdentity } from 'src/api/identityApi';
+import { TrustedSc } from 'src/redux/settings';
 import { v4 as uuid } from 'uuid';
 import { Deferred } from '../deffered';
 import Actions from '../redux/actions';
 import { AssetType } from '../redux/runtime';
 import { GlobalStore } from '../redux/state';
 import {
+  FsCallRequest,
+  FsMethod,
   MessageSignRequest,
   ScCallReadRequest,
   ScCallRequest,
@@ -118,6 +121,77 @@ export class RequestsManager {
 
     await this.popupManager.show();
     await this.popupManager.callMethod('history_push', '/stateChannel-login', { requestId, locked: true });
+
+    return deferred.promise;
+  }
+
+  public async initFsCall(args: {
+    method: FsMethod;
+    parameters?: {
+      [index: string]: any
+    };
+    paramsHash?: string;
+    gasPrice?: number;
+    gasLimit?: number;
+  }) {
+    const state = this.store.getState();
+
+    const requestId = uuid();
+
+    // stores deferred object to resolve when the transaction is resolved
+    const deferred = new Deferred<any>();
+    this.requestDeferreds.set(requestId, deferred);
+
+    await this.store.dispatch(
+      Actions.transactionRequests.addRequest<FsCallRequest>({
+        ...args,
+        id: requestId,
+        type: 'fs_call'
+      })
+    );
+
+    const password = state.password.password;
+    const trustedScs = state.settings.trustedScs as TrustedSc[];
+
+    if (password !== undefined) {
+      // check if we already have password stored
+      // whitelisting is not supported for account+identity sign
+
+      const trustedSc = trustedScs.find(
+        ({contract, method, paramsHash}) =>
+          contract === 'fs' &&
+          (method === undefined || method === args.method) &&
+          (paramsHash === undefined || paramsHash === args.paramsHash),
+      );
+
+      if (trustedSc !== undefined) {
+        if (trustedSc.password === false && trustedSc.confirm === false) {
+          // check if password and confirm are not required
+
+          await this.store.dispatch(Actions.transactionRequests.submitRequest(requestId, password));
+          return deferred.promise;
+        } else if (trustedSc.confirm === false && trustedSc.password !== false) {
+          // check if confirm is not required and password is
+
+          await this.popupManager.show();
+          await this.popupManager.callMethod('history_push', '/confirm', {
+            redirectFail: '/sendFailed',
+            redirectSucess: '/dashboard',
+            requestId,
+          });
+
+          return deferred.promise;
+        }
+      }
+    }
+
+    await this.popupManager.show();
+    await this.popupManager.callMethod('history_push', '/call', {
+      ...args,
+      isFsCall: true,
+      locked: true,
+      requestId,
+    });
 
     return deferred.promise;
   }

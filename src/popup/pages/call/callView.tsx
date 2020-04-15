@@ -25,6 +25,7 @@ export interface InitialValues {
   contract?: string;
   method?: string;
   paramsHash?: string;
+  paramsJson?: string;
   gasPrice?: string;
   gasLimit?: string;
 }
@@ -34,42 +35,53 @@ export interface Props {
   initialValues: InitialValues;
   loading: boolean;
   locked: boolean;
+  isFsCall: boolean;
   handleConfirm: (values: object) => Promise<void>;
   handleCancel: () => void;
 }
 
-export const CallView: React.SFC<Props> = (props) => (
+export const CallView: React.SFC<Props> = ({isFsCall, initialValues, handleConfirm, handleCancel, locked, loading, allowWhitelist}) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountLogoHeader title="SC call" />
+      <AccountLogoHeader title={isFsCall? "FS Call": "SC call"} />
       <View content={true} className="spread-around">
-        <View>Call to a smart contract.</View>
+        <View>{isFsCall? "Call to FS native contract": "Call to a smart contract."}</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} scroll={true}>
       <Form
-        initialValues={props.initialValues}
-        onSubmit={props.handleConfirm}
+        initialValues={{
+          ...initialValues,
+          ...isFsCall? {
+            contract: 'fs'
+          }:{}
+        }}
+        onSubmit={handleConfirm}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="sendForm">
             <View className="scrollView">
               <View className="content">
-                <View orientation="column">
-                  <label>Contract</label>
-                  <Field
-                    name="contract"
-                    validate={required}
-                    render={(t) => (
-                      <SemanticForm.Input
-                        onChange={t.input.onChange}
-                        value={t.input.value}
-                        error={t.meta.touched && t.meta.invalid}
-                        disabled={props.locked}
+                {
+                  !isFsCall && 
+                  <>
+                    <View orientation="column">
+                      <label>Contract</label>
+                      <Field
+                        name="contract"
+                        validate={required}
+                        render={(t) => (
+                          <SemanticForm.Input
+                            onChange={t.input.onChange}
+                            value={t.input.value}
+                            error={t.meta.touched && t.meta.invalid}
+                            disabled={locked}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </View>
-                <Spacer />
+                    </View>
+                    <Spacer />
+                  </>
+                }
                 <View orientation="column">
                   <label>Method</label>
                   <Field
@@ -80,26 +92,47 @@ export const CallView: React.SFC<Props> = (props) => (
                         onChange={t.input.onChange}
                         value={t.input.value}
                         error={t.meta.touched && t.meta.invalid}
-                        disabled={props.locked}
+                        disabled={locked}
                       />
                     )}
                   />
                 </View>
                 <Spacer />
-                <View orientation="column">
-                  <label>Parameters hash</label>
-                  <Field
-                    name="paramsHash"
-                    render={(t) => (
-                      <SemanticForm.Input
-                        onChange={t.input.onChange}
-                        value={t.input.value}
-                        error={t.meta.touched && t.meta.invalid}
-                        disabled={props.locked}
-                      />
-                    )}
-                  />
-                </View>
+                {
+                  isFsCall &&
+                  <View orientation="column">
+                    <label>Parameters Json</label>
+                    <Field
+                      name="paramsJson"
+                      render={(t) => (
+                        <SemanticForm.TextArea
+                          autoHeight={true}
+                          onChange={t.input.onChange}
+                          value={t.input.value}
+                          error={t.meta.touched && t.meta.invalid}
+                          disabled={locked}
+                        />
+                      )}
+                    />
+                  </View>
+                }
+                {
+                  !isFsCall &&
+                  <View orientation="column">
+                    <label>Parameters hash</label>
+                    <Field
+                      name="paramsHash"
+                      render={(t) => (
+                        <SemanticForm.Input
+                          onChange={t.input.onChange}
+                          value={t.input.value}
+                          error={t.meta.touched && t.meta.invalid}
+                          disabled={locked}
+                        />
+                      )}
+                    />
+                  </View>
+                }
                 <Spacer />
                 <View orientation="column">
                   <label>Gas price</label>
@@ -114,7 +147,7 @@ export const CallView: React.SFC<Props> = (props) => (
                         onChange={t.input.onChange}
                         input={{ ...t.input, value: t.input.value }}
                         error={t.meta.touched && t.meta.invalid}
-                        disabled={props.loading}
+                        disabled={loading}
                       />
                     )}
                   />
@@ -133,13 +166,13 @@ export const CallView: React.SFC<Props> = (props) => (
                         onChange={t.input.onChange}
                         input={{ ...t.input, value: t.input.value }}
                         error={t.meta.touched && t.meta.invalid}
-                        disabled={props.loading}
+                        disabled={loading}
                       />
                     )}
                   />
                 </View>
                 <Spacer />
-                {props.allowWhitelist ? (
+                {allowWhitelist ? (
                   <View orientation="column">
                     <div>
                       <label>Whitelist this action</label>
@@ -168,8 +201,8 @@ export const CallView: React.SFC<Props> = (props) => (
             <Filler />
             <Spacer />
             <View className="buttons">
-              <Button disabled={props.loading} loading={props.loading} icon="check" content="Confirm" />
-              <Button disabled={props.loading} onClick={props.handleCancel}>
+              <Button disabled={loading} loading={loading} icon="check" content="Confirm" />
+              <Button disabled={loading} onClick={handleCancel}>
                 Cancel
               </Button>
             </View>
