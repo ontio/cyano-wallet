@@ -1,5 +1,5 @@
-import { Challenge, ChallengeList, FileHashList, FileInfo, FsNodeInfo, FsNodeInfoList, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
-import { FsAPI, FsSpaceAPI } from "@ont-dev/ontology-dapi/lib/types/api/fs";
+import { Challenge, ChallengeList, FileHashList, FileInfo, FileReadSettleSlice, FsNodeInfo, FsNodeInfoList, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
+import { FsAPI, FsNodeAPI, FsSpaceAPI } from "@ont-dev/ontology-dapi/lib/types/api/fs";
 import { Account, Crypto, OntfsContractTxBuilder, utils } from 'ontology-ts-sdk';
 import { getAccount } from "src/api/accountApi";
 import { getClient } from "../network";
@@ -46,7 +46,7 @@ const space: FsSpaceAPI = {
   async update({volume, timeExpired}): Promise<string> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsDeleteSpace',
+      method: 'fsUpdateSpace',
       parameters: {
         spaceOwner: address,
         spacePayer: address,
@@ -60,12 +60,95 @@ const space: FsSpaceAPI = {
     const { address }= getCurrentAccount();
     const tx = OntfsContractTxBuilder.buildGetSpaceInfoTx(address);
     const client = getClient();
+    return await client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+  }
+}
+
+const node: FsNodeAPI = {
+  async register({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<string> {
+    const { address } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsNodeRegister',
+      parameters: {
+        minPdpInterval,
+        nodeAddr: address,
+        nodeNetAddr,
+        serviceTime,
+        volume
+      }
+    });
+  },
+
+  async query({nodeWallet}): Promise<FsNodeInfo> {
+    const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
+    const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+  },
+
+  async update({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<string> {
+    const { address } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsNodeUpdate',
+      parameters: {
+        minPdpInterval,
+        nodeAddr: address,
+        nodeNetAddr,
+        serviceTime,
+        volume
+      }
+    });
+  },
+
+  async cancel(): Promise<string> {
+    const { address } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsNodeCancel',
+      parameters: {
+        nodeAddr: address
+      }
+    })
+  },
+
+  async drawProfit(): Promise<string> {
+    const { address } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsNodeWithDrawProfit',
+      parameters: {
+        nodeAddr: address
+      }
+    });
+  },
+
+  async fileProve({fileHash, proveData, blockHeight}): Promise<string> {
+    const { address } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsFileProve',
+      parameters: {
+        blockHeight,
+        fileHash,
+        nodeAddr: address,
+        proveData
+      }
+    })
   }
 }
 
 export const fsDapi: FsAPI = {
+  node,
   space,
+  async fileReadProfitSettle({fileReadSettleSlice}): Promise<string> {
+    return getRequestsManager().initFsCall({
+      method: 'fsReadFileSettle',
+      parameters: {
+        fileReadSettleSlice
+      }
+    });
+  },
+
+  async verifyFileReadSettleSlice({settleSlice}): Promise<boolean> {
+    return await OntfsContractTxBuilder.verifyFileReadSettleSlice(settleSlice);
+  },
+
   async getNodeInfo({nodeWallet}): Promise<FsNodeInfo> {
     const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
     const client = getClient();
@@ -145,20 +228,16 @@ export const fsDapi: FsAPI = {
   },
 
   async getFileList(): Promise<FileHashList> {
-    return Promise.reject('Not Implemented Yet.');
-    // const state = getStore().getState();
-    // const wallet = state.wallet.wallet;
-
-    
-    
-    // const client = getClient();
-    // const blockHeight = (await client.getBlockHeight()) as number;
-    // const blockHash = (await client.getBlockHash(blockHeight)) as string;
-    // OntfsContractTxBuilder.buildGetFileListTx(blockHeight, blockHash, )
-
-    // return await getRequestsManager().initFsCall({
-    //   method: 'fsGe'
-    // })
+    const client = getClient();
+    const blockHeight = (await client.getBlockHeight()).Result as number;
+    const blockHash = (await client.getBlockHash(blockHeight)).Result as string;
+    return await getRequestsManager().initFsCall({
+      method: 'fsGetFileHashList',
+      parameters: {
+        blockHash,
+        blockHeight
+      }
+    });
   },
 
   async chanllenge({fileHash, nodeAddr}): Promise<string> {
@@ -168,7 +247,7 @@ export const fsDapi: FsAPI = {
       parameters: {
         fileHash,
         fileOwner: address,
-        nodeAddr
+        nodeAddr: new Address(nodeAddr)
       }
     })
   },
@@ -178,7 +257,12 @@ export const fsDapi: FsAPI = {
     return await getRequestsManager().initFsCall({
       method: 'fsTransferFiles',
       parameters: {
-        fileTransfers,
+        fileTransfers: fileTransfers.map(transfer => {
+          return {
+            ...transfer,
+            newOwner: new Address(transfer.newOwner)
+          }
+        }),
         originOwner: address
       }
     })
@@ -212,7 +296,12 @@ export const fsDapi: FsAPI = {
       parameters: {
         downloader: address,
         fileHash,
-        readPlans
+        readPlans: readPlans.map(plan => {
+          return {
+            ...plan,
+            nodeAddr: new Address(plan.nodeAddr)
+          }
+        })
       }
     })
   },
@@ -220,10 +309,50 @@ export const fsDapi: FsAPI = {
   async cancelFileRead({fileHash}): Promise<string> {
     const { address } = getCurrentAccount();
     return await getRequestsManager().initFsCall({
-      method: 'fsDeleteFiles',
+      method: 'fsCancelFileRead',
       parameters: {
         downloader: address,
         fileHash
+      }
+    })
+  },
+
+  async response({fileHash, proveData, blockHeight}): Promise<string> {
+    const { address: nodeAddr } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsResponse',
+      parameters: {
+        blockHeight,
+        fileHash,
+        nodeAddr,
+        proveData
+      }
+    })
+  },
+
+  async judge({fileHash, nodeAddr}): Promise<string> {
+    const { address: fileOwner } = getCurrentAccount();
+    return getRequestsManager().initFsCall({
+      method: 'fsJudge',
+      parameters: {
+        fileHash,
+        fileOwner,
+        nodeAddr: new Address(nodeAddr)
+      }
+    })
+  },
+
+  /**
+   * FIXME: this function just needs user to sign the settle slice, not to send a transaction.
+   */
+  async genFileReadSettleSlice({fileHash, payTo, sliceId, pledgeHeight}): Promise<FileReadSettleSlice> {
+    return getRequestsManager().initFsCall({
+      method: 'fsGenFileReadSettleSlice',
+      parameters: {
+        fileHash,
+        payTo: new Address(payTo),
+        pledgeHeight,
+        sliceId
       }
     })
   }

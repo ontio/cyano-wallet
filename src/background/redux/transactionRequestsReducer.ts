@@ -39,10 +39,11 @@ import {
   UPDATE_REQUEST,
   WithdrawOngRequest,
 } from '../../redux/transactionRequests';
+import { fsCall } from '../api/fs';
 import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
-import { fsCall, scCall, scCallRead, scDeploy } from '../api/smartContractApi';
+import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
 import { stateChannelLogin } from '../api/stateChannelApi';
 import { transferToken } from '../api/tokenApi';
 
@@ -268,31 +269,29 @@ async function submitFsCall(request: FsCallRequest, password: string, dispatch: 
   }
 
   const response = await timeout(fsCall(request, password), 15000);
+  if (request.method === 'fsGenFileReadSettleSlice' || request.method === 'fsGetFileHashList') {
+    return response;
+  }
 
-  if (typeof response === 'string') {
-    dispatch(Actions.transactionRequests.updateRequest<FsCallRequest>(request.id, { presignedTransaction: response }));
-    return undefined;
-  } else {
-    // Fixme: Log message cause Notify message to disappear
-    if (response.Action === 'Log') {
-      return {
-        transaction: response.Result.TxHash,
-      };
-    }
-
-    if (response.Result.State === 0) {
-      throw new Error('OTHER');
-    }
-  
-    const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === 'fs').map(
-      (element: any) => element.States,
-    );
+  // Fixme: Log message cause Notify message to disappear
+  if (response.Action === 'Log') {
     return {
-      // Fixme: The Response of smartContract.invoke is {results: Result[], transaction: string} https://github.com/ontio/ontology-dapi/blob/master/src/api/types.ts
-      results: notify,
       transaction: response.Result.TxHash,
     };
   }
+
+  if (response.Result.State === 0) {
+    throw new Error('OTHER');
+  }
+
+  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === 'fs').map(
+    (element: any) => element.States,
+  );
+  return {
+    // Fixme: The Response of smartContract.invoke is {results: Result[], transaction: string} https://github.com/ontio/ontology-dapi/blob/master/src/api/types.ts
+    results: notify,
+    transaction: response.Result.TxHash,
+  };
 }
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {
