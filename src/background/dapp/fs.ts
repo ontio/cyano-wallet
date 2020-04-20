@@ -1,6 +1,5 @@
-import { Challenge, ChallengeList, FileHashList, FileInfo, FileReadSettleSlice, FsNodeInfo, FsNodeInfoList, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
-import { FsAPI, FsNodeAPI, FsSpaceAPI } from "@ont-dev/ontology-dapi/lib/types/api/fs";
-import { Account, Crypto, OntfsContractTxBuilder, utils } from 'ontology-ts-sdk';
+import { Challenge, ChallengeList, FileHashList, FileInfo, FileReadSettleSlice, FsAPI, FsNodeAPI, FsNodeInfo, FsNodeInfoList, FsSpaceAPI, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
+import { Account, Crypto, FS, OntfsContractTxBuilder, utils } from 'ontology-ts-sdk';
 import { getAccount } from "src/api/accountApi";
 import { getClient } from "../network";
 import { getStore } from "../redux";
@@ -8,6 +7,12 @@ import { getRequestsManager } from "../requestsManager";
 
 const { Address } = Crypto; 
 const { isHexString, str2hexstr } = utils;
+const { 
+  FsNodeInfo: FsNodeInfoClass, FsNodeInfoList: FsNodeInfoListClass, 
+  SpaceInfo, ReadPledge: ReadPledgeClass, PdpRecordList: PdpRecordListClass,
+  Challenge: ChallengeClass, ChallengeList: ChallengeListClass,
+  FileInfo: FileInfoClass
+} = FS;
 
 function getCurrentAccount(): Account {
   const state = getStore().getState();
@@ -19,7 +24,7 @@ function getCurrentAccount(): Account {
 }
 
 const space: FsSpaceAPI = {
-  async create({volume, copyNumber, pdpInterval, timeExpired}): Promise<string> {
+  async create({volume, copyNumber, pdpInterval, timeExpired}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsCreateSpace',
@@ -33,7 +38,7 @@ const space: FsSpaceAPI = {
     })
   },
 
-  async delete(): Promise<string> {
+  async delete(): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsDeleteSpace',
@@ -43,7 +48,7 @@ const space: FsSpaceAPI = {
     });
   },
 
-  async update({volume, timeExpired}): Promise<string> {
+  async update({volume, timeExpired}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsUpdateSpace',
@@ -60,12 +65,15 @@ const space: FsSpaceAPI = {
     const { address }= getCurrentAccount();
     const tx = OntfsContractTxBuilder.buildGetSpaceInfoTx(address);
     const client = getClient();
-    return await client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return await client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const spaceInfo = SpaceInfo.deserializeHex(res.Result.Result);
+      return spaceInfo.export();
+    });
   }
 }
 
 const node: FsNodeAPI = {
-  async register({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<string> {
+  async register({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsNodeRegister',
@@ -82,10 +90,13 @@ const node: FsNodeAPI = {
   async query({nodeWallet}): Promise<FsNodeInfo> {
     const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const nodeInfo = FsNodeInfoClass.deserializeHex(res.Result.Result);
+      return nodeInfo.export();
+    });
   },
 
-  async update({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<string> {
+  async update({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsNodeUpdate',
@@ -99,7 +110,7 @@ const node: FsNodeAPI = {
     });
   },
 
-  async cancel(): Promise<string> {
+  async cancel(): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsNodeCancel',
@@ -109,7 +120,7 @@ const node: FsNodeAPI = {
     })
   },
 
-  async drawProfit(): Promise<string> {
+  async drawProfit(): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsNodeWithDrawProfit',
@@ -119,7 +130,7 @@ const node: FsNodeAPI = {
     });
   },
 
-  async fileProve({fileHash, proveData, blockHeight}): Promise<string> {
+  async fileProve({fileHash, proveData, blockHeight}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsFileProve',
@@ -136,7 +147,7 @@ const node: FsNodeAPI = {
 export const fsDapi: FsAPI = {
   node,
   space,
-  async fileReadProfitSettle({fileReadSettleSlice}): Promise<string> {
+  async fileReadProfitSettle({fileReadSettleSlice}): Promise<Response> {
     return getRequestsManager().initFsCall({
       method: 'fsReadFileSettle',
       parameters: {
@@ -152,13 +163,19 @@ export const fsDapi: FsAPI = {
   async getNodeInfo({nodeWallet}): Promise<FsNodeInfo> {
     const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const nodeInfo = FsNodeInfoClass.deserializeHex(res.Result.Result);
+      return nodeInfo.export();
+    });
   },
 
   async getNodeInfoList({count}): Promise<FsNodeInfoList> {
     const tx = OntfsContractTxBuilder.buildGetNodeInfoListTx(count);
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data)
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const nodeInfoList = FsNodeInfoListClass.deserializeHex(res.Result.Result);
+      return nodeInfoList.export();
+    })
   },
 
   async getFileReadPledge({fileHash, downloader}): Promise<ReadPledge> {
@@ -167,7 +184,10 @@ export const fsDapi: FsAPI = {
     }
     const tx = OntfsContractTxBuilder.buildGetFileReadPledgeTx(fileHash, new Address(downloader));
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const readPledge = ReadPledgeClass.deserializeHex(res.Result.Result);
+      return readPledge.export();
+    });
   },
 
   async getFilePdpRecordList({fileHash}): Promise<PdpRecordList> {
@@ -176,7 +196,10 @@ export const fsDapi: FsAPI = {
     }
     const tx = OntfsContractTxBuilder.buildGetFilePdpRecordListTx(fileHash);
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const pdpRecordList = PdpRecordListClass.deserializeHex(res.Result.Result);
+      return pdpRecordList.export();
+    });
   },
 
   async getChallenge({fileHash, nodeAddr}): Promise<Challenge> {
@@ -186,7 +209,10 @@ export const fsDapi: FsAPI = {
     }
     const tx = OntfsContractTxBuilder.buildGetChanllengeTx(fileHash, address, new Address(nodeAddr));
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const challenge = ChallengeClass.deserializeHex(res.Result.Result);
+      return challenge.export();
+    });
   },
 
   async getFileChallengeList({fileHash}): Promise<ChallengeList> {
@@ -197,14 +223,20 @@ export const fsDapi: FsAPI = {
     }
     const tx = OntfsContractTxBuilder.buildGetFileChallengeListTx(fileHash, address);
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const challengeList = ChallengeListClass.deserializeHex(res.Result.Result);
+      return challengeList.export();
+    });
   },
 
   async getNodeChallengeList(): Promise<ChallengeList> {
     const { address }= getCurrentAccount();
     const tx = OntfsContractTxBuilder.buildGetNodeChallengeListTx(address);
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const challengeList = ChallengeListClass.deserializeHex(res.Result.Result);
+      return challengeList.export();
+    });
   },
 
   async getFileInfo({fileHash}): Promise<FileInfo> {
@@ -213,10 +245,13 @@ export const fsDapi: FsAPI = {
     }
     const tx = OntfsContractTxBuilder.buildGetFileInfoTx(fileHash);
     const client = getClient();
-    return client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+    return client.sendRawTransaction(tx.serialize(), true).then(res => {
+      const fileInfo = FileInfoClass.deserializeHex(res.Result.Result);
+      return fileInfo.export();
+    });
   },
 
-  async storeFiles({filesInfo}): Promise<string> {
+  async storeFiles({filesInfo}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
         method: 'fsStoreFiles',
@@ -240,7 +275,7 @@ export const fsDapi: FsAPI = {
     });
   },
 
-  async chanllenge({fileHash, nodeAddr}): Promise<string> {
+  async chanllenge({fileHash, nodeAddr}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
       method: 'fsChallenge',
@@ -252,7 +287,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async transferFiles({fileTransfers}): Promise<string> {
+  async transferFiles({fileTransfers}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
       method: 'fsTransferFiles',
@@ -268,7 +303,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async renewFiles({filesRenew}): Promise<string> {
+  async renewFiles({filesRenew}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
       method: 'fsRenewFiles',
@@ -280,7 +315,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async deleteFiles({fileHashes}): Promise<string> {
+  async deleteFiles({fileHashes}): Promise<Response> {
     return await getRequestsManager().initFsCall({
       method: 'fsDeleteFiles',
       parameters: {
@@ -289,7 +324,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async fileReadPledge({fileHash, readPlans}): Promise<string> {
+  async fileReadPledge({fileHash, readPlans}): Promise<Response> {
     const { address } = getCurrentAccount();
     return await getRequestsManager().initFsCall({
       method: 'fsReadFilePledge',
@@ -306,7 +341,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async cancelFileRead({fileHash}): Promise<string> {
+  async cancelFileRead({fileHash}): Promise<Response> {
     const { address } = getCurrentAccount();
     return await getRequestsManager().initFsCall({
       method: 'fsCancelFileRead',
@@ -317,7 +352,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async response({fileHash, proveData, blockHeight}): Promise<string> {
+  async response({fileHash, proveData, blockHeight}): Promise<Response> {
     const { address: nodeAddr } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsResponse',
@@ -330,7 +365,7 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async judge({fileHash, nodeAddr}): Promise<string> {
+  async judge({fileHash, nodeAddr}): Promise<Response> {
     const { address: fileOwner } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       method: 'fsJudge',

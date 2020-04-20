@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Identity } from 'ontology-ts-sdk';
+import { Identity, OntfsContractTxBuilder } from 'ontology-ts-sdk';
 import { timeout, TimeoutError } from 'promise-timeout';
 import { Dispatch, Reducer } from 'redux';
 import { getWallet } from '../../api/authApi';
@@ -264,7 +264,6 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
 
 async function submitFsCall(request: FsCallRequest, password: string, dispatch: Dispatch, state: GlobalState) {
   if (isTrustedSc(request, state)) {
-    // fixme: add support for account+identity password
     await dispatch(Actions.password.setPassword(password));
   }
 
@@ -284,11 +283,10 @@ async function submitFsCall(request: FsCallRequest, password: string, dispatch: 
     throw new Error('OTHER');
   }
 
-  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === 'fs').map(
+  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === OntfsContractTxBuilder.ONTFS_CONTRACT).map(
     (element: any) => element.States,
   );
   return {
-    // Fixme: The Response of smartContract.invoke is {results: Result[], transaction: string} https://github.com/ontio/ontology-dapi/blob/master/src/api/types.ts
     results: notify,
     transaction: response.Result.TxHash,
   };

@@ -1,9 +1,11 @@
-import { OntfsContractTxBuilder, Transaction, TransactionBuilder } from "ontology-ts-sdk";
+import { FS, OntfsContractTxBuilder, Transaction, TransactionBuilder } from "ontology-ts-sdk";
 import { decryptAccount, getAccount } from "src/api/accountApi";
 import { getWallet } from "src/api/authApi";
 import { FsCallRequest } from "src/redux/transactionRequests";
 import { getClient } from "../network";
 import { getStore } from "../redux";
+
+const { FileHashList } = FS;
 
 export async function fsCall(request: FsCallRequest, password: string): Promise<any> {
     const { parameters = [], gasPrice = 500, gasLimit = 30000, method, paramsHash } = request;
@@ -196,6 +198,10 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
+        /**
+         * This will send a pre-invoke transaction.
+         * The transaction needs a passport that needs signing from user
+         */
         case 'fsGetFileHashList': {
           const passport = OntfsContractTxBuilder.genPassport(
               parameters.blockHeight,
@@ -203,8 +209,14 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
               privateKey
           );
           tx = OntfsContractTxBuilder.buildGetFileListTx(passport);
-          return await client.sendRawTransaction(tx.serialize(), true).then(res => res.data);
+          return await client.sendRawTransaction(tx.serialize(), true).then(res => {
+            return FileHashList.deserializeHex(res.Result.Result).export();
+          });
         }
+        /**
+         * This will not send a transaction.
+         * Still it needs user's signature.
+         */
         case 'fsGenFileReadSettleSlice': {
           return await OntfsContractTxBuilder.genFileReadSettleSlice(
             parameters.fileHash,
@@ -212,7 +224,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
             parameters.sliceId,
             parameters.pledgeHeight,
             privateKey
-          );
+          ).export();
         }
         case 'fsResponse': {
           tx = OntfsContractTxBuilder.buildResponseTx(
