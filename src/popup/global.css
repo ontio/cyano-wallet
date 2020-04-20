@@ -288,6 +288,7 @@ h1.header {
 
 .flex.scrollView {
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .flex.scrollView .flex.content {

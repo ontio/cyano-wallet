@@ -45,6 +45,7 @@ export interface Props {
 
 /**
  * todo: amount number step does not work for ONG, should be changed to custom validation
+ * todo: removed step for amount input as it may show scientific number for ong
  */
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
@@ -102,14 +103,13 @@ export const SendView: React.SFC<Props> = (props) => (
                 validate={gt(0)}
                 render={(t) => (
                   <SemanticForm.Input
-                    type="number"
                     placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                    step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
+                    step={get(formProps.values, 'asset') === 'ONG' ? '0.000000001' : '1'}
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}
                     disabled={props.locked || get(formProps.values, 'asset') === undefined}
-                    action={get(formProps.values, 'asset') === 'ONG' || get(formProps.values, 'asset') === 'ONT'? <Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" /> : undefined}
+                    action={<Button type="button" onClick={() => props.handleMax(formProps)} content="MAX" />}
                   />
                 )}
               />

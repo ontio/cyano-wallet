@@ -43,7 +43,7 @@ export const networkApi: NetworkApi = {
 
         const addr = new Address(address);
         for (const token of state.settings.tokens) {
-            const tokenBalance = await getTokenBalance(token.contract, addr);
+            const tokenBalance = await getTokenBalance(token.contract, addr, token.vmType);
             
             balance[token.symbol] = decodeAmount(tokenBalance, token.decimals);
         }

@@ -26,27 +26,27 @@ export async function getTransferList(address: string) {
     return [];
   }
   
-  const url = `https://${explorerAddress}/api/v1/explorer/address/${address}/100/1`;
+//   const url = `https://${explorerAddress}/api/v1/explorer/address/${address}/100/1`;
+    const url = `https://${explorerAddress}/v2/addresses/${address}/transactions?page_size=20&page_number=1`;
 
   const response = await axios.get(url);
 
-  const txnList: any[] = get(response.data, 'Result.TxnList', []);
+  const txnList: any[] = get(response.data, 'result', []);
 
   const transfers = flatMap(
     txnList.map(tx => {
-      const txnTime: number = get(tx, 'TxnTime', 0);
-      const transferList: any[] = get(tx, 'TransferList', []);
+      const txnTime: number = get(tx, 'tx_time', 0);
+      const transferList: any[] = get(tx, 'transfers', []);
 
       return transferList.map(transfer => ({
-        amount: get(transfer, 'Amount', '0'),
-        asset: translateAsset(get(transfer, 'AssetName')),
-        from: get(transfer, 'FromAddress'),
+        amount: get(transfer, 'amount', '0'),
+        asset: translateAsset(get(transfer, 'asset_name')),
+        from: get(transfer, 'from_address'),
         time: txnTime,
-        to: get(transfer, 'ToAddress')
+        to: get(transfer, 'to_address')
       }) as Transfer);
     })
   );
-
   return orderBy(transfers, 'time', 'desc');
 }
 
@@ -56,6 +56,6 @@ function translateAsset(asset: any): AssetType {
   } else if (asset === 'ong') {
     return 'ONG';
   } else {
-    return 'ONT';
+    return asset;
   }
 }

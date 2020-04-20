@@ -107,8 +107,8 @@ export async function getTokenBalance(contract: string, address: Address, vmType
     const tx = builder.queryBalanceOf(address);
     response = await client.sendRawTransaction(tx.serialize(), true);
   }
-
-  return Long.fromString(utils.reverseHex(response.Result.Result), true, 16).toString();
+    const resultValue = utils.reverseHex(response.Result.Result);
+  return resultValue ? Long.fromString(resultValue, true, 16).toString() : '0';
 }
 
 export async function transferToken(request: TransferRequest, password: string) {
@@ -168,7 +168,7 @@ function extractStringResponse(response: any) {
 }
 
 function extractNumberResponse(response: any) {
-  if (response !== undefined && response.Result !== undefined && response.Result.Result !== undefined) {
+  if (response !== undefined && response.Result !== undefined && response.Result.Result !== undefined && response.Result.Result !== '') {
     return parseInt(utils.reverseHex(response.Result.Result), 16);
   } else {
     return 0;
