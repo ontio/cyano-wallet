@@ -32,7 +32,7 @@ const space: FsSpaceAPI = {
         copyNumber,
         pdpInterval,
         spaceOwner: address,
-        timeExpired,
+        timeExpired: new Date(timeExpired),
         volume
       }
     })
@@ -55,7 +55,7 @@ const space: FsSpaceAPI = {
       parameters: {
         spaceOwner: address,
         spacePayer: address,
-        timeExpired,
+        timeExpired: new Date(timeExpired),
         volume
       }
     });
@@ -81,7 +81,7 @@ const node: FsNodeAPI = {
         minPdpInterval,
         nodeAddr: address,
         nodeNetAddr,
-        serviceTime,
+        serviceTime: new Date(serviceTime),
         volume
       }
     });
@@ -104,7 +104,7 @@ const node: FsNodeAPI = {
         minPdpInterval,
         nodeAddr: address,
         nodeNetAddr,
-        serviceTime,
+        serviceTime: new Date(serviceTime),
         volume
       }
     });
@@ -132,6 +132,9 @@ const node: FsNodeAPI = {
 
   async fileProve({fileHash, proveData, blockHeight}): Promise<Response> {
     const { address } = getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return getRequestsManager().initFsCall({
       method: 'fsFileProve',
       parameters: {
@@ -257,7 +260,12 @@ export const fsDapi: FsAPI = {
         method: 'fsStoreFiles',
         parameters: {
           fileOwner: address,
-          filesInfo
+          filesInfo: filesInfo.map(info => {
+            return {
+              ...info,
+              timeExpired: new Date(info.timeExpired)
+            }
+          })
         }
     });
   },
@@ -277,6 +285,9 @@ export const fsDapi: FsAPI = {
 
   async chanllenge({fileHash, nodeAddr}): Promise<Response> {
     const { address }= getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return await getRequestsManager().initFsCall({
       method: 'fsChallenge',
       parameters: {
@@ -308,7 +319,12 @@ export const fsDapi: FsAPI = {
     return await getRequestsManager().initFsCall({
       method: 'fsRenewFiles',
       parameters: {
-        filesRenew,
+        filesRenew: filesRenew.map(renew => {
+          return {
+            ...renew,
+            renewTime: new Date(renew.renewTime)
+          }
+        }),
         newFileOwner: address,
         newPayer: address
       }
@@ -316,6 +332,7 @@ export const fsDapi: FsAPI = {
   },
 
   async deleteFiles({fileHashes}): Promise<Response> {
+    fileHashes = fileHashes.map(fileHash => isHexString(fileHash)? fileHash : str2hexstr(fileHash))
     return await getRequestsManager().initFsCall({
       method: 'fsDeleteFiles',
       parameters: {
@@ -326,6 +343,9 @@ export const fsDapi: FsAPI = {
 
   async fileReadPledge({fileHash, readPlans}): Promise<Response> {
     const { address } = getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return await getRequestsManager().initFsCall({
       method: 'fsReadFilePledge',
       parameters: {
@@ -343,6 +363,9 @@ export const fsDapi: FsAPI = {
 
   async cancelFileRead({fileHash}): Promise<Response> {
     const { address } = getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return await getRequestsManager().initFsCall({
       method: 'fsCancelFileRead',
       parameters: {
@@ -354,6 +377,9 @@ export const fsDapi: FsAPI = {
 
   async response({fileHash, proveData, blockHeight}): Promise<Response> {
     const { address: nodeAddr } = getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return getRequestsManager().initFsCall({
       method: 'fsResponse',
       parameters: {
@@ -367,6 +393,9 @@ export const fsDapi: FsAPI = {
 
   async judge({fileHash, nodeAddr}): Promise<Response> {
     const { address: fileOwner } = getCurrentAccount();
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return getRequestsManager().initFsCall({
       method: 'fsJudge',
       parameters: {
@@ -381,6 +410,9 @@ export const fsDapi: FsAPI = {
    * FIXME: this function just needs user to sign the settle slice, not to send a transaction.
    */
   async genFileReadSettleSlice({fileHash, payTo, sliceId, pledgeHeight}): Promise<FileReadSettleSlice> {
+    if (!isHexString(fileHash)) {
+      fileHash = str2hexstr(fileHash);
+    }
     return getRequestsManager().initFsCall({
       method: 'fsGenFileReadSettleSlice',
       parameters: {
