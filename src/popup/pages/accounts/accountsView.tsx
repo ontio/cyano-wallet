@@ -17,7 +17,7 @@
  */
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { AccountsLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
+import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../components';
 import { AccountList } from '../../components';
 
 export interface Props {
@@ -35,7 +35,7 @@ export interface Props {
 export const AccountsView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
-      <AccountsLogoHeader title="Accounts" />
+      <AccountLogoHeader title="Accounts" />
       <View content={true} className="spread-around">
         <View>Select the account to switch to.</View>
       </View>
