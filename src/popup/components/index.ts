@@ -19,7 +19,7 @@ export { Clickable } from './clickableText';
 export { Logo } from './logo/logo';
 export { LedgerLogo } from './ledgerLogo/ledgerLogo';
 export { IdentityLogo } from './identityLogo/identityLogo';
-export { AccountLogoHeader, IdentityLogoHeader, AccountsLogoHeader, IdentitiesLogoHeader, LogoHeader } from './logoHeader/logoHeader';
+export { AccountLogoHeader, IdentityLogoHeader, LogoHeader } from './logoHeader/logoHeader';
 export { Filler, Spacer, View } from './view';
 export { StatusBar } from './statusBar/statusBar';
 export { TrezorLogo } from './trezorLogo/trezorLogo';

@@ -16,7 +16,7 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import * as React from 'react';
-import { List, Image, Button } from 'semantic-ui-react';
+import { Button, Image, List } from 'semantic-ui-react';
 import { OEP4TokenAmount } from 'src/api/tokenApi';
 import { AccountLogoHeader, Filler, Spacer, StatusBar, TokenAmountList, View } from '../../components';
 
@@ -58,7 +58,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
                 {props.ontAmount}
               </List.Description>
             </List.Content>
-            <Image avatar src={require('../../assets/ontology.png')} />
+            <Image avatar={true} src={require('../../assets/ontology.png')} />
             <List.Content>
               <List.Header>ONT</List.Header>
               <List.Description>Ontology</List.Description>
@@ -71,7 +71,7 @@ export const DashboardView: React.SFC<Props> = (props) => (
               </List.Description>
               <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
             </List.Content>
-            <Image avatar src={require('../../assets/ontology-gas.png')} />
+            <Image avatar={true} src={require('../../assets/ontology-gas.png')} />
             <List.Content>
               <List.Header>ONG</List.Header>
               <List.Description>Ontology Gas</List.Description>

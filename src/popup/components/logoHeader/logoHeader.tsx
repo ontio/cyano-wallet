@@ -24,9 +24,7 @@ interface OuterProps {
   showAccount?: boolean;
   showIdentity?: boolean;
   showChange?: boolean;
-  showChangeBack?: boolean;
   title: string;
-  isPage: string;
 }
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) =>
@@ -37,17 +35,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
           routerProps.history.push('/');
         },
         handleChange: () => {
-          if (props.isPage == "Account") {
+          if (props.showIdentity) {
             routerProps.history.push('/account/change');
-          } else if (props.isPage =="Identity") {
+          } else if (props.showAccount) {
             routerProps.history.push('/identity/change');
-          }
-        },
-        handleChangeBack: () => {
-          if (props.isPage == "Account") {
-            routerProps.history.push('/');
-          } else if (props.isPage == "Identity") {
-            routerProps.history.push('/identity');
           }
         },
         handleIdentity: () => {
@@ -65,8 +56,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: OuterProps) 
           showAccount={props.showAccount === true}
           showIdentity={props.showIdentity === true}
           showChange={props.showChange === true}
-          showChangeBack={props.showChangeBack === true}
-          isPage={props.isPage}
         />
       ),
     ),
@@ -79,17 +68,9 @@ interface TitleOuterProps {
 }
 
 export const IdentityLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader isPage="Identity" showAccount={true} showIdentity={true} showSettings={true} title={props.title} showChange={true} />
+  <LogoHeader showAccount={true} showSettings={true} title={props.title} showChange={true} />
 );
 
 export const AccountLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader isPage="Account" showAccount={true} showIdentity={true} showSettings={true} title={props.title} showChange={true} />
-);
-
-export const AccountsLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader isPage="Account" showAccount={true} showIdentity={true} showSettings={true} title={props.title} showChangeBack={true} />
-);
-
-export const IdentitiesLogoHeader = (props: TitleOuterProps) => (
-  <LogoHeader isPage="Identity" showAccount={true} showIdentity={true} showSettings={true} title={props.title} showChangeBack={true} />
+  <LogoHeader showIdentity={true} showSettings={true} title={props.title} showChange={true} />
 );

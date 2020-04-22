@@ -26,13 +26,11 @@ export interface Props {
   handleIdentity: () => void;
   handleAccount: () => void;
   handleChange: () => void;
-  handleChangeBack: () => void;
 
   showSettings: boolean;
   showIdentity: boolean;
   showAccount: boolean;
   showChange: boolean;
-  showChangeBack: boolean;
 }
 
 export const LogoHeaderView: React.SFC<Props> = (props) => (
@@ -41,19 +39,40 @@ export const LogoHeaderView: React.SFC<Props> = (props) => (
     <h1>{props.title}</h1>
     <View orientation="row" fluid={true} className="buttons">
       {props.showChange ? (
-        <Button onClick={props.handleChange} size="big" compact={true} basic={true} icon="exchange" title={`Switch ${props.isPage}`} />
-      ) : null}
-      {props.showChangeBack ? (
-        <Button onClick={props.handleChangeBack} size="big" compact={true} basic={true} icon="exchange" title={`Switch ${props.isPage}`} />
+        <Button
+          onClick={props.handleChange}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="exchange"
+          title={`${props.showIdentity ? 'Account' : 'Identity'} switch`} />
       ) : null}
       {props.showIdentity ? (
-        <Button onClick={props.handleIdentity} size="big" compact={true} basic={true} icon="id card outline" title="Go to Identity" />
+        <Button
+          onClick={props.handleIdentity}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="id card outline"
+          title="Go to Identity" />
       ) : null}
       {props.showAccount ? (
-        <Button onClick={props.handleAccount} size="big" compact={true} basic={true} icon="dollar" title="Go to Account" />
+        <Button
+          onClick={props.handleAccount}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="dollar"
+          title="Go to Account" />
       ) : null}
       {props.showSettings ? (
-        <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" title="Settings" />
+        <Button
+          onClick={props.handleSettings}
+          size="big"
+          compact={true}
+          basic={true}
+          icon="cog"
+          title="Settings" />
       ) : null}
     </View>
   </View>
