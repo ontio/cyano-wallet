@@ -285,7 +285,6 @@ export const fsDapi: FsAPI = {
   },
 
   async storeFiles({filesInfo, gasLimit, gasPrice}): Promise<Response> {
-    alert(JSON.stringify(filesInfo))
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
        gasLimit,
