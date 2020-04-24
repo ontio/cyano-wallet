@@ -39,6 +39,10 @@ export interface TrustedSc {
   name: string;
   password: boolean;
   confirm: boolean;
+  /**
+   * This is for to sign the same fs download task
+   */
+  trustedFileHash?: string;
 }
 
 export interface SettingsState {
@@ -101,6 +105,7 @@ export const addTrustedSc = (
   password: boolean,
   method?: string,
   paramsHash?: string,
+  trustedFileHash?: string,
 ) => ({
   type: ADD_TRUSTED_SC,
   contract,
@@ -109,6 +114,7 @@ export const addTrustedSc = (
   password,
   method,
   paramsHash,
+  trustedFileHash
 });
 
 export const delTrustedSc = (name: string) => ({ type: DEL_TRUSTED_SC, name });

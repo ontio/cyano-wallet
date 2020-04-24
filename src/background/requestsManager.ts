@@ -158,10 +158,15 @@ export class RequestsManager {
       // whitelisting is not supported for account+identity sign
 
       const trustedSc = trustedScs.find(
-        ({contract, method, paramsHash}) =>
+        ({contract, method, paramsHash, trustedFileHash}) =>
           contract === 'fs' &&
-          (method === undefined || method === args.method) &&
-          (paramsHash === undefined || paramsHash === args.paramsHash),
+          (
+            (method === undefined || method === args.method) &&
+            (paramsHash === undefined || paramsHash === args.paramsHash)
+          ) || (
+            (method === 'FsGenFileReadSettleSlice' && args.method === 'FsGenFileReadSettleSlice') &&
+            (args.parameters && trustedFileHash === args.parameters.fileHash)
+          ),
       );
 
       if (trustedSc !== undefined) {

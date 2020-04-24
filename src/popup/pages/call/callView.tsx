@@ -196,6 +196,28 @@ export const CallView: React.SFC<Props> = ({isFsCall, initialValues, handleConfi
                     <></>
                   )
                 }
+                {
+                  allowWhitelist && isFsCall && initialValues.method === 'FsGenFileReadSettleSlice' &&
+                  <View orientation="column">
+                    <div>
+                      <label>Whitelist this download task</label>
+                      <Popup
+                        trigger={<Icon name="question circle outline" />}
+                        content="By activating this cyano will automatically sign settle slice generation for this very fs task"
+                      />
+                    </div>
+                    <Field
+                      name="whitelistFsGenSettleSlice"
+                      render={(t) => (
+                        <SemanticForm.Checkbox
+                          onChange={(e, d) => t.input.onChange(d.checked)}
+                          checked={Boolean(t.input.value)}
+                          error={t.meta.touched && t.meta.invalid}
+                        />
+                      )}
+                    />
+                  </View>
+                }
               </View>
             </View>
             <Filler />

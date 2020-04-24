@@ -46,8 +46,10 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
-  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) =>
-    withProps(
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions, getReduxProps) => {
+    const isFsCall: boolean = get(props.location, 'state.isFsCall', false);
+    const fileHash: string = get(props.location, 'state.parameters.fileHash', undefined);
+    return withProps(
       {
         allowWhitelist: !get(reduxProps.requests.find((r) => r.id === get(props.location, 'state.requestId'))!, 'requireIdentity', false),
         handleCancel: async () => {
@@ -65,10 +67,16 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const gasPrice = Number(get(values, 'gasPrice', '0'));
           const gasLimit = Number(get(values, 'gasLimit', '0'));
           const whitelist: boolean = get(values, 'whitelist');
+          const whitelistFsGenSettleSlice: boolean = get(values, 'whitelistFsGenSettleSlice', false);
 
           if (whitelist) {
             const name = `${contract}_${method}_${paramsHash}`;
             await actions.addTrustedSc(contract, name, false, false, method, paramsHash);
+          }
+
+          if (whitelistFsGenSettleSlice) {
+            const name = `${contract}_${method}_${paramsHash}_${fileHash}`;
+            await actions.addTrustedSc(contract, name, false, false, method, paramsHash, fileHash);
           }
 
           // todo: no type check ScCallRequest
@@ -123,13 +131,15 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           gasPrice: String(get(props.location, 'state.gasPrice', 0)),
           method: get(props.location, 'state.method', ''),
           paramsHash: get(props.location, 'state.paramsHash', undefined),
-          paramsJson: JSON.stringify(get(props.location, 'state.parameters', undefined), null, 1),
+          ...isFsCall? {
+            paramsJson: JSON.stringify(get(props.location, 'state.parameters', undefined), null, 1)
+          }: {}
         } as InitialValues,
-        isFsCall: get(props.location, 'state.isFsCall', false),
+        isFsCall,
         locked: get(props.location, 'state.locked', false),
       },
       (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} />,
-    ),
-  );
+    );
+  });
 
 export const Call = enhancer(CallView);
