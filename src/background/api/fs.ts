@@ -5,7 +5,7 @@ import { FsCallRequest } from "src/redux/transactionRequests";
 import { getClient } from "../network";
 import { getStore } from "../redux";
 
-const { FileHashList } = FS;
+const { FileHashList, FsResult } = FS;
 
 export async function fsCall(request: FsCallRequest, password: string): Promise<any> {
     const { parameters = [], gasPrice = 500, gasLimit = 30000, method, paramsHash } = request;
@@ -17,7 +17,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
     const client = getClient();
 
     let tx: Transaction;
-    if (paramsHash && method !== 'fsGenFileReadSettleSlice') {
+    if (paramsHash && method !== 'FsGenFileReadSettleSlice') {
       tx = OntfsContractTxBuilder.buildTxByParamsHash(
         method,
         paramsHash,
@@ -27,7 +27,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
       );
     } else {
       switch(method) {
-        case 'fsCreateSpace': {
+        case 'FsCreateSpace': {
           tx = OntfsContractTxBuilder.buildCreateSpaceTx(
             parameters.spaceOwner,
             parameters.volume,
@@ -40,7 +40,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsDeleteSpace': {
+        case 'FsDeleteSpace': {
           tx = OntfsContractTxBuilder.buildDeleteSpaceTx(
             parameters.spaceOwner,
             String(gasPrice),
@@ -49,7 +49,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsUpdateSpace': {
+        case 'FsUpdateSpace': {
           tx = OntfsContractTxBuilder.buildUpdateSpaceTx(
             parameters.spaceOwner,
             parameters.spacePayer,
@@ -61,7 +61,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsNodeRegister': {
+        case 'FsNodeRegister': {
           tx = OntfsContractTxBuilder.buildFsNodeRegisterTx(
             parameters.volume,
             parameters.serviceTime,
@@ -74,7 +74,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsNodeUpdate': {
+        case 'FsNodeUpdate': {
           tx = OntfsContractTxBuilder.buildNodeUpdateTx(
             parameters.volume,
             parameters.serviceTime,
@@ -87,7 +87,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsNodeCancel': {
+        case 'FsNodeCancel': {
           tx = OntfsContractTxBuilder.buildNodeCancelTx(
             parameters.nodeAddr,
             String(gasPrice),
@@ -96,7 +96,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsNodeWithDrawProfit': {
+        case 'FsNodeWithDrawProfit': {
           tx = OntfsContractTxBuilder.buildNodeWithdrawoProfitTx(
             parameters.nodeAddr,
             String(gasPrice),
@@ -105,7 +105,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsFileProve': {
+        case 'FsFileProve': {
           tx = OntfsContractTxBuilder.buildFileProveTx(
             parameters.nodeAddr,
             parameters.fileHash,
@@ -117,7 +117,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsReadFileSettle': {
+        case 'FsReadFileSettle': {
           tx = OntfsContractTxBuilder.buildFileReadProfitSettleTx(
             parameters.fileReadSettleSlice,
             String(gasPrice),
@@ -126,7 +126,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsStoreFiles': {
+        case 'FsStoreFiles': {
           tx = OntfsContractTxBuilder.buildStoreFilesTx(
             parameters.filesInfo,
             parameters.fileOwner,
@@ -136,7 +136,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsChallenge': {
+        case 'FsChallenge': {
           tx = OntfsContractTxBuilder.buildChallengeTx(
             parameters.fileHash,
             parameters.fileOnwer,
@@ -147,7 +147,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsTransferFiles': {
+        case 'FsTransferFiles': {
           tx = OntfsContractTxBuilder.buildTransferFilesTx(
             parameters.fileTransfers,
             parameters.originOwner,
@@ -157,7 +157,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsRenewFiles': {
+        case 'FsRenewFiles': {
           tx = OntfsContractTxBuilder.buildRenewFilesTx(
             parameters.filesRenew,
             parameters.newFileOwner,
@@ -168,7 +168,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsDeleteFiles': {
+        case 'FsDeleteFiles': {
           tx = OntfsContractTxBuilder.buildDeleteFilesTx(
             parameters.fileHashes,
             String(gasPrice),
@@ -177,7 +177,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsReadFilePledge': {
+        case 'FsReadFilePledge': {
           tx = OntfsContractTxBuilder.buildFileReadPledgeTx(
             parameters.fileHash,
             parameters.readPlans,
@@ -188,7 +188,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsCancelFileRead': {
+        case 'FsCancelFileRead': {
           tx = OntfsContractTxBuilder.buildCancelFileReadTx(
             parameters.fileHash,
             parameters.downloader,
@@ -202,7 +202,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
          * This will send a pre-invoke transaction.
          * The transaction needs a passport that needs signing from user
          */
-        case 'fsGetFileHashList': {
+        case 'FsGetFileList': {
           const passport = OntfsContractTxBuilder.genPassport(
               parameters.blockHeight,
               parameters.blockHash,
@@ -210,14 +210,14 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           tx = OntfsContractTxBuilder.buildGetFileListTx(passport);
           return await client.sendRawTransaction(tx.serialize(), true).then(res => {
-            return FileHashList.deserializeHex(res.Result.Result).export();
+            return FileHashList.deserializeHex(FsResult.deserializeHex(res.Result.Result).data).export();
           });
         }
         /**
          * This will not send a transaction.
          * Still it needs user's signature.
          */
-        case 'fsGenFileReadSettleSlice': {
+        case 'FsGenFileReadSettleSlice': {
           return await OntfsContractTxBuilder.genFileReadSettleSlice(
             parameters.fileHash,
             parameters.payTo,
@@ -226,7 +226,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
             privateKey
           ).export();
         }
-        case 'fsResponse': {
+        case 'FsResponse': {
           tx = OntfsContractTxBuilder.buildResponseTx(
             parameters.nodeAddr,
             parameters.fileHash,
@@ -238,7 +238,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           );
           break;
         }
-        case 'fsJudge': {
+        case 'FsJudge': {
           tx = OntfsContractTxBuilder.buildJudgeTx(
             parameters.fileHash,
             parameters.fileOwner,

@@ -268,7 +268,7 @@ async function submitFsCall(request: FsCallRequest, password: string, dispatch: 
   }
 
   const response = await timeout(fsCall(request, password), 15000);
-  if (request.method === 'fsGenFileReadSettleSlice' || request.method === 'fsGetFileHashList') {
+  if (request.method === 'FsGenFileReadSettleSlice' || request.method === 'FsGetFileList') {
     return response;
   }
 

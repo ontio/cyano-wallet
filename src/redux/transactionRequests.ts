@@ -33,7 +33,7 @@ export type TransactionType =
   | 'stateChannel_login'
   | 'fs_call';
 
-export type FsMethod = (keyof typeof ONTFS_METHOD) | 'fsGenFileReadSettleSlice';
+export type FsMethod = (keyof typeof ONTFS_METHOD) | 'FsGenFileReadSettleSlice';
 
 export interface TransactionRequest {
   id: string;

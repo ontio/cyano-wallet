@@ -1,4 +1,6 @@
-import { Challenge, ChallengeList, FileHashList, FileInfo, FileReadSettleSlice, FsAPI, FsNodeAPI, FsNodeInfo, FsNodeInfoList, FsSpaceAPI, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
+import { Challenge, ChallengeList, FileHashList, FileInfo,
+  FileReadSettleSlice, FsAPI, FsNodeAPI, FsNodeInfo, FsNodeInfoList,
+  FsSpaceAPI, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
 import { Account, Crypto, FS, OntfsContractTxBuilder, utils } from 'ontology-ts-sdk';
 import { getAccount } from "src/api/accountApi";
 import { getClient } from "../network";
@@ -6,12 +8,12 @@ import { getStore } from "../redux";
 import { getRequestsManager } from "../requestsManager";
 
 const { Address } = Crypto; 
-const { isHexString, str2hexstr } = utils;
+const { isHexString, str2hexstr, hexstr2str } = utils;
 const { 
   FsNodeInfo: FsNodeInfoClass, FsNodeInfoList: FsNodeInfoListClass, 
   SpaceInfo, ReadPledge: ReadPledgeClass, PdpRecordList: PdpRecordListClass,
   Challenge: ChallengeClass, ChallengeList: ChallengeListClass,
-  FileInfo: FileInfoClass
+  FileInfo: FileInfoClass, FsResult
 } = FS;
 
 function getCurrentAccount(): Account {
@@ -23,36 +25,52 @@ function getCurrentAccount(): Account {
   return getAccount(wallet);
 }
 
+function getFsResultData(res: any): string {
+  const { success, data } = FsResult.deserializeHex(res.Result.Result);
+  if (!success) {
+    throw new Error(hexstr2str(data));
+  }
+  return data;
+}
+
 const space: FsSpaceAPI = {
-  async create({volume, copyNumber, pdpInterval, timeExpired}): Promise<Response> {
+  async create({volume, copyNumber, pdpInterval, timeExpired, gasPrice, gasLimit}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsCreateSpace',
+      gasLimit,
+      gasPrice,
+      method: 'FsCreateSpace',
       parameters: {
         copyNumber,
         pdpInterval,
         spaceOwner: address,
         timeExpired: new Date(timeExpired),
         volume
-      }
+      },
     })
   },
 
-  async delete(): Promise<Response> {
+  async delete({gasLimit, gasPrice}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsDeleteSpace',
+      gasLimit,
+      gasPrice,
+      method: 'FsDeleteSpace',
       parameters: {
         spaceOwner: address
       }
     });
   },
 
-  async update({volume, timeExpired}): Promise<Response> {
+  async update({volume, timeExpired, gasLimit, gasPrice}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsUpdateSpace',
+      gasLimit,
+      gasPrice,
+      method: 'FsUpdateSpace',
       parameters: {
+        gasLimit,
+        gasPrice,
         spaceOwner: address,
         spacePayer: address,
         timeExpired: new Date(timeExpired),
@@ -65,18 +83,20 @@ const space: FsSpaceAPI = {
     const { address }= getCurrentAccount();
     const tx = OntfsContractTxBuilder.buildGetSpaceInfoTx(address);
     const client = getClient();
-    return await client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const spaceInfo = SpaceInfo.deserializeHex(res.Result.Result);
+    return await client.sendRawTransaction(tx.serialize(), true).then((res) => {
+      const spaceInfo = SpaceInfo.deserializeHex(getFsResultData(res));
       return spaceInfo.export();
     });
   }
 }
 
 const node: FsNodeAPI = {
-  async register({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<Response> {
+  async register({volume, serviceTime, minPdpInterval, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsNodeRegister',
+      gasLimit,
+      gasPrice,
+      method: 'FsNodeRegister',
       parameters: {
         minPdpInterval,
         nodeAddr: address,
@@ -91,15 +111,17 @@ const node: FsNodeAPI = {
     const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const nodeInfo = FsNodeInfoClass.deserializeHex(res.Result.Result);
+      const nodeInfo = FsNodeInfoClass.deserializeHex(getFsResultData(res));
       return nodeInfo.export();
     });
   },
 
-  async update({volume, serviceTime, minPdpInterval, nodeNetAddr}): Promise<Response> {
+  async update({volume, serviceTime, minPdpInterval, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsNodeUpdate',
+      gasLimit,
+      gasPrice,
+      method: 'FsNodeUpdate',
       parameters: {
         minPdpInterval,
         nodeAddr: address,
@@ -110,33 +132,39 @@ const node: FsNodeAPI = {
     });
   },
 
-  async cancel(): Promise<Response> {
+  async cancel({gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsNodeCancel',
+      gasLimit,
+      gasPrice,
+      method: 'FsNodeCancel',
       parameters: {
         nodeAddr: address
       }
     })
   },
 
-  async drawProfit(): Promise<Response> {
+  async drawProfit({gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
-      method: 'fsNodeWithDrawProfit',
+      gasLimit,
+      gasPrice,
+      method: 'FsNodeWithDrawProfit',
       parameters: {
         nodeAddr: address
       }
     });
   },
 
-  async fileProve({fileHash, proveData, blockHeight}): Promise<Response> {
+  async fileProve({fileHash, proveData, blockHeight, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return getRequestsManager().initFsCall({
-      method: 'fsFileProve',
+      gasLimit,
+      gasPrice,
+      method: 'FsFileProve',
       parameters: {
         blockHeight,
         fileHash,
@@ -150,9 +178,11 @@ const node: FsNodeAPI = {
 export const fsDapi: FsAPI = {
   node,
   space,
-  async fileReadProfitSettle({fileReadSettleSlice}): Promise<Response> {
+  async fileReadProfitSettle({fileReadSettleSlice, gasLimit, gasPrice}): Promise<Response> {
     return getRequestsManager().initFsCall({
-      method: 'fsReadFileSettle',
+      gasLimit,
+      gasPrice,
+      method: 'FsReadFileSettle',
       parameters: {
         fileReadSettleSlice
       }
@@ -167,7 +197,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildNodeQueryTx(new Address(nodeWallet));
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const nodeInfo = FsNodeInfoClass.deserializeHex(res.Result.Result);
+      const nodeInfo = FsNodeInfoClass.deserializeHex(getFsResultData(res));
       return nodeInfo.export();
     });
   },
@@ -176,7 +206,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetNodeInfoListTx(count);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const nodeInfoList = FsNodeInfoListClass.deserializeHex(res.Result.Result);
+      const nodeInfoList = FsNodeInfoListClass.deserializeHex(getFsResultData(res));
       return nodeInfoList.export();
     })
   },
@@ -188,7 +218,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetFileReadPledgeTx(fileHash, new Address(downloader));
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const readPledge = ReadPledgeClass.deserializeHex(res.Result.Result);
+      const readPledge = ReadPledgeClass.deserializeHex(getFsResultData(res));
       return readPledge.export();
     });
   },
@@ -200,7 +230,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetFilePdpRecordListTx(fileHash);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const pdpRecordList = PdpRecordListClass.deserializeHex(res.Result.Result);
+      const pdpRecordList = PdpRecordListClass.deserializeHex(getFsResultData(res));
       return pdpRecordList.export();
     });
   },
@@ -213,7 +243,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetChanllengeTx(fileHash, address, new Address(nodeAddr));
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const challenge = ChallengeClass.deserializeHex(res.Result.Result);
+      const challenge = ChallengeClass.deserializeHex(getFsResultData(res));
       return challenge.export();
     });
   },
@@ -227,7 +257,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetFileChallengeListTx(fileHash, address);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const challengeList = ChallengeListClass.deserializeHex(res.Result.Result);
+      const challengeList = ChallengeListClass.deserializeHex(getFsResultData(res));
       return challengeList.export();
     });
   },
@@ -237,7 +267,7 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetNodeChallengeListTx(address);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const challengeList = ChallengeListClass.deserializeHex(res.Result.Result);
+      const challengeList = ChallengeListClass.deserializeHex(getFsResultData(res));
       return challengeList.export();
     });
   },
@@ -249,15 +279,18 @@ export const fsDapi: FsAPI = {
     const tx = OntfsContractTxBuilder.buildGetFileInfoTx(fileHash);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
-      const fileInfo = FileInfoClass.deserializeHex(res.Result.Result);
+      const fileInfo = FileInfoClass.deserializeHex(getFsResultData(res));
       return fileInfo.export();
     });
   },
 
-  async storeFiles({filesInfo}): Promise<Response> {
+  async storeFiles({filesInfo, gasLimit, gasPrice}): Promise<Response> {
+    alert(JSON.stringify(filesInfo))
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
-        method: 'fsStoreFiles',
+       gasLimit,
+       gasPrice,
+        method: 'FsStoreFiles',
         parameters: {
           fileOwner: address,
           filesInfo: filesInfo.map(info => {
@@ -275,7 +308,7 @@ export const fsDapi: FsAPI = {
     const blockHeight = (await client.getBlockHeight()).Result as number;
     const blockHash = (await client.getBlockHash(blockHeight)).Result as string;
     return await getRequestsManager().initFsCall({
-      method: 'fsGetFileHashList',
+      method: 'FsGetFileList',
       parameters: {
         blockHash,
         blockHeight
@@ -283,13 +316,15 @@ export const fsDapi: FsAPI = {
     });
   },
 
-  async chanllenge({fileHash, nodeAddr}): Promise<Response> {
+  async chanllenge({fileHash, nodeAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address }= getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return await getRequestsManager().initFsCall({
-      method: 'fsChallenge',
+      gasLimit,
+      gasPrice,
+      method: 'FsChallenge',
       parameters: {
         fileHash,
         fileOwner: address,
@@ -298,10 +333,12 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async transferFiles({fileTransfers}): Promise<Response> {
+  async transferFiles({fileTransfers, gasLimit, gasPrice}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
-      method: 'fsTransferFiles',
+      gasLimit,
+      gasPrice,
+      method: 'FsTransferFiles',
       parameters: {
         fileTransfers: fileTransfers.map(transfer => {
           return {
@@ -314,10 +351,12 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async renewFiles({filesRenew}): Promise<Response> {
+  async renewFiles({filesRenew, gasLimit, gasPrice}): Promise<Response> {
     const { address }= getCurrentAccount();
     return await getRequestsManager().initFsCall({
-      method: 'fsRenewFiles',
+      gasLimit,
+      gasPrice,
+      method: 'FsRenewFiles',
       parameters: {
         filesRenew: filesRenew.map(renew => {
           return {
@@ -331,23 +370,27 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async deleteFiles({fileHashes}): Promise<Response> {
+  async deleteFiles({fileHashes, gasLimit, gasPrice}): Promise<Response> {
     fileHashes = fileHashes.map(fileHash => isHexString(fileHash)? fileHash : str2hexstr(fileHash))
     return await getRequestsManager().initFsCall({
-      method: 'fsDeleteFiles',
+      gasLimit,
+      gasPrice,
+      method: 'FsDeleteFiles',
       parameters: {
         fileHashes
       }
     })
   },
 
-  async fileReadPledge({fileHash, readPlans}): Promise<Response> {
+  async fileReadPledge({fileHash, readPlans, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return await getRequestsManager().initFsCall({
-      method: 'fsReadFilePledge',
+      gasLimit,
+      gasPrice,
+      method: 'FsReadFilePledge',
       parameters: {
         downloader: address,
         fileHash,
@@ -361,13 +404,15 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async cancelFileRead({fileHash}): Promise<Response> {
+  async cancelFileRead({fileHash, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return await getRequestsManager().initFsCall({
-      method: 'fsCancelFileRead',
+      gasLimit,
+      gasPrice,
+      method: 'FsCancelFileRead',
       parameters: {
         downloader: address,
         fileHash
@@ -375,13 +420,15 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async response({fileHash, proveData, blockHeight}): Promise<Response> {
+  async response({fileHash, proveData, blockHeight, gasLimit, gasPrice}): Promise<Response> {
     const { address: nodeAddr } = getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return getRequestsManager().initFsCall({
-      method: 'fsResponse',
+      gasLimit,
+      gasPrice,
+      method: 'FsResponse',
       parameters: {
         blockHeight,
         fileHash,
@@ -391,13 +438,15 @@ export const fsDapi: FsAPI = {
     })
   },
 
-  async judge({fileHash, nodeAddr}): Promise<Response> {
+  async judge({fileHash, nodeAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address: fileOwner } = getCurrentAccount();
     if (!isHexString(fileHash)) {
       fileHash = str2hexstr(fileHash);
     }
     return getRequestsManager().initFsCall({
-      method: 'fsJudge',
+      gasLimit,
+      gasPrice,
+      method: 'FsJudge',
       parameters: {
         fileHash,
         fileOwner,
@@ -414,7 +463,7 @@ export const fsDapi: FsAPI = {
       fileHash = str2hexstr(fileHash);
     }
     return getRequestsManager().initFsCall({
-      method: 'fsGenFileReadSettleSlice',
+      method: 'FsGenFileReadSettleSlice',
       parameters: {
         fileHash,
         payTo: new Address(payTo),
