@@ -1,6 +1,6 @@
 import { Challenge, ChallengeList, FileHashList, FileInfo,
   FileReadSettleSlice, FsAPI, FsNodeAPI, FsNodeInfo, FsNodeInfoList,
-  FsSpaceAPI, PdpRecordList, ReadPledge, Space } from "@ont-dev/ontology-dapi";
+  FsSpaceAPI, PdpRecordList, ReadPledge, Response, Space } from "@ont-dev/ontology-dapi";
 import { Account, Crypto, FS, OntfsContractTxBuilder, utils } from 'ontology-ts-sdk';
 import { getAccount } from "src/api/accountApi";
 import { getClient } from "../network";
