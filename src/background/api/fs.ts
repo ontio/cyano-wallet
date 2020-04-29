@@ -32,7 +32,7 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
             parameters.spaceOwner,
             parameters.volume,
             parameters.copyNumber,
-            parameters.pdpInterval,
+            parameters.timeStart,
             parameters.timeExpired,
             String(gasPrice),
             String(gasLimit),
@@ -65,7 +65,6 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           tx = OntfsContractTxBuilder.buildFsNodeRegisterTx(
             parameters.volume,
             parameters.serviceTime,
-            parameters.minPdpInterval,
             parameters.nodeAddr,
             parameters.nodeNetAddr,
             String(gasPrice),
@@ -78,7 +77,6 @@ export async function fsCall(request: FsCallRequest, password: string): Promise<
           tx = OntfsContractTxBuilder.buildNodeUpdateTx(
             parameters.volume,
             parameters.serviceTime,
-            parameters.minPdpInterval,
             parameters.nodeAddr,
             parameters.nodeNetAddr,
             String(gasPrice),

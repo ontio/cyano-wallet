@@ -34,7 +34,7 @@ function getFsResultData(res: any): string {
 }
 
 const space: FsSpaceAPI = {
-  async create({volume, copyNumber, pdpInterval, timeExpired, gasPrice, gasLimit}): Promise<Response> {
+  async create({volume, copyNumber, timeStart, timeExpired, gasPrice, gasLimit}): Promise<Response> {
     const { address }= getCurrentAccount();
     return getRequestsManager().initFsCall({
       gasLimit,
@@ -42,9 +42,9 @@ const space: FsSpaceAPI = {
       method: 'FsCreateSpace',
       parameters: {
         copyNumber,
-        pdpInterval,
         spaceOwner: address,
         timeExpired: new Date(timeExpired),
+        timeStart: new Date(timeStart),
         volume
       },
     })
@@ -91,14 +91,13 @@ const space: FsSpaceAPI = {
 }
 
 const node: FsNodeAPI = {
-  async register({volume, serviceTime, minPdpInterval, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
+  async register({volume, serviceTime, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       gasLimit,
       gasPrice,
       method: 'FsNodeRegister',
       parameters: {
-        minPdpInterval,
         nodeAddr: address,
         nodeNetAddr,
         serviceTime: new Date(serviceTime),
@@ -116,14 +115,13 @@ const node: FsNodeAPI = {
     });
   },
 
-  async update({volume, serviceTime, minPdpInterval, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
+  async update({volume, serviceTime, nodeNetAddr, gasLimit, gasPrice}): Promise<Response> {
     const { address } = getCurrentAccount();
     return getRequestsManager().initFsCall({
       gasLimit,
       gasPrice,
       method: 'FsNodeUpdate',
       parameters: {
-        minPdpInterval,
         nodeAddr: address,
         nodeNetAddr,
         serviceTime: new Date(serviceTime),
@@ -203,6 +201,9 @@ export const fsDapi: FsAPI = {
   },
 
   async getNodeInfoList({count}): Promise<FsNodeInfoList> {
+    if (count <= 0) {
+      return Promise.reject(`Count(${count}) is not allowed to be less than 1.`);
+    }
     const tx = OntfsContractTxBuilder.buildGetNodeInfoListTx(count);
     const client = getClient();
     return client.sendRawTransaction(tx.serialize(), true).then(res => {
@@ -295,7 +296,8 @@ export const fsDapi: FsAPI = {
           filesInfo: filesInfo.map(info => {
             return {
               ...info,
-              timeExpired: new Date(info.timeExpired)
+              timeExpired: new Date(info.timeExpired),
+              timeStart: new Date(info.timeStart)
             }
           })
         }
