@@ -296,6 +296,7 @@ export const fsDapi: FsAPI = {
           filesInfo: filesInfo.map(info => {
             return {
               ...info,
+              fileHash: !isHexString(info.fileHash)? str2hexstr(info.fileHash) : info.fileHash,
               timeExpired: new Date(info.timeExpired),
               timeStart: new Date(info.timeStart)
             }
