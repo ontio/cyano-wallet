@@ -10,9 +10,9 @@ WebExtension (a.k.a Chrome plugin) wallet for the **Ontology** blockchain compat
 
 ### What does it currently do
 
-- Create a wallet using mnemonics phrase
+- Create a wallet using mnemonic phrase
 - Encrypt a Private Key
-- Login with Mnemonics phrase, Private Key or a stored account.
+- Login with Mnemonic phrase, Private Key or a stored account.
 - Ledger support
 - Trezor support
 - View balance

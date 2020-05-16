@@ -30,11 +30,11 @@ export const IdentityNewView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="New identity" />
       <View content={true} className="spread-around">
-        <View>Here is your mnemonics phrase and private key which you can use to restore your identity. Write it down somewhere safe.</View>
+        <View>Here is your mnemonic phrase and private key which you can use to restore your identity. Write it down somewhere safe.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <label>Mnemonics phrase</label>
+      <label>Mnemonic phrase</label>
       <Message className="scroll">{props.mnemonics}</Message>
       <label>Private key (WIF format)</label>
       <Message className="breakWords">{props.wif}</Message>
