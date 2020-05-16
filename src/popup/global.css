@@ -342,6 +342,8 @@ h4.unbound:hover {
 
 .ui.message.scroll {
   overflow-y: scroll;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 .statusBar {
