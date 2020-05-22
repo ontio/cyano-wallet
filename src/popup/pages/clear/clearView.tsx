@@ -35,7 +35,7 @@ export const ClearView: React.SFC<Props> = (props) => (
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Make sure you have your private key or mnemonics phrase backed up if you don't want to lose currently stored data.</Message>
+      <Message>Make sure you have your private key or mnemonic phrase backed up if you don't want to lose your currently stored data.</Message>
       <Filler />
       <View className="buttons">
         <Button disabled={props.loading} loading={props.loading} onClick={props.handleClear}>Clear</Button>

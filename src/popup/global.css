@@ -342,6 +342,8 @@ h4.unbound:hover {
 
 .ui.message.scroll {
   overflow-y: scroll;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 .statusBar {
@@ -374,4 +376,17 @@ h4.unbound:hover {
 
 .margin-bottom-custom {
   margin-bottom: 0.2em;
+}
+
+.item {
+  margin: 5px;
+}
+
+.transferList {
+  overflow-y: auto;
+  min-height: 105px;
+}
+
+.flex.content {
+  overflow-y: hidden;
 }

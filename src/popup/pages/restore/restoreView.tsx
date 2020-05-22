@@ -32,7 +32,7 @@ export const RestoreView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <LogoHeader title="Restore account" />
       <View content={true} className="spread-around">
-        <View>Enter your mnemonics phrase and a new passphrase for account encryption.</View>
+        <View>Enter your mnemonic phrase and a new passphrase to encrypt your account.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
@@ -42,7 +42,7 @@ export const RestoreView: React.SFC<Props> = (props) => (
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
             <View orientation="column">
-              <label>Mnemonics phrase</label>
+              <label>Mnemonic phrase</label>
               <Field
                 name="mnemonics"
                 validate={validMnemonics}

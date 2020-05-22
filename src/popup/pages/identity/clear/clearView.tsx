@@ -31,11 +31,11 @@ export const IdentityClearView: React.SFC<Props> = (props) => (
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Clear identity" />
       <View content={true} className="spread-around">
-        <View>Clearing will erase only your identity from this device. Account will be not erased.</View>
+        <View>Clearing will erase only your identity from this device. Your account will be not erased.</View>
       </View>
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Message>Make sure you have your private key or mnemonics phrase backed up if you don't want to lose currently stored data.</Message>
+      <Message>Make sure you have your private key or mnemonic phrase backed up if you don't want to lose your currently stored data.</Message>
       <Filler />
       <View className="buttons">
         <Button disabled={props.loading} loading={props.loading} onClick={props.handleClear}>Clear</Button>
