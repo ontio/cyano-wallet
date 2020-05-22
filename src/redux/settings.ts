@@ -1,20 +1,22 @@
+import { VmType } from './../api/tokenApi';
 /*
  * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
+ * This file is part of Cyano Wallet.
  *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
+ * Cyano Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
+ * Cyano Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 export type NetValue = 'TEST' | 'MAIN' | 'PRIVATE';
 
 // tslint:disable:object-literal-sort-keys
@@ -25,6 +27,7 @@ export interface TokenState {
   symbol: string;
   decimals: number;
   specification: 'OEP-4';
+  vmType: VmType;
 }
 
 export interface TrustedSc {
@@ -70,13 +73,21 @@ export const setSettings = (
   trustedScs,
 });
 
-export const addToken = (contract: string, name: string, symbol: string, decimals: number, specification: 'OEP-4') => ({
+export const addToken = (
+  contract: string,
+  name: string,
+  symbol: string,
+  decimals: number,
+  specification: 'OEP-4',
+  vmType: VmType,
+) => ({
   type: ADD_TOKEN,
   contract,
   name,
   symbol,
   decimals,
   specification,
+  vmType,
 });
 
 export const delToken = (contract: string) => ({ type: DEL_TOKEN, contract });

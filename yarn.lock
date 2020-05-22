@@ -398,10 +398,10 @@
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
 
-"@ont-dev/ontology-dapi@^0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.4.9.tgz#3ddde4e037f8820cf85fc885d2d1efb685937df9"
-  integrity sha512-9FJYzrLv1VzbS8vQZxnAOWtYJRx6kwzuNeY1USXWo6bIWGNt9i9UVYxKPJkhyVQj/hRn4YQz0q7W0Fpm6mjnPQ==
+"@ont-dev/ontology-dapi@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.0.tgz#12007ac71daa63da8822f763f7dfda44cab7328d"
+  integrity sha512-KgTzElwnwkLjfCW+cX3nWeB7sC+KhJye5ogJONRXr84mFpdgq+y28chcks80yopr5zSN28yAM/cIgIx6HocSJA==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"
@@ -6728,10 +6728,10 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.0.24:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.0.24.tgz#5fd403ef9aac3931d54a25e4a323c1e500c42fca"
-  integrity sha512-jk+B2QbbE3uYgBvCkdwcJodHJYkxfmb1Km6RsxK2yM6E6krp7h7y01WCvLuEk2bgWTayz/jIg7AizeUqeRVlyg==
+ontology-ts-sdk@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.1.0.tgz#7156220ec723c8ad23f3ae2f5c92374b2a9da55c"
+  integrity sha512-DaJBG2Ugi83TbWfaWY75ijoKuBQ6+7QAveVMfuY0UxrrzxWw9hXqK7UayvGugIfkRWivWr0dyvpHAkL605e6HQ==
   dependencies:
     "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"

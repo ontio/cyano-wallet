@@ -1,19 +1,19 @@
 /*
  * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
+ * This file is part of Cyano Wallet.
  *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
+ * Cyano Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
+ * Cyano Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { BigNumber } from 'bignumber.js';
 import { get } from 'lodash';
@@ -25,12 +25,13 @@ import { AssetType } from '../../../redux/runtime';
 import { TransferRequest } from '../../../redux/transactionRequests';
 import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
-import { convertAmountFromStr, convertAmountToBN, convertAmountToStr } from '../../utils/number';
+import { convertAmountFromStr, convertAmountToBN, convertAmountToStr, decodeAmount } from '../../utils/number';
 import { InitialValues, Props, SendView } from './sendView';
 
 const mapStateToProps = (state: GlobalState) => ({
   ongAmount: state.runtime.ongAmount,
   ontAmount: state.runtime.ontAmount,
+  tokenAmounts: state.runtime.tokenAmounts,
   tokens: state.settings.tokens
 });
 
@@ -106,6 +107,13 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             amountBN = amountBN.isNegative() ? new BigNumber(0) : amountBN;
 
             formProps.form.change('amount', amountBN.toString());
+          } else {
+              const token = reduxProps.tokens.find(item => item.symbol === asset);
+              if (token) {
+                  const tokenAmount = reduxProps.tokenAmounts.find(item => item.contract === token.contract)!
+                  const amount = decodeAmount(tokenAmount.amount, token.decimals);
+                  formProps.form.change('amount', amount )
+              }
           }
           return true;
         },

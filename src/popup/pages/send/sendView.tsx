@@ -1,19 +1,19 @@
 /*
  * Copyright (C) 2018 Matus Zamborsky
- * This file is part of The Ontology Wallet&ID.
+ * This file is part of Cyano Wallet.
  *
- * The The Ontology Wallet&ID is free software: you can redistribute it and/or modify
+ * Cyano Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The Ontology Wallet&ID is distributed in the hope that it will be useful,
+ * Cyano Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with The Ontology Wallet&ID.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { get } from 'lodash';
 import * as React from 'react';
@@ -45,6 +45,7 @@ export interface Props {
 
 /**
  * todo: amount number step does not work for ONG, should be changed to custom validation
+ * todo: removed step for amount input as it may show scientific number for ong
  */
 export const SendView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
@@ -102,9 +103,8 @@ export const SendView: React.SFC<Props> = (props) => (
                 validate={gt(0)}
                 render={(t) => (
                   <SemanticForm.Input
-                    type="number"
                     placeholder={get(formProps.values, 'asset') === 'ONG' ? '0.0000000000' : '0'}
-                    step={get(formProps.values, 'asset') === 'ONG' ? '0.00000000001' : '1'}
+                    step={get(formProps.values, 'asset') === 'ONG' ? '0.000000001' : '1'}
                     onChange={t.input.onChange}
                     input={{ ...t.input, value: t.input.value }}
                     error={t.meta.touched && t.meta.invalid}

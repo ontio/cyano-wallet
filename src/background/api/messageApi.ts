@@ -1,5 +1,6 @@
 import { Signature } from '@ont-dev/ontology-dapi';
 import { Crypto, utils } from 'ontology-ts-sdk';
+import { decryptDefaultIdentity } from 'src/api/identityApi';
 import { decryptAccount } from '../../api/accountApi';
 import { getWallet } from '../../api/authApi';
 import { MessageSignRequest } from '../../redux/transactionRequests';
@@ -9,7 +10,7 @@ export async function messageSign(request: MessageSignRequest, password: string)
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const privateKey = decryptAccount(wallet, password);
+  const privateKey = request.useIdentity ? decryptDefaultIdentity(wallet, password, wallet.scrypt) : decryptAccount(wallet, password);
   const publicKey = privateKey.getPublicKey();
 
   const message = request.message;
@@ -29,5 +30,5 @@ export function messageVerify(message: string, signature: Signature) {
   const publicKey = Crypto.PublicKey.deserializeHex(new utils.StringReader(signature.publicKey));
 
   return publicKey.verify(messageHex, sig);
-  
+
 }
