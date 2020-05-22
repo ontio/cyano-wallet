@@ -22,6 +22,7 @@ import { AccountLogoHeader, Filler, StatusBar, View } from '../../components';
 
 export interface Props {
   message: string;
+  useIdentity: boolean;
   locked: boolean;
   handleConfirm: () => void;
   handleCancel: () => void;
@@ -31,18 +32,20 @@ export const MessageSignView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Message sign" />
-      <View content={true} className="spread-around">
+      <View content={true} orientation="column" className="items-center">
         <View>Read carefully what you sign.</View>
+        { props.useIdentity && <View>Sign with your identity</View>}
       </View>
     </View>
     <View orientation="column" fluid={true} content={true}>
       <label>Message</label>
-      <Message className="scroll">{props.message}</Message>
-      <Filler />
-      <View className="buttons">
-        <Button onClick={props.handleConfirm}>Continue</Button>
-        <Button onClick={props.handleCancel}>Cancel</Button>
-      </View>
+      
+        <Message className="scroll">{props.message}</Message>
+        <Filler />
+        <View className="buttons">
+          <Button onClick={props.handleConfirm}>Continue</Button>
+          <Button onClick={props.handleCancel}>Cancel</Button>
+        </View>
     </View>
     <StatusBar />
   </View>

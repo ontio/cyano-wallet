@@ -82,7 +82,7 @@ export class RequestsManager {
     return deferred.promise;
   }
 
-  public async initMessageSign(args: { message: string }) {
+  public async initMessageSign(args: { message: string, useIdentity?: boolean }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved

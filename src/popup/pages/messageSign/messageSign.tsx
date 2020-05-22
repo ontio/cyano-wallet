@@ -44,10 +44,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         handleConfirm: async () => {
           const requestId: string = get(props.location, 'state.requestId');
 
-          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/dashboard' });
+          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/dashboard', identityConfirm: true });
         },
         locked: get(props.location, 'state.locked', false),
-        message: get(props.location, 'state.message', '')
+        message: get(props.location, 'state.message', ''),
+        useIdentity: get(props.location, 'state.useIdentity', false)
       },
       (injectedProps) => <Component {...injectedProps} />,
     ),

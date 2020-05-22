@@ -139,6 +139,10 @@ div.flex.center {
   align-self: center;
 }
 
+div.flex.items-center {
+    align-items: center;
+  }
+
 div.flex.error {
   color: #912d2b;
   font-weight: bold;

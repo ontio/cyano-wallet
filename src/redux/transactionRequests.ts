@@ -55,7 +55,8 @@ export interface SwapRequest extends TransactionRequest {
 }
 
 export interface MessageSignRequest extends TransactionRequest {
-  message: string;
+    message: string;
+    useIdentity?: boolean;
 }
 
 // tslint:disable-next-line:no-empty-interface

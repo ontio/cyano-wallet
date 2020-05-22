@@ -14,8 +14,8 @@ export const messageApi: MessageApi = {
     throw new Error('UNSUPPORTED');
   },
 
-  signMessage({ message }): Promise<Signature> {
-    return getRequestsManager().initMessageSign({message});
+  signMessage({ message, useIdentity }): Promise<Signature> {
+    return getRequestsManager().initMessageSign({message, useIdentity});
   },
 
   async verifyMessage({ message, signature }): Promise<boolean> {
