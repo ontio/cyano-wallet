@@ -29,5 +29,5 @@ export function messageVerify(message: string, signature: Signature) {
   const publicKey = Crypto.PublicKey.deserializeHex(new utils.StringReader(signature.publicKey));
 
   return publicKey.verify(messageHex, sig);
-  
+
 }
