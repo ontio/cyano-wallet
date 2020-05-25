@@ -392,5 +392,5 @@ h4.unbound:hover {
 }
 
 .flex.content {
-  overflow-y: hidden;
+  overflow-y: auto;
 }
