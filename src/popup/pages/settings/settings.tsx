@@ -21,7 +21,7 @@ import * as React from 'react';
 import * as FileReaderInput from 'react-file-reader-input';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getAddress } from 'src/api/accountApi';
+import { filterTorusAccount, getAddress } from 'src/api/accountApi';
 import { getWallet } from '../../../api/authApi';
 import { prodOptions, testOptions } from '../../../api/constants';
 import { getIdentity } from '../../../api/identityApi';
@@ -73,8 +73,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             },
             handleExport: () => {
               setState({ importError: false });
-
-              const blob = new Blob([reduxProps.wallet!], { type: 'text/plain;charset=utf-8' });
+                const wallet = filterTorusAccount(reduxProps.wallet!);
+              const blob = new Blob([wallet], { type: 'text/plain;charset=utf-8' });
               FileSaver.saveAs(blob, 'wallet.dat');
             },
             handleImport: async (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => {

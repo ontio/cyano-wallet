@@ -19,7 +19,7 @@ import { Reducer } from 'redux';
 import { getWallet } from '../../api/authApi';
 import { CLEAR_IDENTITY, CLEAR_WALLET, SET_WALLET, WalletState } from '../../redux/wallet';
 
-const defaultState: WalletState = { wallet: null };
+const defaultState: WalletState = { wallet: null, isTorus: false };
 export const walletReducer: Reducer<WalletState> = (state = defaultState, action) => {
   switch (action.type) {
     case CLEAR_IDENTITY:
@@ -34,7 +34,7 @@ export const walletReducer: Reducer<WalletState> = (state = defaultState, action
     case CLEAR_WALLET:
       return { ...state, wallet: null };
     case SET_WALLET:
-      return { ...state, wallet: action.wallet };
+      return { ...state, wallet: action.wallet, isTorus: action.isTorus };
     default:
       return state;
   }

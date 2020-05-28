@@ -26,10 +26,12 @@ export interface Props {
   handleLedger: () => void;
   handleTrezor: () => void;
   handleBack: () => void;
+  handleGoogle: () => void;
+  handleDiscord: () => void;
 }
 
 export const AccountsAddView: React.SFC<Props> = (props) => (
-  <View orientation="column" fluid={true}>
+  <View orientation="column" fluid={true} className="gradient">
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Accounts" />
       <View content={true} className="spread-around ">
@@ -51,15 +53,55 @@ export const AccountsAddView: React.SFC<Props> = (props) => (
           Restore account
         </Button>
         <Spacer />
+        <View orientation="row" className="flex-row-between">
+                    <Button size="small" onClick={() => props.handleLedger()}>
+                    <View orientation="row" className="flex-items-center">
+                        <img width="15" height="15" src={require('../../assets/ledger_.svg')} />
+                        <span>Ledger</span> 
+                    </View>
+            </Button>
+                    <Button size="small" onClick={() => props.handleTrezor()}>
+                    <View orientation="row" className="flex-items-center">
+                        <img width="15" height="16" src={require('../../assets/trezor-logo-black.png')} />
+                        <span>Trezor</span> 
+                    </View>
+            </Button>
+        </View>
+        <Spacer />
+        <View orientation="row" className="center">
+                    or sign in with
+        </View>
+        <Spacer />
+        <View orientation="row" className="flex-row-between">
+          <Button size="small" onClick={() => props.handleGoogle()}>
+              <View orientation="row" className="flex-items-center">
+                <img width="15" height="15" src={require('../../assets/google.svg')} />
+                <span>Google</span> 
+              </View>
+          </Button>
+          <Button size="small" onClick={() => props.handleDiscord()}>
+              <View orientation="row" className="flex-items-center">
+                <img width="15" height="15" src={require('../../assets/discord.svg')} />
+                <span>Discord</span> </View>
+              </Button>
+        </View> 
+        <Spacer />
+        <View orientation="row" className="center">
+                <span className="text-light">Powered by &nbsp;</span> 
+            <Clickable onClick={() => window.open('https://directauth.io/', '_blank')}>DirectAuth</Clickable>
+        </View> 
+      </View>
+      <View orientation="row" className="center">
         <Button size="small" onClick={props.handleBack}>
           Back
-        </Button>
+        </Button>      
       </View>
-      <View className="center ledgerText">
+        
+      {/* <View className="center ledgerText">
         <Clickable onClick={() => props.handleLedger()}>Ledger</Clickable>
         <View>&nbsp;or&nbsp;</View>
         <Clickable onClick={() => props.handleTrezor()}>Trezor</Clickable>
-      </View>
+      </View> */}
     </View>
     <StatusBar />
   </View>

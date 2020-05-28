@@ -31,6 +31,7 @@ import { initWalletProvider } from './persist/walletProvider';
 import { initPopupManager } from './popUpManager';
 import { initStore } from './redux';
 import { initRequestsManager } from './requestsManager';
+import { initTorusProvider } from './torusProvider';
 
 const bugsnagClient = bugsnag({
   apiKey: '162731d88707c7260689fba047f0a6a7',
@@ -61,7 +62,7 @@ initWalletProvider(store);
 initRequestsManager(store, popupManager);
 initDApiProvider();
 initBrowserAction(popupManager);
-
+initTorusProvider();
 // pretends we are hosted on https://extension.trezor.io so trezor bridge will allow communication
 browser.webRequest.onBeforeSendHeaders.addListener(
   (e) => {

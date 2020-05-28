@@ -62,7 +62,7 @@ export function accountImportMnemonics(
   };
 }
 
-export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
+export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null, torusType?: string) {
   if (wallet === null) {
     wallet = Wallet.create(uuid());
   } else if (typeof wallet === 'string') {
@@ -84,12 +84,12 @@ export function accountImportPrivateKey(privateKeyStr: string, password: string,
   } else {
     privateKey = deserializePrivateKey(privateKeyStr);
   }
-
-  const account = Account.create(privateKey, password, uuid(), scryptParams);
-
-  wallet.addAccount(account);
+  const label = torusType ? uuid() + '@' + torusType : uuid(); 
+  const account = Account.create(privateKey, password, label, scryptParams);
+  if (!wallet.accounts.some(item => item.address.toBase58() === account.address.toBase58())) {
+    wallet.addAccount(account);
+  }
   wallet.setDefaultAccount(account.address.toBase58());
-
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
     wallet: wallet.toJson(),
@@ -134,6 +134,22 @@ export function getAccount(wallet: string | Wallet) {
   } else {
     return wallet.accounts[0];
   }
+}
+
+export function isCurrentTorusAccount(wallet: string | Wallet) {
+  const account = getAccount(wallet);
+  return account.label.indexOf('@') > -1;
+}
+
+export function filterTorusAccount(wallet: string | Wallet): string {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+  wallet.accounts = wallet.accounts.filter(item => item.label.indexOf('@') < 0)
+  if (wallet.defaultAccountAddress.indexOf('@') > 0) {
+    wallet.defaultAccountAddress = wallet.accounts[0].address.toBase58();
+  }
+  return wallet.toJson();
 }
 
 export function getAddress(wallet: string | Wallet) {

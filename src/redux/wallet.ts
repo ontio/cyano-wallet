@@ -16,8 +16,11 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { isCurrentTorusAccount } from "src/api/accountApi";
+
 export interface WalletState {
-  wallet: string | null;
+    wallet: string | null;
+    isTorus: boolean;
 };
 
 export const SET_WALLET = 'SET_WALLET';
@@ -25,7 +28,10 @@ export const CLEAR_WALLET = 'CLEAR_WALLET';
 
 export const CLEAR_IDENTITY = 'CLEAR_IDENTITY';
 
-export const setWallet = (walletEncoded: string) => ({ type: SET_WALLET, wallet: walletEncoded });
+export const setWallet = (walletEncoded: string) => {
+    const isTorus = isCurrentTorusAccount(walletEncoded);
+    return { type: SET_WALLET, wallet: walletEncoded, isTorus }
+};
 export const clearWallet = () => ({ type: CLEAR_WALLET });
 
 export const clearIdentity = () => ({ type: CLEAR_IDENTITY });
