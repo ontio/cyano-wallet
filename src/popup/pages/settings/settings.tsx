@@ -79,7 +79,6 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             },
             handleImport: async (event: React.SyntheticEvent<{}>, results: FileReaderInput.Result[]) => {
               setState({ importError: false });
-
               const [e] = results[0];
 
               if (e !== null && e.target !== null) {

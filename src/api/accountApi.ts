@@ -84,7 +84,7 @@ export function accountImportPrivateKey(privateKeyStr: string, password: string,
   } else {
     privateKey = deserializePrivateKey(privateKeyStr);
   }
-  const label = torusType ? uuid() + '@' + torusType : uuid(); 
+  const label = torusType ? (uuid() + '@' + torusType) : uuid(); 
   const account = Account.create(privateKey, password, label, scryptParams);
   if (!wallet.accounts.some(item => item.address.toBase58() === account.address.toBase58())) {
     wallet.addAccount(account);
@@ -138,15 +138,28 @@ export function getAccount(wallet: string | Wallet) {
 
 export function isCurrentTorusAccount(wallet: string | Wallet) {
   const account = getAccount(wallet);
-  return account.label.indexOf('@') > -1;
+  return isTorusAccount(account);
+}
+export function isTorusAccount(account: Account) {
+  const torusType = account.label.split('@')
+  return torusType.length === 2 && (torusType[1] === 'google' || torusType[1] === 'discord');
 }
 
 export function filterTorusAccount(wallet: string | Wallet): string {
   if (typeof wallet === 'string') {
     wallet = getWallet(wallet);
   }
-  wallet.accounts = wallet.accounts.filter(item => item.label.indexOf('@') < 0)
-  if (wallet.defaultAccountAddress.indexOf('@') > 0) {
+  const accountsWithouTorus = []
+  for (const account of wallet.accounts) {
+    if (!isTorusAccount(account)) {
+      accountsWithouTorus.push(account)
+    } else if (account.address.toBase58() === wallet.defaultAccountAddress) {
+      wallet.defaultAccountAddress = '';
+    }
+  }
+
+  wallet.accounts = accountsWithouTorus;
+  if (!wallet.defaultAccountAddress && wallet.accounts[0]) {
     wallet.defaultAccountAddress = wallet.accounts[0].address.toBase58();
   }
   return wallet.toJson();
