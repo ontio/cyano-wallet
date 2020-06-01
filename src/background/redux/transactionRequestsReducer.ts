@@ -266,8 +266,7 @@ async function submitFsCall(request: FsCallRequest, password: string, dispatch: 
   if (isTrustedSc(request, state)) {
     await dispatch(Actions.password.setPassword(password));
   }
-
-  const response = await timeout(fsCall(request, password), 15000);
+  const response = await timeout(fsCall(request, password), 150000);
   if (request.method === 'FsGenFileReadSettleSlice' || request.method === 'FsGetFileList') {
     return response;
   }
