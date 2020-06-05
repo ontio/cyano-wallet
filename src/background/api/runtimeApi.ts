@@ -30,7 +30,7 @@ import { getWallet } from '../../api/authApi';
 import { decryptIdentity } from '../../api/identityApi';
 import { RegisterOntIdRequest, TransferRequest, WithdrawOngRequest } from '../../redux/transactionRequests';
 import Address = Crypto.Address;
-import { getClient } from '../network';
+import { getClient, getNodeAddress } from '../network';
 import { getStore } from '../redux';
 
 export async function getBalance() {
@@ -123,15 +123,23 @@ export async function registerOntId(request: RegisterOntIdRequest, password: str
 export async function checkOntId(identity: Identity, password: string) {
   const ontId = identity.ontid;
 
-  const tx = OntidContract.buildGetDDOTx(ontId);
+  // be compatible with ONTID 2.0 api
+  const restUrl = getNodeAddress() + ':20334';
+  const document = await OntidContract.getDocumentJson(ontId, restUrl);
+  const idOnchain = document.publicKey.find(item => item.id.split('#')[0] === ontId)
+  if (idOnchain) {
+    return true;
+  } else {
+    const tx = OntidContract.buildGetDDOTx(ontId);
 
-  const client = getClient();
-  const result = await client.sendRawTransaction(tx.serialize(), true, false);
+    const client = getClient();
+    const result = await client.sendRawTransaction(tx.serialize(), true, false);
 
-  if (result.Result.Result === '') {
-    return false;
+    if (result.Result.Result === '') {
+      return false;
+    }
+
+    // fixme: get DDO and check if public key of the identity is pressent
+    return true;
   }
-
-  // fixme: get DDO and check if public key of the identity is pressent
-  return true;
 }
