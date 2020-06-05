@@ -398,6 +398,9 @@ h4.unbound:hover {
 .flex-row-between {
     justify-content: space-between;
 }
+.flex-row-between button {
+    flex: 1;
+}
 .text-light {
     color:rgba(255,255,255, .6);
 }

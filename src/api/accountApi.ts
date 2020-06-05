@@ -113,7 +113,7 @@ export function accountDelete(address: string, wallet: string | Wallet) {
   }
 
   return {
-    wallet: wallet.toJson(),
+    wallet: wallet.accounts.length === 0 ? '' : wallet.toJson(),
   };
 }
 

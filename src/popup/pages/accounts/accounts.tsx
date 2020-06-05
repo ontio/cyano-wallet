@@ -61,8 +61,8 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           props.history.push('/');
         },
-        handleAccountDelClick: (account: string) => {
-          if (wallet.accounts.length > 1) {
+            handleAccountDelClick: (account: string) => {
+          if (wallet.accounts.length > 0) { // TODO needs udpate
             props.history.push('/account/del', { account });
           }
         },

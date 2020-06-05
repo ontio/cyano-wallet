@@ -34,6 +34,7 @@ const mapStateToProps = (state: GlobalState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      clearWallet: Actions.wallet.clearWallet,
       delToken: Actions.settings.delToken,
       finishLoading: Actions.loader.finishLoading,
       setWallet: Actions.wallet.setWallet,
@@ -57,8 +58,16 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           if (reduxProps.wallet != null) {
             const { wallet } = accountDelete(account, reduxProps.wallet);
-            await actions.setWallet(wallet);
+            
+            if (wallet === '') {
+              await actions.clearWallet();
 
+              await actions.finishLoading();
+              
+              props.history.push('/')
+              return;
+            }  
+            await actions.setWallet(wallet);
             await getBackgroundManager().refreshBalance();
           }
           await actions.finishLoading();

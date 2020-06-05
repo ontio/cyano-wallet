@@ -29,7 +29,7 @@ export const CLEAR_WALLET = 'CLEAR_WALLET';
 export const CLEAR_IDENTITY = 'CLEAR_IDENTITY';
 
 export const setWallet = (walletEncoded: string) => {
-    const isTorus = isCurrentTorusAccount(walletEncoded);
+    const isTorus = walletEncoded ? isCurrentTorusAccount(walletEncoded) : false;
     return { type: SET_WALLET, wallet: walletEncoded, isTorus }
 };
 export const clearWallet = () => ({ type: CLEAR_WALLET });
