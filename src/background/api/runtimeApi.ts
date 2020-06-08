@@ -126,7 +126,11 @@ export async function checkOntId(identity: Identity, password: string) {
   // be compatible with ONTID 2.0 api
   const restUrl = getNodeAddress() + ':20334';
   const document = await OntidContract.getDocumentJson(ontId, restUrl);
-  const idOnchain = document.publicKey.find(item => item.id.split('#')[0] === ontId)
+  
+  let idOnchain;
+  if (document && document.publicKey) {
+    idOnchain = document.publicKey.find(item => item.id.split('#')[0] === ontId)
+  }
   if (idOnchain) {
     return true;
   } else {
