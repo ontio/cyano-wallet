@@ -27,17 +27,10 @@ import { Actions, GlobalState } from '../../redux';
 import { Props, SignupView } from './signupView';
 
 const torus = new DirectWebSDK({
-  DISCORD_CLIENT_ID: TorusOptions.DISCORD_CLIENT_ID,
-  FACEBOOK_CLIENT_ID: '2554219104599979',
-  GOOGLE_CLIENT_ID: TorusOptions.GOOGLE_CLIENT_ID,
-  REDDIT_CLIENT_ID: 'dcQJYPaG481XyQ',
-  TWITCH_CLIENT_ID: 'tfppratfiloo53g1x133ofa4rc29px',
   baseUrl: TorusOptions.baseUrl,
-  network: 'ropsten',
-  proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183',
   redirectToOpener: true,
 })
-torus.init()
+torus.init({skipSw: true})
 
 const mapStateToProps = (state: GlobalState) => ({
     loading: state.loader.loading,
@@ -71,7 +64,11 @@ const mapStateToProps = (state: GlobalState) => ({
         // tslint:disable-next-line:object-literal-sort-keys
         handleGoogle: async () => {
           try {
-            const obj = await torus.triggerLogin('google', 'google-ontology');
+            const obj = await torus.triggerAggregateLogin({aggregateVerifierType: "single_id_verifier", subVerifierDetailsArray: [{
+              clientId: TorusOptions.GOOGLE_CLIENT_ID,
+              typeOfLogin: "google",
+              verifier: "google-web",
+            }], verifierIdentifier: "google-ontology", })
             const { wallet } = accountImportPrivateKey(obj.privateKey.toString(), '', reduxProps.wallet, 'google');
             await actions.setWallet(wallet);
             await getBackgroundManager().refreshBalance();
@@ -83,7 +80,7 @@ const mapStateToProps = (state: GlobalState) => ({
         },
         handleDiscord: async () => {
           try {
-            const obj = await torus.triggerLogin('discord', 'discord-ontology');
+            const obj = await torus.triggerLogin({typeOfLogin: "discord", verifier: "discord-ontology", clientId: TorusOptions.DISCORD_CLIENT_ID});
             const { wallet } = accountImportPrivateKey(obj.privateKey.toString(), '', reduxProps.wallet, 'discord');
             await actions.setWallet(wallet);
             
