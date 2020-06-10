@@ -69,7 +69,7 @@ export const AccountsAddView: React.SFC<Props> = (props) => (
         </View>
         <Spacer />
         <View orientation="row" className="center">
-                    or sign in with
+            or create a new wallet/login using
         </View>
         <Spacer />
         <View orientation="row" className="flex-row-between">

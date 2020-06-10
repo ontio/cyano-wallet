@@ -71,7 +71,7 @@ export const ConfirmView: React.SFC<Props> = (props) => (
             {
               props.isTorusAccount && 
               <View orientation="column">
-                Sign with Torus account. No need to enter password.
+                You're currently logged in to a DirectAuth linked wallet account. Proceed with this transaction?
               </View>
             }
             

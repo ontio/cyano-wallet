@@ -44,5 +44,5 @@ export const TorusOptions = {
     DISCORD_CLIENT_ID: '714739402257072190',
     GOOGLE_CLIENT_ID: '103942065306-jufn24m5e435r3jhglphbh5etbgqnvr1.apps.googleusercontent.com',
     // baseUrl: 'https://localhost:3000/serviceworker',
-    baseUrl: 'https://toruscallback-test.ont.io/serviceworker'
+    baseUrl: 'https://toruscallback.ont.io/serviceworker'
 }
