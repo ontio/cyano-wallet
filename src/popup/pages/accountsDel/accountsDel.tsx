@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouteComponentProps<any>) =>
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
     const account: string = get(props.location, 'state.account');
-
+    const isDiscordAccount: boolean = get(props.location, 'state.isDiscordAccount');
     return withProps(
       {
         account,
@@ -74,6 +74,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
           props.history.push('/account/change');
         },
+        isDiscordAccount,
         loading: reduxProps.loading,
       },
       (injectedProps) => <Component {...injectedProps} />,

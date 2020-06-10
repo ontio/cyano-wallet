@@ -124,8 +124,14 @@ export async function checkOntId(identity: Identity, password: string) {
   const ontId = identity.ontid;
 
   // be compatible with ONTID 2.0 api
-  const restUrl = getNodeAddress() + ':20334';
-  const document = await OntidContract.getDocumentJson(ontId, restUrl);
+  const restUrl = 'http://' + getNodeAddress() + ':20334';
+  let document 
+  try {
+    document = await OntidContract.getDocumentJson(ontId, restUrl);
+  } catch (err) {
+    // tslint:disable-next-line:no-console
+    console.log(err);
+  }
   
   let idOnchain;
   if (document && document.publicKey) {
