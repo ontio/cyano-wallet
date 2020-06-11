@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Matus Zamborsky
+ * Copyright (C) 2018 ontio
  * This file is part of Cyano Wallet.
  *
  * Cyano Wallet is free software: you can redistribute it and/or modify
@@ -15,23 +15,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
+import {TorusOptions} from '../api/constants'
 
-import { isCurrentTorusAccount } from "src/api/accountApi";
-
-export interface WalletState {
-    wallet: string | null;
-    isTorus: boolean;
-};
-
-export const SET_WALLET = 'SET_WALLET';
-export const CLEAR_WALLET = 'CLEAR_WALLET';
-
-export const CLEAR_IDENTITY = 'CLEAR_IDENTITY';
-
-export const setWallet = (walletEncoded: string) => {
-    const isTorus = walletEncoded ? isCurrentTorusAccount(walletEncoded) : false;
-    return { type: SET_WALLET, wallet: walletEncoded, isTorus }
-};
-export const clearWallet = () => ({ type: CLEAR_WALLET });
-
-export const clearIdentity = () => ({ type: CLEAR_IDENTITY });
+let torus: any;
+export function initTorusProvider() {
+  torus = new DirectWebSDK({
+    baseUrl: TorusOptions.baseUrl,
+    redirectToOpener: true,
+  })
+  torus.init({skipSw: true})
+}
+ 
+export function getTorusSdk() {
+    return torus;
+}

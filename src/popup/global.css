@@ -394,3 +394,19 @@ h4.unbound:hover {
 .flex.content {
   overflow-y: auto;
 }
+
+.flex-row-between {
+    justify-content: space-between;
+}
+.flex-row-between button {
+    flex: 1;
+}
+.text-light {
+    color:rgba(255,255,255, .6);
+}
+.flex-items-center {
+    align-items: center;
+}
+.flex-items-center > img {
+    margin-right: 8px;
+}

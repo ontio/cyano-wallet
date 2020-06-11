@@ -61,9 +61,11 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
           props.history.push('/');
         },
-        handleAccountDelClick: (account: string) => {
-          if (wallet.accounts.length > 1) {
-            props.history.push('/account/del', { account });
+            handleAccountDelClick: (account: string) => {
+                if (wallet.accounts.length > 0) { // TODO needs udpate
+                  const accountDel = wallet.accounts.find(item => item.address.toBase58() === account);
+                  const isDiscordAccount = accountDel && accountDel.label.indexOf('discord') > -1;
+            props.history.push('/account/del', { account, isDiscordAccount });
           }
         },
         handleAdd: () => {

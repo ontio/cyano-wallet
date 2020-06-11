@@ -24,6 +24,7 @@ import { required } from '../../utils/validate';
 
 export interface Props {
   identityConfirm: boolean;
+  isTorusAccount: boolean;  
   handleSubmit: (values: object, formApi: FormApi) => Promise<object>;
   handleCancel: () => void;
   loading: boolean;
@@ -33,36 +34,47 @@ export const ConfirmView: React.SFC<Props> = (props) => (
   <View orientation="column" fluid={true}>
     <View orientation="column" className="part gradient">
       <AccountLogoHeader title="Confirm transaction" />
-      <View content={true} className="spread-around">
-        {props.identityConfirm ? (
-          <View>Enter password to your identity.</View>
-        ) : (
-          <View>Enter password to your account.</View>
-        )}
-      </View>
+      {!props.isTorusAccount &&
+        <View content={true} className="spread-around">
+          {props.identityConfirm ? (
+            <View>Enter password to your identity.</View>
+          ) : (
+            <View>Enter password to your account.</View>
+          )}
+        </View>
+      }
     </View>
     <View orientation="column" fluid={true} content={true} className="spread-around">
       <Form
         onSubmit={props.handleSubmit}
         render={(formProps) => (
           <SemanticForm onSubmit={formProps.handleSubmit} className="signupForm">
-            <View orientation="column">
-              <label>Password</label>
-              <Field
-                name="password"
-                validate={required}
-                render={(t) => (
-                  <SemanticForm.Input
-                    onChange={t.input.onChange}
-                    input={{ ...t.input, value: t.input.value }}
-                    icon="key"
-                    type="password"
-                    placeholder={formProps.submitFailed ? 'Wrong password' : 'Password'}
-                    error={t.meta.touched && t.meta.invalid}
-                    disabled={props.loading}
-                  />
-                )} />
-            </View>
+            {!props.isTorusAccount && 
+              <View orientation="column">
+                <label>Password</label>
+                <Field
+                  name="password"
+                  validate={required}
+                  render={(t) => (
+                    <SemanticForm.Input
+                      onChange={t.input.onChange}
+                      input={{ ...t.input, value: t.input.value }}
+                      icon="key"
+                      type="password"
+                      placeholder={formProps.submitFailed ? 'Wrong password' : 'Password'}
+                      error={t.meta.touched && t.meta.invalid}
+                      disabled={props.loading}
+                    />
+                  )} />
+              </View>
+            }
+            {
+              props.isTorusAccount && 
+              <View orientation="column">
+                You're currently logged in to a DirectAuth linked wallet account. Proceed with this transaction?
+              </View>
+            }
+            
             <Filler />
             <View className="buttons">
               <Button disabled={props.loading} loading={props.loading}>Confirm</Button>

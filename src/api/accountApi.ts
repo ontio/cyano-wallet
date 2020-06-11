@@ -62,7 +62,7 @@ export function accountImportMnemonics(
   };
 }
 
-export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null) {
+export function accountImportPrivateKey(privateKeyStr: string, password: string, wallet: string | Wallet | null, torusType?: string) {
   if (wallet === null) {
     wallet = Wallet.create(uuid());
   } else if (typeof wallet === 'string') {
@@ -84,12 +84,12 @@ export function accountImportPrivateKey(privateKeyStr: string, password: string,
   } else {
     privateKey = deserializePrivateKey(privateKeyStr);
   }
-
-  const account = Account.create(privateKey, password, uuid(), scryptParams);
-
-  wallet.addAccount(account);
+  const label = torusType ? (uuid() + '@' + torusType) : uuid(); 
+  const account = Account.create(privateKey, password, label, scryptParams);
+  if (!wallet.accounts.some(item => item.address.toBase58() === account.address.toBase58())) {
+    wallet.addAccount(account);
+  }
   wallet.setDefaultAccount(account.address.toBase58());
-
   return {
     encryptedWif: account.encryptedKey.serializeWIF(),
     wallet: wallet.toJson(),
@@ -113,7 +113,7 @@ export function accountDelete(address: string, wallet: string | Wallet) {
   }
 
   return {
-    wallet: wallet.toJson(),
+    wallet: wallet.accounts.length === 0 ? '' : wallet.toJson(),
   };
 }
 
@@ -134,6 +134,35 @@ export function getAccount(wallet: string | Wallet) {
   } else {
     return wallet.accounts[0];
   }
+}
+
+export function isCurrentTorusAccount(wallet: string | Wallet) {
+  const account = getAccount(wallet);
+  return isTorusAccount(account);
+}
+export function isTorusAccount(account: Account) {
+  const torusType = account.label.split('@')
+  return torusType.length === 2 && (torusType[1] === 'google' || torusType[1] === 'discord');
+}
+
+export function filterTorusAccount(wallet: string | Wallet): string {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+  const accountsWithouTorus = []
+  for (const account of wallet.accounts) {
+    if (!isTorusAccount(account)) {
+      accountsWithouTorus.push(account)
+    } else if (account.address.toBase58() === wallet.defaultAccountAddress) {
+      wallet.defaultAccountAddress = '';
+    }
+  }
+
+  wallet.accounts = accountsWithouTorus;
+  if (!wallet.defaultAccountAddress && wallet.accounts[0]) {
+    wallet.defaultAccountAddress = wallet.accounts[0].address.toBase58();
+  }
+  return wallet.toJson();
 }
 
 export function getAddress(wallet: string | Wallet) {

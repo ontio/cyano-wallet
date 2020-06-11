@@ -22,6 +22,7 @@ import { AccountLogoHeader, Filler, Spacer, StatusBar, View } from '../../compon
 export interface Props {
   loading: boolean;
   account: string;
+  isDiscordAccount: boolean;
   handleConfirm: () => Promise<void>;
   handleCancel: () => void;
 }
@@ -38,6 +39,9 @@ export const AccountsDelView: React.SFC<Props> = (props) => (
       <label>Account</label>
       <Message>{props.account}</Message>
       <Spacer />
+      {props.isDiscordAccount &&
+        <View>Please note! Due to certain security concerns, you will not be able to login to the wallet linked to this Discord account for the next 30 minutes. Are you sure you want to remove this wallet? </View>
+      }
       <Filler />
       <View className="buttons">
         <Button

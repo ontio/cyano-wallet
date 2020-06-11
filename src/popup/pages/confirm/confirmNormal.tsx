@@ -26,7 +26,9 @@ import { reduxConnect, withProps } from '../../compose';
 import { Actions, GlobalState } from '../../redux';
 import { ConfirmView, Props } from './confirmView';
 
+
 const mapStateToProps = (state: GlobalState) => ({
+  isTorusAccount: state.wallet.isTorus,
   loading: state.loader.loading,
   requests: state.transactionRequests.requests,
 });
@@ -53,31 +55,34 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const redirectSucess: string = get(props.location, 'state.redirectSucess');
           const redirectFail: string = get(props.location, 'state.redirectFail');
           const identityConfirm: boolean = get(props.location, 'state.identityConfirm', false);
-          const password: string = get(values, 'password', '');
+          let password: string = get(values, 'password', '');
+          const isTorusAccount: boolean = getReduxProps().isTorusAccount;
+          if (!isTorusAccount) { // no need to enter passwrod. Use ''
+            // test if the password is correct
+            if (!identityConfirm) {
+              // in case of Identity sign, check password for default identity
+              const passwordCorrect = await getBackgroundManager().checkAccountPassword(password);
+              if (!passwordCorrect) {
+                formApi.change('password', '');
 
-          // test if the password is correct
-          if (!identityConfirm) {
-            // in case of Identity sign, check password for default identity
-            const passwordCorrect = await getBackgroundManager().checkAccountPassword(password);
-            if (!passwordCorrect) {
-              formApi.change('password', '');
+                return {
+                  password: '',
+                };
+              }
+            } else {
+              // in case of Account sign, check password for default account
+              const passwordCorrect = await getBackgroundManager().checkIdentityPassword(password);
+              if (!passwordCorrect) {
+                formApi.change('password', '');
 
-              return {
-                password: '',
-              };
+                return {
+                  password: '',
+                };
+              }
             }
           } else {
-            // in case of Account sign, check password for default account
-            const passwordCorrect = await getBackgroundManager().checkIdentityPassword(password);
-            if (!passwordCorrect) {
-              formApi.change('password', '');
-
-              return {
-                password: '',
-              };
-            }
+            password = '';
           }
-
           await actions.startLoading();
           await actions.submitRequest(requestId, password);
           await actions.finishLoading();
@@ -107,7 +112,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           return {};
         },
       },
-      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} identityConfirm={get(props.location, 'state.identityConfirm', false)} />,
+      (injectedProps) => <Component {...injectedProps} loading={reduxProps.loading} isTorusAccount={reduxProps.isTorusAccount} identityConfirm={get(props.location, 'state.identityConfirm', false)} />,
     ),
   );
 

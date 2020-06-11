@@ -15,14 +15,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { withProps } from '../../compose';
+import { bindActionCreators, Dispatch } from 'redux';
+import { accountImportPrivateKey } from 'src/api/accountApi';
+import { getBackgroundManager } from 'src/popup/backgroundManager';
+import { TorusOptions } from '../../../api/constants'
+import { reduxConnect, withProps } from '../../compose';
+import { Actions, GlobalState } from '../../redux';
 import { AccountsAddView, Props } from './accountsAddView';
 
-const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) =>
-  withProps(
-    {
+const torus = new DirectWebSDK({
+  baseUrl: TorusOptions.baseUrl,
+  redirectToOpener: true,
+})
+torus.init({skipSw: true})
+
+const mapStateToProps = (state: GlobalState) => ({
+  loading: state.loader.loading,
+  wallet: state.wallet.wallet
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+  finishLoading: Actions.loader.finishLoading,
+  setWallet: Actions.wallet.setWallet,
+  startLoading: Actions.loader.startLoading
+}, dispatch);
+
+const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
+  reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => (
+    withProps({
       handleBack: () => {
         props.history.push('/account/change');
       },
@@ -41,8 +64,40 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       handleTrezor: () => {
         props.history.push('/trezor/signup');
       },
-    },
-    (injectedProps) => <Component {...injectedProps} />,
-  );
+      // tslint:disable-next-line:object-literal-sort-keys
+      handleGoogle: async () => {
+        try {
+          const obj = await torus.triggerAggregateLogin({aggregateVerifierType: "single_id_verifier", subVerifierDetailsArray: [{
+            clientId: TorusOptions.GOOGLE_CLIENT_ID,
+            typeOfLogin: "google",
+            verifier: "google-web",
+          }], verifierIdentifier: "google-ontology", })
+          const { wallet } = accountImportPrivateKey(obj.privateKey.toString(), '', reduxProps.wallet, 'google');
+          await actions.setWallet(wallet);
+          await getBackgroundManager().refreshBalance();
+          props.history.push('/dashboard');
+        } catch (e) {
+          // tslint:disable-next-line:no-console
+          console.warn("could not retrieve key from DirectAuth: ", e)
+        }
+      },
+      handleDiscord: async () => {
+        try {
+          const obj = await torus.triggerLogin({typeOfLogin: "discord", verifier:'discord-ontology', clientId: TorusOptions.DISCORD_CLIENT_ID});
+          const { wallet } = accountImportPrivateKey(obj.privateKey.toString(), '', reduxProps.wallet, 'discord');
+          await actions.setWallet(wallet);
+
+          await getBackgroundManager().refreshBalance();
+          props.history.push('/dashboard');
+        } catch (e) {
+          // tslint:disable-next-line:no-console
+          console.warn("could not retrieve key from DirectAuth: ", e)
+        }
+      }
+      },
+      (injectedProps) => <Component {...injectedProps} />
+    ))
+  ))
+ 
 
 export const AccountsAdd = enhancer(AccountsAddView);

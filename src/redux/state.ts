@@ -25,7 +25,6 @@ import { SettingsState } from './settings';
 import { StatusState } from './status';
 import { TransactionRequestsState } from './transactionRequests';
 import { WalletState } from './wallet';
-
 export interface GlobalState {
   loader: LoaderState;
   password: PasswordState;

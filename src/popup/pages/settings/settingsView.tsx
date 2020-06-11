@@ -87,7 +87,8 @@ export const SettingsView: React.SFC<Props> = (props) => (
                         selection={true}
                         options={netOptions}
                         onChange={(e, data) => {
-                          formProps.form.change('address', undefined);
+                            formProps.form.change('address', undefined);
+                            formProps.form.change('ssl', false);
                           return t.input.onChange(data.value);
                         }}
                         value={t.input.value}
