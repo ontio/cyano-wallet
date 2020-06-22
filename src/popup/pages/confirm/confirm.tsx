@@ -39,11 +39,19 @@ const enhancer = (Component: React.ComponentType<{}>) => (props: RouteComponentP
         const identityConfirm = props.location.state.identityConfirm;
 
         if (identityConfirm) {
-          if (isIdentityLedgerKey(wallet)) {
-            props.history.replace('/ledger/confirm', props.location.state);
-          } else {
-            props.history.replace('/confirm-normal', props.location.state);
+          try {
+            if (isIdentityLedgerKey(wallet)) {
+              props.history.replace('/ledger/confirm', props.location.state);
+            } else {
+              props.history.replace('/confirm-normal', props.location.state);
+            }
+          } catch (err) {
+            // tslint:disable-next-line:no-console
+            console.log(err)
+            alert(err)
+            props.history.goBack()
           }
+          
         } else {
           if (isLedgerKey(wallet)) {
             props.history.replace('/ledger/confirm', props.location.state);

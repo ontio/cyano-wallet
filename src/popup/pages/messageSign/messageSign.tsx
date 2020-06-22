@@ -43,8 +43,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         },
         handleConfirm: async () => {
           const requestId: string = get(props.location, 'state.requestId');
+          const useIdentity:boolean = get(props.location, 'state.useIdentity', false)
 
-          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/dashboard', identityConfirm: true });
+          props.history.push('/confirm', { requestId, redirectSucess: '/dashboard', redirectFail: '/dashboard', identityConfirm: useIdentity });
         },
         locked: get(props.location, 'state.locked', false),
         message: get(props.location, 'state.message', ''),
