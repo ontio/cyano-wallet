@@ -41,7 +41,7 @@ import { decryptDefaultIdentity } from 'src/api/identityApi';
  */
 export async function scCall(request: ScCallRequest, password: string): Promise<string | any> {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
-  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
+  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 2500;
   request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
 
   const state = getStore().getState();
@@ -118,7 +118,7 @@ export async function scCall(request: ScCallRequest, password: string): Promise<
 
 export async function scCallRead(request: ScCallReadRequest) {
   request.parameters = request.parameters !== undefined ? request.parameters : [];
-  const gasPrice = '500';
+  const gasPrice = '2500';
   const gasLimit = '30000';
   // convert params
   const params = convertParams(request.parameters);
@@ -154,7 +154,7 @@ export async function scCallRead(request: ScCallReadRequest) {
 }
 
 export async function scDeploy(request: ScDeployRequest, password: string) {
-  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 500;
+  request.gasPrice = request.gasPrice !== undefined ? request.gasPrice : 2500;
   request.gasLimit = request.gasLimit !== undefined ? request.gasLimit : 30000;
 
   const state = getStore().getState();
