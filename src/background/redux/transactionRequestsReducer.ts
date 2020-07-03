@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Identity } from 'ontology-ts-sdk';
+import { Identity, OntfsContractTxBuilder } from 'ontology-ts-sdk';
 import { timeout, TimeoutError } from 'promise-timeout';
 import { Dispatch, Reducer } from 'redux';
 import { getWallet } from '../../api/authApi';
@@ -23,6 +23,8 @@ import Actions from '../../redux/actions';
 import { GlobalState } from '../../redux/state';
 import {
   ADD_TRANSACTION_REQUEST,
+  FsCallRequest,
+  isScCallRequest,
   MessageSignRequest,
   RegisterOntIdRequest,
   RESOLVE_TRANSACTION_REQUEST,
@@ -37,6 +39,7 @@ import {
   UPDATE_REQUEST,
   WithdrawOngRequest,
 } from '../../redux/transactionRequests';
+import { fsCall } from '../api/fs';
 import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
@@ -126,6 +129,9 @@ export const transactionRequestsAliases = {
           case 'stateChannel_login':
             result = await submitStateChannelLogin(request as StateChannelLoginRequest, password!);
             break; 
+          case 'fs_call':
+            result = await submitFsCall(request as FsCallRequest, password!, dispatch, state);
+            break;
         }
 
         // resolves request
@@ -193,16 +199,20 @@ async function submitRegisterOntId(
   await dispatch(Actions.wallet.setWallet(wallet.toJson()));
 }
 
-function isTrustedSc(request: ScCallRequest, state: GlobalState) {
-  if (request.requireIdentity) {
-    return false;
+function isTrustedSc(request: ScCallRequest | FsCallRequest, state: GlobalState) {
+  let contract = 'fs';
+  if (isScCallRequest(request)) {
+    if (request.requireIdentity) {
+      return false;
+    }
+    contract = request.contract;
   }
 
   const trustedScs = state.settings.trustedScs;
 
   const trustedSc = trustedScs.find(
     (t) =>
-      t.contract === request.contract &&
+      t.contract === contract &&
       (t.method === undefined || t.method === request.method) &&
       (t.paramsHash === undefined || t.paramsHash === request.paramsHash),
   );
@@ -250,6 +260,35 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
   }
 
 
+}
+
+async function submitFsCall(request: FsCallRequest, password: string, dispatch: Dispatch, state: GlobalState) {
+  if (isTrustedSc(request, state)) {
+    await dispatch(Actions.password.setPassword(password));
+  }
+  const response = await timeout(fsCall(request, password), 150000);
+  if (request.method === 'FsGenFileReadSettleSlice' || request.method === 'FsGetFileList') {
+    return response;
+  }
+
+  // Fixme: Log message cause Notify message to disappear
+  if (response.Action === 'Log') {
+    return {
+      transaction: response.Result.TxHash,
+    };
+  }
+
+  if (response.Result.State === 0) {
+    throw new Error('OTHER');
+  }
+
+  const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === OntfsContractTxBuilder.ONTFS_CONTRACT).map(
+    (element: any) => element.States,
+  );
+  return {
+    results: notify,
+    transaction: response.Result.TxHash,
+  };
 }
 
 async function submitMessageSign(request: MessageSignRequest, password: string) {

@@ -16,6 +16,7 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Parameter, VmType } from '@ont-dev/ontology-dapi';
+import { ONTFS_METHOD } from 'ontology-ts-sdk/lib/types/smartcontract/nativevm/ontfsContractTxBuilder';
 import { AssetType } from './runtime';
 
 export type ErrorCode = 'TIMEOUT' | 'WRONG_PASSWORD' | 'CANCELED' | 'OTHER';
@@ -29,7 +30,10 @@ export type TransactionType =
   | 'sc_call_read'
   | 'sc_deploy'
   | 'message_sign'
-  | 'stateChannel_login';
+  | 'stateChannel_login'
+  | 'fs_call';
+
+export type FsMethod = (keyof typeof ONTFS_METHOD) | 'FsGenFileReadSettleSlice';
 
 export interface TransactionRequest {
   id: string;
@@ -101,6 +105,16 @@ export interface ScCallReadRequest extends TransactionRequest {
   contract: string;
   method: string;
   parameters?: Parameter[];
+}
+
+export interface FsCallRequest extends TransactionRequest {
+  method: FsMethod;
+  gasPrice?: number;
+  gasLimit?: number;
+  parameters?: {
+    [index: string]: any
+  };
+  paramsHash?: string;
 }
 
 export interface TransactionRequestsState {

@@ -64,6 +64,7 @@ export const settingsReducer: Reducer<SettingsState> = (state = defaultState, ac
             name: action.name,
             paramsHash: action.paramsHash,
             password: action.password,
+            trustedFileHash: action.trustedFileHash
           },
         ],
       };
