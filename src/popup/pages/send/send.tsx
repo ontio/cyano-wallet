@@ -103,7 +103,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
             formProps.form.change('amount', String(reduxProps.ontAmount));
           } else if (asset === 'ONG') {
             let amountBN = convertAmountToBN(reduxProps.ongAmount, 'ONG');
-            amountBN = amountBN.minus(new BigNumber('0.01'));
+            amountBN = amountBN.minus(new BigNumber('0.05')); // min gas is 0.05 now
             amountBN = amountBN.isNegative() ? new BigNumber(0) : amountBN;
 
             formProps.form.change('amount', amountBN.toString());
