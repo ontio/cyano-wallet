@@ -12,7 +12,7 @@ import Address = Crypto.Address;
 import Oep4TxBuilder = Oep4.Oep4TxBuilder;
 import { isHexadecimal } from 'src/api/utils';
 
-const gasPrice = '500';
+const gasPrice = '2500';
 const gasLimit = '20000';
 export async function getOEP4Token(contract: string): Promise<OEP4Token> {
   if (!isHexadecimal(contract)) {
@@ -147,7 +147,7 @@ export async function transferToken(request: TransferRequest, password: string) 
             from,
             to,
             encodeAmount(amount, token.decimals),
-            '500',
+            '2500',
             `${CONST.DEFAULT_GAS_LIMIT}`,
             from,
           );

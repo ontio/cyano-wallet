@@ -68,7 +68,7 @@ export async function transfer(request: TransferRequest, password: string) {
   const to = new Address(request.recipient);
   const amount = String(request.amount);
 
-  const tx = OntAssetTxBuilder.makeTransferTx(request.asset, from, to, amount, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = OntAssetTxBuilder.makeTransferTx(request.asset, from, to, amount, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
@@ -85,7 +85,7 @@ export async function withdrawOng(request: WithdrawOngRequest, password: string)
 
   const amount = String(request.amount);
 
-  const tx = OntAssetTxBuilder.makeWithdrawOngTx(from, from, amount, from, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = OntAssetTxBuilder.makeWithdrawOngTx(from, from, amount, from, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
   const client = getClient();
@@ -107,7 +107,7 @@ export async function registerOntId(request: RegisterOntIdRequest, password: str
 
   const identityPublicKey = identityPrivateKey.getPublicKey();
 
-  const tx = OntidContract.buildRegisterOntidTx(identity.ontid, identityPublicKey, '500', `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = OntidContract.buildRegisterOntidTx(identity.ontid, identityPublicKey, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
   tx.payer = from;
   await TransactionBuilder.signTransactionAsync(tx, accountPrivateKey);

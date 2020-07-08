@@ -157,7 +157,7 @@ export const DeployView: React.SFC<Props> = (props) => (
                     render={(t) => (
                       <SemanticForm.Input
                         type="number"
-                        placeholder={'500'}
+                        placeholder={'2500'}
                         step={'0.00000000001'}
                         onChange={t.input.onChange}
                         input={{ ...t.input, value: t.input.value }}
