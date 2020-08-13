@@ -537,11 +537,12 @@
 "@ont-community/window-post-message-proxy@^0.2.14":
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
+  integrity sha512-CcBIsSoSZR+QuS11SguO0co8EIbKE3iqP9fCBKZXp6WiF1OMe5bEtcxhIIw5Gqr+CQ+3FsAKTE1H3Xyb2dDsRQ==
 
-"@ont-dev/ontology-dapi@^0.5.1":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.2.tgz#d1b0ef6bbb4f02397915a26ec35cd4ff41aa6cfc"
-  integrity sha512-TpU4D5xNBxwPVH91mqqwTKMC63HGCeXi3ijKC0oeTNyHg8l7SrYrtFI2Xk6CSl102RABv1TqjfYHHxjpeJ+h9A==
+"@ont-dev/ontology-dapi@^0.5.3-alpha.5":
+  version "0.5.3-alpha.5"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.3-alpha.5.tgz#cacbf2bd3fad4481395371c7a4bf0c615d69c481"
+  integrity sha512-4UyEXrn34X9cPkThDYDjvnyWsHMMYM9bQ7DOseGxq605dnMz5AJO8XmEo2oMBoBaRrZCdOrUematenU3aLrsVg==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"
@@ -1864,10 +1865,17 @@ base-64@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
-base-x@^3.0.2, base-x@^3.0.3, base-x@^3.0.5:
+base-x@^3.0.2, base-x@^3.0.3:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.5.tgz#d3ada59afed05b921ab581ec3112e6444ba0795a"
   integrity sha512-C3picSgzPSLE+jW3tcBzJoGwitOtazb5B+5YmAxZm2ybmTi9LNgAtDO/jjVEBZwHoXmDBZ9m/IELj3elJVRBcA==
+  dependencies:
+    safe-buffer "^5.0.1"
+
+base-x@^3.0.5:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.8.tgz#1e1106c2537f0162e8b52474a557ebb09000018d"
+  integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
   dependencies:
     safe-buffer "^5.0.1"
 

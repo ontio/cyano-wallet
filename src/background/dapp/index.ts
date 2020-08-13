@@ -6,10 +6,11 @@ import { networkApi as network } from './network';
 import { providerApi } from './provider';
 import { smartContractApi as smartContract } from './smartContract';
 import { stateChannelApi as stateChannel } from './stateChannel';
+import { claimApi as claim } from './claim';
 
 export function initDApiProvider() {
   provider.registerProvider({
-    logMessages: false,
+    logMessages: true,
     provider: {
       asset,
       identity,
@@ -18,7 +19,8 @@ export function initDApiProvider() {
       provider: providerApi,
       smartContract,
       stateChannel,
-      utils: client.api.utils
+      utils: client.api.utils,
+      claim
     },
   });
 }
