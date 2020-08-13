@@ -28,6 +28,7 @@ import { settingsReducer } from './settingsReducer';
 import { statusReducer } from './statusReducer';
 import { transactionRequestsAliases, transactionRequestsReducer } from './transactionRequestsReducer';
 import { walletReducer } from './walletReducer';
+import { claimsReducer } from './claimsReducer';
 
 export const globalReducer = combineReducers({
   loader: loaderReducer,
@@ -37,7 +38,8 @@ export const globalReducer = combineReducers({
   settings: settingsReducer,
   status: statusReducer,
   transactionRequests: transactionRequestsReducer,
-  wallet: walletReducer
+  wallet: walletReducer,
+  claims: claimsReducer
 });
 
 export const aliases = {

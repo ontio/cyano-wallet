@@ -15,28 +15,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Reducer } from 'redux';
+import { SET_CLAIMS, ClaimsState } from '../../redux/claims';
 
-import { Store } from 'redux';
-import { LoaderState } from './loader';
-import { PasswordState } from './password';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionRequestsState } from './transactionRequests';
-import { WalletState } from './wallet';
-import { ClaimsState } from './claims';
+const defaultState: ClaimsState = null;
 
-export interface GlobalState {
-  loader: LoaderState;
-  password: PasswordState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transactionRequests: TransactionRequestsState;
-  wallet: WalletState;
-  claims: ClaimsState;
-}
-
-export type GlobalStore = Store<GlobalState>;
+export const claimsReducer: Reducer<ClaimsState> = (state = defaultState, action) => {
+  switch (action.type) {
+    case SET_CLAIMS:
+      return action.claims;
+    default:
+      return state;
+  }
+};

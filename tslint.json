@@ -8,6 +8,8 @@
   },
   "rules": {
     "jsx-no-lambda": false,
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "ordered-imports": false,
+    "object-literal-sort-keys": false
   }
 }

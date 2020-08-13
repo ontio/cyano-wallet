@@ -15,28 +15,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { setClaims, ClaimsState } from '../../redux/claims';
+import { GlobalStore } from '../../redux/state';
+import { loadClaims, saveClaims } from '../api/claimApi';
 
-import { Store } from 'redux';
-import { LoaderState } from './loader';
-import { PasswordState } from './password';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionRequestsState } from './transactionRequests';
-import { WalletState } from './wallet';
-import { ClaimsState } from './claims';
+let oldClaims: ClaimsState;
 
-export interface GlobalState {
-  loader: LoaderState;
-  password: PasswordState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transactionRequests: TransactionRequestsState;
-  wallet: WalletState;
-  claims: ClaimsState;
+export function initClaimsProvider(store: GlobalStore) {
+  /**
+   * Syncs claims to storage
+   */
+  store.subscribe(async () => {
+    const state = store.getState();
+    const claims = state.claims;
+
+    if (oldClaims !== claims) {
+      oldClaims = claims;
+      await saveClaims(claims);
+    }
+  });
+
+  /**
+   * Loads claims from storage on startup
+   */
+  loadClaims().then((claims) => {
+    if (claims !== null) {
+      store.dispatch(setClaims(claims));
+    }
+  });
 }
-
-export type GlobalStore = Store<GlobalState>;

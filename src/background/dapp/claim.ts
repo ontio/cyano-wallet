@@ -1,18 +1,24 @@
-import { ClaimApi, Claim } from '@ont-dev/ontology-dapi';
-import { saveClaims, loadClaims } from '../api/claimApi';
+import { Claim, ClaimApi } from '@ont-dev/ontology-dapi';
+import { setClaims } from '../../redux/claims';
+import { getStore } from '../redux';
 
 export const claimApi: ClaimApi = {
-  async addClaim({ claim }): Promise<void> {
+   addClaim({ claim }): Promise<void> {
     if (claim.bodyEncrypted) {
-      throw 'UNSUPPORTED';
+      return Promise.reject('UNSUPPORTED');
     }
-    const claimsState = await loadClaims();
-    const newClaimsState = [...(claimsState || []), claim];
-    await saveClaims(newClaimsState);
+    const state = getStore().getState();
+    const claims = state.claims;
+
+    const newClaims = [...(claims || []), claim];
+    getStore().dispatch(setClaims(newClaims));
+    return Promise.resolve();
   },
 
-  async getClaims(): Promise<Claim[]> {
-    const claimsState = await loadClaims();
-    return Promise.resolve(claimsState || []);
+  getClaims(): Promise<Claim[]> {
+    const state = getStore().getState();
+    const claims = state.claims;
+
+    return Promise.resolve(claims || []);
   }
 };
