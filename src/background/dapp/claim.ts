@@ -2,9 +2,9 @@ import { ClaimApi, Claim } from '@ont-dev/ontology-dapi';
 import { saveClaims, loadClaims } from '../api/claimApi';
 
 export const claimApi: ClaimApi = {
-  async addClaims({ claims }): Promise<void> {
+  async addClaim({ claim }): Promise<void> {
     const claimsState = await loadClaims();
-    const newClaimsState = [...(claimsState || []), ...claims];
+    const newClaimsState = [...(claimsState || []), claim];
     await saveClaims(newClaimsState);
   },
 

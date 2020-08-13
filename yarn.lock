@@ -539,10 +539,10 @@
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
   integrity sha512-CcBIsSoSZR+QuS11SguO0co8EIbKE3iqP9fCBKZXp6WiF1OMe5bEtcxhIIw5Gqr+CQ+3FsAKTE1H3Xyb2dDsRQ==
 
-"@ont-dev/ontology-dapi@^0.5.3-alpha.5":
-  version "0.5.3-alpha.5"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.3-alpha.5.tgz#cacbf2bd3fad4481395371c7a4bf0c615d69c481"
-  integrity sha512-4UyEXrn34X9cPkThDYDjvnyWsHMMYM9bQ7DOseGxq605dnMz5AJO8XmEo2oMBoBaRrZCdOrUematenU3aLrsVg==
+"@ont-dev/ontology-dapi@^0.5.3-alpha.7":
+  version "0.5.3-alpha.7"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.3-alpha.7.tgz#5753fe96aa0db0007ae03318e92cbd4f9ac8d9a3"
+  integrity sha512-GyLfmLKzOVuK0gu3J+b7YzcH1PUbGSC+IZvDKm6XJkl7PY6Y0nqG+v9yPpQUaqPJA47gG/TC9RMByQpb7Tg8Bw==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"
