@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { setClaims, ClaimsState } from '../../redux/claims';
+import { ClaimsState, setClaims } from '../../redux/claims';
 import { GlobalStore } from '../../redux/state';
 import { loadClaims, saveClaims } from '../api/claimApi';
 

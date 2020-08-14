@@ -20,6 +20,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { GlobalStore } from '../../redux/state';
 // import { composeWithDevTools } from 'remote-redux-devtools';
+import { claimsReducer } from './claimsReducer';
 import { loaderReducer } from './loaderReducer';
 import { passwordReducer } from './passwordReducer';
 import { routerReducer } from './routerReducer';
@@ -28,9 +29,9 @@ import { settingsReducer } from './settingsReducer';
 import { statusReducer } from './statusReducer';
 import { transactionRequestsAliases, transactionRequestsReducer } from './transactionRequestsReducer';
 import { walletReducer } from './walletReducer';
-import { claimsReducer } from './claimsReducer';
 
 export const globalReducer = combineReducers({
+  claims: claimsReducer,
   loader: loaderReducer,
   password: passwordReducer,
   router: routerReducer,
@@ -39,7 +40,6 @@ export const globalReducer = combineReducers({
   status: statusReducer,
   transactionRequests: transactionRequestsReducer,
   wallet: walletReducer,
-  claims: claimsReducer
 });
 
 export const aliases = {

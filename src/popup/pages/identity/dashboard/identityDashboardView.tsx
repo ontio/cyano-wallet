@@ -15,12 +15,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from 'react';
-import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 import { Claim } from '@ont-dev/ontology-dapi';
-import { Claim as OntClaim } from 'ontology-ts-sdk';
-import { List } from 'semantic-ui-react';
 import { format } from 'date-fns';
+import { Claim as OntClaim } from 'ontology-ts-sdk';
+import * as React from 'react';
+import { List } from 'semantic-ui-react';
+import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
   ontId: string;
@@ -30,7 +30,6 @@ export interface Props {
 export const IdentityDashboardView: React.SFC<Props> = (props) => {
   const claims = props.claims.filter(claim => claim.ontid === props.ontId);
   const parsedClaims = claims.map(claim => ({ tags: claim.tags, claim: OntClaim.deserialize(claim.body) }));
-  console.log(parsedClaims);
 
   return (
     <View orientation="column" fluid={true}>

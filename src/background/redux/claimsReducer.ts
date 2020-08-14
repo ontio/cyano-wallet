@@ -16,7 +16,7 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Reducer } from 'redux';
-import { SET_CLAIMS, ClaimsState } from '../../redux/claims';
+import { ClaimsState, SET_CLAIMS } from '../../redux/claims';
 
 const defaultState: ClaimsState = null;
 
