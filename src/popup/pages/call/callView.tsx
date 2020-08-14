@@ -158,8 +158,31 @@ export const CallView: React.SFC<Props> = (props) => (
                         />
                       )}
                     />
+                    {formProps.values.whitelist ? (
+                      <View orientation="column">
+                        <div>
+                          <label>Allow different parameters</label>
+                          <Popup
+                            trigger={<Icon name="question circle outline" />}
+                            content="Be responsible when using this functionality"
+                          />
+                        </div>
+                        <Field
+                          name="allowDifferentParameters"
+                          render={(t) => (
+                            <SemanticForm.Checkbox
+                              onChange={(e, d) => t.input.onChange(d.checked)}
+                              checked={Boolean(t.input.value)}
+                              error={t.meta.touched && t.meta.invalid}
+                            />
+                          )}
+                        />
+                      </View>
+                    ) : (
+                        <></>
+                      )}
                   </View>
-                  ) : (
+                ) : (
                     <></>
                   )
                 }
