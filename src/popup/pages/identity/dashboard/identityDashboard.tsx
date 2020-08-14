@@ -24,13 +24,15 @@ import { GlobalState } from '../../../redux';
 import { IdentityDashboardView, Props } from './identityDashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  walletEncoded: state.wallet.wallet
+  walletEncoded: state.wallet.wallet,
+  claims: state.claims
 });
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   reduxConnect(mapStateToProps, dummy, (reduxProps) => (
     withProps({
-      ontId: getIdentity(reduxProps.walletEncoded!)!
+      ontId: getIdentity(reduxProps.walletEncoded!)!,
+      claims: reduxProps.claims || []
     }, (injectedProps) => (
       <Component {...injectedProps} />
     ))

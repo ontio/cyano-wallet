@@ -17,27 +17,55 @@
  */
 import * as React from 'react';
 import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
+import { Claim } from '@ont-dev/ontology-dapi';
+import { Claim as OntClaim } from 'ontology-ts-sdk';
+import { List } from 'semantic-ui-react';
+import { format } from 'date-fns';
 
 export interface Props {
   ontId: string;
+  claims: Claim[];
 }
 
-export const IdentityDashboardView: React.SFC<Props> = (props) => (
-  <View orientation="column" fluid={true}>
-    <View orientation="column" className="part gradient">
-      <IdentityLogoHeader title="My Identity" />
-      <View content={true}>
-        <View orientation="column">
-          <h4>Registered ONT ID</h4>
-          <label>{props.ontId}</label>
+export const IdentityDashboardView: React.SFC<Props> = (props) => {
+  const claims = props.claims.filter(claim => claim.ontid === props.ontId);
+  const parsedClaims = claims.map(claim => ({ tags: claim.tags, claim: OntClaim.deserialize(claim.body) }));
+  console.log(parsedClaims);
+
+  return (
+    <View orientation="column" fluid={true}>
+      <View orientation="column" className="part gradient">
+        <IdentityLogoHeader title="My Identity" />
+        <View content={true}>
+          <View orientation="column">
+            <h4>Registered ONT ID</h4>
+            <label>{props.ontId}</label>
+          </View>
         </View>
       </View>
+      <View orientation="column" fluid={true} content={true} className="spread-around">
+        <h1>Verifiable Credentials</h1>
+        <Spacer />
+        <List divided={true}>
+          {parsedClaims.map((claim, i) => (
+            <List.Item key={i}>
+              <List.Content>
+                <List.Header>Tags: {claim.tags.join(' ')}</List.Header>
+                <List.Description>Context: {claim.claim.context}</List.Description>
+                <List.Description>Issuer: {claim.claim.metadata.issuer}</List.Description>
+                {
+                  claim.claim.content.IssuerName &&
+                  <List.Description>Issuer Name: {claim.claim.content.IssuerName}</List.Description>
+                }
+                <List.Description>Issuer At: {format(claim.claim.metadata.issuedAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
+              </List.Content>
+            </List.Item>
+          ))}
+        </List>
+        <Spacer />
+        <Filler />
+      </View>
+      <StatusBar />
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
-      <h1>Verifiable claims</h1>
-      <Spacer />
-      <Filler />
-    </View>
-    <StatusBar />
-  </View>
-);
+  )
+};
