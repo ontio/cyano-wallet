@@ -15,22 +15,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Claim } from '@ont-dev/ontology-dapi';
 import { format } from 'date-fns';
-import { Claim as OntClaim } from 'ontology-ts-sdk';
+import { Claim } from 'ontology-ts-sdk';
 import * as React from 'react';
 import { List } from 'semantic-ui-react';
 import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
+  claims: Array<{ tags: string[], claim: Claim }>;
+  handleClaimDelClick: (index: number) => void;
   ontId: string;
-  claims: Claim[];
 }
 
 export const IdentityDashboardView: React.SFC<Props> = (props) => {
-  const claims = props.claims.filter(claim => claim.ontid === props.ontId);
-  const parsedClaims = claims.map(claim => ({ tags: claim.tags, claim: OntClaim.deserialize(claim.body) }));
-
   return (
     <View orientation="column" fluid={true}>
       <View orientation="column" className="part gradient">
@@ -46,8 +43,17 @@ export const IdentityDashboardView: React.SFC<Props> = (props) => {
         <h1>Verifiable Credentials</h1>
         <Spacer />
         <List divided={true}>
-          {parsedClaims.map((claim, i) => (
+          {props.claims.map((claim, i) => (
             <List.Item key={i}>
+              <List.Icon
+                name="times circle outline"
+                size="large"
+                verticalAlign="middle"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  props.handleClaimDelClick(i);
+                }}
+              />
               <List.Content>
                 <List.Header>Tags: {claim.tags.join(' ')}</List.Header>
                 <List.Description>Context: {claim.claim.context}</List.Description>

@@ -18,7 +18,7 @@
 import { Reducer } from 'redux';
 import { ClaimsState, SET_CLAIMS } from '../../redux/claims';
 
-const defaultState: ClaimsState = null;
+const defaultState: ClaimsState = [];
 
 export const claimsReducer: Reducer<ClaimsState> = (state = defaultState, action) => {
   switch (action.type) {

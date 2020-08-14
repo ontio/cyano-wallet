@@ -8,9 +8,9 @@ export const claimApi: ClaimApi = {
       return Promise.reject('UNSUPPORTED');
     }
     const state = getStore().getState();
-    const claims = state.claims;
+    const newClaims = state.claims.slice();
+    newClaims.unshift(claim);
 
-    const newClaims = [...(claims || []), claim];
     getStore().dispatch(setClaims(newClaims));
     return Promise.resolve();
   },
@@ -19,6 +19,6 @@ export const claimApi: ClaimApi = {
     const state = getStore().getState();
     const claims = state.claims;
 
-    return Promise.resolve(claims || []);
+    return Promise.resolve(claims);
   }
 };

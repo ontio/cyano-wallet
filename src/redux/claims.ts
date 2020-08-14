@@ -18,7 +18,7 @@
 
 import { Claim } from '@ont-dev/ontology-dapi';
 
-export type ClaimsState = Claim[] | null;
+export type ClaimsState = Claim[];
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 
