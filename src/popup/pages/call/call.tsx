@@ -65,10 +65,16 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
           const gasPrice = Number(get(values, 'gasPrice', '0'));
           const gasLimit = Number(get(values, 'gasLimit', '0'));
           const whitelist: boolean = get(values, 'whitelist');
+          const allowDifferentParameters: boolean = get(values, 'allowDifferentParameters'); 
 
           if (whitelist) {
-            const name = `${contract}_${method}_${paramsHash}`;
-            await actions.addTrustedSc(contract, name, false, false, method, paramsHash);
+            if (allowDifferentParameters) {
+              const name = `${contract}_${method}`;
+              await actions.addTrustedSc(contract, name, false, false, method);
+            } else {
+              const name = `${contract}_${method}_${paramsHash}`;
+              await actions.addTrustedSc(contract, name, false, false, method, paramsHash);
+            }
           }
 
           // todo: no type check ScCallRequest
