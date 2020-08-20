@@ -40,33 +40,34 @@ export const IdentityDashboardView: React.SFC<Props> = (props) => {
         </View>
       </View>
       <View orientation="column" fluid={true} content={true} className="spread-around">
-        <h1>Verifiable Credentials</h1>
+        <h2>Verifiable Credentials</h2>
         <Spacer />
-        <List divided={true}>
-          {props.claims.map((claim, i) => (
-            <List.Item key={i}>
-              <List.Icon
-                name="times circle outline"
-                size="large"
-                verticalAlign="middle"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  props.handleClaimDelClick(i);
-                }}
-              />
-              <List.Content>
-                <List.Header>Tags: {claim.tags.join(' ')}</List.Header>
-                <List.Description>Context: {claim.claim.context}</List.Description>
-                <List.Description>Issuer: {claim.claim.metadata.issuer}</List.Description>
-                {
-                  claim.claim.content.IssuerName &&
-                  <List.Description>Issuer Name: {claim.claim.content.IssuerName}</List.Description>
-                }
-                <List.Description>Issuer At: {format(claim.claim.metadata.issuedAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
-              </List.Content>
-            </List.Item>
-          ))}
-        </List>
+        <View orientation="column" className="scrollView">
+          <List divided={true}>
+            {props.claims.map((claim, i) => (
+              <List.Item key={i}>
+                <List.Icon
+                  name="times circle outline"
+                  size="large"
+                  verticalAlign="middle"
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    props.handleClaimDelClick(i);
+                  }}
+                />
+                <List.Content className="breakWords">
+                  <List.Header>Tags: {claim.tags.join(' ')}</List.Header>
+                  <List.Description>Issuer: {claim.claim.metadata.issuer}</List.Description>
+                  <List.Description>MessageId: {claim.claim.metadata.messageId}</List.Description>
+                  <List.Description>Issued At: {format(claim.claim.metadata.issuedAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
+                  {claim.claim.metadata.expireAt && 
+                    <List.Description>Expire At: {format(claim.claim.metadata.expireAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description> 
+                  }
+                </List.Content>
+              </List.Item>
+            ))}
+          </List>
+        </View>
         <Spacer />
         <Filler />
       </View>
