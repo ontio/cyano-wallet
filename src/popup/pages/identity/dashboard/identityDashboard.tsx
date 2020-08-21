@@ -16,40 +16,50 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Claim } from 'ontology-ts-sdk';
+import { SimpleMessage } from 'ontology-ts-sdk';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
+import { encodeWallet, getWallet } from '../../../../api/authApi';
+import { getCredentialRecords } from '../../../../api/extraApi';
 import { getIdentity } from '../../../../api/identityApi';
 import { reduxConnect, withProps } from '../../../compose';
 import { Actions, GlobalState } from '../../../redux';
 import { IdentityDashboardView, Props } from './identityDashboardView';
 
 const mapStateToProps = (state: GlobalState) => ({
-  claims: state.claims,
   walletEncoded: state.wallet.wallet,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      setClaims: Actions.claim.setClaims,
+      setWallet: Actions.wallet.setWallet,
     },
     dispatch,
   );
 
 const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps) => (
   reduxConnect(mapStateToProps, mapDispatchToProps, (reduxProps, actions) => {
-    const ontId = getIdentity(reduxProps.walletEncoded!)!;
-    const claims = reduxProps.claims.filter(claim => claim.ontid === ontId);
-    const parsedClaims = claims.map(claim => ({ tags: claim.tags, claim: Claim.deserialize(claim.body) }));
+    const wallet = getWallet(reduxProps.walletEncoded!);
+    const ontId = getIdentity(wallet)!;
+    const credentialRecords = getCredentialRecords(wallet);
+
+    const filteredCredentialRecords = credentialRecords
+    .filter((item: any) => item.identity === ontId);
+
+    const mappedCredentialRecords = filteredCredentialRecords
+    .map((item: any) => ({ tags: item.tags, credential: SimpleMessage.deserialize(item.credential) }));
 
     return withProps({
-      claims: parsedClaims,
-      handleClaimDelClick: (index: number) => {
-        const newClaims = reduxProps.claims.slice();
-        newClaims.splice(index, 1);
-        actions.setClaims(newClaims);
+      credentialRecords: mappedCredentialRecords,
+      handleDelClick: (index: number) => {
+        const credentialRecord = filteredCredentialRecords[index];
+        const indexInOrigin = credentialRecords.indexOf(credentialRecord);
+        const newCredentialRecords = credentialRecords.slice();
+        newCredentialRecords.splice(indexInOrigin, 1);
+        wallet.extra = { ...(wallet.extra || {}), credentialRecords: newCredentialRecords };
+        actions.setWallet(encodeWallet(wallet));
       },
       ontId,
     }, (injectedProps) => (

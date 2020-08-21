@@ -16,7 +16,6 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { setClaims } from './claims';
 import { finishLoading, startLoading } from './loader';
 import { clearPassword, setPassword } from './password';
 import { setRouterState } from './router';
@@ -27,9 +26,6 @@ import { addRequest, resolveRequest, submitRequest, updateRequest } from './tran
 import { clearIdentity, clearWallet, setWallet } from './wallet';
 
 export default {
-  claim: {
-    setClaims,
-  },
   loader: {
     finishLoading,
     startLoading,

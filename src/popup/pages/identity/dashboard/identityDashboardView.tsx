@@ -16,14 +16,14 @@
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { format } from 'date-fns';
-import { Claim } from 'ontology-ts-sdk';
+import { SimpleMessage } from 'ontology-ts-sdk';
 import * as React from 'react';
 import { List } from 'semantic-ui-react';
 import { Filler, IdentityLogoHeader, Spacer, StatusBar, View } from '../../../components';
 
 export interface Props {
-  claims: Array<{ tags: string[], claim: Claim }>;
-  handleClaimDelClick: (index: number) => void;
+  credentialRecords: Array<{ tags: string[], credential: SimpleMessage }>;
+  handleDelClick: (index: number) => void;
   ontId: string;
 }
 
@@ -44,7 +44,7 @@ export const IdentityDashboardView: React.SFC<Props> = (props) => {
         <Spacer />
         <View orientation="column" className="scrollView">
           <List divided={true}>
-            {props.claims.map((claim, i) => (
+            {props.credentialRecords.map((record, i) => (
               <List.Item key={i}>
                 <List.Icon
                   name="times circle outline"
@@ -52,16 +52,16 @@ export const IdentityDashboardView: React.SFC<Props> = (props) => {
                   verticalAlign="middle"
                   onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
-                    props.handleClaimDelClick(i);
+                    props.handleDelClick(i);
                   }}
                 />
                 <List.Content className="breakWords">
-                  <List.Header>Tags: {claim.tags.join(' ')}</List.Header>
-                  <List.Description>Issuer: {claim.claim.metadata.issuer}</List.Description>
-                  <List.Description>MessageId: {claim.claim.metadata.messageId}</List.Description>
-                  <List.Description>Issued At: {format(claim.claim.metadata.issuedAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
-                  {claim.claim.metadata.expireAt && 
-                    <List.Description>Expire At: {format(claim.claim.metadata.expireAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description> 
+                  <List.Header>Tags: {record.tags.join(' ')}</List.Header>
+                  <List.Description>Issuer: {record.credential.metadata.issuer}</List.Description>
+                  <List.Description>MessageId: {record.credential.metadata.messageId}</List.Description>
+                  <List.Description>Issued At: {format(record.credential.metadata.issuedAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description>
+                  {record.credential.metadata.expireAt && 
+                    <List.Description>Expire At: {format(record.credential.metadata.expireAt * 1000, 'MMM Do YYYY HH:mm:ss')}</List.Description> 
                   }
                 </List.Content>
               </List.Item>

@@ -539,10 +539,19 @@
   resolved "https://registry.yarnpkg.com/@ont-community/window-post-message-proxy/-/window-post-message-proxy-0.2.14.tgz#e3b1fe1b1558d7aedbbc1d0053e35f21cd9dc05e"
   integrity sha512-CcBIsSoSZR+QuS11SguO0co8EIbKE3iqP9fCBKZXp6WiF1OMe5bEtcxhIIw5Gqr+CQ+3FsAKTE1H3Xyb2dDsRQ==
 
-"@ont-dev/ontology-dapi@^0.5.3-alpha.7":
-  version "0.5.3-alpha.7"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.3-alpha.7.tgz#5753fe96aa0db0007ae03318e92cbd4f9ac8d9a3"
-  integrity sha512-GyLfmLKzOVuK0gu3J+b7YzcH1PUbGSC+IZvDKm6XJkl7PY6Y0nqG+v9yPpQUaqPJA47gG/TC9RMByQpb7Tg8Bw==
+"@ont-dev/hdkey-secp256r1@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ont-dev/hdkey-secp256r1/-/hdkey-secp256r1-1.1.2.tgz#d2edb93799c7d1b0e309778aef9bd736e212ca6a"
+  integrity sha512-bmCTtNvV3d61KX+IZoFnY6hOR54f6s98cPzzctXGH4JimGjApP9QdlwhApA4JIXrDNRYCQ/Xa8baQWtC9+w8uw==
+  dependencies:
+    bn.js "^4.11.8"
+    bs58check "^2.1.2"
+    elliptic "^6.4.1"
+
+"@ont-dev/ontology-dapi@^0.5.3-alpha.9":
+  version "0.5.3-alpha.9"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.3-alpha.9.tgz#15fecd275c54ea31c07497fdf235e471436e8e07"
+  integrity sha512-gwabkurVYyfCPMC1o2/YNyvjFHjzcOf5S/1b9Yv0ijnUqM62c5qYdqNWqhl2KQGjNBE1wzxSLierKbIEv88/nQ==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"
@@ -551,6 +560,17 @@
     typedarray-to-buffer "^3.1.5"
     uuid "^3.3.2"
     webextension-polyfill-ts "^0.8.7"
+
+"@ont-dev/sm.js@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@ont-dev/sm.js/-/sm.js-0.1.7.tgz#bb3410282c3d57bfb9f18d03e47ec3717c2b619a"
+  integrity sha512-riEqdK3j2yLyUnp46yB9u/2meT4tT5DKbzIeV1+arY+jIqgf/83CUyABbs1ea6wUf7lUqLhMEdeoGZ8Aqm1XHg==
+  dependencies:
+    bn.js "^4.11.6"
+    elliptic "^6.4.0"
+    hash.js "^1.0.3"
+    hmac-drbg "^1.0.1"
+    inherits "^2.0.3"
 
 "@toruslabs/fetch-node-details@^2.2.3":
   version "2.2.3"
@@ -7201,13 +7221,14 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.1.2.tgz#de95243212f733b0b5d4350fb1849ebb0987163d"
-  integrity sha512-LkA+qyzNXIiJ4r+32McyXCKilVnCBiZr/vY4tkSJ+iE7ySRdxPPhO8t+y12z6g9EY3b66UebmbwcEH46nbhV/w==
+ontology-ts-sdk@^1.1.14-alpha.1:
+  version "1.1.14-alpha.1"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.1.14-alpha.1.tgz#ae76addd2a5049e13a183f273e3e05f3d0e95242"
+  integrity sha512-RwYcRNecRYj6ZCT0Zgq/6Wq+btpoFnR0HBBHVveNfoWP3ZYjb5W09GmGKDCohySrXOtV5pwumiq+YDOoLG9dAw==
   dependencies:
-    "@ont-community/hdkey-secp256r1" "^1.0.1"
     "@ont-community/html5-websocket" "^2.0.2"
+    "@ont-dev/hdkey-secp256r1" "^1.1.2"
+    "@ont-dev/sm.js" "^0.1.7"
     axios "^0.19.0"
     babel-polyfill "^6.26.0"
     base-58 "^0.0.1"
@@ -7225,7 +7246,6 @@ ontology-ts-sdk@^1.1.2:
     promise-timeout "^1.3.0"
     scrypt-async "^2.0.0"
     secure-random "^1.1.1"
-    sm.js "0.1.7"
     uuid "^3.2.1"
     websocket-as-promised "^0.8.0"
     wif "^2.0.6"

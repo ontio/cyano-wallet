@@ -15,16 +15,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Reducer } from 'redux';
-import { ClaimsState, SET_CLAIMS } from '../../redux/claims';
+import { Wallet } from 'ontology-ts-sdk';
 
-const defaultState: ClaimsState = [];
+import { getWallet } from './authApi';
 
-export const claimsReducer: Reducer<ClaimsState> = (state = defaultState, action) => {
-  switch (action.type) {
-    case SET_CLAIMS:
-      return action.claims;
-    default:
-      return state;
-  }
-};
+export function getCredentialRecords(wallet: string | Wallet) {
+    if (typeof wallet === 'string') {
+      wallet = getWallet(wallet);
+    }
+    const { credentialRecords } = wallet.extra || {} as any;
+    return credentialRecords || [];
+}
+  
