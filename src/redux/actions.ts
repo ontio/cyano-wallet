@@ -24,6 +24,7 @@ import { addToken, addTrustedSc, delToken, delTrustedSc, setSettings } from './s
 import { changeNetworkState } from './status';
 import { addRequest, resolveRequest, submitRequest, updateRequest } from './transactionRequests';
 import { clearIdentity, clearWallet, setWallet } from './wallet';
+
 export default {
   loader: {
     finishLoading,
@@ -60,5 +61,5 @@ export default {
     clearIdentity,
     clearWallet,
     setWallet
-  }
+  },
 };

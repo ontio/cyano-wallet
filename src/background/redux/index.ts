@@ -37,7 +37,7 @@ export const globalReducer = combineReducers({
   settings: settingsReducer,
   status: statusReducer,
   transactionRequests: transactionRequestsReducer,
-  wallet: walletReducer
+  wallet: walletReducer,
 });
 
 export const aliases = {

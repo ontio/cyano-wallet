@@ -147,8 +147,11 @@ export function identityDelete(ontId: string, wallet: string | Wallet) {
   };
 }
 
-export function getIdentity(walletEncoded: string) {
-  const wallet = getWallet(walletEncoded);
+export function getIdentity(wallet: string | Wallet) {
+  if (typeof wallet === 'string') {
+    wallet = getWallet(wallet);
+  }
+
   if (wallet.defaultOntid !== '') {
     return wallet.defaultOntid;
   } else {

@@ -15,26 +15,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Wallet } from 'ontology-ts-sdk';
 
-import { Store } from 'redux';
-import { LoaderState } from './loader';
-import { PasswordState } from './password';
-import { RouterState } from './router';
-import { RuntimeState } from './runtime';
-import { SettingsState } from './settings';
-import { StatusState } from './status';
-import { TransactionRequestsState } from './transactionRequests';
-import { WalletState } from './wallet';
+import { getWallet } from './authApi';
 
-export interface GlobalState {
-  loader: LoaderState;
-  password: PasswordState;
-  router: RouterState;
-  runtime: RuntimeState;
-  settings: SettingsState;
-  status: StatusState;
-  transactionRequests: TransactionRequestsState;
-  wallet: WalletState;
+export function getCredentialRecords(wallet: string | Wallet) {
+    if (typeof wallet === 'string') {
+      wallet = getWallet(wallet);
+    }
+    const { credentialRecords } = wallet.extra || {} as any;
+    return credentialRecords || [];
 }
-
-export type GlobalStore = Store<GlobalState>;
+  

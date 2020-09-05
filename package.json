@@ -1,6 +1,6 @@
 {
   "name": "cyano-wallet",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "private": true,
   "scripts": {
     "lint": "tslint -p .",
@@ -14,7 +14,7 @@
     "@bugsnag/plugin-react": "^5.1.0",
     "@ont-community/hdkey-secp256r1": "^1.0.1",
     "@ont-community/ontology-ts-sdk-ledger": "^1.0.8",
-    "@ont-dev/ontology-dapi": "^0.5.1",
+    "@ont-dev/ontology-dapi": "^0.5.3-alpha.9",
     "@toruslabs/torus-direct-web-sdk": "^3.0.0",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
@@ -32,7 +32,7 @@
     "lodash": "^4.17.10",
     "long": "^4.0.0",
     "object-assign": "4.1.1",
-    "ontology-ts-sdk": "^1.1.2",
+    "ontology-ts-sdk": "^1.1.14-alpha.1",
     "ontology-ts-test": "^0.2.37",
     "postcss-flexbugs-fixes": "3.2.0",
     "promise": "8.0.1",

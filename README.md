@@ -65,7 +65,7 @@ npm install --global yarn
 #### Download
 
 ```
-git clone 'https://github.com/OntologyCommunityDevelopers/cyano-wallet.git'
+git clone 'https://github.com/ontio/cyano-wallet.git'
 ```
 
 #### Start the extension in watch mode
@@ -86,7 +86,7 @@ yarn build
 
 #### Ledger support
 
-Ledger support is provided by the Ontology TS SDK extension https://github.com/OntologyCommunityDevelopers/ontology-ts-sdk-ledger. Because Chrome allows communication with the Ledger only from HTTPS loaded page (which extension is not), there is used a HTTPS iframe embedded. The iframe is hosted on https://drxwrxomfjdx5.cloudfront.net/forwarder.html and the source codes are at https://github.com/OntologyCommunityDevelopers/ledger-forwarder . To change the Iframe address navigate to index.tsx and change the call to
+Ledger support is provided by the Ontology TS SDK extension https://github.com/ontio/ontology-ts-sdk-ledger. Because Chrome allows communication with the Ledger only from HTTPS loaded page (which extension is not), there is used a HTTPS iframe embedded. The iframe is hosted on https://drxwrxomfjdx5.cloudfront.net/forwarder.html and the source codes are at https://github.com/ontio/ledger-forwarder . To change the Iframe address navigate to index.tsx and change the call to
 
 ```
 Ledger.setLedgerTransport(new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true));
@@ -96,7 +96,7 @@ To use your Ledger, you also need the Official Ontology Ledger App installed on 
 
 #### Trezor support
 
-Trezor support is provided by the Ontology TS SDK extension https://github.com/OntologyCommunityDevelopers/ontology-ts-sdk-trezor. Trezor allows communication with the Trezor Bridge v2 only from https://*.trezor.io page and Node environment, therefore it is not usable from web pages. But it is usable from Web extensions using WebRequest API.
+Trezor support is provided by the Ontology TS SDK extension https://github.com/ontio/ontology-ts-sdk-trezor. Trezor allows communication with the Trezor Bridge v2 only from https://*.trezor.io page and Node environment, therefore it is not usable from web pages. But it is usable from Web extensions using WebRequest API.
 
 To use your Trezor, you also needs custom firmware located at https://github.com/backslash47/trezor-core . Ontology support is not yet in official firmware.
 

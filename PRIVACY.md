@@ -2,11 +2,11 @@
 
 <p>Effective date: November 17, 2018</p>
 
-<p>Cyano wallet ("us", "we", or "our") operates the Chrome extension "Cyano wallet" with homepage at https://github.com/OntologyCommunityDevelopers/cyano-wallet website (hereinafter referred to as the "Service").</p>
+<p>Cyano wallet ("us", "we", or "our") operates the Chrome extension "Cyano wallet" with homepage at https://github.com/ontio/cyano-wallet website (hereinafter referred to as the "Service").</p>
 
 <p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
 
-<p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, the terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from https://github.com/OntologyCommunityDevelopers/cyano-wallet</p>
+<p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, the terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from https://github.com/ontio/cyano-wallet</p>
 
 <h2>Definitions</h2>
 <ul>
@@ -123,5 +123,5 @@
 <h2>Contact Us</h2>
 <p>If you have any questions about this Privacy Policy, please contact us:</p>
 <ul>
-  <li>By creating issue on our website: https://github.com/OntologyCommunityDevelopers/cyano-wallet/issues</li>
+  <li>By creating issue on our website: https://github.com/ontio/cyano-wallet/issues</li>
 </ul>
