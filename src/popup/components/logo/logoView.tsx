@@ -33,7 +33,7 @@ export const LogoView: React.SFC<Props> = (props) => (
         <Button onClick={props.handleSettings} size="big" compact={true} basic={true} icon="cog" />
       </View>
     </View>
-    <h1 className="header">Cyano Wallet</h1>
+    <h1 className="header">Cyano Wallet Pro</h1>
     <p className="subtitle">an Ontology wallet</p>
   </View>
 );
