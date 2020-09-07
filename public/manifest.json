@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
 
-  "name": "Cyano Wallet",
+  "name": "Cyano Wallet Pro",
   "author": "Matus Zamborsky <zamborsky@gmail.com>",
-  "description": "Cyano Wallet - an Ontology wallet",
-  "version": "0.8.7",
+  "description": "Cyano Wallet Pro - an Ontology wallet",
+  "version": "0.1.0",
 
   "browser_action": {
-    "default_title": "Cyano Wallet"
+    "default_title": "Cyano Wallet Pro"
   },
   "background": {
     "page": "background.html",
