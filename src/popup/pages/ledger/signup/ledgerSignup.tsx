@@ -38,14 +38,14 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
       componentDidMount: async () => {
         async function checkStatus() {
           try {
-            const supported = await timeout(getBackgroundManager().isLedgerSupported(), 2000);
+            const supported = await timeout(getBackgroundManager().isLedgerSupported(), 10000);
             setState({ ...getState(), supported });
           } catch (e) {
             setState({ ...getState(), supported: false });
           }
         }
 
-        const timer = window.setInterval(checkStatus, 3000);
+        const timer = window.setInterval(checkStatus, 10000);
         setState({ ...state, timer });
 
         await checkStatus();
