@@ -1,4 +1,3 @@
-import * as Long from 'long';
 import { CONST, Crypto, Oep4, Parameter, ParameterType, TransactionBuilder, utils } from 'ontology-ts-sdk';
 import { decryptAccount, getAccount } from 'src/api/accountApi';
 import { encodeAmount } from 'src/popup/utils/number';
@@ -107,8 +106,7 @@ export async function getTokenBalance(contract: string, address: Address, vmType
     const tx = builder.queryBalanceOf(address);
     response = await client.sendRawTransaction(tx.serialize(), true);
   }
-    const resultValue = utils.reverseHex(response.Result.Result);
-  return resultValue ? Long.fromString(resultValue, true, 16).toString() : '0';
+  return utils.bigIntFromBytes(response.Result.Result);
 }
 
 export async function transferToken(request: TransferRequest, password: string) {

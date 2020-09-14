@@ -2057,6 +2057,11 @@ bn.js@^5.1.2:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.2.tgz#c9686902d3c9a27729f43ab10f9d79c2004da7b0"
   integrity sha512-40rZaf3bUNKTVYu9sIeeEGOg7g14Yvnj9kH7b50EiwX0Q7A6umbvfI5tvHaOERH0XigqKkfLkFQxzb4e6CIXnA==
 
+bn.js@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.3.tgz#beca005408f642ebebea80b042b4d18d2ac0ee6b"
+  integrity sha512-GkTiFpjFtUzU9CbMeJ5iazkCzGL3jrhzerzZIuqLABjbwRaFt33I9tUdSNryIptM+RxDet6OKm2WnLXzW51KsQ==
+
 body-parser@1.18.2:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
@@ -7069,7 +7074,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-number-to-bn@1.7.0:
+number-to-bn@1.7.0, number-to-bn@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/number-to-bn/-/number-to-bn-1.7.0.tgz#bb3623592f7e5f9e0030b1977bd41a0c53fe1ea0"
   integrity sha1-uzYjWS9+X54AMLGXe9QaDFP+HqA=
@@ -7221,10 +7226,10 @@ ontology-ts-sdk@^0.9.4:
     wif "^2.0.6"
     ws "^4.1.0"
 
-ontology-ts-sdk@^1.1.14-alpha.1:
-  version "1.1.14-alpha.1"
-  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.1.14-alpha.1.tgz#ae76addd2a5049e13a183f273e3e05f3d0e95242"
-  integrity sha512-RwYcRNecRYj6ZCT0Zgq/6Wq+btpoFnR0HBBHVveNfoWP3ZYjb5W09GmGKDCohySrXOtV5pwumiq+YDOoLG9dAw==
+ontology-ts-sdk@^1.1.17-alpha.4:
+  version "1.1.17-alpha.4"
+  resolved "https://registry.yarnpkg.com/ontology-ts-sdk/-/ontology-ts-sdk-1.1.17-alpha.4.tgz#2e78822b9b3002fab5347aafe39f069b12a5cd13"
+  integrity sha512-ObSwqftaHlIMjo+4PVv97xnE/IVbm2tHdiKRv06NCsHpthzWzI5u1fCethYLZnplIChLN6u4vdJj/y3YNltVsA==
   dependencies:
     "@ont-community/html5-websocket" "^2.0.2"
     "@ont-dev/hdkey-secp256r1" "^1.1.2"
@@ -7235,6 +7240,7 @@ ontology-ts-sdk@^1.1.14-alpha.1:
     base64-url "^2.2.0"
     bignumber.js "^7.2.1"
     bip39 "^2.5.0"
+    bn.js "^5.1.3"
     crypto-js "^3.1.9-1"
     ecdsa "^0.7.0"
     ecurve "^1.0.6"
@@ -7242,6 +7248,7 @@ ontology-ts-sdk@^1.1.14-alpha.1:
     js-sha3 "^0.7.0"
     long "^4.0.0"
     milagro-crypto-js "^3.3.0"
+    number-to-bn "^1.7.0"
     pkcs7 "^1.0.2"
     promise-timeout "^1.3.0"
     scrypt-async "^2.0.0"
