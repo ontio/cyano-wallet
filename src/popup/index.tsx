@@ -30,10 +30,12 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
+import { initSettingsProvider } from '../background/persist/settingsProvider';
 import { initBackgroundManager } from './backgroundManager';
 import { initHistory } from './history';
 import * as Pages from './pages';
 import { initStore } from './redux';
+
 
 const bugsnagClient = bugsnag({
   apiKey: '162731d88707c7260689fba047f0a6a7',
@@ -63,6 +65,7 @@ Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
  * Render after the redux store is connected to background script
  */
 const store = initStore();
+initSettingsProvider(store); // Fixme:在这里添加一次初始化才能加上默认的oep4
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
   initBackgroundManager(history);
