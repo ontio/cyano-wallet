@@ -63,7 +63,22 @@ const DEFAULT_OEP4S: TokenState[] = [
         specification: 'OEP-4',
         symbol: 'WING',
         vmType: 'NEOVM'
-    }
+    },{
+        contract: 'ac654837a90eee8fccabd87a2d4fc7637484f01a',
+        decimals: 6,
+        name: 'pUSDT',
+        specification: 'OEP-4',
+        symbol: 'pUSDT',
+        vmType: 'NEOVM'
+    },
+    {
+        contract: '7b956c0c11fcffb9c9227ca1925ba4c3486b36f1',
+        decimals: 18,
+        name: 'pDAI',
+        specification: 'OEP-4',
+        symbol: 'pDAI',
+        vmType: 'NEOVM'
+    },
 ]
 
 export async function loadSettings(): Promise<SettingsState | null> {
