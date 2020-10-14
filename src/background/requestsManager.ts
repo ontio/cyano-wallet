@@ -60,7 +60,7 @@ export class RequestsManager {
     });
   }
 
-  public async initTransfer(args: { recipient: string; asset: AssetType; amount: number }) {
+  public async initTransfer(args: { recipient: string; asset: AssetType; amount: string }) {
     const requestId = uuid();
 
     // stores deferred object to resolve when the transaction is resolved

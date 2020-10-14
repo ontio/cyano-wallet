@@ -60,7 +60,7 @@ export async function swapNep(request: SwapRequest, password: string) {
   }
 }
 
-export function constructNepTransfer(from: Address, to: Address, amount: number) {
+export function constructNepTransfer(from: Address, to: Address, amount: string) {
   const abiInfo = AbiInfo.parseJson(NEP5_ABI);
   const contractAddr = new Address(utils.reverseHex(ontContract));
 

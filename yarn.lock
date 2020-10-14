@@ -548,10 +548,10 @@
     bs58check "^2.1.2"
     elliptic "^6.4.1"
 
-"@ont-dev/ontology-dapi@^0.5.5-alpha.2":
-  version "0.5.5-alpha.2"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.5-alpha.2.tgz#17e96fbdf10102690601fe0f635961c9934fea45"
-  integrity sha512-uB+D9809ZDHVbxwEM2eUXTTgDpwuZob2RIxhe3D301ilNFvuLtWPJSjmdKnwIHl5S0v8CVc8e7GyQcCrBJs+ZA==
+"@ont-dev/ontology-dapi@^0.5.5-alpha.3":
+  version "0.5.5-alpha.3"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-dapi/-/ontology-dapi-0.5.5-alpha.3.tgz#8fe6c8c5d42539f4df635f0d2a7867409aed2bbd"
+  integrity sha512-o/EW/WWOUEKI0DQJ8pMR7sxUieZNOD1ZaQN3LucV8MO4M6Jl/XEu9fJlXbJUfpWancs8Wb6+q4lNac9JmMRUqw==
   dependencies:
     "@ont-community/window-post-message-proxy" "^0.2.14"
     base-x "^3.0.5"

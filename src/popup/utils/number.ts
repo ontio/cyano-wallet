@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { AssetType } from '../../redux/runtime';
 
-export function convertAmountToBN(amount: number | undefined, asset: AssetType | 'NEP') {
+export function convertAmountToBN(amount: string | number | undefined, asset: AssetType | 'NEP') {
     if (amount === undefined) {
         return new BigNumber(0);
     }
@@ -24,10 +24,10 @@ export function convertAmountFromStr(amount: string, asset: AssetType | 'NEP') {
         amountBN = amountBN.times(new BigNumber('100000000'));
     }
 
-    return amountBN.toNumber();
+    return amountBN.toString();
 }
 
-export function convertAmountToStr(amount: number | undefined, asset: AssetType | 'NEP') {
+export function convertAmountToStr(amount: string | number | undefined, asset: AssetType | 'NEP') {
     return convertAmountToBN(amount, asset).toString();
 }
 
