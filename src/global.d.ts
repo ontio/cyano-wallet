@@ -20,4 +20,3 @@ declare module 'websocket-as-promised';
 declare module '@ledgerhq/hw-transport-node-hid';
 declare module '@ledgerhq/hw-transport-u2f';
 declare module '@ont-community/hdkey-secp256r1'
-declare module '@ont-dev/ontology-ts-sdk-ledger'

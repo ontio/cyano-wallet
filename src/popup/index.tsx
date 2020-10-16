@@ -61,6 +61,24 @@ browser.management.getSelf().then((info) => {
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 // Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
 
+const ledgerTransportProvider = new Ledger.LedgerTransportProvider(
+  new Ledger.LedgerTransportWebusb(),
+  (onMessage) => {
+    const listener = async (event: MessageEvent) => {
+      const result = await onMessage(event.data);
+      if (event.ports[0]) {
+        event.ports[0].postMessage(result);
+        event.ports[0].close();
+      }
+    };
+    window.addEventListener('message', listener);
+    return () => {
+      window.removeEventListener('message', listener);
+    }
+  },
+);
+ledgerTransportProvider.start();
+
 /**
  * Render after the redux store is connected to background script
  */

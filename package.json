@@ -14,7 +14,7 @@
     "@bugsnag/js": "^5.1.0",
     "@bugsnag/plugin-react": "^5.1.0",
     "@ont-community/hdkey-secp256r1": "^1.0.1",
-    "@ont-dev/ontology-ts-sdk-ledger": "^1.0.23",
+    "@ont-dev/ontology-ts-sdk-ledger": "^1.0.28-alpha.3",
     "@ont-dev/ontology-dapi": "^0.5.5-alpha.3",
     "@toruslabs/torus-direct-web-sdk": "^3.0.0",
     "autoprefixer": "7.1.6",

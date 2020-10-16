@@ -587,10 +587,10 @@
     uuid "^3.3.2"
     webextension-polyfill-ts "^0.8.7"
 
-"@ont-dev/ontology-ts-sdk-ledger@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-ts-sdk-ledger/-/ontology-ts-sdk-ledger-1.0.23.tgz#d48f087788dc0bb1afd983b97ed941e29390cd59"
-  integrity sha512-TfVI/OerCU6oWYyby5lOYO+vXupusPGX+Oi9DqoO00CbrCJ9axBXD/hoZAt393rBbDdJ9yR2O2vwZi/T0l66OQ==
+"@ont-dev/ontology-ts-sdk-ledger@^1.0.28-alpha.3":
+  version "1.0.28-alpha.3"
+  resolved "https://registry.yarnpkg.com/@ont-dev/ontology-ts-sdk-ledger/-/ontology-ts-sdk-ledger-1.0.28-alpha.3.tgz#b4bea55c4a3fef34bbbff3e7d6d7bf353c793d9a"
+  integrity sha512-rKPl5x3cQvR23aBvsOknzjqoL6zuBFsnI95hurp68pKaOREp7tfgwP3KL0juoBFvjnTGA/aOLFSD8Bf2yP/Vsw==
   dependencies:
     "@ledgerhq/hw-transport-node-hid" "^4.15.0"
     "@ledgerhq/hw-transport-u2f" "^4.15.0"
