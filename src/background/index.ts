@@ -18,7 +18,7 @@
 import 'babel-polyfill';
 
 import bugsnag from '@bugsnag/js';
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import { browser } from 'webextension-polyfill-ts';

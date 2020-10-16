@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger';
 import { Account, Wallet } from 'ontology-ts-sdk';
 import { v4 as uuid } from 'uuid';
 import { getWallet } from '../../api/authApi';

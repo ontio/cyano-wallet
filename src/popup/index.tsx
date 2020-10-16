@@ -19,7 +19,7 @@ import 'babel-polyfill';
 
 import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
