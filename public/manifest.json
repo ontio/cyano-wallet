@@ -28,5 +28,7 @@
   },
   "permissions": ["storage", "http://127.0.0.1/*", "webRequest", "webRequestBlocking"],
 
-  "externally_connectable": {}
+  "externally_connectable": { 
+    "ids": [] 
+  }
 }

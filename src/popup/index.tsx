@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'babel-polyfill';
+import 'regenerator-runtime';
 
 import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';

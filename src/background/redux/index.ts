@@ -48,7 +48,7 @@ let store: GlobalStore;
 
 export function initStore(): GlobalStore {
   const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
-  if (process.env.REACT_APP_WATCH) {
+  if (process.env.NODE_ENV === 'development') {
     store = createStore(globalReducer, composeEnhancers(applyMiddleware(alias(aliases), thunk)));
   } else {
     store = createStore(globalReducer, applyMiddleware(alias(aliases), thunk));

@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import 'regenerator-runtime';
 
 import { provider } from '@ont-dev/ontology-dapi';
 import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger'
