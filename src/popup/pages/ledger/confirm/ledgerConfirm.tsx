@@ -60,7 +60,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         }
 
         if (request.error !== undefined) {
-          props.history.push(redirectFail, { requestId });
+          props.history.push(redirectFail, { ...props.location.state, request });
         } else {
           if (isScCallRequest(request) && request.requireIdentity && !identityConfirm) {
             // if this is SC CALL request

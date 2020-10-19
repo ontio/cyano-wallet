@@ -58,9 +58,9 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
         }
 
         if (request.error !== undefined) {
-          props.history.push(redirectFail, { requestId });
+          props.history.push(redirectFail, { ...props.location.state, request });
         } else {
-          props.history.push(redirectSucess, { requestId });
+          props.history.push(redirectSucess, { ...props.location.state, request });
         }
       }
     }, (injectedProps) => (
