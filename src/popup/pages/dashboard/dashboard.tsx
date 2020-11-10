@@ -59,7 +59,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
           const requestId = uuid();
           // todo: no type check TransferRequest
           await actions.addRequest({
-            amount: 0,
+            amount: '0',
             asset: 'ONT',
             id: requestId,
             recipient: '',
@@ -73,7 +73,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             const requestId = uuid();
             // todo: no type check SwapRequest
             await actions.addRequest({
-              amount: reduxProps.nepAmount,
+              amount: String(reduxProps.nepAmount),
               id: requestId,
               type: 'swap',
             } as SwapRequest);
@@ -89,7 +89,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
             const requestId = uuid();
             // todo: no type check TransferRequest
             await actions.addRequest({
-              amount: reduxProps.unboundAmount,
+              amount: String(reduxProps.unboundAmount),
               id: requestId,
               type: 'withdraw_ong',
             } as WithdrawOngRequest);

@@ -221,6 +221,10 @@ function convertParam(parameter: Parameter): Param {
     return new Param('', ParameterType.Map, convertMapParams(parameter.value));
   } else if (parameter.type === 'Address') {
     return new Param('', ParameterType.Address, new Address(parameter.value));
+  } else if (parameter.type === 'Struct') {
+      return parameter.value; // TODO to support struct
+  }else if (parameter.type === 'H256') {
+    return new Param('', ParameterType.H256, parameter.value);
   } else {
     // send as is, so underlying library can process it
     return parameter.value;

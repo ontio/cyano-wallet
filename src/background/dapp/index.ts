@@ -9,7 +9,7 @@ import { stateChannelApi as stateChannel } from './stateChannel';
 
 export function initDApiProvider() {
   provider.registerProvider({
-    logMessages: true,
+    logMessages: false,
     provider: {
       asset,
       identity,

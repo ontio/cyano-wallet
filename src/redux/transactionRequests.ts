@@ -42,16 +42,16 @@ export interface TransactionRequest {
 export interface TransferRequest extends TransactionRequest {
   sender: string;
   recipient: string;
-  amount: number;
+  amount: string;
   asset: AssetType;
 }
 
 export interface WithdrawOngRequest extends TransactionRequest {
-  amount: number;
+  amount: string;
 }
 
 export interface SwapRequest extends TransactionRequest {
-  amount: number;
+  amount: string;
 }
 
 export interface MessageSignRequest extends TransactionRequest {

@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'babel-polyfill';
+import 'regenerator-runtime';
 
 import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import * as React from 'react';
@@ -30,10 +30,12 @@ import './global.css';
 
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
+import { initSettingsProvider } from '../background/persist/settingsProvider';
 import { initBackgroundManager } from './backgroundManager';
 import { initHistory } from './history';
 import * as Pages from './pages';
 import { initStore } from './redux';
+
 
 const bugsnagClient = bugsnag({
   apiKey: '162731d88707c7260689fba047f0a6a7',
@@ -59,10 +61,29 @@ browser.management.getSelf().then((info) => {
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 // Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
 
+const ledgerTransportProvider = new Ledger.LedgerTransportProvider(
+  new Ledger.LedgerTransportWebusb(),
+  (onMessage) => {
+    const listener = async (event: MessageEvent) => {
+      const result = await onMessage(event.data);
+      if (event.ports[0]) {
+        event.ports[0].postMessage(result);
+        event.ports[0].close();
+      }
+    };
+    window.addEventListener('message', listener);
+    return () => {
+      window.removeEventListener('message', listener);
+    }
+  },
+);
+ledgerTransportProvider.start();
+
 /**
  * Render after the redux store is connected to background script
  */
 const store = initStore();
+initSettingsProvider(store); // Fixme:在这里添加一次初始化才能加上默认的oep4
 const unsubscribe = store.subscribe(() => {
   const history = initHistory(store);
   initBackgroundManager(history);

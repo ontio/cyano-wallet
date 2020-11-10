@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Cyano Wallet.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'babel-polyfill';
+import 'regenerator-runtime';
 
 import bugsnag from '@bugsnag/js';
-import * as Ledger from '@ont-community/ontology-ts-sdk-ledger';
+import * as Ledger from '@ont-dev/ontology-ts-sdk-ledger';
 // import * as Trezor from '@ont-community/ontology-ts-sdk-trezor';
 import { Crypto } from 'ontology-ts-sdk';
 import { browser } from 'webextension-polyfill-ts';
@@ -81,6 +81,25 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 
 Crypto.registerKeyDeserializer(new Ledger.LedgerKeyDeserializer());
 // Crypto.registerKeyDeserializer(new Trezor.TrezorKeyDeserializer());
-Ledger.setLedgerTransport(
-  new Ledger.LedgerTransportIframe('https://drxwrxomfjdx5.cloudfront.net/forwarder.html', true),
-);
+
+Ledger.setLedgerTransport(new Ledger.LedgerTransportForwarder(
+  async (msg) => {
+    const popup = browser.extension.getViews({ type: 'tab' })[0];
+    if (popup) {
+      return new Promise((resolve) => {
+        const channel = new MessageChannel();
+        channel.port1.onmessage = (event) => { 
+          channel.port1.close();
+          resolve(event.data);
+        }
+        popup.postMessage(msg, '*', [channel.port2]);
+      });
+    } else {
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+      if (tabs[0] && tabs[0].id) {
+        return browser.tabs.sendMessage(tabs[0].id, msg);
+      }
+    }
+    throw new Error('ledger transport provider not found');
+  }
+));

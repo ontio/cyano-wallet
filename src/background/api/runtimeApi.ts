@@ -66,7 +66,7 @@ export async function transfer(request: TransferRequest, password: string) {
   const privateKey = decryptAccount(wallet, password);
 
   const to = new Address(request.recipient);
-  const amount = String(request.amount);
+  const amount = request.amount;
 
   const tx = OntAssetTxBuilder.makeTransferTx(request.asset, from, to, amount, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
@@ -83,7 +83,7 @@ export async function withdrawOng(request: WithdrawOngRequest, password: string)
   const from = getAccount(state.wallet.wallet!).address;
   const privateKey = decryptAccount(wallet, password);
 
-  const amount = String(request.amount);
+  const amount = request.amount;
 
   const tx = OntAssetTxBuilder.makeWithdrawOngTx(from, from, amount, from, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
