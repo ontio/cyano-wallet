@@ -29,7 +29,8 @@ export type TransactionType =
   | 'sc_call_read'
   | 'sc_deploy'
   | 'message_sign'
-  | 'stateChannel_login';
+  | 'stateChannel_login'
+  | 'enhance_security';
 
 export interface TransactionRequest {
   id: string;
@@ -73,7 +74,7 @@ export interface RegisterOntIdRequest extends TransactionRequest {
 }
 
 export interface ScCallRequest extends TransactionRequest {
-    isWasmVm: boolean;
+  isWasmVm: boolean;
   contract: string;
   method: string;
   gasPrice?: number;
@@ -97,10 +98,17 @@ export interface ScDeployRequest extends TransactionRequest {
 }
 
 export interface ScCallReadRequest extends TransactionRequest {
-    isWasmVm: boolean;
+  isWasmVm: boolean;
   contract: string;
   method: string;
   parameters?: Parameter[];
+}
+
+export interface EnhanceSecurityRequest extends TransactionRequest {
+  contract: string;
+  method: string;
+  payer: string;
+  net: string;
 }
 
 export interface TransactionRequestsState {

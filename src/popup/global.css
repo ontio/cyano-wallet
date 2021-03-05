@@ -127,6 +127,10 @@ div.flex.spread-around {
   justify-content: space-around;
 }
 
+div.flex.spread-center {
+  justify-content: center;
+}
+
 div.flex.filler {
   flex-grow: 1;
 }
@@ -409,4 +413,8 @@ h4.unbound:hover {
 }
 .flex-items-center > img {
     margin-right: 8px;
+}
+
+.text-align-center {
+  text-align: center;
 }

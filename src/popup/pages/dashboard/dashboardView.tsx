@@ -31,9 +31,11 @@ export interface Props {
   handleSend: () => void;
   handleTransfers: () => void;
   handleReceive: () => void;
-  handleWithdraw: () => void;
-  handleSwap: () => void;
+  handleWithdraw: () => void;
+  handleSwap: () => void;
 
+  needEnhanceSecurity: boolean;
+  handleEnhanceSecurity: () => void;
 }
 
 export const DashboardView: React.SFC<Props> = (props) => (
@@ -48,47 +50,57 @@ export const DashboardView: React.SFC<Props> = (props) => (
         </View>
       </View>
     </View>
-    <View orientation="column" fluid={true} content={true} className="spread-around">
-      <Spacer />
-      <h1>ONT/ONG</h1>
-      <List className="transferList" divided={true}>
-          <List.Item key="ont">
-            <List.Content floated='right'>
-              <List.Description className="asset-amount">
-                {props.ontAmount}
-              </List.Description>
-            </List.Content>
-            <Image avatar={true} src={require('../../assets/ontology.png')} />
-            <List.Content>
-              <List.Header>ONT</List.Header>
-              <List.Description>Ontology</List.Description>
-            </List.Content>
-          </List.Item>
-          <List.Item key="ong">
-            <List.Content floated='right'>
-              <List.Description className="asset-amount">
-                {props.ongAmount}
-              </List.Description>
-              <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
-            </List.Content>
-            <Image avatar={true} src={require('../../assets/ontology-gas.png')} />
-            <List.Content>
-              <List.Header>ONG</List.Header>
-              <List.Description>Ontology Gas</List.Description>
-            </List.Content>
-          </List.Item>
-      </List>
-      <Spacer />
-      <h1 className="margin-bottom-custom">OEP-4 Tokens</h1>
-      <TokenAmountList tokens={props.tokens} />
-      <Spacer />
-      <Filler />
-      <View className="buttons">
-        <Button icon="send" content="Send" onClick={props.handleSend} />
-        <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
-        <Button icon="list" onClick={props.handleTransfers} />
+    { props.needEnhanceSecurity ? (
+      <View orientation="column" fluid={true} content={true} className="spread-center items-center">
+        <View className="text-align-center">
+          There are some accounts in your wallet that require enhanced security, click to enhance immediately!
+        </View>
+        <Spacer />
+        <Button content="Do it now" onClick={props.handleEnhanceSecurity} />
       </View>
-    </View>
+    ) : (
+        <View orientation="column" fluid={true} content={true} className="spread-around">
+          <Spacer />
+          <h1>ONT/ONG</h1>
+          <List className="transferList" divided={true}>
+            <List.Item key="ont">
+              <List.Content floated='right'>
+                <List.Description className="asset-amount">
+                  {props.ontAmount}
+                </List.Description>
+              </List.Content>
+              <Image avatar={true} src={require('../../assets/ontology.png')} />
+              <List.Content>
+                <List.Header>ONT</List.Header>
+                <List.Description>Ontology</List.Description>
+              </List.Content>
+            </List.Item>
+            <List.Item key="ong">
+              <List.Content floated='right'>
+                <List.Description className="asset-amount">
+                  {props.ongAmount}
+                </List.Description>
+                <h4 onClick={props.handleWithdraw} className="unbound"> {props.unboundAmount} (Claim)</h4>
+              </List.Content>
+              <Image avatar={true} src={require('../../assets/ontology-gas.png')} />
+              <List.Content>
+                <List.Header>ONG</List.Header>
+                <List.Description>Ontology Gas</List.Description>
+              </List.Content>
+            </List.Item>
+          </List>
+          <Spacer />
+          <h1 className="margin-bottom-custom">OEP-4 Tokens</h1>
+          <TokenAmountList tokens={props.tokens} />
+          <Spacer />
+          <Filler />
+          <View className="buttons">
+            <Button icon="send" content="Send" onClick={props.handleSend} />
+            <Button icon="inbox" content="Receive" onClick={props.handleReceive} />
+            <Button icon="list" onClick={props.handleTransfers} />
+          </View>
+        </View>
+      )}
     <StatusBar />
   </View>
 );

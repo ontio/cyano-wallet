@@ -67,3 +67,4 @@ export { Identities } from './identity/identities/identities';
 export { IdentitiesAdd } from './identity/identitiesAdd/identitiesAdd';
 export { IdentitiesDel } from './identity/identitiesDel/identitiesDel';
 export { StateChannelLogin } from './stateChannelLogin/stateChannelLogin';
+export { EnhanceSecurity } from './enhanceSecurity/enhanceSecurity';

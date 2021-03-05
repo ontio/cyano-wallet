@@ -23,6 +23,7 @@ import Actions from '../../redux/actions';
 import { GlobalState } from '../../redux/state';
 import {
   ADD_TRANSACTION_REQUEST,
+  EnhanceSecurityRequest,
   MessageSignRequest,
   RegisterOntIdRequest,
   RESOLVE_TRANSACTION_REQUEST,
@@ -40,6 +41,7 @@ import {
 import { messageSign } from '../api/messageApi';
 import { swapNep } from '../api/neoApi';
 import { registerOntId, transfer, withdrawOng } from '../api/runtimeApi';
+import { enhanceSecurity } from '../api/securityApi';
 import { scCall, scCallRead, scDeploy } from '../api/smartContractApi';
 import { stateChannelLogin } from '../api/stateChannelApi';
 import { transferToken } from '../api/tokenApi';
@@ -112,7 +114,7 @@ export const transactionRequestsAliases = {
             result = await submitScCall(request as ScCallRequest, password!, dispatch, state);
             if (result === undefined) {
               return;
-            } 
+            }
             break;
           case 'sc_call_read':
             result = await submitScCallRead(request as ScCallReadRequest);
@@ -125,7 +127,10 @@ export const transactionRequestsAliases = {
             break;
           case 'stateChannel_login':
             result = await submitStateChannelLogin(request as StateChannelLoginRequest, password!);
-            break; 
+            break;
+          case 'enhance_security':
+            result = await submitEnhanceSecurity(request as EnhanceSecurityRequest, password!);
+            break;
         }
 
         // resolves request
@@ -238,7 +243,7 @@ async function submitScCall(request: ScCallRequest, password: string, dispatch: 
     if (response.Result.State === 0) {
       throw new Error('OTHER');
     }
-  
+
     const notify = response.Result.Notify.filter((element: any) => element.ContractAddress === request.contract).map(
       (element: any) => element.States,
     );
@@ -258,6 +263,10 @@ async function submitMessageSign(request: MessageSignRequest, password: string) 
 
 async function submitStateChannelLogin(request: StateChannelLoginRequest, password: string) {
   return timeout(stateChannelLogin(request, password), 15000);
+}
+
+async function submitEnhanceSecurity(request: EnhanceSecurityRequest, password: string) {
+  return timeout(enhanceSecurity(request, password), 15000);
 }
 
 async function submitScCallRead(request: ScCallReadRequest) {
