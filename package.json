@@ -43,7 +43,7 @@
     "react": "^16.4.0",
     "react-chrome-redux": "^2.0.0-alpha.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dev-utils": "^5.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.4.0",
     "react-file-reader-input": "^1.1.4",
     "react-final-form": "^3.6.0",
