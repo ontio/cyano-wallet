@@ -153,12 +153,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
   });
 
 function prepareTokenAmounts(tokens: TokenState[] = [], items: TokenAmountState[] = []): OEP4TokenAmount[] {
-  return items.map((item) => {
-    const contract = item.contract;
-    const token = tokens.find((t) => t.contract === contract)!;
-
-    const amount = decodeAmount(item.amount, token.decimals);
-
+  return tokens.map(token => {
+    const contract = token.contract;
+    const tokenAmount = items.find((i) => i.contract === contract);
+    const amount = decodeAmount(tokenAmount ? tokenAmount.amount : '0', token.decimals);
     return {
       amount,
       decimals: token.decimals,
