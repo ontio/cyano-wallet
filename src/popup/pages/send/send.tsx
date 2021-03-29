@@ -56,7 +56,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
       recipient: initRecipient,
     };
 
-    const tokenOptions = reduxProps.tokens.map(token => ({ text: token.symbol, value: token.symbol }));
+    const tokenOptions = reduxProps.tokens.map(token => ({ text: token.symbol, value: token.contract }));
 
     const nativeOptions = [
       {
@@ -108,10 +108,10 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouteCompone
 
             formProps.form.change('amount', amountBN.toString());
           } else {
-              const token = reduxProps.tokens.find(item => item.symbol === asset);
+              const token = reduxProps.tokens.find(item => item.contract === asset);
               if (token) {
                   const tokenAmount = reduxProps.tokenAmounts.find(item => item.contract === token.contract)!
-                  const amount = decodeAmount(tokenAmount.amount, token.decimals);
+                  const amount = decodeAmount(tokenAmount ? tokenAmount.amount : '0', token.decimals);
                   formProps.form.change('amount', amount )
               }
           }

@@ -113,7 +113,7 @@ export async function transferToken(request: TransferRequest, password: string) 
   const state = getStore().getState();
   const wallet = getWallet(state.wallet.wallet!);
 
-  const token = state.settings.tokens.find((t) => t.symbol === request.asset);
+  const token = state.settings.tokens.find((t) => t.contract === request.asset);
   if (token === undefined) {
     throw new Error('OEP-4 token not found.');
   }

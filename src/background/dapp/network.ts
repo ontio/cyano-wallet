@@ -38,14 +38,19 @@ export const networkApi: NetworkApi = {
 
         const balance: Balance = {
             ONG: decodeAmount(response.Result.ong, 9),
-            ONT: response.Result.ont,     
+            ONT: response.Result.ont,
         };
 
         const addr = new Address(address);
         for (const token of state.settings.tokens) {
+          try {
             const tokenBalance = await getTokenBalance(token.contract, addr, token.vmType);
-            
-            balance[token.symbol] = decodeAmount(tokenBalance, token.decimals);
+
+            balance[token.contract] = decodeAmount(tokenBalance, token.decimals);
+          } catch (error) {
+            // tslint:disable-next-line: no-console
+            console.warn('Failed to load balance of token: ', token.contract);
+          }
         }
 
         return balance;
