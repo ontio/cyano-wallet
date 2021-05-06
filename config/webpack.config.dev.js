@@ -138,10 +138,12 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: [paths.appSrc, ...paths.nonEs5Modules],
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
+              presets: ['env'],
+              plugins: [require('babel-plugin-transform-object-rest-spread')]
             },
           },
           // Compile .tsx?

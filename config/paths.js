@@ -48,6 +48,7 @@ module.exports = {
   contentJs: resolveApp('src/content/index.ts'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  nonEs5Modules: [resolveApp('node_modules/web3-core-helpers')],
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.ts'),
   appNodeModules: resolveApp('node_modules'),
