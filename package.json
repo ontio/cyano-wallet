@@ -1,6 +1,6 @@
 {
   "name": "cyano-wallet",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "private": true,
   "scripts": {
     "lint": "tslint -p .",
