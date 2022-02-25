@@ -56,6 +56,32 @@ export const networkApi: NetworkApi = {
         return balance;
     },
 
+    async getBalanceV2({ address }): Promise<Balance> {
+      const state = getStore().getState();
+      const client = getClient();
+      const response = await client.getBalanceV2(new Address(address));
+
+      const balance: Balance = {
+        ONG: decodeAmount(response.Result.ong, 18),
+        ONT: decodeAmount(response.Result.ont, 9),
+      };
+
+      const addr = new Address(address);
+      for (const token of state.settings.tokens) {
+        try {
+          const tokenBalance = await getTokenBalance(token.contract, addr, token.vmType);
+
+          balance[token.contract] = decodeAmount(tokenBalance, token.decimals);
+        } catch (error) {
+          // tslint:disable-next-line: no-console
+          console.warn('Failed to load balance of token: ', token.contract);
+        }
+      }
+
+      return balance;
+    },
+
+
     async getBlock({ block }): Promise<Block> {
         const client = getClient();
         const response = await client.getBlockJson(block);
@@ -96,6 +122,12 @@ export const networkApi: NetworkApi = {
         const client = getClient();
         const response = await client.getAllowance(asset, new Address(fromAddress), new Address(toAddress));
         return response.Result;
+    },
+
+    async getAllowanceV2({ asset, fromAddress, toAddress }): Promise<number> {
+      const client = getClient();
+      const response = await client.getAllowanceV2(asset, new Address(fromAddress), new Address(toAddress));
+      return response.Result;
     },
 
     async getUnboundOng({ address }) {

@@ -63,9 +63,9 @@ function constructUrl(s: SettingsState) {
 
     try {
       if (useScheme) {
-        url = new URL(`${s.ssl ? 'wss' : 'ws'}://${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+        url = new URL(`wss://${nodeAddress}:${CONST.HTTPS_WS_PORT}`);
       } else {
-        url = new URL(`${nodeAddress}:${CONST.HTTP_WS_PORT}`);
+        url = new URL(`${nodeAddress}:${CONST.HTTPS_WS_PORT}`);
       }
     } catch (e) {
       // try without port if already specified

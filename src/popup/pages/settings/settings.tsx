@@ -110,7 +110,7 @@ const enhancer = (Component: React.ComponentType<Props>) => (props: RouterProps)
 
               const net: NetValue = get(values, 'net', 'TEST');
               const address: string = get(values, 'address', '');
-              const ssl: boolean = get(values, 'ssl', false);
+              const ssl: boolean = get(values, 'ssl', true);
 
               await actions.setSettings(address, ssl, net, reduxProps.settings.tokens, reduxProps.settings.trustedScs);
 

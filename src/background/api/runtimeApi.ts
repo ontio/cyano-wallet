@@ -38,7 +38,7 @@ export async function getBalance() {
   const address = getAccount(state.wallet.wallet!).address;
 
   const client = getClient();
-  const response = await client.getBalance(address);
+  const response = await client.getBalanceV2(address);
   const ont: number = Number(get(response, 'Result.ont'));
   const ong: number = Number(get(response, 'Result.ong'));
 
@@ -68,7 +68,7 @@ export async function transfer(request: TransferRequest, password: string) {
   const to = new Address(request.recipient);
   const amount = request.amount;
 
-  const tx = OntAssetTxBuilder.makeTransferTx(request.asset, from, to, amount, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
+  const tx = OntAssetTxBuilder.makeTransferTxV2(request.asset, from, to, amount, '2500', `${CONST.DEFAULT_GAS_LIMIT}`);
 
   await TransactionBuilder.signTransactionAsync(tx, privateKey);
 
@@ -125,14 +125,14 @@ export async function checkOntId(identity: Identity, password: string) {
 
   // be compatible with ONTID 2.0 api
   const restUrl = 'http://' + getNodeAddress() + ':20334';
-  let document 
+  let document
   try {
     document = await OntidContract.getDocumentJson(ontId, restUrl);
   } catch (err) {
     // tslint:disable-next-line:no-console
     console.log(err);
   }
-  
+
   let idOnchain;
   if (document && document.publicKey) {
     idOnchain = document.publicKey.find(item => item.id.split('#')[0] === ontId)
