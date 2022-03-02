@@ -7,8 +7,10 @@ export function convertAmountToBN(amount: string | number | undefined, asset: As
     }
 
     let amountBN = new BigNumber(amount);
-    
+
     if (asset === 'ONG') {
+        amountBN = amountBN.div(new BigNumber('1000000000000000000'));
+    } else if (asset === 'ONT') {
         amountBN = amountBN.div(new BigNumber('1000000000'));
     } else if (asset === 'NEP') {
         amountBN = amountBN.div(new BigNumber('100000000'));
@@ -19,6 +21,8 @@ export function convertAmountToBN(amount: string | number | undefined, asset: As
 export function convertAmountFromStr(amount: string, asset: AssetType | 'NEP') {
     let amountBN = new BigNumber(amount);
     if (asset === 'ONG') {
+        amountBN = amountBN.times(new BigNumber('1000000000000000000'));
+    } else if (asset === 'ONT') {
         amountBN = amountBN.times(new BigNumber('1000000000'));
     } else if (asset === 'NEP') {
         amountBN = amountBN.times(new BigNumber('100000000'));
@@ -49,7 +53,7 @@ export function scientificToNumber(num: string) {
     const numberHasSign = num.startsWith("-") || num.startsWith("+");
     const signStr = numberHasSign ? num[0] : "";
     num = numberHasSign ? num.replace(signStr, "") : num;
-    
+
     const SCIENTIFIC_NUMBER_REGEX = /\d+\.?\d*e[\+\-]*\d+/i;
     // if the number is in scientific notation remove it
     if (SCIENTIFIC_NUMBER_REGEX.test(num)) {
@@ -59,7 +63,7 @@ export function scientificToNumber(num: string) {
       let l = Math.abs(e); // get the number of zeros
       const sign = e / l;
       const coeffArray = parts[0].split('.');
-  
+
       if (sign === -1) {
         coeffArray[0] = String(Math.abs(Number(coeffArray[0])));
         num = zero + '.' + new Array(l).join(zero) + coeffArray.join('');
@@ -69,6 +73,6 @@ export function scientificToNumber(num: string) {
         num = coeffArray.join('') + new Array(l + 1).join(zero);
       }
     }
-  
-    return signStr + num; 
+
+    return signStr + num;
   };

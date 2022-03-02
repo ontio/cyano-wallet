@@ -1,4 +1,4 @@
-import { client, provider } from '@ont-dev/ontology-dapi';
+import { provider, utilsApi } from '@ont-dev/ontology-dapi';
 import { assetApi as asset } from './asset';
 import { identityApi as identity } from './identity';
 import { messageApi as message } from './message';
@@ -18,7 +18,7 @@ export function initDApiProvider() {
       provider: providerApi,
       smartContract,
       stateChannel,
-      utils: client.api.utils
+      utils: utilsApi
     },
   });
 }
